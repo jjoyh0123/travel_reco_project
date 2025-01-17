@@ -55,6 +55,7 @@
 
       .profile {
           background-image: none; /*프로필 사진*/
+          margin-left: 10px;
       }
 
   </style>
@@ -70,7 +71,7 @@
     <c:choose>
       <c:when test="${not empty sessionScope.userId}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
         <div class="dropdown">
-          <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
+          <button class="btn rounded-circle p-4 profile" type="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="border: 1px solid coral">
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
