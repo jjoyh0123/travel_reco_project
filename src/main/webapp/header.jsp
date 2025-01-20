@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-  session.setAttribute("userId", "temporaryUserId");
+  // session.setAttribute("userId", "temporaryUserId");
 %>
 <html>
 <head>
@@ -37,16 +37,19 @@
 
       .header-left-section h3 {
           margin-left: 10px;
-          color: coral;
+          color: #ff7f50;
       }
 
       .header-right-section {
           display: flex;
           align-items: center;
+          gap:10px;
+
       }
 
       .header-right-section a {
           margin-right: 20px;
+
       }
 
       .header-right-section a:last-child {
@@ -55,6 +58,42 @@
 
       .profile {
           background-image: none; /*프로필 사진*/
+          padding: 0;
+      }
+
+      .btn.btn-outline-secondary{
+          border-radius:20px;
+      }
+
+      .header-right-section .btn-outline-secondary{
+          all : unset;
+          border-radius: 0;
+          font-weight: bold;
+          cursor: pointer;
+          padding: 0;
+      }
+
+      .header-right-section .btn-outline-secondary:hover{
+          color:#ff7f50;
+          background-color: transparent;
+      }
+
+      .dropdown img {
+          width: 30px;
+          height: 30px;
+      }
+
+
+      .btn.btn-outline-secondary.login-btn{
+          border-radius: 20px;
+          background-color: #ff7f50;
+          color: #ffffff;
+          text-decoration: none;
+          padding: 10px;
+      }
+
+      .header-right-section a {
+          text-decoration: none;
       }
 
   </style>
@@ -71,7 +110,8 @@
       <c:when test="${not empty sessionScope.userId}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
         <div class="dropdown">
           <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
-                  aria-expanded="false" style="border: 1px solid coral">
+                  aria-expanded="false" style="border: none;">
+            <img src="./www/profile.svg" alt="프로필" class="profile_icon">
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#">마이페이지</a></li>
@@ -84,7 +124,7 @@
         </div>
       </c:when>
       <c:otherwise>
-        <button class="btn btn-outline-secondary">로그인</button>
+        <button class="btn btn-outline-secondary login-btn">로그인</button>
       </c:otherwise>
     </c:choose>
   </div>
