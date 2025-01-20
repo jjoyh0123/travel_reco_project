@@ -11,7 +11,7 @@ public class FactoryService {
 
   static {
     try {
-      Reader r = Resources.getResourceAsReader("config/config.xml");
+      Reader r = Resources.getResourceAsReader("mybatis/config/config.xml");
       factory = new SqlSessionFactoryBuilder().build(r);
       r.close();
     } catch (Exception e) {

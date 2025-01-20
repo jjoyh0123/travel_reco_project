@@ -22,7 +22,7 @@
 <jsp:include page="header.jsp"/>
 <article class="content">
   메인 내용
-
+<a href="/Controller?type=notice">dfdf</a>
 </article>
 <jsp:include page="footer.jsp"/>
 </body>
