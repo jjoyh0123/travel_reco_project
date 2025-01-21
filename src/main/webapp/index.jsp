@@ -105,6 +105,7 @@
   <title>메인 홈 페이지</title>
 </head>
 <body>
+<!-- Header -->
 <jsp:include page="header.jsp"/>
 <div class="main_container">
 <article class="content">
@@ -114,7 +115,12 @@
     guides, and manage your bookings seamlessly —</br>
     all in one place.</h5>
   <button type="button" class="plan_btn01">계획 추천받기</button>
-  <button type="button" class="plan_btn02">계획 세우기</button>
+  <div class="start-button">
+    <form action="Controller" method="get">
+      <button type="submit" class="plan_btn02">계획 세우기</button>
+      <input type="hidden" name="type" value="datePicker">
+    </form>
+  </div>
 </article>
   <div class="gif_content01">
     Gif로 홈페이지 사용법 및 best planner 이벤트 소개
