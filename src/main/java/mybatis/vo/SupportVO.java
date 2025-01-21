@@ -1,7 +1,7 @@
 package mybatis.vo;
 
-public class NoticeVO extends TempVO {
-  private String idx, title, content, reg_date, update_date, hit, status;
+public class SupportVO extends TempVO {
+  private String idx, user_idx, title, content, reg_date, type, status;
 
   public String getIdx() {
     return idx;
@@ -9,6 +9,14 @@ public class NoticeVO extends TempVO {
 
   public void setIdx(String idx) {
     this.idx = idx;
+  }
+
+  public String getUser_idx() {
+    return user_idx;
+  }
+
+  public void setUser_idx(String user_idx) {
+    this.user_idx = user_idx;
   }
 
   public String getTitle() {
@@ -35,20 +43,12 @@ public class NoticeVO extends TempVO {
     this.reg_date = reg_date;
   }
 
-  public String getUpdate_date() {
-    return update_date;
+  public String getType() {
+    return type;
   }
 
-  public void setUpdate_date(String update_date) {
-    this.update_date = update_date;
-  }
-
-  public String getHit() {
-    return hit;
-  }
-
-  public void setHit(String hit) {
-    this.hit = hit;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public String getStatus() {
