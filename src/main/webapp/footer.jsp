@@ -9,7 +9,6 @@
           align-items: center;
           padding: 20px;
           background-color: #f8f9fa;
-          position: fixed;
           bottom: 0;
           width: 100%;
       }
