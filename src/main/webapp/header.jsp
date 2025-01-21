@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-  session.setAttribute("userId", "temporaryUserId");
+  //session.setAttribute("userId", "temporaryUserId");
 %>
 <html>
 <head>
@@ -84,7 +84,7 @@
         </div>
       </c:when>
       <c:otherwise>
-        <button class="btn btn-outline-secondary">로그인</button>
+        <a href="login.jsp"><button class="btn btn-outline-secondary">로그인</button></a>
       </c:otherwise>
     </c:choose>
   </div>
