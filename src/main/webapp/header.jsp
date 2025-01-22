@@ -94,11 +94,11 @@
 <body>
 <header>
   <div class="header-left-section">
-    <a href="index.jsp"><img src="./www/logo.png" alt="로고"></a>&nbsp;&nbsp;
+    <a href="index.jsp"><img src="www/logo.png" alt="로고"></a>&nbsp;&nbsp;
     <h3>Zenzen Club</h3><%--이미지로 변경 필요--%>
   </div>
   <div class="header-right-section">
-    <button class="btn btn-outline-secondary">고객지원</button>
+    <button class="btn btn-outline-secondary" onclick="location.href='Controller?type=customer_service'">고객지원</button>
     <c:choose>
       <c:when test="${not empty sessionScope.userId}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
         <div class="dropdown">

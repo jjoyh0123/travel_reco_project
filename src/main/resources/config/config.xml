@@ -22,5 +22,6 @@
     <mapper resource="mapper/notice.xml"/>
     <mapper resource="mapper/support.xml"/>
     <mapper resource="mapper/journal_best.xml"/>
+    <mapper resource="mapper/customer_service.xml"/>
   </mappers>
 </configuration>

@@ -9,46 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NoticeDAO {
-  public static NoticeVO[] getNotice() {
-    NoticeVO[] ar = null;
-    SqlSession ss = null;
-
-    try {
-      ss = FactoryService.getFactory().openSession();
-
-      List<NoticeVO> list = ss.selectList("notice.getNotice");
-
-      // System.out.println(list);
-
-      if (list != null && !list.isEmpty()) {
-        ar = new NoticeVO[list.size()];
-        list.toArray(ar);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      if (ss != null) {
-        ss.close();
-      }
-    }
-    return ar;
-  }
-
-  public static FaqVO[] getFaq() {
-    FaqVO[] ar = null;
-
-    SqlSession ss = FactoryService.getFactory().openSession();
-
-    List<FaqVO> list = ss.selectList("notice.getFaq");
-    if (list != null && !list.isEmpty()){
-      ar = new FaqVO[list.size()];
-      list.toArray(ar);
-    }
-    ss.close();
-
-    System.out.println(ar.length);
-    return ar;
-  }
 
   public static int getTotalCount() {
     SqlSession ss = FactoryService.getFactory().openSession();

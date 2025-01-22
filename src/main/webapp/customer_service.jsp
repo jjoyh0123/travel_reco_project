@@ -34,7 +34,7 @@
           background-color: white;
       }
       #title{
-          margin: 40px 0px;
+          margin: 40px 0;
       }
       h1, h2, h3{
           font-weight: bold;
@@ -138,7 +138,7 @@
   </div>
 
   <div id="introduction_img">
-      <img src="/www/myro1.png" alt="예제 이미지">
+<%--      <img src="/www/myro1.png" alt="예제 이미지">--%>
   </div>
 
 
@@ -153,19 +153,19 @@
 <%--  공지사항 아코디언 --%>
 
   <div class="accordion" id="accordionPanelsStayOpenExample">
-    <c:forEach var="nvo" items="${nvo}" varStatus="index">
+    <c:forEach var="noticeVO" items="${noticeVO}" varStatus="index">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-heading${index.index}">
           <button class="accordion-button" type="button" data-bs-toggle="collapse"
                   data-bs-target="#panelsStayOpen-collapse${index.index}" aria-expanded="${index.index == 0 ? 'true' : 'false'}"
                   aria-controls="panelsStayOpen-collapse${index.index}">
-              ${nvo.title}
+              ${noticeVO.title}
           </button>
         </h2>
         <div id="panelsStayOpen-collapse${index.index}" class="accordion-collapse collapse ${index.index == 0 ? 'show' : ''}"
              aria-labelledby="panelsStayOpen-heading${index.index}">
           <div class="accordion-body">
-              ${nvo.content}
+              ${noticeVO.content}
           </div>
         </div>
       </div>
@@ -184,19 +184,19 @@
   <%--  FAQ 아코디언 --%>
 
   <div class="accordion" id="accordionPanelsStayOpenExample">
-    <c:forEach var="fvo" items="${fvo}" varStatus="index">
+    <c:forEach var="faqVO" items="${faqVO}" varStatus="index">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-heading-${index.index}">
           <button class="accordion-button" type="button" data-bs-toggle="collapse"
                   data-bs-target="#panelsStayOpen-collapse-${index.index}" aria-expanded="-${index.index == 0 ? 'true' : 'false'}"
                   aria-controls="panelsStayOpen-collapse-${index.index}">
-              ${fvo.title}
+              ${faqVO.title}
           </button>
         </h2>
         <div id="panelsStayOpen-collapse-${index.index}" class="accordion-collapse collapse ${index.index == 0 ? 'show' : ''}"
              aria-labelledby="panelsStayOpen-heading-${index.index}">
           <div class="accordion-body">
-              ${fvo.content}
+              ${faqVO.content}
           </div>
         </div>
       </div>
@@ -205,30 +205,7 @@
 
 </div><%--  자주 묻는 질문 FAQ 끝--%>
 
-<%--  홈페이지 이용방법(시연 영상)--%>
-<div id="usage">
-  <h3>Zenzen Club 이용방법</h3>
-  <hr>
-  <div>
-    (시연 영상)
-  </div>
-</div>
 
-<%--  홈페이지 보도 자료--%>
-<div id="press_releases">
-  <h3>Zenzen Club 보도자료</h3>
-  <hr>
-  <P> 관련 기사</P>
-  <p> 관련 영상</p>
-</div>
-
-<%--  홈페이지 파트너 사--%>
-<div id="partner_company">
-  <h3>Zenzen Club 파트너사</h3>
-  <hr>
-  (파트너 사 정보나 이미지 넣을 곳)
-</div>
-<hr>
 
 </article>
 <jsp:include page="footer.jsp"/>

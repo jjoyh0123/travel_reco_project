@@ -115,8 +115,6 @@
     all in one place.</h5>
   <button type="button" class="plan_btn01">계획 추천받기</button>
   <button type="button" class="plan_btn02">계획 세우기</button>
-  메인 내용
-<a href="/Controller?type=notice">dfdf</a>
 </article>
   <div class="gif_content01">
     Gif로 홈페이지 사용법 및 best planner 이벤트 소개
