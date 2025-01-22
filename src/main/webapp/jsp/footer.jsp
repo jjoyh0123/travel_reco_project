@@ -42,7 +42,7 @@
 <body>
 <footer class="footer">
   <div class="footer_content">
-    <img src="www/logo.png" alt="로고"/>
+    <img src="../www/logo.png" alt="로고"/>
     <p>주소: 서울 강남구 테헤란로 132, 8층 쌍용교육센터</p>
     <p>info@example.com</p>
     <br/>

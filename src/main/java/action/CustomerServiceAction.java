@@ -20,7 +20,7 @@ public class CustomerServiceAction implements Action{
 
      // System.out.println(fvo);
 
-    return "customer_service.jsp";
+    return "/jsp/customer_service.jsp";
   }
 }
 // customer_service.jsp

@@ -94,7 +94,7 @@
 <body>
 <header>
   <div class="header-left-section">
-    <a href="index.jsp"><img src="www/logo.png" alt="로고"></a>&nbsp;&nbsp;
+    <a href="index.jsp"><img src="../www/logo.png" alt="로고"></a>&nbsp;&nbsp;
     <h3>Zenzen Club</h3><%--이미지로 변경 필요--%>
   </div>
   <div class="header-right-section">

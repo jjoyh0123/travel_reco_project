@@ -13,6 +13,6 @@ public class IndexAction implements Action {
     /*받은 VO를 request에 저장해서 jsp에서 빼서 쓰자*/
 
 
-    return "index.jsp";
+    return "/jsp/index.jsp";
   }
 }

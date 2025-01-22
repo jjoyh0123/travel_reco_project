@@ -57,45 +57,26 @@
       }
       .notice_title a {
           color: black;
-          /*text-decoration: none;*/
       }
-      /*.notice_title a:hover{*/
-      /*    color: coral;*/
-      /*}*/
-      .notice_title{
-          font-size: 16px;
-          margin: 8px 0;
-      }
-      .notice_title:hover{
-          background-color: #bbbbbb;
-      }
+
        #notice_img .carousel-inner img {
            width: 100%; /* 부모 요소의 너비를 기준으로 맞춤 */
            max-width: 600px; /* 최대 너비 설정 */
            height: auto; /* 비율 유지 */
            margin: 0 auto; /* 가운데 정렬 */
        }
-       #notice_img{
-           margin-top: 20px;
-           background-color: black;
-       }
+
        #notice_board{
            margin-bottom: 70px;
        }
-       .accordion_img{
-           width: 100%; /* 부모 요소의 너비를 기준으로 맞춤 */
-           height: auto; /* 비율 유지 */
-           margin: 0 auto; /* 가운데 정렬 */
-       }
+
        .accordion-body{
            background-color: #F5F5F7;
        }
        #FAQ{
            margin-bottom: 70px;
        }
-       #usage{
-           margin-bottom: 70px;
-       }
+
       /* 아코디언 버튼 클릭 시 파란색 변경을 방지 */
       .accordion-button:focus {
           box-shadow: none;  /* 클릭 후 파란색 그림자 없애기 */
@@ -104,7 +85,6 @@
       /* 아코디언 버튼 활성화 시 배경색 변경 방지 */
       .accordion-button:not(.collapsed) {
           background-color: #f8f9fa;  /* 기본 배경색 설정 */
-          /*color: #000;  !* 텍스트 색상 설정 *!*/
       }
 
 
@@ -114,7 +94,7 @@
 
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="/jsp/header.jsp"/>
 <article class="content">
 <%--  여기서 코딩 --%>
   <div id="title">
@@ -208,6 +188,6 @@
 
 
 </article>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/jsp/footer.jsp"/>
 </body>
 </html>

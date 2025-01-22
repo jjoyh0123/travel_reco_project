@@ -105,7 +105,7 @@
   <title>메인 홈 페이지</title>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
 <article class="content">
   <h3>for all your travel planning</br>
@@ -125,6 +125,6 @@
 <div class="gif_content02">
   Gif로 홈페이지 사용법 및 best planner 이벤트 소개
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/jsp/footer.jsp"/>
 </body>
 </html>
