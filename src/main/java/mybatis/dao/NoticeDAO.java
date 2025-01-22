@@ -1,6 +1,7 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.FaqVO;
 import mybatis.vo.NoticeVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -15,22 +16,37 @@ public class NoticeDAO {
     try {
       ss = FactoryService.getFactory().openSession();
 
-      // notice.getnotice 쿼리 실행, 파라미터가 없으면 null 전달
-      List<NoticeVO> list = ss.selectList("notice.getnotice");
+      List<NoticeVO> list = ss.selectList("notice.getNotice");
 
-      System.out.println(list);
+      // System.out.println(list);
 
       if (list != null && !list.isEmpty()) {
         ar = new NoticeVO[list.size()];
-        list.toArray(ar);  // 배열로 변환
+        list.toArray(ar);
       }
     } catch (Exception e) {
-      e.printStackTrace();  // 예외 출력
+      e.printStackTrace();
     } finally {
       if (ss != null) {
-        ss.close();  // 세션 닫기
+        ss.close();
       }
     }
+    return ar;
+  }
+
+  public static FaqVO[] getFaq() {
+    FaqVO[] ar = null;
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    List<FaqVO> list = ss.selectList("notice.getFaq");
+    if (list != null && !list.isEmpty()){
+      ar = new FaqVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    System.out.println(ar.length);
     return ar;
   }
 

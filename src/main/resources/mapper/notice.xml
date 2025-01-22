@@ -19,4 +19,16 @@
     ) c
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
+
+  <select id="getNotice" resultType="mybatis.vo.NoticeVO">
+    SELECT * FROM notice_table
+    WHERE status = 0
+    ORDER BY idx desc
+  </select>
+
+  <select id="getFaq" resultType="mybatis.vo.FaqVO">
+    SELECT * FROM faq_table
+    WHERE status = 0
+    ORDER BY idx desc
+  </select>
 </mapper>
