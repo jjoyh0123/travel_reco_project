@@ -5,7 +5,7 @@
 
 <mapper namespace="journal_best">
   <select id="list" resultType="mybatis.vo.JournalBestVO">
-    SELECT * FROM journal_best_table WHERE status = 0
+    SELECT * FROM journal_best_table WHERE status = 0 ORDER BY tier
   </select>
 
   <select id="exists" resultType="int" parameterType="String"> <!--등급 확인 있으면 1반환-->

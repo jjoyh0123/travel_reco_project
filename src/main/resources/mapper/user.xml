@@ -9,6 +9,11 @@
     SELECT COUNT(*) FROM user_table;
   </select>
 
+  <select id="searchCount" resultType="int" parameterType="String">
+    SELECT COUNT(*) FROM user_table WHERE
+    email LIKE CONCAT('%', #{keyword}, '%') OR nick LIKE CONCAT('%', #{keyword}, '%')
+  </select>
+
   <select id="list" resultType="mybatis.vo.UserVO" parameterType="Map">
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
@@ -20,5 +25,18 @@
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
 
+  <select id="searchList" resultType="mybatis.vo.UserVO" parameterType="Map">
+    SELECT * FROM (
+    SELECT @RN := @RN + 1 AS rnum, a.*
+    FROM ( SELECT * FROM user_table WHERE nick LIKE CONCAT('%', #{keyword}, '%')
+    ORDER BY idx
+    ) a, (SELECT @RN := 0) b
+    ) c
+    WHERE c.rnum BETWEEN #{begin} AND #{end}
+  </select>
+
+  <update id="edit" parameterType="mybatis.vo.UserVO">
+    UPDATE user_table SET email = #{email}, nick = #{nick}, pw = #{pw}, status = #{status} WHERE idx = #{idx}
+  </update>
 
 </mapper>

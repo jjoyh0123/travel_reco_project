@@ -1,6 +1,7 @@
 package action;
 
 import mybatis.dao.*;
+import mybatis.vo.JournalBestVO;
 import mybatis.vo.TempVO;
 import util.Paging;
 
@@ -17,6 +18,7 @@ public class AdminAction implements Action {
     }
     String tab2 = request.getParameter("tab2");
     String tab3 = request.getParameter("tab3");
+    String search = request.getParameter("search");
     // 페이징 처리를 위한 객체 생성
     Paging page = new Paging();
 
@@ -35,20 +37,39 @@ public class AdminAction implements Action {
 
     switch (tab) {
       case "user":
-        if (tab2 == null || tab2.equals("user"))
-          totalCount = UserDAO.getTotalCount();
-        else if (tab2.equals("badge"))
-          totalCount = BadgeDAO.getTotalCount();
+        if (search == null || search.isEmpty()) {
+          if (tab2 == null || tab2.equals("user"))
+            totalCount = UserDAO.getTotalCount();
+          else if (tab2.equals("badge"))
+            totalCount = BadgeDAO.getTotalCount();
+        } else {
+          if (tab2 == null || tab2.equals("user"))
+            totalCount = UserDAO.getSearchCount(search);
+          else if (tab2.equals("badge"))
+            totalCount = BadgeDAO.getSearchCount(search);
+        }
         break;
       case "post":
-        String area_code = "";
-        if (tab2 != null) {
-          area_code = tab2.replaceAll("\\D", "");
-        }
-        if (area_code.isEmpty()) {
-          totalCount = JournalDAO.getTotalCount();
+        if (search == null || search.isEmpty()) {
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            totalCount = JournalDAO.getTotalCount();
+          } else {
+            totalCount = JournalDAO.getAreaCount(area_code);
+          }
         } else {
-          totalCount = JournalDAO.getAreaCount(area_code);
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            totalCount = JournalDAO.getTotalCount(search);
+          } else {
+            totalCount = JournalDAO.getSearchCount(area_code, search);
+          }
         }
         break;
       case "notice":
@@ -78,23 +99,42 @@ public class AdminAction implements Action {
     }
 
     TempVO[] ar = null;
-
+    JournalBestVO[] best = null;
     switch (tab) {
       case "user":
-        if (tab2 == null || tab2.equals("user"))
-          ar = UserDAO.getList(page.getBegin(), page.getEnd());
-        else if (tab2.equals("badge"))
-          ar = BadgeDAO.getList(page.getBegin(), page.getEnd());
+        if (search == null || search.isEmpty()) {
+          if (tab2 == null || tab2.equals("user"))
+            ar = UserDAO.getList(page.getBegin(), page.getEnd());
+          else if (tab2.equals("badge"))
+            ar = BadgeDAO.getList(page.getBegin(), page.getEnd());
+        } else {
+          if (tab2 == null || tab2.equals("user"))
+            ar = UserDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+          else if (tab2.equals("badge"))
+            ar = BadgeDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+        }
         break;
       case "post":
-        String area_code = "";
-        if (tab2 != null) {
-          area_code = tab2.replaceAll("\\D", "");
-        }
-        if (area_code.isEmpty()) {
-          ar = JournalDAO.getList(page.getBegin(), page.getEnd());
+        if (search == null || search.isEmpty()) {
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            ar = JournalDAO.getList(page.getBegin(), page.getEnd());
+          } else {
+            ar = JournalDAO.getList(page.getBegin(), page.getEnd(), area_code);
+          }
         } else {
-          ar = JournalDAO.getList(page.getBegin(), page.getEnd(), area_code);
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            ar = JournalDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+          } else {
+            ar = JournalDAO.getSearchList(page.getBegin(), page.getEnd(), area_code, search);
+          }
         }
         break;
       case "notice":
@@ -104,7 +144,8 @@ public class AdminAction implements Action {
         ar = SupportDAO.getList(page.getBegin(), page.getEnd());
         break;
       case "best_plan":
-        ar = JournalDAO.getList(page.getBegin(), page.getEnd(), tab3);
+        best = JournalBestDAO.getList();
+        ar = JournalDAO.getRangeList(page.getBegin(), page.getEnd(), tab3, tab2);
         break;
       default:
         ar = TempDAO.getList();
@@ -115,6 +156,7 @@ public class AdminAction implements Action {
     request.setAttribute("page", page);
     request.setAttribute("cPage", cPage);
     request.setAttribute("tab", tab);
+    request.setAttribute("best", best);
 
     return "admin_main.jsp";
   }

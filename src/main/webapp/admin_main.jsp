@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -27,6 +28,7 @@
 
       aside {
           width: 200px;
+          min-width: 200px;
           background-color: #f8f9fa;
       }
 
@@ -58,7 +60,8 @@
           margin-top: 10px;
       }
 
-      .nav-pills, .nav-tabs {
+      .nav-pills,
+      .nav-tabs {
           position: relative;
           min-height: 40px;
       }
@@ -69,17 +72,31 @@
           right: 0;
       }
 
-      .tab-user {
+      .tab-user,
+      .tab-badge,
+      .tab-post,
+      .tab-notice,
+      .tab-support,
+      .tab-post2,
+      .tab-best {
           display: flex;
           justify-content: space-between;
       }
 
-      .tab-user p {
+      .tab-user p,
+      .tab-badge p,
+      .tab-post p,
+      .tab-notice p,
+      .tab-support p,
+      .tab-post2 p,
+      .tab-best p {
           border: 1px solid #ccc;
           padding: 8px;
           margin: 0;
           box-sizing: border-box;
+          overflow: hidden;
       }
+
 
       .tab-user p:nth-child(1) {
           flex: 0 0 10%;
@@ -103,18 +120,6 @@
 
       .tab-user p:nth-child(6) {
           flex: 0 0 5%;
-      }
-
-      .tab-badge {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-badge p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
       }
 
       .tab-badge p:nth-child(1) {
@@ -141,18 +146,6 @@
           flex: 0 0 5%;
       }
 
-      .tab-post {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-post p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
-      }
-
       .tab-post p:nth-child(1) {
           flex: 0 0 10%;
       }
@@ -177,28 +170,18 @@
           flex: 0 0 10%;
       }
 
-      .tab-notice {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-notice p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
-      }
-
       .tab-notice p:nth-child(1) {
           flex: 0 0 10%;
       }
 
       .tab-notice p:nth-child(2) {
           flex: 0 0 20%;
+          max-width: 20%;
       }
 
       .tab-notice p:nth-child(3) {
           flex: 0 0 25%;
+          max-width: 25%;
       }
 
       .tab-notice p:nth-child(4) {
@@ -215,18 +198,6 @@
 
       .tab-notice p:nth-child(7) {
           flex: 0 0 5%;
-      }
-
-      .tab-support {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-support p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
       }
 
       .tab-support p:nth-child(1) {
@@ -257,18 +228,6 @@
           flex: 0 0 5%;
       }
 
-      .tab-post2 {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-post2 p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
-      }
-
       .tab-post2 p:nth-child(1) {
           flex: 0 0 10%;
       }
@@ -297,18 +256,6 @@
           flex: 0 0 5%;
       }
 
-      .tab-best {
-          display: flex;
-          justify-content: space-between;
-      }
-
-      .tab-best p {
-          border: 1px solid #ccc;
-          padding: 8px;
-          margin: 0;
-          box-sizing: border-box;
-      }
-
       .tab-best p:nth-child(1) {
           flex: 0 0 10%;
       }
@@ -333,8 +280,17 @@
           flex: 0 0 20%;
       }
 
-
+      .ellipsis {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-wrap: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          line-height: 2;
+      }
   </style>
+
 </head>
 <body>
 <div class="wrapper">
@@ -394,11 +350,28 @@
                 <a class="nav-link <c:if test='${param.tab2 == "badge"}'>active</c:if>" aria-current="page"
                    href="?type=admin&tab=user&tab2=badge">뱃지 관리</a>
               </li>
+              <c:choose>
+                <c:when test="${param.tab2 == null}">
+                  <c:set var="tab2" value="user"/>
+                </c:when>
+                <c:otherwise>
+                  <c:set var="tab2" value="${param.tab2}"/>
+                </c:otherwise>
+              </c:choose>
               <form class="d-flex search-bar" role="search">
                 <input type="hidden" name="type" value="admin"/>
                 <input type="hidden" name="tab" value="${param.tab}"/>
-                <input type="hidden" name="tab2" value="${param.tab2}"/>
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <input type="hidden" name="tab2" value="${tab2}"/>
+                <c:choose>
+                  <c:when test="${tab2 == 'user'}">
+                    <c:set var="placeholderText" value="닉네임 검색"/>
+                  </c:when>
+                  <c:when test="${tab2 == 'badge'}">
+                    <c:set var="placeholderText" value="타입 검색"/>
+                  </c:when>
+                </c:choose>
+                <input class="form-control me-2" type="search" name="search" placeholder="${placeholderText}"
+                       aria-label="Search" value="<c:out value='${param.search}'/>">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </ul>
@@ -440,7 +413,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode8'}">active</c:if>"
-                   aria-current="page" href="?type=admin&tab=post&tab2=areacode8">세종특별자치시</a>
+                   aria-current="page" href="?type=admin&tab=post&tab2=areacode8">세종시</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode31'}">active</c:if>"
@@ -448,7 +421,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode32'}">active</c:if>"
-                   aria-current="page" href="?type=admin&tab=post&tab2=areacode32">강원특별자치도</a>
+                   aria-current="page" href="?type=admin&tab=post&tab2=areacode32">강원도</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode33'}">active</c:if>"
@@ -468,7 +441,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode37'}">active</c:if>"
-                   aria-current="page" href="?type=admin&tab=post&tab2=areacode37">전북특별자치도</a>
+                   aria-current="page" href="?type=admin&tab=post&tab2=areacode37">전라북도</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode38'}">active</c:if>"
@@ -478,11 +451,20 @@
                 <a class="nav-link <c:if test="${param.tab2 == 'areacode39'}">active</c:if>"
                    aria-current="page" href="?type=admin&tab=post&tab2=areacode39">제주도</a>
               </li>
+              <c:choose>
+                <c:when test="${param.tab2 == null}">
+                  <c:set var="tab2" value="areacode"/>
+                </c:when>
+                <c:otherwise>
+                  <c:set var="tab2" value="${param.tab2}"/>
+                </c:otherwise>
+              </c:choose>
               <form class="d-flex search-bar" role="search">
                 <input type="hidden" name="type" value="admin"/>
                 <input type="hidden" name="tab" value="${param.tab}"/>
-                <input type="hidden" name="tab2" value="areacode"/>
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <input type="hidden" name="tab2" value="${tab2}"/>
+                <input class="form-control me-2" type="search" name="search" placeholder="제목 검색" aria-label="Search"
+                       value="<c:out value='${param.search}'/>">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </ul>
@@ -524,13 +506,77 @@
                       <p>${item.idx}</p>
                       <p>${item.email}</p>
                       <p>${item.nick}</p>
-                      <p>${item.pw}</p>
-                      <p>${item.status}</p>
                       <p>
-                        <button type="button">&#x2699;</button>
+                        <c:forEach var="i" begin="1" end="${fn:length(item.pw)}">
+                          *
+                        </c:forEach>
                       </p>
+                      <p>
+                        <c:choose>
+                          <c:when test="${item.status == 0}">정상</c:when>
+                          <c:when test="${item.status == 1}">탈퇴</c:when>
+                          <c:otherwise>오류</c:otherwise>
+                        </c:choose>
+                      </p>
+                      <p>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#userModal">&#x2699;
+                        </button>
+                      </p>
+                      <div class="modal fade" id="userModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                           tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="userModalLabel">사용자 정보 수정</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="edit">
+                                <div class="mb-3">
+                                  <label for="idx" class="form-label">회원번호</label>
+                                  <input type="text" class="form-control" id="idx" name="idx" value="${item.idx}"
+                                         readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="email" class="form-label">이메일</label>
+                                  <div class="d-flex">
+                                    <input type="text" class="form-control" id="email" name="email"
+                                           value="${fn:substringBefore(item.email, '@')}" placeholder="example">
+                                    <span>@</span>
+                                    <input type="text" class="form-control" id="email-back" name="email"
+                                           value="${fn:substringAfter(item.email, '@')}" placeholder="domain.com">
+                                  </div>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="nick" class="form-label">닉네임</label>
+                                  <input type="text" class="form-control" id="nick" name="nick" value="${item.nick}">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="pw" class="form-label">비밀번호</label>
+                                  <input type="text" class="form-control" id="pw" name="pw" value="${item.pw}">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="status" class="form-label">상태</label>
+                                  <select class="form-select" id="status" name="status">
+                                    <option value="0" <c:if test="${item.status == 0}">selected</c:if>>정상</option>
+                                    <option value="1" <c:if test="${item.status == 1}">selected</c:if>>탈퇴</option>
+                                  </select>
+                                </div>
+
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                              <button type="button" id="edit_btn" class="btn btn-primary">수정</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </li>
-                  </c:forEach></ol>
+                  </c:forEach>
+                </ol>
               </c:when>
               <c:when test="${param.tab2 == 'badge'}">
                 <ol class="list-group">
@@ -574,8 +620,8 @@
                 <c:forEach var="item" items="${ar}" varStatus="status">
                   <li class="list-group-item tab-post">
                     <p>${item.idx}</p>
-                    <p>${item.plan_idx}</p>
-                    <p>${item.title}</p>
+                    <p class="ellipsis">${item.plan_idx}</p>
+                    <p class="ellipsis">${item.title}</p>
                     <p>${item.subtitle}</p>
                     <p>${item.hit}</p>
                     <p>${item.status}</p>
@@ -599,10 +645,10 @@
               <c:forEach var="item" items="${ar}" varStatus="status">
                 <li class="list-group-item tab-notice">
                   <p>${item.idx}</p>
-                  <p>${item.title}</p>
-                  <p>${item.content}</p>
-                  <p>${item.reg_date}</p>
-                  <p>${item.update_date}</p>
+                  <p class="ellipsis">${item.title}</p>
+                  <p class="ellipsis">${item.content}</p>
+                  <p class="date">${item.reg_date}</p>
+                  <p class="date">${item.update_date}</p>
                   <p>${item.hit}</p>
                   <p>${item.status}</p>
                 </li>
@@ -625,13 +671,18 @@
                 <li class="list-group-item tab-support">
                   <p>${item.idx}</p>
                   <p>${item.user_idx}</p>
-                  <p>${item.title}</p>
-                  <p>${item.content}</p>
-                  <p>${item.reg_date}</p>
+                  <p class="ellipsis">${item.title}</p>
+                  <p class="ellipsis">${item.content}</p>
+                  <p class="date">${item.reg_date}</p>
                   <p>${item.type}</p>
-                  <p>${item.status}</p></li>
+                  <p>${item.status}</p>
+                </li>
               </c:forEach>
             </ol>
+          </c:when>
+          <c:when test="${param.tab == 'event'}">
+            <%--이벤트 배너 5개 이미지를 각각 보여줘야 함--%>
+            <%--그리고 해당 이미지를 변경하는 기능도 있어야 함--%>
           </c:when>
           <c:when test="${param.tab == 'best_plan'}">
             <ol class="list-group">
@@ -639,7 +690,7 @@
                 <p>순위</p>
                 <p>게시물번호</p>
                 <p>후기번호</p>
-                <p>설정일</p>
+                <p>선정일</p>
                 <p>해제일</p>
                 <p>상태</p>
               </li>
@@ -648,8 +699,8 @@
                   <p>${item.tier}</p>
                   <p>${item.idx}</p>
                   <p>${item.journal_idx}</p>
-                  <p>${item.act_date}</p>
-                  <p>${item.deact_date}</p>
+                  <p class="date">${item.act_date}</p>
+                  <p class="date">${item.deact_date}</p>
                   <p>${item.status}</p>
                 </li>
               </c:forEach>
@@ -661,6 +712,14 @@
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
+                  <c:choose>
+                    <c:when test="${param.search == null}">
+                      <c:set var="search" value=""/>
+                    </c:when>
+                    <c:otherwise>
+                      <c:set var="search" value="${param.search}"/>
+                    </c:otherwise>
+                  </c:choose>
                   <c:choose>
                     <c:when test="${param.tab3 == null || param.tab3 == '3'}">
                       3개월
@@ -682,41 +741,50 @@
                   </c:otherwise>
                 </c:choose>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab3=3&tab2=${tab2}">3개월</a></li>
-                  <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab3=6&tab2=${tab2}">6개월</a></li>
-                  <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab3=12&tab2=${tab2}">1년</a></li>
+                  <li><a class="dropdown-item"
+                         href="?type=admin&tab=best_plan&tab3=3&tab2=${tab2}&search=${search}">3개월</a></li>
+                  <li><a class="dropdown-item"
+                         href="?type=admin&tab=best_plan&tab3=6&tab2=${tab2}&search=${search}">6개월</a></li>
+                  <li><a class="dropdown-item"
+                         href="?type=admin&tab=best_plan&tab3=12&tab2=${tab2}&search=${search}">1년</a></li>
+                </ul>
+              </div>
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-disabled="true">정렬선택</a>
+              </li>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                  <c:choose>
+                    <c:when test="${param.tab2 == null || param.tab2 == 'recommend'}">
+                      추천순
+                    </c:when>
+                    <c:when test="${param.tab2 == 'late'}">
+                      최신순
+                    </c:when>
+                  </c:choose>
+                </button>
+                <c:choose>
+                  <c:when test="${param.tab3 == null}">
+                    <c:set var="tab3" value="3"/>
+                  </c:when>
+                  <c:otherwise>
+                    <c:set var="tab3" value="${param.tab3}"/>
+                  </c:otherwise>
+                </c:choose>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item"
+                         href="?type=admin&tab=best_plan&tab2=recommend&tab3=${tab3}&search=${search}">추천순</a>
+                  </li>
+                  <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab2=late&tab3=${tab3}&search=${search}">최신순</a>
+                  </li>
                 </ul>
               </div>
               <form class="d-flex search-bar" role="search">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                          aria-expanded="false">
-                    <c:choose>
-                      <c:when test="${param.tab2 == null || param.tab2 == 'recommend'}">
-                        추천순
-                      </c:when>
-                      <c:when test="${param.tab2 == 'late'}">
-                        최신순
-                      </c:when>
-                    </c:choose>
-                  </button>
-                  <c:choose>
-                    <c:when test="${param.tab3 == null}">
-                      <c:set var="tab3" value="3"/>
-                    </c:when>
-                    <c:otherwise>
-                      <c:set var="tab3" value="${param.tab3}"/>
-                    </c:otherwise>
-                  </c:choose>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab2=recommend&tab3=${tab3}">추천순</a>
-                    </li>
-                    <li><a class="dropdown-item" href="?type=admin&tab=best_plan&tab2=late&tab3=${tab3}">최신순</a></li>
-                  </ul>
-                </div>
-
                 <input type="hidden" name="type" value="admin"/>
                 <input type="hidden" name="tab" value="${param.tab}"/>
+                <input type="hidden" name="tab2" value="${tab2}"/>
+                <input type="hidden" name="tab3" value="${tab3}"/>
                 <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
@@ -736,8 +804,8 @@
                 <li class="list-group-item tab-post2">
                   <p>${item.idx}</p>
                   <p>${item.plan_idx}</p>
-                  <p>${item.title}</p>
-                  <p>${item.subtitle}</p>
+                  <p class="ellipsis">${item.title}</p>
+                  <p class="ellipsis">${item.subtitle}</p>
                   <p>${item.hit}</p>
                   <p>${item.status}</p>
                   <p>
@@ -786,5 +854,81 @@
     </div>
   </article>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $('#edit_btn').click(function (event) {
+          event.preventDefault(); // 기본 폼 제출 방지
+
+
+          //유효성 검사
+          let emailFront = $('#email').val();
+          let emailBack = $('#email-back').val();
+          let nick = $('#nick').val();
+          let pw = $('#pw').val();
+          let status = $('#status').val();
+
+          if (!emailFront || emailFront.length < 4 || !emailBack || emailBack.length < 7) {
+            alert("이메일을 올바르게 입력해주세요.");
+            return;
+          }
+          if (!nick || nick.length < 4) {
+            alert("닉네임을 4자 이상 입력해주세요.");
+            return;
+          }
+          if (!pw || pw.length < 4) {
+            alert("비밀번호를 4자 이상 입력해주세요.");
+            return;
+          }
+          if (!status) {
+            alert("상태를 선택해주세요.");
+            return;
+          }
+
+          let formData = {
+            idx: $('#idx').val(),
+            email: $('#email').val() + '@' + $('#email-back').val(),
+            nick: $('#nick').val(),
+            pw: $('#pw').val(),
+            status: $('#status').val()
+          };
+
+          $.ajax({
+            type: 'POST',
+            url: '/Controller?type=updateUser',
+            data: formData,
+            success: function (response) {
+
+              if (response.success) {
+                alert('회원 정보가 성공적으로 업데이트되었습니다.');
+                location.reload(); // 페이지 새로고침
+              } else {
+                alert('업데이트에 실패했습니다.');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', error);
+            }
+          });
+
+        }
+    )
+    ;
+  });
+
+  $(document).ready(function () {
+    $('.date').each(function () {
+      const dateString = $(this).text();
+      const formattedDate = dateString.split(' ')[0]; // 공백을 기준으로 문자열을 잘라서 첫 번째 부분만 가져옴
+      $(this).text(formattedDate);
+    });
+  });
+
+
+</script>
+
+
 </body>
 </html>

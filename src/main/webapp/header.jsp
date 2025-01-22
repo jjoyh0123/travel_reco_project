@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-  // session.setAttribute("userId", "temporaryUserId");
+  // session.setAttribute("user_idx", "1");
 %>
 <html>
 <head>
@@ -37,7 +37,7 @@
       .header-right-section {
           display: flex;
           align-items: center;
-          gap:10px;
+          gap: 10px;
 
       }
 
@@ -54,20 +54,20 @@
           padding: 0;
       }
 
-      .btn.btn-outline-secondary{
-          border-radius:20px;
+      .btn.btn-outline-secondary {
+          border-radius: 20px;
       }
 
-      .header-right-section .btn-outline-secondary{
-          all : unset;
+      .header-right-section .btn-outline-secondary {
+          all: unset;
           border-radius: 0;
           font-weight: bold;
           cursor: pointer;
           padding: 0;
       }
 
-      .header-right-section .btn-outline-secondary:hover{
-          color:#ff7f50;
+      .header-right-section .btn-outline-secondary:hover {
+          color: #ff7f50;
           background-color: transparent;
       }
 
@@ -77,7 +77,7 @@
       }
 
 
-      .btn.btn-outline-secondary.login-btn{
+      .btn.btn-outline-secondary.login-btn {
           border-radius: 20px;
           background-color: #ff7f50;
           color: #ffffff;

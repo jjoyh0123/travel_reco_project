@@ -6,12 +6,16 @@
 <mapper namespace="journal">
 
   <select id="totalCount" resultType="int">
-    SELECT COUNT(*) FROM journal_table;
+    SELECT COUNT(*) FROM journal_table
+  </select>
+
+  <select id="searchTotalCount" resultType="int" parameterType="String">
+    SELECT COUNT(*) FROM journal_table WHERE title LIKE CONCAT('%', #{keyword}, '%')
   </select>
 
   <select id="areaCount" resultType="int" parameterType="String">
     SELECT COUNT(*) FROM journal_table WHERE plan_idx =
-    (SELECT plan_idx FROM plan_table WHERE area_code = #{area_code});
+    (SELECT plan_idx FROM plan_table WHERE area_code = #{area_code})
   </select>
 
   <select id="rangeCount" resultType="int" parameterType="String">
@@ -25,11 +29,27 @@
     </choose>
   </select>
 
+  <select id="searchCount" resultType="int" parameterType="map">
+    SELECT COUNT(*) FROM journal_table WHERE plan_idx =
+    (SELECT plan_idx FROM plan_table WHERE area_code = #{area_code}) AND title LIKE CONCAT('%', #{keyword}, '%')
+  </select>
+
   <select id="list" resultType="mybatis.vo.JournalVO" parameterType="Map">
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
     SELECT * FROM journal_table
+    ORDER BY idx
+    ) a, (SELECT @RN := 0) b
+    ) c
+    WHERE c.rnum BETWEEN #{begin} AND #{end}
+  </select>
+
+  <select id="searchList" resultType="mybatis.vo.JournalVO" parameterType="Map">
+    SELECT * FROM (
+    SELECT @RN := @RN + 1 AS rnum, a.*
+    FROM (
+    SELECT * FROM journal_table WHERE title LIKE CONCAT('%', #{keyword}, '%')
     ORDER BY idx
     ) a, (SELECT @RN := 0) b
     ) c
@@ -47,19 +67,35 @@
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
 
+  <select id="searchAreaList" resultType="mybatis.vo.JournalVO" parameterType="Map">
+    SELECT * FROM (
+    SELECT @RN := @RN + 1 AS rnum, a.*
+    FROM (
+    SELECT * FROM journal_table WHERE plan_idx = (SELECT plan_idx FROM plan_table WHERE area_code = #{area_code}) AND
+    title LIKE CONCAT('%', #{keyword}, '%')
+    ORDER BY idx
+    ) a, (SELECT @RN := 0) b
+    ) c
+    WHERE c.rnum BETWEEN #{begin} AND #{end}
+  </select>
+
   <select id="rangeList" resultType="mybatis.vo.JournalVO" parameterType="Map">
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
-    SELECT * FROM journal_table
-    WHERE reg_date >
+    SELECT j.*, (SELECT COUNT(*) FROM journal_like_table l WHERE l.journal_idx = j.idx AND l.status = 1) AS like_count
+    FROM journal_table j WHERE j.reg_date >
     <choose>
       <when test="range == '3'">NOW() - INTERVAL 3 MONTH</when>
       <when test="range == '6'">NOW() - INTERVAL 6 MONTH</when>
       <when test="range == '12'">NOW() - INTERVAL 12 MONTH</when>
       <otherwise>NOW() - INTERVAL 3 MONTH <!-- 기본적으로 3개월을 기준으로 설정 -->      </otherwise>
     </choose>
-    ORDER BY idx
+    <choose>
+      <when test="sort == 'recommend'">ORDER BY like_count DESC</when>
+      <when test="sort == 'late'">ORDER BY reg_date DESC</when>
+      <otherwise>ORDER BY like_count DESC</otherwise>
+    </choose>
     ) a, (SELECT @RN := 0) b
     ) c
     WHERE c.rnum BETWEEN #{begin} AND #{end}

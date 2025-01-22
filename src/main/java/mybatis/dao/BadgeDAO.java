@@ -16,6 +16,14 @@ public class BadgeDAO {
     return cnt;
   }
 
+  public static int getSearchCount(String keyword) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    int cnt = ss.selectOne("badge.searchCount", keyword);
+    ss.close();
+
+    return cnt;
+  }
+
   public static BadgeVO[] getList(int begin, int end) {
     BadgeVO[] ar = null;
 
@@ -27,6 +35,28 @@ public class BadgeDAO {
     SqlSession ss = FactoryService.getFactory().openSession();
 
     List<BadgeVO> list = ss.selectList("badge.list", map);
+
+    if (list != null && !list.isEmpty()) {
+      ar = new BadgeVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
+
+  public static BadgeVO[] getSearchList(int begin, int end, String keyword) {
+    BadgeVO[] ar = null;
+
+    HashMap<String, Object> map = new HashMap<>();
+
+    map.put("begin", begin); // String.valueOf(begin);
+    map.put("end", end);
+    map.put("keyword", keyword);
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    List<BadgeVO> list = ss.selectList("badge.searchList", map);
 
     if (list != null && !list.isEmpty()) {
       ar = new BadgeVO[list.size()];
