@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="journal_best">
+  <select id="list" resultType="mybatis.vo.JournalBestVO">
+    SELECT * FROM journal_best_table WHERE status = 0
+  </select>
+
+  <select id="exists" resultType="int" parameterType="String"> <!--등급 확인 있으면 1반환-->
+    SELECT COUNT(*) FROM journal_best_table WHERE tier = #{tier} AND status = 0
+  </select>
+</mapper>
