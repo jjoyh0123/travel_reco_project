@@ -74,6 +74,8 @@
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
+  let startDate = null;
+  let endDate = null;
   $(function () {
     $('#dateRange').daterangepicker({
       locale: {
@@ -84,14 +86,14 @@
         daysOfWeek: ['일', '월', '화', '수', '목', '금', '토'],
         monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
       },
-      maxSpan: { days: 10 },
+      maxSpan: { days: 9 },
       autoUpdateInput: false
     });
 
     $('#dateRange').on('apply.daterangepicker', function (ev, picker) {
-      const startDate = picker.startDate.format('YYYY-MM-DD');
-      const endDate = picker.endDate.format('YYYY-MM-DD');
-      $(this).val(`${startDate} ~ ${endDate}`);
+        startDate = picker.startDate.format('YYYY-MM-DD');
+        endDate = picker.endDate.format('YYYY-MM-DD');
+      $(this).val(startDate + '~' + endDate);
       sessionStorage.setItem('startDate', startDate);
       sessionStorage.setItem('endDate', endDate);
     });
@@ -103,7 +105,7 @@
     $('#selectDates').on('click', function () {
       const dateRange = $('#dateRange').val();
       if (dateRange) {
-        window.location.href = 'Controller?type=destinationPicker';
+        window.location.href = "Controller?type=destinationPicker&start_date="+ startDate + "&end_date="+ endDate;
       } else {
         alert('여행 기간을 선택해주세요.');
       }
