@@ -1,21 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>지도 임시</title>
   <script
       src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
   <style>
-      #controls {
-          margin: 10px;
-      }
-
-      #controls button {
-          margin: 5px;
-      }
-
-      #routeInfo {
-          margin-top: 20px;
-      }
 
       .custom-marker {
           background-color: white;
@@ -30,24 +20,17 @@
   </style>
 </head>
 <body>
-<div id="controls">
-  <button id="addYeoksam">역삼역</button>
-  <button id="addGangnam">강남역</button>
-  <button id="addSinnonhyeon">신논현역</button>
-  <button id="addSeonjeongneung">선정릉역</button>
-  <button id="addTest">테스트</button>
-</div>
 <div id="map_div" style="width:750px; height:750px;"></div>
-<div id="routeInfo"></div>
 
 <!-- 좌표 데이터를 JSON 형식으로 저장 -->
 <div id="waypointsData" style="display:none;">
   {
-  "yeoksam": {"lat": 37.500837, "lng": 127.036948},
-  "gangnam": {"lat": 37.497991, "lng": 127.027772},
-  "sinnonhyeon": {"lat": 37.504460, "lng": 127.024553},
-  "seonjeongneung": {"lat": 37.510250, "lng": 127.043512},
-  "testt": {"lat": 37.56344380519, "lng":126.9847483173}
+  <c:forEach var="temp" items="${tempList}" varStatus="status">
+    "${temp.title}": {
+    "lat": ${temp.map_x},
+    "lng": ${temp.map_y}
+    }<c:if test="${!status.last}">,</c:if>
+  </c:forEach>
   }
 </div>
 
@@ -67,12 +50,15 @@
   let lineArr = [];
   let currentWaypoints = [];
 
-  // 좌표 데이터 설정
-  let start = {lat: 37.499338, lng: 127.033239}; // 쌍용교육
-  let end = {lat: 37.499338, lng: 127.033239}; // 쌍용교육 (종료점)
-
   // JSON 형식의 좌표 데이터를 읽어오기
   let waypointsData = JSON.parse(document.getElementById('waypointsData').innerText);
+
+  // waypointsData의 키를 배열로 만듦
+  let waypointKeys = Object.keys(waypointsData);
+
+  // 시작점과 종료점을 waypointsData의 첫 번째 및 마지막 항목으로 설정
+  let start = waypointsData[waypointKeys[0]];
+  let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
 
   // 고정된 무지개 색상 배열
   let colors = [
@@ -81,8 +67,7 @@
     "#FFD700", "#ADFF2F", "#000080", "#8A2BE2",
     "#FF69B4", "#FF6347", "#00FFFF", "#4682B4",
     "#DC143C", "#FF8C00", "#ADFF2F", "#6A5ACD"
-  ]
-
+  ];
 
   // 마커를 추가하는 함수
   function addMarker(lat, lng, content) {
@@ -163,71 +148,17 @@
     map.panToBounds(positionBounds);
     map.zoomOut();
 
-    // 경로 정보 업데이트
-    updateRouteInfo(points);
   }
-
-  // 경로 정보 업데이트 함수
-  function updateRouteInfo(points) {
-    let routeInfo = "현재 경로: ";
-    points.forEach((point, index) => {
-      if (index === 0) {
-        routeInfo += "시작점 -> ";
-      } else if (index === points.length - 1) {
-        routeInfo += "종료점";
-      } else {
-        routeInfo += '경유지 ' + index + ' -> ';
-      }
-    });
-    document.getElementById("routeInfo").innerText = routeInfo;
+  
+  // 순서대로 경유지 설정 (첫 번째와 마지막 항목 제외)
+  for (let i = 1; i < waypointKeys.length - 1; i++) {
+    let waypoint = waypointsData[waypointKeys[i]];
+    currentWaypoints.push(waypoint);
+    addMarker(waypoint.lat, waypoint.lng, '<div class="custom-marker">' + (currentWaypoints.length) + '</div>');
   }
 
   // 경로 그리기 호출
   drawRoute(start, end, currentWaypoints, colors);
-
-  // 버튼 클릭 시 경유지 추가 또는 제거
-  function toggleWaypoint(waypoint) {
-    let index = currentWaypoints.findIndex(wp => wp.lat === waypoint.lat && wp.lng === waypoint.lng);
-    if (index === -1) {
-      // 경유지 추가
-      currentWaypoints.push(waypoint);
-      let markerContent = '<div class="custom-marker">' + currentWaypoints.length + '</div>';
-      addMarker(waypoint.lat, waypoint.lng, markerContent);
-    } else {
-      let markerIndex = index + 2; // 시작점과 종료점을 제외한 마커 인덱스
-      markerArr[markerIndex].setMap(null); // 마커 제거
-      markerArr.splice(markerIndex, 1);
-      currentWaypoints.splice(index, 1);
-
-      // 나머지 마커의 번호 업데이트
-      for (let i = markerIndex; i < markerArr.length; i++) {
-        markerArr[i].setIconHTML('<div class="custom-marker">' + (i - 1) + '</div>');
-      }
-    }
-    lineArr.forEach(line => line.setMap(null));
-    lineArr = [];
-    drawRoute(start, end, currentWaypoints, colors);
-  }
-
-  $("#addYeoksam").on("click", function () {
-    toggleWaypoint(waypointsData.yeoksam);
-  });
-
-  $("#addGangnam").on("click", function () {
-    toggleWaypoint(waypointsData.gangnam);
-  });
-
-  $("#addSinnonhyeon").on("click", function () {
-    toggleWaypoint(waypointsData.sinnonhyeon);
-  });
-
-  $("#addSeonjeongneung").on("click", function () {
-    toggleWaypoint(waypointsData.seonjeongneung);
-  });
-
-  $("#addTest").on("click", function () {
-    toggleWaypoint(waypointsData.testt);
-  });
 </script>
 </body>
 </html>
