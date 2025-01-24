@@ -8,8 +8,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-  </script>
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
   <style>
       body {
           display: flex;
@@ -60,6 +60,11 @@
           margin-top: 10px;
       }
 
+      .menu {
+          margin-top: 0;
+          margin-bottom: auto;
+      }
+
       .nav-pills,
       .nav-tabs {
           position: relative;
@@ -78,7 +83,8 @@
       .tab-notice,
       .tab-support,
       .tab-post2,
-      .tab-best {
+      .tab-best,
+      .tab-faq {
           display: flex;
           justify-content: space-between;
       }
@@ -89,14 +95,14 @@
       .tab-notice p,
       .tab-support p,
       .tab-post2 p,
-      .tab-best p {
+      .tab-best p,
+      .tab-faq p {
           border: 1px solid #ccc;
           padding: 8px;
           margin: 0;
           box-sizing: border-box;
           overflow: hidden;
       }
-
 
       .tab-user p:nth-child(1) {
           flex: 0 0 10%;
@@ -115,11 +121,11 @@
       }
 
       .tab-user p:nth-child(5) {
-          flex: 0 0 10%;
+          flex: 0 0 9%;
       }
 
       .tab-user p:nth-child(6) {
-          flex: 0 0 5%;
+          flex: 0 0 6%;
       }
 
       .tab-badge p:nth-child(1) {
@@ -139,11 +145,11 @@
       }
 
       .tab-badge p:nth-child(5) {
-          flex: 0 0 25%;
+          flex: 0 0 24%;
       }
 
       .tab-badge p:nth-child(6) {
-          flex: 0 0 5%;
+          flex: 0 0 6%;
       }
 
       .tab-post p:nth-child(1) {
@@ -249,11 +255,11 @@
       }
 
       .tab-post2 p:nth-child(6) {
-          flex: 0 0 10%;
+          flex: 0 0 9%;
       }
 
       .tab-post2 p:nth-child(7) {
-          flex: 0 0 5%;
+          flex: 0 0 6%;
       }
 
       .tab-best p:nth-child(1) {
@@ -278,6 +284,26 @@
 
       .tab-best p:nth-child(6) {
           flex: 0 0 20%;
+      }
+
+      .tab-faq p:nth-child(1) {
+          flex: 0 0 10%;
+      }
+
+      .tab-faq p:nth-child(2) {
+          flex: 0 0 25%;
+      }
+
+      .tab-faq p:nth-child(3) {
+          flex: 0 0 40%;
+      }
+
+      .tab-faq p:nth-child(4) {
+          flex: 0 0 15%;
+      }
+
+      .tab-faq p:nth-child(5) {
+          flex: 0 0 10%;
       }
 
       .ellipsis {
@@ -336,6 +362,7 @@
           <a class="nav-link" href="?type=admin&tab=event">이벤트 관리</a>
           <a class="nav-link" href="?type=admin&tab=best_plan">Best Plan 선정</a>
           <a class="nav-link" href="?type=admin&tab=support">1:1 문의</a>
+          <a class="nav-link" href="?type=admin&tab=faq">FAQ</a>
         </div>
       </aside>
       <div class="content">
@@ -472,7 +499,9 @@
           <c:when test="${param.tab == 'notice'}">
             <ul class="nav justify-content-end">
               <li>
-                <button class="btn btn-primary" type="button">공지사항 작성</button>
+                <button class="btn btn-primary" type="button"
+                        onclick="window.location.href ='Controller?type=adminView&tab=notice'">공지사항 작성
+                </button>
               </li>
             </ul>
           </c:when>
@@ -643,14 +672,23 @@
               </li>
               <c:set var="startIndex" value="${(page.nowPage-1) * page.numPerPage}"/>
               <c:forEach var="item" items="${ar}" varStatus="status">
-                <li class="list-group-item tab-notice">
+                <li class="list-group-item tab-notice" onclick="goNotice(${item.idx})">
                   <p>${item.idx}</p>
                   <p class="ellipsis">${item.title}</p>
                   <p class="ellipsis">${item.content}</p>
                   <p class="date">${item.reg_date}</p>
                   <p class="date">${item.update_date}</p>
                   <p>${item.hit}</p>
-                  <p>${item.status}</p>
+                  <p>
+                    <c:choose>
+                      <c:when test="${item.status == '0'}">
+                        정상
+                      </c:when>
+                      <c:when test="${item.status == '1'}">
+                        삭제
+                      </c:when>
+                    </c:choose>
+                  </p>
                 </li>
               </c:forEach>
             </ol>
@@ -675,7 +713,16 @@
                   <p class="ellipsis">${item.content}</p>
                   <p class="date">${item.reg_date}</p>
                   <p>${item.type}</p>
-                  <p>${item.status}</p>
+                  <p>
+                    <c:choose>
+                      <c:when test="${item.status == '0'}">
+                        정상
+                      </c:when>
+                      <c:when test="${item.status == '1'}">
+                        삭제
+                      </c:when>
+                    </c:choose>
+                  </p>
                 </li>
               </c:forEach>
             </ol>
@@ -815,11 +862,41 @@
               </c:forEach>
             </ol>
           </c:when>
+          <c:when test="${param.tab == 'faq'}">
+            <ol class="list-group">
+              <li class="list-group-item tab-faq">
+                <p>등록번호</p>
+                <p>제목</p>
+                <p>내용</p>
+                <p>등록일</p>
+                <p>상태</p>
+              </li>
+              <c:set var="startIndex" value="${(page.nowPage-1) * page.numPerPage}"/>
+              <c:forEach var="item" items="${ar}" varStatus="status">
+                <li class="list-group-item tab-faq" onclick="goFAQ(${item.idx})">
+                  <p>${item.idx}</p>
+                  <p class="ellipsis">${item.title}</p>
+                  <p class="ellipsis">${item.content}</p>
+                  <p class="date">${item.reg_date}</p>
+                  <p>
+                    <c:choose>
+                      <c:when test="${item.status == '0'}">
+                        정상
+                      </c:when>
+                      <c:when test="${item.status == '1'}">
+                        삭제
+                      </c:when>
+                    </c:choose>
+                  </p>
+                </li>
+              </c:forEach>
+            </ol>
+          </c:when>
         </c:choose>
 
         <c:choose>
           <c:when
-              test="${param.tab == 'user' || param.tab == 'post' || param.tab == 'notice' || param.tab == 'support' || param.tab == 'best_plan'}">
+              test="${param.tab == 'user' || param.tab == 'post' || param.tab == 'notice' || param.tab == 'support' || param.tab == 'best_plan'|| param.tab == 'faq'}">
             <nav aria-label="Page">
               <ul class="pagination justify-content-center">
                 <c:if test="${page.startPage < page.pagePerBlock}">
@@ -827,22 +904,26 @@
                 </c:if>
                 <c:if test="${page.startPage > page.pagePerBlock}">
                   <li class="page-item">
-                    <a class="page-link" href="?type=admin&cPage=${page.startPage - page.pagePerBlock}">&lt;</a>
+                    <a class="page-link"
+                       href="?type=admin&cPage=${page.startPage - page.pagePerBlock}&tab=${param.tab}}">&lt;</a>
                   </li>
                 </c:if>
                 <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                   <c:if test="${page.nowPage == i}">
-                    <li class="page-item active"><a class="page-link" href="?type=admin&cPage=${i}">${i}</a></li>
+                    <li class="page-item active"><a class="page-link"
+                                                    href="?type=admin&cPage=${i}&tab=${param.tab}">${i}</a></li>
                   </c:if>
                   <c:if test="${page.nowPage != i}">
-                    <li class="page-item"><a class="page-link" href="?type=admin&cPage=${i}">${i}</a></li>
+                    <li class="page-item"><a class="page-link" href="?type=admin&cPage=${i}&tab=${param.tab}">${i}</a>
+                    </li>
                   </c:if>
                 </c:forEach> <c:if test="${page.endPage == page.totalPage}">
                 <li class="page-item disabled"><a class="page-link">&gt;</a></li>
               </c:if>
                 <c:if test="${page.endPage < page.totalPage}">
                   <li class="page-item">
-                    <a class="page-link" href="?type=admin&cPage=${page.startPage + page.pagePerBlock}">&gt;</a>
+                    <a class="page-link"
+                       href="?type=admin&cPage=${page.startPage + page.pagePerBlock}&tab=${param.tab}">&gt;</a>
                   </li>
                 </c:if>
               </ul>
@@ -912,12 +993,10 @@
               console.error('Error:', error);
             }
           });
-
         }
     )
     ;
   });
-
   $(document).ready(function () {
     $('.date').each(function () {
       const dateString = $(this).text();
@@ -926,9 +1005,13 @@
     });
   });
 
+  function goNotice(idx) {
+    window.location.href = "Controller?type=adminView&tab=notice&idx=" + idx;
+  }
 
+  function goFAQ(idx) {
+    window.location.href = "Controller?type=adminView&tab=faq&idx=" + idx;
+  }
 </script>
-
-
 </body>
 </html>

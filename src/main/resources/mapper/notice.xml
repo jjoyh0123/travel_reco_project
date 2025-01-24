@@ -19,4 +19,26 @@
     ) c
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
+
+  <select id="selectOne" resultType="mybatis.vo.NoticeVO" parameterType="String">
+    SELECT * FROM notice_table WHERE idx = #{idx}
+  </select>
+
+  <update id="updateNotice" parameterType="mybatis.vo.NoticeVO">
+    UPDATE notice_table SET title = #{title}, content = #{content}, update_date = NOW() WHERE idx = #{idx}
+  </update>
+
+  <insert id="insertNotice" parameterType="mybatis.vo.NoticeVO">
+    INSERT INTO notice_table (title, content, reg_date, update_date, hit, status)
+    VALUES (#{title}, #{content}, NOW(), NOW(), 0, 0)
+  </insert>
+
+  <update id="deleteNotice" parameterType="String">
+    UPDATE notice_table SET status = 1, update_date = NOW() WHERE idx = #{idx}
+  </update>
+
+  <update id="restoreNotice" parameterType="String">
+    UPDATE notice_table SET status = 0, update_date = NOW() WHERE idx = #{idx}
+  </update>
+
 </mapper>

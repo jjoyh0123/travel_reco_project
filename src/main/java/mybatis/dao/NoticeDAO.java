@@ -36,4 +36,61 @@ public class NoticeDAO {
 
     return ar;
   }
+
+  public static NoticeVO getOne(String idx) {
+    NoticeVO ar = null;
+    SqlSession ss = FactoryService.getFactory().openSession();
+    ar = ss.selectOne("notice.selectOne", idx);
+    ss.close();
+    return ar;
+  }
+
+  public static int updateNotice(NoticeVO vo) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    int cnt = ss.update("notice.updateNotice", vo);
+    if (cnt > 0) {
+      ss.commit();
+    } else {
+      ss.rollback();
+    }
+    ss.close();
+
+    return cnt;
+  }
+
+  public static int insertNotice(NoticeVO vo) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    int cnt = ss.insert("notice.insertNotice", vo);
+    if (cnt > 0) {
+      ss.commit();
+    } else {
+      ss.rollback();
+    }
+    ss.close();
+    return cnt;
+  }
+
+  public static boolean deleteNotice(String idx) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    int cnt = ss.delete("notice.deleteNotice", idx);
+    if (cnt > 0) {
+      ss.commit();
+    } else {
+      ss.rollback();
+    }
+    ss.close();
+    return cnt > 0;
+  }
+
+  public static boolean restoreNotice(String idx) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    int cnt = ss.delete("notice.restoreNotice", idx);
+    if (cnt > 0) {
+      ss.commit();
+    } else {
+      ss.rollback();
+    }
+    ss.close();
+    return cnt > 0;
+  }
 }

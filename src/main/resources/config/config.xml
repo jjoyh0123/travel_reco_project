@@ -20,6 +20,7 @@
     <mapper resource="mapper/badge.xml"/>
     <mapper resource="mapper/journal.xml"/>
     <mapper resource="mapper/notice.xml"/>
+    <mapper resource="mapper/faq.xml"/>
     <mapper resource="mapper/support.xml"/>
     <mapper resource="mapper/journal_best.xml"/>
   </mappers>

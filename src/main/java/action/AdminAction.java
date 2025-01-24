@@ -83,6 +83,9 @@ public class AdminAction implements Action {
           tab3 = "3";
         totalCount = JournalDAO.getRangeCount(tab3);
         break;
+      case "faq":
+        totalCount = FAQDAO.getTotalCount();
+        break;
     }
 
     // 페이징 객체 안에 총 게시물의 수를 저장하며 전체 페이지 수를 구함
@@ -146,6 +149,9 @@ public class AdminAction implements Action {
       case "best_plan":
         best = JournalBestDAO.getList();
         ar = JournalDAO.getRangeList(page.getBegin(), page.getEnd(), tab3, tab2);
+        break;
+      case "faq":
+        ar = FAQDAO.getList(page.getBegin(), page.getEnd());
         break;
       default:
         ar = TempDAO.getList();
