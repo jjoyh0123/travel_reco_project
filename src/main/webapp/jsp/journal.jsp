@@ -11,6 +11,86 @@
 
   <title>후기 작성</title>
   <style>
+      /*    별점 기능*/
+      .starpoint_wrap{
+          display:inline-block;
+      }
+      .starpoint_box{
+          position:relative;
+          background:url('/www/sp_star.png') 0 0 no-repeat;
+          font-size:0;
+      }
+      .starpoint_box .starpoint_bg{
+          display:block;
+          position:absolute;
+          top:0;
+          left:0;
+          height:18px;
+          background:url('/www/sp_star.png') 0 -20px no-repeat;
+          pointer-events:none;
+      }
+      .starpoint_box .label_star{
+          display:inline-block;
+          width:10px;
+          height:18px;
+          box-sizing:border-box;
+      }
+      .starpoint_box .star_radio{
+          opacity:0;
+          width:0;
+          height:0;
+          position:absolute;
+      }
+      .starpoint_box .star_radio:nth-of-type(1):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg{
+          width:10%;
+      }
+      .starpoint_box .star_radio:nth-of-type(2):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg{
+          width:20%;
+      }
+      .starpoint_box .star_radio:nth-of-type(3):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg{
+          width:30%;
+      }
+      .starpoint_box .star_radio:nth-of-type(4):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg{
+          width:40%;
+      }
+      .starpoint_box .star_radio:nth-of-type(5):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg{
+          width:50%;
+      }
+      .starpoint_box .star_radio:nth-of-type(6):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg{
+          width:60%;
+      }
+      .starpoint_box .star_radio:nth-of-type(7):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg{
+          width:70%;
+      }
+      .starpoint_box .star_radio:nth-of-type(8):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg{
+          width:80%;
+      }
+      .starpoint_box .star_radio:nth-of-type(9):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg{
+          width:90%;
+      }
+      .starpoint_box .star_radio:nth-of-type(10):hover ~ .starpoint_bg,
+      .starpoint_box .star_radio:nth-of-type(10):checked ~ .starpoint_bg {
+          width:100%;
+      }
+
+      .blind{
+          position:absolute;
+          clip:rect(0 0 0 0);
+          margin:-1px;
+          width:1px;
+          height: 1px;
+          overflow:hidden;
+      }
+
       body {
           display: flex;
           flex-direction: column;
@@ -43,7 +123,7 @@
       #carouselExample {
           border: none
       }
-      .carousel-item img {
+      .main_carousel_image{
           display: inline-block;
           border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
           max-width: 100%;
@@ -59,20 +139,22 @@
           position: relative; /* 상대 위치 기준 */
       }
 
-      .add-photo-btn:hover {
+      #add_image_button2:hover {
           /*background-color: white;*/
           transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
-          filter: brightness(1.2);  /* 밝기 조정 */
+          /*filter: brightness(1.2);  !* 밝기 조정 *!*/
       }
-      .add-photo-btn {
-          position: absolute; /* 절대 위치 설정 */
-          right: 20px; /* 오른쪽에서 20px 떨어진 위치 */
-          bottom: 40px; /* 아래쪽에서 20px 떨어진 위치 */
+      .add_image_button {
           width: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
           height: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
           cursor: pointer; /* 클릭 가능한 커서로 변경 */
           transition: transform 0.3s ease;
-          z-index: 9999;  /* 최상위 레이어로 설정 */
+          z-index: 10;  /* 최상위 레이어로 설정 */
+      }
+      #add_image_button2{
+          position: absolute; /* 절대 위치 설정 */
+          right: 20px; /* 오른쪽에서 20px 떨어진 위치 */
+          bottom: 40px; /* 아래쪽에서 20px 떨어진 위치 */
       }
       #journal_article{
           width: 70%; /* 부모 요소에 맞춤 */
@@ -251,24 +333,43 @@
           border-radius: 10px;
           width: 100%;
       }
+      .modal-content{
+          width: 370px;
+      }
+      h3{
+          font-weight: 700;
+      }
 
+      .modal_img{
+          /*display: inline-block;*/
+          border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
+          width: 100%; /* 부모 요소에 맞춤 */
+          height: 100%; /* 원하는 높이로 조정 */
+          object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
+      }
+      #modal_carousel_area{
+          width: 100%;
+          height: 200px;
+          margin-right: 0;
+          position: relative; /* 캐러셀의 부모 요소에 상대 위치 지정 */
+      }
 
-      .star-rating {
-          direction: rtl;
-          font-size: 2rem;
-          display: flex;
+      #add_image_button_area {
+          position: absolute; /* 버튼을 절대 위치로 설정 */
+          bottom: 20px; /* 캐러셀 하단에서 20px 떨어지게 */
+          right: 20px; /* 캐러셀 오른쪽에서 20px 떨어지게 */
+          z-index: 10; /* 버튼이 다른 요소 위에 오도록 설정 */
       }
-      .star-rating input {
-          display: none;
+
+      #add_image_button1 {
+          width: 35px; /* 버튼 크기 조정 */
+          height: 35px; /* 버튼 크기 조정 */
+          cursor: pointer; /* 클릭할 수 있음을 시각적으로 표현 */
+          margin-right: 10px;
+          margin-bottom: 10px;
       }
-      .star-rating label {
-          cursor: pointer;
-          color: #ddd;
-      }
-      .star-rating input:checked ~ label,
-      .star-rating label:hover,
-      .star-rating label:hover ~ label {
-          color: #ffcc00;
+      #add_image_button1:hover {
+          transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
       }
   </style>
 </head>
@@ -293,21 +394,62 @@
       </div>
       <div class="modal-body">
         <h3>제주 국제 공항</h3>
-
-        <form action="submitRating.jsp" method="post">
-          <div class="star-rating">
-            <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="fas fa-star"></label>
-            <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="fas fa-star"></label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="fas fa-star"></label>
-            <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="fas fa-star"></label>
-            <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="fas fa-star"></label>
+<%--별점 기능--%>
+        <div class="starpoint_wrap">
+          <div class="starpoint_box">
+            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
+            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
+            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
+            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
+            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
+            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
+            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
+            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
+            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
+            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
+            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
+            <span class="starpoint_bg"></span>
           </div>
-          <button type="submit">제출</button>
-        </form>
-
-        <textarea id="modal_textarea" maxlength="250" rows="5">
-          간단한 후기 작성
-        </textarea>
+        </div>
+      <%--별점 기능 끝--%>
+        <hr>
+        <textarea id="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"></textarea>
+        <hr>
+        <div id="add_image_area">
+<%--      사진 추가 버튼--%>
+        <div id="add_image_button_area">
+          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+        </div>
+<%--  사진 추가 버튼 끝--%>
+<%--          캐러셀--%>
+        <div id="modal_carousel_area">
+          <div id="modal_carousel" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/www/journal1.jpg" class="modal_img" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+<%--      캐러셀 끝--%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">수정</button>
@@ -326,15 +468,15 @@
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/www/journal1.jpg" class="d-block w-100" alt="후기 사진1">
+            <img src="/www/journal1.jpg" class="main_carousel_image" alt="후기 사진1">
           </div>
           <div class="carousel-item">
-            <img src="/www/journal2.jpg" class="d-block w-100" alt="후기 사진2">
+            <img src="/www/journal2.jpg" class="main_carousel_image" alt="후기 사진2">
           </div>
           <div class="carousel-item">
-            <img src="/www/journal3.jpg" class="d-block w-100" alt="후기 사진3">
+            <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">
           </div>
-          <img src="/www/add_image_button.png" class="add-photo-btn" alt="사진 추가 버튼">
+          <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -359,13 +501,8 @@
   <div class="journal_box">
 
     <div class="journal_day">
-      <%--  날짜 선택 버튼--%>
-<%--      <div class="day_button" onclick="changeColor(this)"><p class="day">day1</p><br><p class="date">8.23/금</p></div>--%>
-<%--      <div class="day_button" onclick="changeColor(this)"><p class="day">day2</p><br><p class="date">8.24/토</p></div>--%>
-<%--      <div class="day_button" onclick="changeColor(this)"><p class="day">day3</p><br><p class="date">8.25/일</p></div>--%>
 
         <nav id="navbar-example2" class="navbar">
-<%--          <a class="navbar-brand" href="#">Navbar</a>--%>
           <ul class="nav nav-pills">
             <li class="nav-item">
               <a class="nav-link" href="#scrollspyHeading1">
@@ -382,29 +519,9 @@
                 <div class="day_button" onclick="changeColor(this)"><p class="day">day3</p><br><p class="date">8.25/일</p></div>
               </a>
             </li>
-<%--            <li class="nav-item dropdown">--%>
-<%--              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>--%>
-<%--              <ul class="dropdown-menu">--%>
-<%--                <li><a class="dropdown-item" href="#scrollspyHeading33">Third</a></li>--%>
-<%--                <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>--%>
-<%--                <li><hr class="dropdown-divider"></li>--%>
-<%--                <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>--%>
-<%--              </ul>--%>
-<%--            </li>--%>
           </ul>
         </nav>
-<%--        <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">--%>
-<%--          <h4 id="scrollspyHeading11">First heading</h4>--%>
-<%--          <p>...</p>--%>
-<%--          <h4 id="scrollspyHeading2">Second heading</h4>--%>
-<%--          <p>...</p>--%>
-<%--          <h4 id="scrollspyHeading3">Third heading</h4>--%>
-<%--          <p>...</p>--%>
-<%--          <h4 id="scrollspyHeading4">Fourth heading</h4>--%>
-<%--          <p>...</p>--%>
-<%--          <h4 id="scrollspyHeading5">Fifth heading</h4>--%>
-<%--          <p>...</p>--%>
-<%--        </div>--%>
+
 
     <div class="day_box">
       <%--  Day 바 --%>
