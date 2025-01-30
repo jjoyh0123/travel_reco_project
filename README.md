@@ -114,14 +114,15 @@
 
 ### 리뷰 ( review_table )
 
-| Key | Column     | Korean | Data type    | Etc               |
-|:---:|:-----------|:-------|:-------------|:------------------|
-| PK  | idx        | 고유 식별자 | bigint       | AI                |
-| FK  | content_id | 여행 장소  | varchar(20)  |                   |
-|     | rate       | 별점     | tinyint      | scale 0.5, max 5  |
-|     | review     | 리뷰 내용  | varchar(500) |                   |
-|     | reg_date   | 작성일    | datetime     |                   |
-|     | status     | 상태     | tinyint      | 0:활성, 1:비활성       |
+| Key | Column     | Korean | Data type    | Etc              |
+|:---:|:-----------|:-------|:-------------|:-----------------|
+| PK  | idx        | 고유 식별자 | bigint       | AI               |
+| FK  | user_idx   | 유저 고유 식별자 | bigint |                  |
+| FK  | content_id | 여행 장소  | varchar(20)  |                  |
+|     | rate       | 별점     | tinyint      | scale 0.5, max 5 |
+|     | review     | 리뷰 내용  | varchar(500) |                  |
+|     | reg_date   | 작성일    | datetime     |                  |
+|     | status     | 상태     | tinyint      | 0:활성, 1:비활성      |
 
 
 ### 이미지 ( image_table )
