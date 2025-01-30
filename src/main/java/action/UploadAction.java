@@ -108,15 +108,16 @@ public class UploadAction implements Action {
 
             try (InputStream is = Files.newInputStream(uploadedFile.toPath())) {
               long fileSize = Files.size(uploadedFile.toPath());
-              if (fileSize > 100 * 1024) {
+              if (fileSize > 100 * 1024) { // 100KB가 넘는 경우에만 리사이징
                 Thumbnails.of(uploadedFile)
                     .scale(0.5)
                     .toFile(new File(resizedFilePath));
+                uploadedFile.delete(); // 원본 이미지 삭제
               } else {
-                Files.copy(uploadedFile.toPath(), new File(resizedFilePath).toPath());
+                // 100KB 이하인 경우에는 원본 파일 유지
               }
 
-              uploadedFileNames.add(fileName);
+              uploadedFileNames.add(fileName); // 업로드된 파일 이름 목록에 추가
 
             } catch (IOException innerException) {
               innerException.printStackTrace();
