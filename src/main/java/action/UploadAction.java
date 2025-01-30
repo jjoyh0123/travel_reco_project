@@ -12,8 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class UploadAction implements Action {
@@ -117,8 +120,11 @@ public class UploadAction implements Action {
                 // 100KB 이하인 경우에는 원본 파일 유지
               }
 
-              uploadedFileNames.add(fileName); // 업로드된 파일 이름 목록에 추가
+              // 파일 권한 변경
+              Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rw-r--r--");
+              Files.setPosixFilePermissions(uploadedFile.toPath(), perms);
 
+              uploadedFileNames.add(fileName); // 업로드된 파일 이름 목록에 추가
             } catch (IOException innerException) {
               innerException.printStackTrace();
               request.setAttribute("status", "error");
@@ -133,6 +139,7 @@ public class UploadAction implements Action {
       request.setAttribute("status", "success");
       request.setAttribute("message", "파일들이 업로드되고 크기가 조정되었습니다!");
       request.setAttribute("fileNames", uploadedFileNames);
+      System.out.printf("uploadedFileNames size:%d, list:%s\n", uploadedFileNames.size(), uploadedFileNames);
       return "jsp/upload_result.jsp";
 
     } catch (Exception multipartException) {

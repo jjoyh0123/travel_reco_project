@@ -21,7 +21,7 @@
 <script>
   function uploadImages() {
     var form = $('#uploadForm')[0];
-    var formData = new FormData(form);
+    var formData = new FormData(form);  
 
     $.ajax({
       url: 'http://43.202.58.237:8080/Controller?type=upload',
