@@ -3,9 +3,10 @@ package action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class IndexAction implements Action {
+public class KakaoLoginAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
-    return "jsp/index.jsp";
+    System.out.println("KakaoLoginAction");
+    return "jsp/kakaoLogin.jsp";
   }
 }

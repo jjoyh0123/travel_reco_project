@@ -100,11 +100,13 @@
   <div class="header-right-section">
     <button class="btn btn-outline-secondary">고객지원</button>
     <c:choose>
-      <c:when test="${not empty sessionScope.userId}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
+      <c:when test="${not empty sessionScope.profileImg}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
+
+        <!-- 로그인 상태 -->
         <div class="dropdown">
           <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="border: none;">
-            <img src="./www/profile.svg" alt="프로필" class="profile_icon">
+            <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#">마이페이지</a></li>
@@ -112,12 +114,12 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=logout">로그아웃</a></li>
           </ul>
         </div>
       </c:when>
       <c:otherwise>
-        <button class="btn btn-outline-secondary login-btn">로그인</button>
+        <a href="${pageContext.request.contextPath}/Controller?type=login"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
       </c:otherwise>
     </c:choose>
   </div>
