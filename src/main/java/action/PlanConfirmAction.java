@@ -25,6 +25,9 @@ public class PlanConfirmAction implements Action {
       return "/error.jsp";
     }
 
+    // ✅ Store areaCode in session
+    request.getSession().setAttribute("areaCode", areaCode);
+
     // Create a new PlanVO object
     PlanVO plan = new PlanVO();
     plan.setUser_idx("1"); // Temporary user_idx, replace with actual user_idx
@@ -51,10 +54,11 @@ public class PlanConfirmAction implements Action {
 
     PlanDAO.insertPlan(plan);
 
+    // // Clear session data
+    // request.getSession().removeAttribute("startDate");
+    // request.getSession().removeAttribute("endDate");
 
-    // Clear session data
-    request.getSession().removeAttribute("startDate");
-    request.getSession().removeAttribute("endDate");
+    // ✅ Keep session attributes (startDate, endDate, areaCode)
 
     // Redirect to planning page
     return "/planning.jsp";

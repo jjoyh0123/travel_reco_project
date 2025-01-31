@@ -83,7 +83,12 @@ public class Controller extends HttpServlet {
 
     Action action = actionMap.get(type);
 
-    String viewpath = action.execute(request, response);
+    String viewpath = null;
+    try {
+      viewpath = action.execute(request, response);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
     if (viewpath == null) {
       response.sendRedirect("Controller?type=index");
     } else {

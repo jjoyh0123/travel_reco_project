@@ -135,6 +135,8 @@
           background-color: #fff;
           border: 1px solid #ddd;
           border-radius: 5px;
+          /*added*/
+          cursor: pointer;
       }
 
       .destination img {
@@ -300,14 +302,14 @@
     <div class="date">2025-01-16</div>
     <div class="date">2025-01-17</div>
     <!-- Action Buttons -->
-    <div id="action-buttons">
+    <div class="" id="action-buttons">
       <button class="action-button">저장</button>
     </div>
   </div>
 
   <!-- Middle-Left Panel -->
   <div id="middle-left-panel">
-    <div id="destination-header">제주</div>
+    <div id="destination-header">서울</div>
     <div id="destination-date-range">2025-01-14 ~ 2025-01-20</div>
     <div class="categories">
       <div class="category">🍴 음식</div>
@@ -319,16 +321,16 @@
       <button>검색</button>
     </div>
     <div id="destination-list">
-      <div class="destination">
-        <img src="https://via.placeholder.com/50" alt="thumbnail">
-        <div class="destination-info">
-          <h4>성산 일출봉</h4>
-          <p>제주특별자치도 서귀포시 성산읍</p>
-          <div class="ratings">⭐ <span>1612만</span> <span>4.7</span></div>
-        </div>
-        <span class="heart">♥</span>
-        <span class="add-button">+</span>
-      </div>
+<%--      <div class="destination">--%>
+<%--        <img src="https://via.placeholder.com/50" alt="thumbnail">--%>
+<%--        <div class="destination-info">--%>
+<%--          <h4>성산 일출봉</h4>--%>
+<%--          <p>제주특별자치도 서귀포시 성산읍</p>--%>
+<%--          <div class="ratings">⭐ <span>1612만</span> <span>4.7</span></div>--%>
+<%--        </div>--%>
+<%--        <span class="heart">♥</span>--%>
+<%--        <span class="add-button">+</span>--%>
+<%--      </div>--%>
     </div>
     <!-- Action Buttons -->
     <div id="action-buttons">
@@ -357,4 +359,62 @@
 
 </div>
 </body>
+<!-- 🔹 JavaScript for Dynamic Data Fetching -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    fetchTouristSpots();
+  });
+
+  function fetchTouristSpots() {
+    fetch('/Controller?type=getTouristSpots')  // Call backend action
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error fetching data:', error));
+    // {
+    //   if (data.status !== "success") {
+    //     console.error("API Error:", data);
+    //     return;
+    //   }
+    //   displayPlaces(data.places);
+    // }
+  }
+
+  function displayPlaces(places) {
+    const destinationList = document.getElementById("destination-list");
+    destinationList.innerHTML = ""; // Clear previous results
+
+    if (places.length === 0) {
+      destinationList.innerHTML = "<p>관광지를 찾을 수 없습니다.</p>";
+      return;
+    }
+
+    places.forEach(place => {
+      const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";
+      const shortAddress = formatAddress(place.address);
+
+      const listItem = document.createElement("div");
+      listItem.classList.add("destination");
+      listItem.dataset.lat = place.mapy;
+      listItem.dataset.lon = place.mapx;
+
+      listItem.innerHTML =
+          '<img src="' + imgSrc + '" alt="thumbnail">' +
+          '<div class="destination-info">' +
+          '<h4>' + place.title + '</h4>' +
+          '<p>' + shortAddress + '</p>' +
+          '</div>' +
+          '<span class="heart">♥</span>' +
+          '<span class="add-button">+</span>';
+
+      destinationList.appendChild(listItem);
+    });
+  }
+
+  function formatAddress(addr) {
+    if (!addr) return "주소 없음";
+    const parts = addr.split(" ");
+    if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"
+    return parts.slice(0, 2).join(" "); // "시 + 읍"
+  }
+</script>
 </html>
