@@ -15,11 +15,11 @@ public class UpdateUserAction implements Action {
     String status = request.getParameter("status");
 
     UserVO vo = new UserVO();
-    vo.setIdx(idx);
+    vo.setIdx(Integer.parseInt(idx));
     vo.setEmail(email);
     vo.setNick(nick);
     vo.setPw(pw);
-    vo.setStatus(status);
+    vo.setStatus(Integer.parseInt(status));
 
     boolean success = false;
     request.setAttribute("success", success);

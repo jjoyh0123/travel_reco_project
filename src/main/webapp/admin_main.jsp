@@ -11,6 +11,41 @@
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
           crossorigin="anonymous"></script>
   <style>
+      table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 10px; /* 각 th 및 tr 간의 간격 */
+      }
+
+      th, td {
+          padding: 10px; /* 추가 간격 */
+          text-align: left;
+      }
+
+      th {
+          background-color: #f2f2f2;
+          text-align: center;
+      }
+
+      img {
+          width: 100%;
+          height: auto;
+      }
+
+      td:first-child {
+          width: 90%;
+      }
+
+      td:last-child {
+          width: 10%;
+          text-align: center;
+      }
+
+      button {
+          font-size: 16px;
+          padding: 5px 10px;
+      }
+
       body {
           display: flex;
           flex-direction: column;
@@ -549,7 +584,13 @@
                       </p>
                       <p>
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                data-bs-target="#userModal">&#x2699;
+                                data-bs-target="#userModal"
+                                data-idx="${item.idx}"
+                                data-email="${item.email}"
+                                data-nick="${item.nick}"
+                                data-pw="${item.pw}"
+                                data-status="${item.status}">
+                          &#x2699;
                         </button>
                       </p>
                       <div class="modal fade" id="userModal" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -558,42 +599,40 @@
                           <div class="modal-content">
                             <div class="modal-header">
                               <h1 class="modal-title fs-5" id="userModalLabel">사용자 정보 수정</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                              </button>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                      aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <form id="edit">
                                 <div class="mb-3">
                                   <label for="idx" class="form-label">회원번호</label>
-                                  <input type="text" class="form-control" id="idx" name="idx" value="${item.idx}"
-                                         readonly>
+                                  <input type="text" class="form-control" id="idx" name="idx" readonly>
                                 </div>
                                 <div class="mb-3">
                                   <label for="email" class="form-label">이메일</label>
                                   <div class="d-flex">
                                     <input type="text" class="form-control" id="email" name="email"
-                                           value="${fn:substringBefore(item.email, '@')}" placeholder="example">
+                                           placeholder="example">
                                     <span>@</span>
                                     <input type="text" class="form-control" id="email-back" name="email"
-                                           value="${fn:substringAfter(item.email, '@')}" placeholder="domain.com">
+                                           placeholder="domain.com">
                                   </div>
                                 </div>
                                 <div class="mb-3">
                                   <label for="nick" class="form-label">닉네임</label>
-                                  <input type="text" class="form-control" id="nick" name="nick" value="${item.nick}">
+                                  <input type="text" class="form-control" id="nick" name="nick">
                                 </div>
                                 <div class="mb-3">
                                   <label for="pw" class="form-label">비밀번호</label>
-                                  <input type="text" class="form-control" id="pw" name="pw" value="${item.pw}">
+                                  <input type="text" class="form-control" id="pw" name="pw">
                                 </div>
                                 <div class="mb-3">
                                   <label for="status" class="form-label">상태</label>
                                   <select class="form-select" id="status" name="status">
-                                    <option value="0" <c:if test="${item.status == 0}">selected</c:if>>정상</option>
-                                    <option value="1" <c:if test="${item.status == 1}">selected</c:if>>탈퇴</option>
+                                    <option value="0">정상</option>
+                                    <option value="1">탈퇴</option>
                                   </select>
                                 </div>
-
                               </form>
                             </div>
                             <div class="modal-footer">
@@ -730,6 +769,56 @@
           <c:when test="${param.tab == 'event'}">
             <%--이벤트 배너 5개 이미지를 각각 보여줘야 함--%>
             <%--그리고 해당 이미지를 변경하는 기능도 있어야 함--%>
+            <table>
+              <thead>
+              <tr>
+                <th>배너 이미지</th>
+                <th>수정</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><img src="" alt="이벤트 배너 1"></td>
+                <td>
+                  <p>
+                    <button type="button">&#x2699;</button>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="" alt="이벤트 배너 2"></td>
+                <td>
+                  <p>
+                    <button type="button">&#x2699;</button>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="" alt="이벤트 배너 3"></td>
+                <td>
+                  <p>
+                    <button type="button">&#x2699;</button>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="" alt="이벤트 배너 4"></td>
+                <td>
+                  <p>
+                    <button type="button">&#x2699;</button>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td><img src="" alt="이벤트 배너 5"></td>
+                <td>
+                  <p>
+                    <button type="button">&#x2699;</button>
+                  </p>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </c:when>
           <c:when test="${param.tab == 'best_plan'}">
             <ol class="list-group">
@@ -940,9 +1029,27 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function () {
+    // 모달이 열릴 때 이벤트 리스너 추가
+    $('#userModal').on('show.bs.modal', function (event) {
+      const button = $(event.relatedTarget); // 클릭된 버튼
+      const idx = button.data('idx'); // data-idx 속성 값
+      const email = button.data('email'); // data-email 속성 값
+      const nick = button.data('nick'); // data-nick 속성 값
+      const pw = button.data('pw'); // data-pw 속성 값
+      const status = button.data('status'); // data-status 속성 값
+
+      // 모달 내부의 입력 필드에 데이터 채우기
+      const modal = $(this);
+      modal.find('#idx').val(idx);
+      modal.find('#email').val(email.split('@')[0]); // 이메일 앞부분
+      modal.find('#email-back').val(email.split('@')[1]); // 이메일 뒷부분
+      modal.find('#nick').val(nick);
+      modal.find('#pw').val(pw);
+      modal.find('#status').val(status);
+    });
+
     $('#edit_btn').click(function (event) {
           event.preventDefault(); // 기본 폼 제출 방지
-
 
           //유효성 검사
           let emailFront = $('#email').val();

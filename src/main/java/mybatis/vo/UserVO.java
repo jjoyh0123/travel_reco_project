@@ -1,13 +1,14 @@
 package mybatis.vo;
 
 public class UserVO extends TempVO {
-  private String idx, email, nick, pw, status;
+  private String email, nick, pw;
+  private int idx, status;
 
-  public String getIdx() {
+  public int getIdx() {
     return idx;
   }
 
-  public void setIdx(String idx) {
+  public void setIdx(int idx) {
     this.idx = idx;
   }
 
@@ -35,11 +36,11 @@ public class UserVO extends TempVO {
     this.pw = pw;
   }
 
-  public String getStatus() {
+  public int getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(int status) {
     this.status = status;
   }
 }
