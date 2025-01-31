@@ -4,7 +4,7 @@
   session.invalidate();
 
   // 메인 페이지로 이동
-  response.sendRedirect("${pageContext.request.contextPath}/jsp/index.jsp");
+  response.sendRedirect(request.getContextPath() + "/jsp/index.jsp");
 %>
 
 

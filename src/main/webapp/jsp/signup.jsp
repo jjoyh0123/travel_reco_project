@@ -45,6 +45,7 @@
       .form-check-label {
           font-size: 14px;
       }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -61,15 +62,15 @@
   <% } %>
 
   <% if ("true".equals(signupSuccess)) { %>
-  alert("회원가입이 성공적으로 완료되었습니다! 로그인화면으로 이동됩니다.");
-  window.location.href = "jsp/login.jsp";  // 가입 후 메인 페이지로 이동
+  alert("회원가입이 성공적으로 완료되었습니다!");
+  window.location.href = "jsp/index.jsp";  // 가입 후 메인 페이지로 이동
   <% } %>
 </script>
 
 
 <div class="signup-container">
   <h1>이메일로 회원가입</h1>
-  <form action="/TeamProject2_war_exploded/Controller?type=signup" method="post">
+  <form action="${pageContext.request.contextPath}/Controller?type=signup" method="post">
     <div class="mb-3">
       <label for="email" class="form-label">이메일 주소</label>
       <div class="input-group">
@@ -92,52 +93,58 @@
     <div class="mb-3">
       <label for="password" class="form-label">비밀번호</label>
       <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" required>
+      <p id="passwordMessage" class="message"></p>
     </div>
     <div class="mb-3 form-check">
       <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePassword()">
       <label class="form-check-label" for="showPassword">비밀번호 보기</label>
     </div>
-    <button type="submit" class="btn btn-orange w-100">회원가입</button>
+    <button type="submit" id="signupButton" class="btn btn-orange w-100" disabled>회원가입</button>
   </form>
   <div class="mt-3 text-center">
-    <a href="emailLogin.jsp" class="text-decoration-none">로그인 화면가기</a>
+    <a href="emailLogin.jsp" class="text-decoration-none">이메일 로그인 화면가기</a>
   </div>
 </div>
 <script>
-  // 비밀번호 보기 토글
+  let emailChecked = false;
+  let nicknameChecked = false;
+  let passwordValid = false;
+
   function togglePassword() {
     const passwordField = document.getElementById("password");
     passwordField.type = passwordField.type === "password" ? "text" : "password";
   }
 
-  // 이메일 중복 확인
+  // 이메일 중복확인
   function checkEmail() {
     const email = document.getElementById("email").value;
 
-    if (!email) {
-      alert("이메일을 입력해주세요.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      alert("올바른 이메일 주소를 입력해주세요.");
       return;
     }
 
     $.ajax({
       type: "POST",
-      url: "/TeamProject2_war_exploded/Controller?type=checkEmail",  // Action 매핑 URL
+      url: "${pageContext.request.contextPath}/Controller?type=checkEmail",
       data: { email: email },
       dataType: "json",
-      success: function(response) {
+      success: function (response) {
         const emailMessage = document.getElementById("emailMessage");
-        emailMessage.textContent = response.message;
-
-        // 메시지 색상 설정
         if (response.status === "success") {
-          emailMessage.className = "message success";
+          emailChecked = true;
+          emailMessage.textContent = "사용 가능한 이메일입니다.";
           emailMessage.style.color = "blue";
         } else {
-          emailMessage.className = "message error";
+          emailChecked = false;
+          emailMessage.textContent = "이미 사용 중인 이메일입니다.";
           emailMessage.style.color = "red";
         }
+        updateSignupButtonState();
       },
-      error: function() {
+      error: function () {
         alert("서버 오류가 발생했습니다.");
       }
     });
@@ -146,34 +153,68 @@
   // 닉네임 중복확인
   function checkNick() {
     const nickname = document.getElementById("nickname").value;
+    const koreanNumberRegex = /^[가-힣]+$/;
 
     if (!nickname) {
       alert("닉네임을 입력해주세요.");
       return;
     }
 
+    if (!koreanNumberRegex.test(nickname)) {
+      alert("닉네임은 한글만 입력 가능합니다.");
+      return;
+    }
+
+
     $.ajax({
       type: "POST",
-      url: "/TeamProject2_war_exploded/Controller?type=checkNick",  // Action 매핑 URL
+      url: "${pageContext.request.contextPath}/Controller?type=checkNick",
       data: { nickname: nickname },
       dataType: "json",
-      success: function(response) {
-        const emailMessage = document.getElementById("nicknameMessage");
-        nicknameMessage.textContent = response.message;
-
-        // 메시지 색상 설정
+      success: function (response) {
+        const nicknameMessage = document.getElementById("nicknameMessage");
         if (response.status === "success") {
-          emailMessage.className = "message success";
-          emailMessage.style.color = "blue";
+          nicknameChecked = true;
+          nicknameMessage.textContent = "사용 가능한 닉네임입니다.";
+          nicknameMessage.style.color = "blue";
         } else {
-          emailMessage.className = "message error";
-          emailMessage.style.color = "red";
+          nicknameChecked = false;
+          nicknameMessage.textContent = "이미 사용 중인 닉네임입니다.";
+          nicknameMessage.style.color = "red";
         }
+        updateSignupButtonState();
       },
-      error: function() {
+      error: function () {
         alert("서버 오류가 발생했습니다.");
       }
     });
+  }
+
+  // 비밀번호 유효성 검사 (4자리 이상)
+  document.getElementById("password").addEventListener("input", function () {
+    const password = this.value;
+    const passwordMessage = document.getElementById("passwordMessage");
+
+    if (password.length >= 4) {
+      passwordValid = true;
+      passwordMessage.textContent = "";
+    } else {
+      passwordValid = false;
+      passwordMessage.textContent = "비밀번호는 4자리 이상이어야 합니다.";
+      passwordMessage.style.color = "red";
+    }
+
+    updateSignupButtonState();
+  });
+
+  // 회원가입 버튼 활성화 상태 업데이트
+  function updateSignupButtonState() {
+    const signupButton = document.getElementById("signupButton");
+    if (emailChecked && nicknameChecked && passwordValid) {
+      signupButton.disabled = false;
+    } else {
+      signupButton.disabled = true;
+    }
   }
 </script>
 </body>

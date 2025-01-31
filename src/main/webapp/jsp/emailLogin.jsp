@@ -83,7 +83,7 @@
 <body>
 <div class="login-container">
   <h1>이메일로 로그인</h1>
-  <form action="Controller?type=emailLogin" method="post">
+  <form action="${pageContext.request.contextPath}/Controller?type=emailLogin" method="post">
     <input type="email" name="email" placeholder="이메일 주소" required>
     <input type="password" name="pw" placeholder="비밀번호" required>
     <button type="submit">로그인</button>
@@ -96,8 +96,8 @@
 
 
   <div class="links">
-    <a href="jsp/login.jsp">로그인 화면가기</a>
-    <a href="jsp/signup.jsp">회원가입</a>
+    <a href="${pageContext.request.contextPath}/jsp/login.jsp">로그인 화면가기</a>
+    <a href="${pageContext.request.contextPath}/jsp/signup.jsp">회원가입</a>
   </div>
 </div>
 </body>

@@ -2,6 +2,8 @@ package action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import mybatis.service.FactoryService;
 import mybatis.dao.UserDAO;
 import mybatis.vo.UserVO;
@@ -24,9 +26,11 @@ public class EmailLoginAction implements Action {
     if (user != null) {
       // 로그인 성공 - 세션에 사용자 정보 저장
       String emailLoginProfileImg = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
-      request.getSession().setAttribute("profileImg", emailLoginProfileImg);
-      request.getSession().setAttribute("email", email);
-      request.getSession().setAttribute("user", user);
+
+      HttpSession session = request.getSession();
+      session.setAttribute("profileImg", emailLoginProfileImg);
+      session.setAttribute("email", email);
+      session.setAttribute("user", user);
       return "jsp/index.jsp"; // 성공 시 메인 화면으로 이동
     } else {
       // 로그인 실패 - 오류 메시지 설정

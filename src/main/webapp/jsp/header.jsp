@@ -94,7 +94,7 @@
 <body>
 <header>
   <div class="header-left-section">
-    <a href="index.jsp"><img src="./www/logo.png" alt="로고"></a>&nbsp;&nbsp;
+    <a href="index.jsp"><img src="${pageContext.request.contextPath}/www/logo.png" alt="로고"></a>&nbsp;&nbsp;
     <h3>Zenzen Club</h3><%--이미지로 변경 필요--%>
   </div>
   <div class="header-right-section">
@@ -114,12 +114,12 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=logout">로그아웃</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/logout.jsp">로그아웃</a></li>
           </ul>
         </div>
       </c:when>
       <c:otherwise>
-        <a href="${pageContext.request.contextPath}/Controller?type=login"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
+        <a href="${pageContext.request.contextPath}/jsp/login.jsp"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
       </c:otherwise>
     </c:choose>
   </div>
