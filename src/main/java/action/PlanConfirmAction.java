@@ -52,7 +52,7 @@ public class PlanConfirmAction implements Action {
     //   return "/error.jsp"; // Redirect to error page if saving fails
     // }
 
-    PlanDAO.insertPlan(plan);
+    // PlanDAO.insertPlan(plan);
 
     // // Clear session data
     // request.getSession().removeAttribute("startDate");

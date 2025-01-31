@@ -368,53 +368,100 @@
   function fetchTouristSpots() {
     fetch('/Controller?type=getTouristSpots')  // Call backend action
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => displayPlaces(data))
         .catch(error => console.error('Error fetching data:', error));
-    // {
-    //   if (data.status !== "success") {
-    //     console.error("API Error:", data);
-    //     return;
-    //   }
-    //   displayPlaces(data.places);
-    // }
   }
 
   function displayPlaces(places) {
     const destinationList = document.getElementById("destination-list");
     destinationList.innerHTML = ""; // Clear previous results
 
-    if (places.length === 0) {
-      destinationList.innerHTML = "<p>관광지를 찾을 수 없습니다.</p>";
-      return;
-    }
-
     places.forEach(place => {
       const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";
-      const shortAddress = formatAddress(place.address);
+      const shortAddress = place.address;
 
       const listItem = document.createElement("div");
       listItem.classList.add("destination");
       listItem.dataset.lat = place.mapy;
       listItem.dataset.lon = place.mapx;
+      listItem.dataset.category = place.category;
 
-      listItem.innerHTML =
-          '<img src="' + imgSrc + '" alt="thumbnail">' +
-          '<div class="destination-info">' +
-          '<h4>' + place.title + '</h4>' +
-          '<p>' + shortAddress + '</p>' +
-          '</div>' +
-          '<span class="heart">♥</span>' +
-          '<span class="add-button">+</span>';
+      listItem.innerHTML = '<img src="' + imgSrc + '" alt="thumbnail">'+
+            '<div class="destination-info">'+
+                '<h4>'+place.title+'</h4>'+
+                '<p>'+shortAddress+'</p>'+
+                '<div class="ratings">⭐ <span>4.5</span></div>'+
+            '</div>'+
+            '<span class="heart">♥</span>'+
+            '<span class="add-button">+</span>';
 
       destinationList.appendChild(listItem);
     });
   }
 
-  function formatAddress(addr) {
-    if (!addr) return "주소 없음";
-    const parts = addr.split(" ");
-    if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"
-    return parts.slice(0, 2).join(" "); // "시 + 읍"
-  }
+  // function formatAddress(addr) {
+  //   if (!addr) return "주소 없음";
+  //   const parts = addr.split(" ");
+  //   if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"
+  //   return parts.slice(0, 2).join(" "); // "시 + 읍"
+  // }
 </script>
+
+<%--<script>--%>
+<%--  document.addEventListener("DOMContentLoaded", function() {--%>
+<%--    fetchTouristSpots();--%>
+<%--  });--%>
+
+<%--  function fetchTouristSpots() {--%>
+<%--    fetch('/Controller?type=getTouristSpots')  // Call backend action--%>
+<%--        .then(response => response.json())--%>
+<%--        .then(data => console.log(data))--%>
+<%--        .catch(error => console.error('Error fetching data:', error));--%>
+<%--    // {--%>
+<%--    //   if (data.status !== "success") {--%>
+<%--    //     console.error("API Error:", data);--%>
+<%--    //     return;--%>
+<%--    //   }--%>
+<%--    //   displayPlaces(data.places);--%>
+<%--    // }--%>
+<%--  }--%>
+
+<%--  function displayPlaces(places) {--%>
+<%--    const destinationList = document.getElementById("destination-list");--%>
+<%--    destinationList.innerHTML = ""; // Clear previous results--%>
+
+<%--    if (places.length === 0) {--%>
+<%--      destinationList.innerHTML = "<p>관광지를 찾을 수 없습니다.</p>";--%>
+<%--      return;--%>
+<%--    }--%>
+
+<%--    places.forEach(place => {--%>
+<%--      const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";--%>
+<%--      const shortAddress = formatAddress(place.address);--%>
+
+<%--      const listItem = document.createElement("div");--%>
+<%--      listItem.classList.add("destination");--%>
+<%--      listItem.dataset.lat = place.mapy;--%>
+<%--      listItem.dataset.lon = place.mapx;--%>
+
+<%--      listItem.innerHTML =--%>
+<%--          '<img src="' + imgSrc + '" alt="thumbnail">' +--%>
+<%--          '<div class="destination-info">' +--%>
+<%--          '<h4>' + place.title + '</h4>' +--%>
+<%--          '<p>' + shortAddress + '</p>' +--%>
+<%--          '</div>' +--%>
+<%--          '<span class="heart">♥</span>' +--%>
+<%--          '<span class="add-button">+</span>';--%>
+
+<%--      destinationList.appendChild(listItem);--%>
+<%--    });--%>
+<%--  }--%>
+
+<%--  function formatAddress(addr) {--%>
+<%--    if (!addr) return "주소 없음";--%>
+<%--    const parts = addr.split(" ");--%>
+<%--    if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"--%>
+<%--    return parts.slice(0, 2).join(" "); // "시 + 읍"--%>
+<%--  }--%>
+<%--</script>--%>
 </html>

@@ -6,6 +6,7 @@ public class TouristSpotVO {
   private String image;
   private double mapx;
   private double mapy;
+  private String category;
 
   public String getTitle() { return title; }
   public void setTitle(String title) { this.title = title; }
@@ -21,4 +22,7 @@ public class TouristSpotVO {
 
   public double getMapy() { return mapy; }
   public void setMapy(double mapy) { this.mapy = mapy; }
+
+  public String getCategory() { return category; }
+  public void setCategory(String category) { this.category = category; }
 }
