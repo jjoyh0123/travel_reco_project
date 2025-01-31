@@ -46,5 +46,4 @@ public class UserVO {
   public void setStatus(int status) {
     this.status = status;
   }
-
 }

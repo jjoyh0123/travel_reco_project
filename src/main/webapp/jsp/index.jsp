@@ -6,8 +6,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous"></script>
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
   <style>
       body {
           margin: 0;
@@ -109,7 +109,7 @@
   <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
 <article class="content">
   <h3>for all your travel planning needs</h3>
@@ -127,6 +127,6 @@
 <div class="gif_content02">
   <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/jsp/footer.jsp"/>
 </body>
 </html>
