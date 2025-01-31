@@ -12,11 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class UploadAction implements Action {
@@ -64,6 +61,8 @@ public class UploadAction implements Action {
         request.setAttribute("message", "content_type 및 user_idx 파라미터는 필수입니다.");
         return "jsp/upload_result.jsp";
       }
+      System.out.println("check parameter");
+      System.out.println("items size: " + items.size());
 
       for (FileItem item : items) {
         if (!item.isFormField()) {
@@ -94,6 +93,7 @@ public class UploadAction implements Action {
               request.setAttribute("message", "잘못된 content_type 값입니다.");
               return "jsp/upload_result.jsp";
             }
+            System.out.println("check up parameter");
 
             File uploadDir = new File(originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)));
             if (!uploadDir.exists()) {
@@ -103,28 +103,24 @@ public class UploadAction implements Action {
                 return "jsp/upload_result.jsp";
               }
             }
+            System.out.println("check up mkdirs");
 
-            String resizedFilePath = originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)) + File.separator + "resized_" + fileName;
-
-            File uploadedFile = new File(originalFilePath);
-            item.write(uploadedFile);
-
-            try (InputStream is = Files.newInputStream(uploadedFile.toPath())) {
-              long fileSize = Files.size(uploadedFile.toPath());
-              if (fileSize > 100 * 1024) { // 100KB가 넘는 경우에만 리사이징
-                Thumbnails.of(uploadedFile)
-                    .scale(0.5)
+            try (InputStream is = item.getInputStream()) { // FileItem에서 InputStream 얻기
+              long fileSize = is.available(); // InputStream에서 파일 크기 얻기
+              System.out.printf("fileSize: %d\n", fileSize);
+              if (fileSize > 100 * 1024) {
+                // 리사이즈된 이미지 저장
+                String resizedFilePath = originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)) + File.separator + "resized_" + fileName;
+                double scaleFactor = calculateScaleFactor(fileSize);
+                Thumbnails.of(is)
+                    .scale(scaleFactor)
                     .toFile(new File(resizedFilePath));
-                uploadedFile.delete(); // 원본 이미지 삭제
+                uploadedFileNames.add("resized_" + fileName);
               } else {
-                // 100KB 이하인 경우에는 원본 파일 유지
+                // 원본 이미지 저장
+                Files.copy(is, new File(originalFilePath).toPath());
+                uploadedFileNames.add(fileName);
               }
-
-              // 파일 권한 변경
-              Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rw-r--r--");
-              Files.setPosixFilePermissions(uploadedFile.toPath(), perms);
-
-              uploadedFileNames.add(fileName); // 업로드된 파일 이름 목록에 추가
             } catch (IOException innerException) {
               innerException.printStackTrace();
               request.setAttribute("status", "error");
@@ -136,10 +132,20 @@ public class UploadAction implements Action {
         }
       }
 
+      // 파일 업로드 후 소유자 변경
+      try {
+        Runtime.getRuntime().exec("chown -R www-data:www-data " + UPLOAD_DIR + File.separator + user_idx);
+      } catch (IOException e) {
+        e.printStackTrace();
+        // 오류 처리
+        request.setAttribute("status", "error");
+        request.setAttribute("message", "파일 소유자 변경 중 오류 발생: " + e.getMessage());
+        return "jsp/upload_result.jsp";
+      }
+
       request.setAttribute("status", "success");
       request.setAttribute("message", "파일들이 업로드되고 크기가 조정되었습니다!");
       request.setAttribute("fileNames", uploadedFileNames);
-      System.out.printf("uploadedFileNames size:%d, list:%s\n", uploadedFileNames.size(), uploadedFileNames);
       return "jsp/upload_result.jsp";
 
     } catch (Exception multipartException) {
@@ -148,5 +154,9 @@ public class UploadAction implements Action {
       request.setAttribute("message", "MultipartRequest 생성 중 오류: " + multipartException.getMessage());
       return "jsp/upload_result.jsp";
     }
+  }
+
+  public double calculateScaleFactor(long fileSize) {
+    return Math.sqrt((double) 100 * 1024 / fileSize);
   }
 }

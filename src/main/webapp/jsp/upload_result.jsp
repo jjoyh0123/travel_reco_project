@@ -15,14 +15,10 @@
 
   // fileNames를 JSONArray로 변환 (빈 리스트 처리 및 유효성 검사)
   JSONArray jsonArray;
-  if (fileNames != null) {
-    try {
-      jsonArray = new JSONArray(fileNames);
-    } catch (JSONException e) {
-      jsonArray = new JSONArray(); // 유효하지 않은 경우 빈 JSONArray 생성
-    }
-  } else {
-    jsonArray = new JSONArray();
+  try {
+    jsonArray = new JSONArray(fileNames);
+  } catch (JSONException e) {
+    jsonArray = new JSONArray(); // 유효하지 않은 경우 빈 JSONArray 생성
   }
 
   // org.json 라이브러리를 사용하여 JSON 객체 생성

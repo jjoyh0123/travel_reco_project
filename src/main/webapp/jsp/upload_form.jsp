@@ -24,7 +24,7 @@
     var formData = new FormData(form);  
 
     $.ajax({
-      url: 'http://43.202.58.237:8080/Controller?type=upload',
+      url: 'http://3.39.251.247:8080/Controller?type=upload',
       type: 'POST',
       data: formData,
       processData: false,
