@@ -118,6 +118,7 @@
 </article>
   <div class="gif_content01">
     Gif로 홈페이지 사용법 및 best planner 이벤트 소개
+<a href="Controller?type=place">후기 작성</a>
   </div>
 
 </div>

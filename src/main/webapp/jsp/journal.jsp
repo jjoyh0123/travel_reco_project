@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -43,43 +45,43 @@
       }
       .starpoint_box .star_radio:nth-of-type(1):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg{
-          width:10%;
+          width: 8.7%;
       }
       .starpoint_box .star_radio:nth-of-type(2):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg{
-          width:20%;
+          width: 18.7%;
       }
       .starpoint_box .star_radio:nth-of-type(3):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg{
-          width:30%;
+          width: 28.7%;
       }
       .starpoint_box .star_radio:nth-of-type(4):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg{
-          width:40%;
+          width: 38.7%;
       }
       .starpoint_box .star_radio:nth-of-type(5):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg{
-          width:50%;
+          width: 48.7%;
       }
       .starpoint_box .star_radio:nth-of-type(6):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg{
-          width:60%;
+          width: 58.7%;
       }
       .starpoint_box .star_radio:nth-of-type(7):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg{
-          width:70%;
+          width: 68.7%;
       }
       .starpoint_box .star_radio:nth-of-type(8):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg{
-          width:80%;
+          width: 78.7%;
       }
       .starpoint_box .star_radio:nth-of-type(9):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg{
-          width:90%;
+          width: 88.7%;
       }
       .starpoint_box .star_radio:nth-of-type(10):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(10):checked ~ .starpoint_bg {
-          width:100%;
+          width: 98.7%;
       }
 
       .blind{
@@ -127,7 +129,7 @@
           display: inline-block;
           border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
           max-width: 100%;
-          max-height: 80%;
+          max-height: 400px;
           width: 100%; /* 부모 요소에 맞춤 */
           height: 400px; /* 원하는 높이로 조정 */
           object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
@@ -371,6 +373,10 @@
       #add_image_button1:hover {
           transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
       }
+
+      #file_input{
+          display: none;
+      }
   </style>
 </head>
 <body>
@@ -427,7 +433,10 @@
         <div id="add_image_area">
 <%--      사진 추가 버튼--%>
         <div id="add_image_button_area">
-          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+          <form action="Controller" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file_input" class="file_input">
+            <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+          </form>
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
@@ -476,6 +485,9 @@
           <div class="carousel-item">
             <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">
           </div>
+          <div class="carousel-item">
+            <img id="preview" src="#" alt="미리보기 이미지" style="display:none; max-width: 300px; margin-top: 10px;">
+          </div>
           <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -501,72 +513,84 @@
   <div class="journal_box">
 
     <div class="journal_day">
-
-        <nav id="navbar-example2" class="navbar">
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading1">
-                <div class="day_button" onclick="changeColor(this)"><p class="day">day1</p><br><p class="date">8.23/금</p></div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading2">
-                <div class="day_button" onclick="changeColor(this)"><p class="day">day2</p><br><p class="date">8.24/토</p></div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading3">
-                <div class="day_button" onclick="changeColor(this)"><p class="day">day3</p><br><p class="date">8.25/일</p></div>
-              </a>
-            </li>
-          </ul>
-        </nav>
+      <nav id="navbar-example2" class="navbar">
+        <ul class="nav nav-pills">
+      <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
+        <li class="nav-item">
+          <a class="nav-link" href="#scrollspyHeading${index.index}">
+            <div class="day_button" onclick="changeColor(this)"><p class="day">day ${index.index+1}</p><br><p class="date">
+              <fmt:parseDate value="${dateVO.date}" pattern="yyyy-MM-dd" var="parsedDate" />
+              <!-- 월/일/요일 형식으로 출력 -->
+              <fmt:formatDate value="${parsedDate}" pattern="M.dd/EEE" />
+            </p></div>
+          </a>
+        </li>
+      </c:forEach>
+        </ul>
+      </nav>
 
 
-    <div class="day_box">
+
+<%--        <nav id="navbar-example2" class="navbar">--%>
+<%--          <ul class="nav nav-pills">--%>
+<%--            <li class="nav-item">--%>
+<%--              <a class="nav-link" href="#scrollspyHeading1">--%>
+<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day1</p><br><p class="date">8.23/금</p></div>--%>
+<%--              </a>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--              <a class="nav-link" href="#scrollspyHeading2">--%>
+<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day2</p><br><p class="date">8.24/토</p></div>--%>
+<%--              </a>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--              <a class="nav-link" href="#scrollspyHeading3">--%>
+<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day3</p><br><p class="date">8.25/일</p></div>--%>
+<%--              </a>--%>
+<%--            </li>--%>
+<%--          </ul>--%>
+<%--        </nav>--%>
+
+
+      <div class="day_box">
       <%--  Day 바 --%>
-      <div class="day_bar" id="scrollspyHeading1">
-        Day 1
-        <div class="vertical_line"></div>
-        2024.08.23
-        <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-        </button>
-      </div>
-
-      <hr>
-
-      <%--  day1   --%>
-      <div class="journal_place">
-        <div  class="circle_container">
-          <div class="circle">1</div>
-          <div class="long_vertical_line"></div>
-        </div>
-        <div class="place_div">
-          <div class="place_name" id="day1_place1">제주 국제공항</div>
-          <p class="place_info">관광명소 * 제주 시내</p>
-        </div>
-        <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-        </button>
-      </div>
-
-        <div class="journal_place">
-
-          <div  class="circle_container">
-            <div class="circle">2</div>
-            <div class="long_vertical_line"></div>
-          </div>
-          <div class="place_div">
-            <div class="place_name" id="day1_place2">호텔 브릿지 서귀포</div>
-            <p class="place_info">숙소 * 서귀포</p>
-          </div>
-            <!-- 모달을 실행할 버튼 -->
+        <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
+          <div class="day_bar" id="scrollspyHeading${index.index}">
+            Day ${index.index+1}
+            <div class="vertical_line"></div>
+              ${dateVO.date}
             <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
               <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
             </button>
+          </div>
+          <hr>
+          <c:forEach var="placeVO" items="${placeVO}" varStatus="index">
+            <div class="journal_place">
+              <div  class="circle_container">
+                <div class="circle">${index.index+1}</div>
+                <div class="long_vertical_line"></div>
+              </div>
+              <div class="place_div">
+                <div class="place_name" id="day${placeVO.date_idx}_place${placeVO.visit_order}">${placeVO.title}</div>
+                <p class="place_info">${placeVO.content_id} * ${placeVO.content_type_id}</p>
+              </div>
+              <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
+              </button>
+            </div>
+          </c:forEach>
+        </c:forEach>
 
-        </div>
+
+
+      <%--  day1   --%>
+
+
+<%--        <div>--%>
+<%--          <c:forEach var="placeVO" items="${placeVO}" varStatus="index">--%>
+<%--            ${placeVO.title}--%>
+<%--          </c:forEach>--%>
+<%--        </div>--%>
 
         <div class="journal_place">
           <div  class="circle_container">
@@ -582,220 +606,6 @@
           </button>
         </div>
 
-        <div class="journal_place">
-          <div  class="circle_container">
-            <div class="circle">4</div>
-            <div class="long_vertical_line"></div>
-          </div>
-          <div class="place_div">
-            <div class="place_name" id="day1_place4">제주 약수터 올레 시장 점</div>
-            <p class="place_info">술집/바 * 서귀포</p>
-          </div>
-          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-          </button>
-        </div>
-
-        <div class="journal_place">
-          <div  class="circle_container">
-            <div class="circle">5</div>
-            <div class="long_vertical_line"></div>
-          </div>
-          <div class="place_div">
-            <div class="place_name" id="day1_place5">뽈살집 서귀포 점</div>
-            <p class="place_info">음식점 * 서귀포</p>
-          </div>
-          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-          </button>
-        </div>
-
-        <div class="journal_place">
-          <div  class="circle_container">
-            <div class="circle">6</div>
-            <div class="long_vertical_line"></div>
-          </div>
-          <div class="place_div">
-            <div class="place_name" id="day1_place6">흑돼지 비비큐</div>
-            <p class="place_info">음식점 * 제주 서귀포시</p>
-          </div>
-          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-          </button>
-        </div>
-    </div>
-
-        <div class="day_box">
-          <%--  Day 바 --%>
-          <div class="day_bar" id="scrollspyHeading2">
-            Day 2
-            <div class="vertical_line"></div>
-            2024.08.24
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <hr>
-
-          <%--  day2   --%>
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">1</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day2_place1">유동 커피</div>
-              <p class="place_info">카페/디저트 * 서귀포</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">2</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day2_place2">자리돔 횟집</div>
-              <p class="place_info">음식점 * 서귀포</p>
-            </div>
-            <!-- 모달을 실행할 버튼 -->
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">3</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day2_place3">귤꽃다락</div>
-              <p class="place_info">카페/디저트 * 서귀포</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">4</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day2_place4">너븐</div>
-              <p class="place_info">카페/디저트 * 서귀포</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">5</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day2_place5">한라산 과자점 서귀포 점</div>
-              <p class="place_info">카페/디저트 * 제주 서귀포시</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-            <div class="journal_place">
-              <div  class="circle_container">
-                <div class="circle">6</div>
-                <div class="long_vertical_line"></div>
-              </div>
-              <div class="place_div">
-                <div class="place_name" id="day2_place6">제주 약수터 본점</div>
-                <p class="place_info">술집/바 * 서귀포</p>
-              </div>
-              <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-              </button>
-            </div>
-
-            <div class="journal_place">
-              <div  class="circle_container">
-                <div class="circle">7</div>
-                <div class="long_vertical_line"></div>
-              </div>
-              <div class="place_div">
-                <div class="place_name" id="day2_place7">제일 수사 횟집</div>
-                <p class="place_info">음식점 * 서귀포</p>
-              </div>
-              <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-              </button>
-            </div>
-        </div>
-        <div class="day_box">
-          <%--  Day 바 --%>
-          <div class="day_bar" id="scrollspyHeading3">
-            Day 3
-            <div class="vertical_line"></div>
-            2024.08.25
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <hr>
-
-          <%--  day3   --%>
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">1</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day3_place1">마농 치킨 중앙 통닭 본점</div>
-              <p class="place_info">음식점 * 서귀포</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
-
-          <div class="journal_place">
-
-            <div  class="circle_container">
-              <div class="circle">2</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day_3place2">원앙 폭포</div>
-              <p class="place_info">관광명소 * 서귀포</p>
-            </div>
-            <!-- 모달을 실행할 버튼 -->
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-
-          </div>
-
-          <div class="journal_place">
-            <div  class="circle_container">
-              <div class="circle">3</div>
-              <div class="long_vertical_line"></div>
-            </div>
-            <div class="place_div">
-              <div class="place_name" id="day3_place3">호텔 브릿지 서귀포</div>
-              <p class="place_info">숙소 * 서귀포</p>
-            </div>
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-            </button>
-          </div>
         </div>
     </div>
   </div>
@@ -813,6 +623,26 @@
     button.classList.add('active');
   }
 
+  // 이미지 클릭 시 파일 선택 창 열기
+  document.querySelectorAll(".add_image_button").forEach(function (button) {
+    button.addEventListener("click", function () {
+      document.querySelector(".file_input").click();
+    });
+  });
+
+  // 파일 선택 시 미리보기
+  document.getElementById("file_input").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const preview = document.getElementById("preview");
+        preview.src = e.target.result; // 이미지 데이터 URL
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 </script>
 <jsp:include page="/jsp/footer.jsp"/>
 </body>

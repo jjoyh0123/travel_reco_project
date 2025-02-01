@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="place">
+  <select id="getPlace" resultType="mybatis.vo.PlaceVO">
+    SELECT * FROM place_table
+    ORDER BY date_idx desc
+  </select>
+
+  <select id="getDate" resultType="mybatis.vo.DateVO">
+    SELECT * FROM date_table
+    ORDER BY date
+  </select>
+</mapper>
