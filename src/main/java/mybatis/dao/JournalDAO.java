@@ -16,6 +16,13 @@ public class JournalDAO {
 
     return cnt;
   }
+  public static JournalVO[] getTotalJournal(){
+    SqlSession ss = FactoryService.getFactory().openSession();
+    JournalVO[] journal = ss.selectOne("journal.totalCount");
+    ss.close();
+
+    return journal;
+  }
 
   public static int getAreaCount(String area_code) {
     SqlSession ss = FactoryService.getFactory().openSession();
@@ -91,5 +98,19 @@ public class JournalDAO {
     }
     ss.close();
     return ar;
+
   }
+
+  public static JournalVO[] getJournalReview(){
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.getFactory().openSession();
+    List<JournalVO> list = ss.selectList("journal.review");
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+    }
+    ss.close();
+    return journal;
+  }
+
 }

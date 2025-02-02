@@ -1,24 +1,26 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class JournalVO extends TempVO {
-  private String idx, plan_idx, title, subtitle, hit, status;
+  private String title, subtitle, hit, nick,file_path;
 
-  public String getIdx() {
-    return idx;
+
+  public String getFile_path() {
+    return file_path;
   }
 
-  public void setIdx(String idx) {
-    this.idx = idx;
+  public void setFile_path(String file_path) {
+    this.file_path = file_path;
   }
 
-  public String getPlan_idx() {
-    return plan_idx;
+  public String getNick() {
+    return nick;
   }
 
-  public void setPlan_idx(String plan_idx) {
-    this.plan_idx = plan_idx;
+  public void setNick(String nick) {
+    this.nick = nick;
   }
-
   public String getTitle() {
     return title;
   }
@@ -43,11 +45,4 @@ public class JournalVO extends TempVO {
     this.hit = hit;
   }
 
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
 }

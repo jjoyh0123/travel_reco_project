@@ -11,4 +11,17 @@
   <select id="exists" resultType="int" parameterType="String"> <!--등급 확인 있으면 1반환-->
     SELECT COUNT(*) FROM journal_best_table WHERE tier = #{tier} AND status = 0
   </select>
+  
+  <select id="top3" resultType="mybatis.vo.JournalVO">
+    SELECT jt.idx, jt.title, jt.subtitle, jt.hit, ut.nick, it.file_path
+    FROM journal_table jt
+    JOIN image_table it ON jt.idx = it.journal_idx
+    JOIN journal_best_table jb ON it.idx = jb.journal_idx
+    JOIN plan_table pt ON jb.journal_idx = pt.idx
+    JOIN user_table ut ON pt.user_idx = ut.idx
+    WHERE jb.status = 0
+    AND jb.act_date IS NOT NULL
+    ORDER BY jb.act_date DESC
+  </select>
+
 </mapper>
