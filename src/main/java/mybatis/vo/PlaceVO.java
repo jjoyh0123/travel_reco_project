@@ -3,6 +3,20 @@ package mybatis.vo;
 public class PlaceVO {
   private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
 
+  public PlaceVO(String date_idx, String visit_order, String content_id, String content_type_id, String title,
+                 String thumnail, String map_x, String map_y, String time) {
+            super();
+            this.date_idx = date_idx;
+            this.visit_order = visit_order;
+            this.content_id = content_id;
+            this.content_type_id = content_type_id;
+            this.title = title;
+            this.thumnail = thumnail;
+            this.map_x = map_x;
+            this.map_y = map_y;
+            this.time = time;
+  }
+
   public String getDate_idx() {
     return date_idx;
   }
