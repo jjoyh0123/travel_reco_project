@@ -1,38 +1,37 @@
 package mybatis.vo;
 
 public class ImageVO {
-  private Integer idx, journal_idx, review_idx, type;
-  private String upload_date, file_path;
+  private String idx, journal_idx, review_idx, type, upload_date, file_path;
 
-  public Integer getIdx() {
+  public String getIdx() {
     return idx;
   }
 
-  public void setIdx(Integer idx) {
+  public void setIdx(String idx) {
     this.idx = idx;
   }
 
-  public Integer getJournal_idx() {
+  public String getJournal_idx() {
     return journal_idx;
   }
 
-  public void setJournal_idx(Integer journal_idx) {
+  public void setJournal_idx(String journal_idx) {
     this.journal_idx = journal_idx;
   }
 
-  public Integer getReview_idx() {
+  public String getReview_idx() {
     return review_idx;
   }
 
-  public void setReview_idx(Integer review_idx) {
+  public void setReview_idx(String review_idx) {
     this.review_idx = review_idx;
   }
 
-  public Integer getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(Integer type) {
+  public void setType(String type) {
     this.type = type;
   }
 

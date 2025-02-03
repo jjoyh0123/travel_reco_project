@@ -1,17 +1,30 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.ImageVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
+
 public class ImageDAO {
-  public static boolean check_user_idx() {
+  public static void insert_image_path(ImageVO imageVO) {
+
+    HashMap<String, String> map = new HashMap<>();
+    if(imageVO.getJournal_idx() != null) map.put("journal_idx", imageVO.getJournal_idx());
+    if(imageVO.getReview_idx() != null) map.put("review_idx", imageVO.getReview_idx());
+    map.put("type", imageVO.getType());
+    map.put("file_path", imageVO.getFile_path());
+
+    int cnt = 0;
     SqlSession ss = null;
     try {
       ss = FactoryService.getFactory().openSession();
+      cnt = ss.insert("image.insert_image_path", map);
+      if(cnt > 0) ss.commit();
+      else ss.rollback();
       ss.close();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    return false;
   }
 }

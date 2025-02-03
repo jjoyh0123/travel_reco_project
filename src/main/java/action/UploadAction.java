@@ -1,5 +1,7 @@
 package action;
 
+import mybatis.dao.ImageDAO;
+import mybatis.vo.ImageVO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -61,8 +63,6 @@ public class UploadAction implements Action {
         request.setAttribute("message", "content_type 및 user_idx 파라미터는 필수입니다.");
         return "jsp/upload_result.jsp";
       }
-      System.out.println("check parameter");
-      System.out.println("items size: " + items.size());
 
       for (FileItem item : items) {
         if (!item.isFormField()) {
@@ -74,26 +74,35 @@ public class UploadAction implements Action {
 
             String originalFilePath = null;
 
+            StringBuilder uploaded_img_path = new StringBuilder("upload_img/");
+            uploaded_img_path.append(user_idx).append("/").append(contentType).append("/");
+
+            ImageVO imageVO = new ImageVO();
+
             if ("journal".equals(contentType)) {
               if (journal_idx == null || journal_idx.isEmpty()) {
                 request.setAttribute("status", "error");
                 request.setAttribute("message", "journal_idx 파라미터는 필수입니다.");
                 return "jsp/upload_result.jsp";
               }
-              originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + "journal" + File.separator + journal_idx + File.separator + fileName;
+              originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + contentType + File.separator + journal_idx + File.separator + fileName;
+              uploaded_img_path.append(journal_idx).append("/");
+              imageVO.setJournal_idx(journal_idx);
             } else if ("review".equals(contentType)) {
               if (review_idx == null || review_idx.isEmpty()) {
                 request.setAttribute("status", "error");
                 request.setAttribute("message", "review_idx 파라미터는 필수입니다.");
                 return "jsp/upload_result.jsp";
               }
-              originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + "review" + File.separator + review_idx + File.separator + fileName;
+              originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + contentType + File.separator + review_idx + File.separator + fileName;
+              uploaded_img_path.append(review_idx).append("/");
+              imageVO.setReview_idx(review_idx);
             } else {
               request.setAttribute("status", "error");
               request.setAttribute("message", "잘못된 content_type 값입니다.");
               return "jsp/upload_result.jsp";
             }
-            System.out.println("check up parameter");
+            imageVO.setType(contentType);
 
             File uploadDir = new File(originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)));
             if (!uploadDir.exists()) {
@@ -103,11 +112,9 @@ public class UploadAction implements Action {
                 return "jsp/upload_result.jsp";
               }
             }
-            System.out.println("check up mkdirs");
 
             try (InputStream is = item.getInputStream()) { // FileItem에서 InputStream 얻기
               long fileSize = is.available(); // InputStream에서 파일 크기 얻기
-              System.out.printf("fileSize: %d\n", fileSize);
               if (fileSize > 100 * 1024) {
                 // 리사이즈된 이미지 저장
                 String resizedFilePath = originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)) + File.separator + "resized_" + fileName;
@@ -115,11 +122,13 @@ public class UploadAction implements Action {
                 Thumbnails.of(is)
                     .scale(scaleFactor)
                     .toFile(new File(resizedFilePath));
-                uploadedFileNames.add("resized_" + fileName);
+                uploaded_img_path.append("resized_").append(fileName);
+                uploadedFileNames.add(uploaded_img_path.toString());
               } else {
                 // 원본 이미지 저장
                 Files.copy(is, new File(originalFilePath).toPath());
-                uploadedFileNames.add(fileName);
+                uploaded_img_path.append(fileName);
+                uploadedFileNames.add(uploaded_img_path.toString());
               }
             } catch (IOException innerException) {
               innerException.printStackTrace();
@@ -128,6 +137,9 @@ public class UploadAction implements Action {
               new File(originalFilePath).delete();
               return "jsp/upload_result.jsp";
             }
+
+            imageVO.setFile_path(uploaded_img_path.toString());
+            ImageDAO.insert_image_path(imageVO);
           }
         }
       }

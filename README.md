@@ -127,14 +127,14 @@
 
 ### 이미지 ( image_table )
 
-| Key | Column      | Korean     | Data type    | Etc                         |
-|:---:|:------------|:-----------|:-------------|:----------------------------|
-| PK  | idx         | 고유 식별자     | bigint       | AI                          |
-| FK  | journal_idx | 후기 식별자     | bigint       | journal_table 기본키, null 가능  |
-| FK  | review_idx  | 리뷰 식별자     | bigint       | review_table 기본키, null 가능   |
-|     | type        | 종류         | tinyint      | 리뷰/후기                       |
-|     | upload_date | 이미지 업로드 일자 | datetime     |                             |
-|     | file_path   | 파일 경로      | varchar(255) |                             |
+| Key | Column      | Korean     | Data type    | Etc                        |
+|:---:|:------------|:-----------|:-------------|:---------------------------|
+| PK  | idx         | 고유 식별자     | bigint       | AI                         |
+| FK  | journal_idx | 후기 식별자     | bigint       | journal_table 기본키, null 가능 |
+| FK  | review_idx  | 리뷰 식별자     | bigint       | review_table 기본키, null 가능  |
+|     | type        | 종류         | varchar(10)  | journal / review           |
+|     | upload_date | 이미지 업로드 일자 | datetime     |                            |
+|     | file_path   | 파일 경로      | varchar(255) |                            |
 
 
 ### 여행후기 (베스트) ( journal_best_table )

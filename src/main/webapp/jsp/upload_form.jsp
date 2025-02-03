@@ -24,7 +24,7 @@
     var formData = new FormData(form);  
 
     $.ajax({
-      url: 'http://3.39.251.247:8080/Controller?type=upload',
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload',
       type: 'POST',
       data: formData,
       processData: false,
@@ -35,7 +35,7 @@
           const resultDiv = document.getElementById('result');
           let fileNamesHtml = '<ul>';
           for (let i = 0; i < response.fileNames.length; i++) {
-            fileNamesHtml += '<li>' + response.fileNames[i] + '</li>';
+            fileNamesHtml += '<li>' + 'http://${applicationScope.publicIP}:4000/' + response.fileNames[i] + '</li>';
           }
           fileNamesHtml += '</ul>';
           resultDiv.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + fileNamesHtml;
