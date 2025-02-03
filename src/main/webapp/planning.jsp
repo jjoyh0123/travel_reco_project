@@ -13,13 +13,13 @@
           height: 100vh;
           color: #333;
       }
-
       .content-wrapper {
           display: flex;
           width: 100%;
           height: 100%;
       }
 
+      /* --- Left Panel --- */
       #left-panel {
           width: 12%;
           background-color: #fff;
@@ -29,14 +29,12 @@
           align-items: center;
           padding: 15px;
       }
-
       #logo {
           font-size: 22px;
           font-weight: bold;
           color: #f56b2a;
           margin-bottom: 20px;
       }
-
       .date {
           margin-bottom: 8px;
           padding: 8px 12px;
@@ -45,43 +43,38 @@
           text-align: center;
           cursor: pointer;
       }
-
       .date.active {
           background-color: #f56b2a;
           color: white;
           font-weight: bold;
       }
-
       .date:hover {
           background-color: #eaeaea;
       }
 
+      /* --- Middle-Left Panel (List of destinations) --- */
       #middle-left-panel {
-          width: 25%;
+          width: 18%;
           background-color: #f9f9f9;
           display: flex;
           flex-direction: column;
           padding: 15px;
       }
-
       #destination-header {
           font-size: 18px;
           font-weight: bold;
           margin-bottom: 5px;
       }
-
       #destination-date-range {
           font-size: 14px;
           color: #666;
           margin-bottom: 20px;
       }
-
       .categories {
           display: flex;
           gap: 10px;
           margin-bottom: 15px;
       }
-
       .category {
           display: flex;
           align-items: center;
@@ -91,16 +84,13 @@
           border-radius: 5px;
           cursor: pointer;
       }
-
       .category:hover {
           background-color: #eaeaea;
       }
-
       #search-bar {
           display: flex;
           margin-bottom: 15px;
       }
-
       #search-bar input {
           flex-grow: 1;
           padding: 8px;
@@ -108,7 +98,6 @@
           border-radius: 5px;
           margin-right: 10px;
       }
-
       #search-bar button {
           padding: 8px 15px;
           background-color: #007bff;
@@ -117,16 +106,13 @@
           border-radius: 5px;
           cursor: pointer;
       }
-
       #search-bar button:hover {
           background-color: #0056b3;
       }
-
       #destination-list {
           flex-grow: 1;
           overflow-y: auto;
       }
-
       .destination {
           display: flex;
           align-items: center;
@@ -135,33 +121,27 @@
           background-color: #fff;
           border: 1px solid #ddd;
           border-radius: 5px;
-          /*added*/
           cursor: pointer;
       }
-
       .destination img {
           width: 50px;
           height: 50px;
           margin-right: 10px;
           border-radius: 5px;
       }
-
       .destination-info {
           flex-grow: 1;
       }
-
       .destination-info h4 {
           margin: 0;
           font-size: 16px;
           font-weight: bold;
       }
-
       .destination-info p {
           margin: 5px 0 0;
           font-size: 12px;
           color: #666;
       }
-
       .destination-info .ratings {
           display: flex;
           align-items: center;
@@ -169,17 +149,14 @@
           color: #666;
           margin-top: 5px;
       }
-
       .ratings span {
           margin-left: 5px;
       }
-
       .heart {
           font-size: 18px;
           color: #f44336;
           cursor: pointer;
       }
-
       .add-button {
           font-size: 16px;
           color: #007bff;
@@ -187,20 +164,19 @@
           margin-left: 10px;
       }
 
+      /* --- Middle Panel (Selected places & reorder) --- */
       #middle-panel {
-          width: 20%;
+          width: 18%;
           background-color: #f9f9f9;
           display: flex;
           flex-direction: column;
           padding: 15px;
       }
-
       #time-summary {
           font-size: 14px;
           margin-bottom: 10px;
           font-weight: bold;
       }
-
       #clear-button {
           align-self: flex-end;
           margin-bottom: 15px;
@@ -211,48 +187,83 @@
           border-radius: 5px;
           cursor: pointer;
       }
-
       #clear-button:hover {
           background-color: #d32f2f;
       }
-
+      #selected-places {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+      }
       .selected-place {
           display: flex;
           align-items: center;
-          margin-bottom: 10px;
           padding: 10px;
           background-color: #fff;
           border: 1px solid #ddd;
-          border-radius: 5px;
+          border-radius: 10px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          cursor: grab; /* show grab cursor */
       }
-
-      .selected-place .number {
-          font-size: 16px;
-          font-weight: bold;
+      .selected-place.dragging {
+          opacity: 0.6; /* dim while dragging */
+      }
+      .number {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background-color: #0083ff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-size: 14px;
           margin-right: 10px;
       }
-
+      .selected-place img {
+          width: 48px;
+          height: 48px;
+          margin-right: 10px;
+          border-radius: 5px;
+      }
       .selected-place .info {
           flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
       }
-
-      .selected-place .duration {
-          font-size: 14px;
+      .selected-place .info h4 {
+          margin: 0;
+          font-size: 15px;
+          font-weight: bold;
+      }
+      .selected-place .info p {
+          margin: 0;
           color: #666;
+          font-size: 12px;
+      }
+      .time-picker {
+          width: 75px;
+          margin-right: 10px;
+          font-size: 14px;
+      }
+      .delete {
+          font-size: 16px;
+          color: #f44336;
+          cursor: pointer;
       }
 
+      /* --- Right Panel (Map) --- */
       #right-panel {
-          width: 43%;
+          flex-grow: 1; /* take remaining space */
           background-color: #eaeaea;
           position: relative;
       }
-
       #map {
           width: 100%;
           height: 100%;
           background-color: #eaeaea; /* Placeholder for map */
       }
-
       #floating-button {
           position: absolute;
           top: 10px;
@@ -264,17 +275,14 @@
           border-radius: 5px;
           cursor: pointer;
       }
-
       #floating-button:hover {
           background-color: #0056b3;
       }
-
       #action-buttons {
           display: flex;
           justify-content: space-between;
           margin-top: 20px;
       }
-
       .action-button {
           flex: 1;
           margin: 0 5px;
@@ -286,7 +294,6 @@
           cursor: pointer;
           font-size: 16px;
       }
-
       .action-button:hover {
           background-color: #0056b3;
       }
@@ -294,6 +301,7 @@
 </head>
 <body>
 <div class="content-wrapper">
+
   <!-- Left Panel -->
   <div id="left-panel">
     <div id="logo">zenzenclub</div>
@@ -301,13 +309,12 @@
     <div class="date">2025-01-15</div>
     <div class="date">2025-01-16</div>
     <div class="date">2025-01-17</div>
-    <!-- Action Buttons -->
-    <div class="" id="action-buttons">
-      <button class="action-button">저장</button>
+    <div id="action-buttons">
+      <button class="action-button" onclick="savePlan()">저장</button>
     </div>
   </div>
 
-  <!-- Middle-Left Panel -->
+  <!-- Middle-Left Panel (Destination List) -->
   <div id="middle-left-panel">
     <div id="destination-header">서울</div>
     <div id="destination-date-range">2025-01-14 ~ 2025-01-20</div>
@@ -320,35 +327,18 @@
       <input type="text" placeholder="장소를 입력해주세요.">
       <button>검색</button>
     </div>
-    <div id="destination-list">
-<%--      <div class="destination">--%>
-<%--        <img src="https://via.placeholder.com/50" alt="thumbnail">--%>
-<%--        <div class="destination-info">--%>
-<%--          <h4>성산 일출봉</h4>--%>
-<%--          <p>제주특별자치도 서귀포시 성산읍</p>--%>
-<%--          <div class="ratings">⭐ <span>1612만</span> <span>4.7</span></div>--%>
-<%--        </div>--%>
-<%--        <span class="heart">♥</span>--%>
-<%--        <span class="add-button">+</span>--%>
-<%--      </div>--%>
-    </div>
-    <!-- Action Buttons -->
+    <div id="destination-list"></div>
     <div id="action-buttons">
       <button class="action-button">숙소 선택</button>
     </div>
   </div>
 
-  <!-- Middle Panel -->
+  <!-- Middle Panel (Selected Places) -->
   <div id="middle-panel">
     <div id="time-summary">3 / 6시간 0분 / 24시간 0분</div>
     <button id="clear-button">장소 설정 초기화</button>
-    <div class="selected-place">
-      <div class="number">1</div>
-      <div class="info">
-        <h4>성산 일출봉</h4>
-        <div class="duration">2시간 0분</div>
-      </div>
-    </div>
+    <!-- Container for selected places -->
+    <div id="selected-places"></div>
   </div>
 
   <!-- Right Panel -->
@@ -358,25 +348,30 @@
   </div>
 
 </div>
-</body>
-<!-- 🔹 JavaScript for Dynamic Data Fetching -->
+
 <script>
+  // GLOBAL array to store the current plan (so we can reorder, limit to 10, etc.)
+  let currentPlan = [];
+
   document.addEventListener("DOMContentLoaded", function() {
     fetchTouristSpots();
+    setupDragAndDrop();
   });
 
+  // 1) Fetch your list of tourist spots
   function fetchTouristSpots() {
-    fetch('/Controller?type=getTouristSpots')  // Call backend action
+    fetch('/Controller?type=getTouristSpots')
         .then(response => response.json())
         .then(data => displayPlaces(data))
         .catch(error => console.error('Error fetching data:', error));
   }
 
+  // 2) Display them in the "destination-list" (left panel)
   function displayPlaces(places) {
     const destinationList = document.getElementById("destination-list");
-    destinationList.innerHTML = ""; // Clear previous results
+    destinationList.innerHTML = "";
 
-    places.forEach(place => {
+    places.forEach(function(place) {
       const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";
       const shortAddress = place.address;
 
@@ -385,83 +380,185 @@
       listItem.dataset.lat = place.mapy;
       listItem.dataset.lon = place.mapx;
       listItem.dataset.category = place.category;
+      listItem.dataset.contentid = place.contentid;
 
-      listItem.innerHTML = '<img src="' + imgSrc + '" alt="thumbnail">'+
-            '<div class="destination-info">'+
-                '<h4>'+place.title+'</h4>'+
-                '<p>'+shortAddress+'</p>'+
-                '<div class="ratings">⭐ <span>4.5</span></div>'+
-            '</div>'+
-            '<span class="heart">♥</span>'+
-            '<span class="add-button">+</span>';
+      // Build the inner HTML
+      listItem.innerHTML =
+          '<img src="' + imgSrc + '" alt="thumbnail">' +
+          '<div class="destination-info">' +
+          '<h4>' + place.title + '</h4>' +
+          '<p>' + shortAddress + '</p>' +
+          '<div class="ratings">⭐ <span>4.5</span></div>' +
+          '</div>' +
+          '<span class="heart">♥</span>' +
+          '<span class="add-button">+</span>';
 
       destinationList.appendChild(listItem);
+
+      // "+" button adds to our plan
+      const addButton = listItem.querySelector(".add-button");
+      addButton.addEventListener("click", function(e) {
+        e.stopPropagation();
+        addPlaceToPlan(place);
+      });
     });
   }
 
-  // function formatAddress(addr) {
-  //   if (!addr) return "주소 없음";
-  //   const parts = addr.split(" ");
-  //   if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"
-  //   return parts.slice(0, 2).join(" "); // "시 + 읍"
-  // }
+  // 3) Add to plan, with limit of 10
+  function addPlaceToPlan(place) {
+    if (currentPlan.length >= 10) {
+      alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
+      return;
+    }
+    // Example: call the server to store in session or DB
+    const url = '/Controller?type=addPlaceToPlan'
+        + '&contentid=' + encodeURIComponent(place.contentid)
+        + '&title=' + encodeURIComponent(place.title)
+        + '&address=' + encodeURIComponent(place.address)
+        + '&image=' + encodeURIComponent(place.image)
+        + '&category=' + encodeURIComponent(place.category)
+        + '&mapx=' + encodeURIComponent(place.mapx)
+        + '&mapy=' + encodeURIComponent(place.mapy);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(text => JSON.parse(text))
+        .then(updatedPlanFromServer => {
+          // We'll keep a local array, but let's use the server's plan if needed:
+          currentPlan = updatedPlanFromServer;
+          // (If your server doesn't reorder, it's basically appended.)
+          renderSelectedPlaces(currentPlan);
+        })
+        .catch(error => {
+          console.error("Error adding place to plan:", error);
+        });
+  }
+
+  // 4) Render selected places in the middle panel
+  function renderSelectedPlaces(planArray) {
+    const container = document.getElementById("selected-places");
+    container.innerHTML = "";
+
+    planArray.forEach((spot, index) => {
+      const imgSrc = spot.image || "https://via.placeholder.com/50";
+      const div = document.createElement("div");
+      div.classList.add("selected-place");
+      div.setAttribute("draggable", "true"); // for reordering
+      // store the index so we can reorder currentPlan
+      div.dataset.index = index;
+
+      // Build the item layout
+      div.innerHTML =
+          '<div class="number">' + (index + 1) + '</div>' +
+          '<img src="' + imgSrc + '" alt="thumbnail">' +
+          '<div class="info">' +
+          '<h4>' + spot.title + '</h4>' +
+          '<p>' + spot.address + '</p>' +
+          '</div>' +
+          '<input type="time" class="time-picker" ' + (spot.time ? 'value="' + spot.time + '"' : 'value="00:00"') + '>' +
+          '<span class="delete">🗑</span>';
+
+      // Keep the time in sync with our array
+      const timeInput = div.querySelector(".time-picker");
+      timeInput.addEventListener("change", (e) => {
+        // store the time in the spot object
+        spot.time = e.target.value;
+      });
+
+      // Delete from plan
+      const deleteBtn = div.querySelector(".delete");
+      deleteBtn.addEventListener("click", function() {
+        removePlaceFromPlan(index);
+      });
+
+      container.appendChild(div);
+    });
+  }
+
+  function removePlaceFromPlan(indexToRemove) {
+    // For example, call server to remove from session if needed
+    // Then update local array
+    currentPlan.splice(indexToRemove, 1);
+    renderSelectedPlaces(currentPlan);
+  }
+
+  // 5) Drag & Drop setup
+  function setupDragAndDrop() {
+    const container = document.getElementById("selected-places");
+    let draggedEl = null;
+
+    // dragstart
+    container.addEventListener("dragstart", (e) => {
+      if (e.target.classList.contains("selected-place")) {
+        draggedEl = e.target;
+        draggedEl.classList.add("dragging");
+        // set data transfer if needed
+        e.dataTransfer.setData("text/plain", e.target.dataset.index);
+      }
+    });
+
+    // dragover
+    container.addEventListener("dragover", (e) => {
+      e.preventDefault(); // allow drop
+      const afterElement = getDragAfterElement(container, e.clientY);
+      if (draggedEl && afterElement === null) {
+        container.appendChild(draggedEl);
+      } else if (draggedEl && afterElement) {
+        container.insertBefore(draggedEl, afterElement);
+      }
+    });
+
+    // dragend
+    container.addEventListener("dragend", (e) => {
+      if (draggedEl) {
+        draggedEl.classList.remove("dragging");
+        // Re-build currentPlan array based on new DOM order
+        const newOrderEls = [...container.querySelectorAll(".selected-place")];
+        const newPlan = [];
+        newOrderEls.forEach((el) => {
+          // old index
+          const oldIndex = parseInt(el.dataset.index, 10);
+          newPlan.push(currentPlan[oldIndex]);
+        });
+        currentPlan = newPlan;
+
+        // Re-render so the numbers get updated
+        renderSelectedPlaces(currentPlan);
+        draggedEl = null;
+      }
+    });
+
+    // figure out what element is just after the drag position
+    function getDragAfterElement(container, y) {
+      const nonDragged = [...container.querySelectorAll(".selected-place:not(.dragging)")];
+
+      let closest = null;
+      let closestOffset = Number.NEGATIVE_INFINITY;
+      nonDragged.forEach(child => {
+        const box = child.getBoundingClientRect();
+        const offset = y - (box.top + box.height / 2);
+        // offset < 0 means the mouse is above this child
+        if (offset < 0 && offset > closestOffset) {
+          closestOffset = offset;
+          closest = child;
+        }
+      });
+      return closest;
+    }
+  }
+
+  // 6) Clear the entire plan
+  document.getElementById("clear-button").addEventListener("click", function() {
+    currentPlan = [];
+    renderSelectedPlaces(currentPlan);
+  });
+
+  // 7) Save plan (you can send the updated currentPlan to your server)
+  function savePlan() {
+    // Example: convert to JSON, send to server with fetch POST, etc.
+    console.log("Saving plan: ", currentPlan);
+    alert("Plan saved to DB (implement as needed)!");
+  }
 </script>
-
-<%--<script>--%>
-<%--  document.addEventListener("DOMContentLoaded", function() {--%>
-<%--    fetchTouristSpots();--%>
-<%--  });--%>
-
-<%--  function fetchTouristSpots() {--%>
-<%--    fetch('/Controller?type=getTouristSpots')  // Call backend action--%>
-<%--        .then(response => response.json())--%>
-<%--        .then(data => console.log(data))--%>
-<%--        .catch(error => console.error('Error fetching data:', error));--%>
-<%--    // {--%>
-<%--    //   if (data.status !== "success") {--%>
-<%--    //     console.error("API Error:", data);--%>
-<%--    //     return;--%>
-<%--    //   }--%>
-<%--    //   displayPlaces(data.places);--%>
-<%--    // }--%>
-<%--  }--%>
-
-<%--  function displayPlaces(places) {--%>
-<%--    const destinationList = document.getElementById("destination-list");--%>
-<%--    destinationList.innerHTML = ""; // Clear previous results--%>
-
-<%--    if (places.length === 0) {--%>
-<%--      destinationList.innerHTML = "<p>관광지를 찾을 수 없습니다.</p>";--%>
-<%--      return;--%>
-<%--    }--%>
-
-<%--    places.forEach(place => {--%>
-<%--      const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";--%>
-<%--      const shortAddress = formatAddress(place.address);--%>
-
-<%--      const listItem = document.createElement("div");--%>
-<%--      listItem.classList.add("destination");--%>
-<%--      listItem.dataset.lat = place.mapy;--%>
-<%--      listItem.dataset.lon = place.mapx;--%>
-
-<%--      listItem.innerHTML =--%>
-<%--          '<img src="' + imgSrc + '" alt="thumbnail">' +--%>
-<%--          '<div class="destination-info">' +--%>
-<%--          '<h4>' + place.title + '</h4>' +--%>
-<%--          '<p>' + shortAddress + '</p>' +--%>
-<%--          '</div>' +--%>
-<%--          '<span class="heart">♥</span>' +--%>
-<%--          '<span class="add-button">+</span>';--%>
-
-<%--      destinationList.appendChild(listItem);--%>
-<%--    });--%>
-<%--  }--%>
-
-<%--  function formatAddress(addr) {--%>
-<%--    if (!addr) return "주소 없음";--%>
-<%--    const parts = addr.split(" ");--%>
-<%--    if (parts[0].includes("서울")) return parts.slice(1, 3).join(" "); // "구 + 동"--%>
-<%--    return parts.slice(0, 2).join(" "); // "시 + 읍"--%>
-<%--  }--%>
-<%--</script>--%>
+</body>
 </html>

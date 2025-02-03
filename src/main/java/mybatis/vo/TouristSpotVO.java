@@ -1,6 +1,7 @@
 package mybatis.vo;
 
 public class TouristSpotVO {
+  private String contentid;
   private String title;
   private String address;
   private String image;
@@ -25,4 +26,7 @@ public class TouristSpotVO {
 
   public String getCategory() { return category; }
   public void setCategory(String category) { this.category = category; }
+
+  public String getContentid() { return contentid; }
+  public void setContentid(String contentid) { this.contentid = contentid; }
 }

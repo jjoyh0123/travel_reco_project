@@ -76,6 +76,7 @@ public class Controller extends HttpServlet {
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
     String type = request.getParameter("type");
+    System.out.println("Requested type: " + type);
 
     if (type == null) {
       type = "index";

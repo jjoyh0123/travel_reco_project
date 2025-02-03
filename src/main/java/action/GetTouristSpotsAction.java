@@ -41,6 +41,7 @@ public class GetTouristSpotsAction implements Action {
     for (int i = 0; i < items.length(); i++) {
       JSONObject item = items.getJSONObject(i);
       TouristSpotVO spot = new TouristSpotVO();
+      spot.setContentid(item.optString("contentid", ""));
       spot.setTitle(item.getString("title"));
       spot.setAddress(item.optString("addr1", "주소 없음"));
       spot.setImage(item.optString("firstimage2", "https://via.placeholder.com/50"));
