@@ -382,24 +382,24 @@
 <body>
 
 <!-- 모달 -->
+<c:forEach var="vo" items="${dateVO}" varStatus="index">
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <%--모달 제목--%>
 <%--        <h1 class="modal-title fs-5" id="exampleModalLabel">--%>
-          <h2 class="modal_title">
-            <div class="modal_day_bar">
-              <div class="modal_day">Day 1</div>
-              <div class="modal_vertical_line"></div>
-              <div class="modal_date">2024.08.23</div>
-            </div>
-          </h2>
-
+            <h2 class="modal_title">
+              <div class="modal_day_bar">
+                  <div class="modal_day">Day ${index.index+1}</div>
+                  <div class="modal_vertical_line"></div>
+                  <div class="modal_date">${dateVO.date}</div>
+              </div>
+            </h2>
 <%--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
       </div>
       <div class="modal-body">
-        <h3>제주 국제 공항</h3>
+        <h3>${vo.title}</h3>
 <%--별점 기능--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
@@ -444,7 +444,7 @@
           <div id="modal_carousel" class="carousel slide">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="/www/journal1.jpg" class="modal_img" alt="...">
+                <img src="" class="modal_img" alt="...">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
@@ -467,7 +467,7 @@
     </div>
   </div>
 </div>
-
+</c:forEach>
 
 <jsp:include page="/jsp/header.jsp"/>
 <article class="content">
@@ -564,15 +564,15 @@
             </button>
           </div>
           <hr>
-          <c:forEach var="placeVO" items="${placeVO}" varStatus="index">
+          <c:forEach var="ar" items="${requestScope.ar}" varStatus="index">
             <div class="journal_place">
               <div  class="circle_container">
                 <div class="circle">${index.index+1}</div>
                 <div class="long_vertical_line"></div>
               </div>
               <div class="place_div">
-                <div class="place_name" id="day${placeVO.date_idx}_place${placeVO.visit_order}">${placeVO.title}</div>
-                <p class="place_info">${placeVO.content_id} * ${placeVO.content_type_id}</p>
+                <div class="place_name" id="day${index.index}_place${index.index}">${ar.title}</div>
+                <p class="place_info">${ar.content_id} * ${ar.content_type_id}</p>
               </div>
               <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
@@ -592,19 +592,19 @@
 <%--          </c:forEach>--%>
 <%--        </div>--%>
 
-        <div class="journal_place">
-          <div  class="circle_container">
-            <div class="circle">3</div>
-            <div class="long_vertical_line"></div>
-          </div>
-          <div class="place_div">
-            <div class="place_name" id="day1_place3">나원 회 포차</div>
-            <p class="place_info">음식점 * 서귀포</p>
-          </div>
-          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-          </button>
-        </div>
+<%--        <div class="journal_place">--%>
+<%--          <div  class="circle_container">--%>
+<%--            <div class="circle">3</div>--%>
+<%--            <div class="long_vertical_line"></div>--%>
+<%--          </div>--%>
+<%--          <div class="place_div">--%>
+<%--            <div class="place_name" id="day1_place3">나원 회 포차</div>--%>
+<%--            <p class="place_info">음식점 * 서귀포</p>--%>
+<%--          </div>--%>
+<%--          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">--%>
+<%--            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
+<%--          </button>--%>
+<%--        </div>--%>
 
         </div>
     </div>

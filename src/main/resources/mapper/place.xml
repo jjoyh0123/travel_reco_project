@@ -5,7 +5,7 @@
 <mapper namespace="place">
   <select id="getPlace" resultType="mybatis.vo.PlaceVO">
     SELECT * FROM place_table
-    ORDER BY date_idx desc
+    ORDER BY date_idx
   </select>
 
   <select id="getDate" resultType="mybatis.vo.DateVO">

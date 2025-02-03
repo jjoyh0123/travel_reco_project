@@ -7,11 +7,12 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import sun.net.www.protocol.http.HttpURLConnection;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class PlaceAction implements Action{
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     String viewPath = null;
 
-    PlaceVO[] placeVO = PlaceDAO.getPlace();
-    request.setAttribute("placeVO", placeVO);
+    // PlaceVO[] placeVO = PlaceDAO.getPlace();
+    // request.setAttribute("placeVO", placeVO);
 
     DateVO[] dateVO = PlaceDAO.getDate();
     request.setAttribute("dateVO", dateVO);
@@ -45,50 +46,40 @@ public class PlaceAction implements Action{
     sb.append("&MobileApp=AppTest");
     sb.append("&MobileOS=ETC");
     sb.append("&arrange=A");
-    sb.append("&contentTypeId=32");
-    sb.append("&areaCode=31");
+    // sb.append("&contentTypeId=32");
+    // sb.append("&areaCode=1");
 
     try {
-      URL url = new URL(sb.toString());
+        URL url = new URL(sb.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Content-Type", "application/xml");
+        conn.connect();
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build(conn.getInputStream());
+        Element root = doc.getRootElement();
+        Element body = root.getChild("body");
+        Element items = body.getChild("items");
+        List<Element> item_list = items.getChildren("item");
 
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        PlaceVO[] ar = new PlaceVO[item_list.size()];
+        int i = 0;
+        for (Element item : item_list) {
+          //   private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
+          String date_idx =  item.getChildText("date_idx");
+          String visit_order =  item.getChildText("visit_order");
+          String content_id = item.getChildText("content_id");
+          String content_type_id = item.getChildText("content_type_id");
+          String title = item.getChildText("title");
+          String thumnail = item.getChildText("thumbnail");
+          String map_x = item.getChildText("map_x");
+          String map_y = item.getChildText("map_y");
+          String time = item.getChildText("time");
 
-      conn.setRequestProperty("Content-Type", "application/xml");
+          PlaceVO vo = new PlaceVO(date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time);
 
-      conn.connect();
-
-      SAXBuilder builder = new SAXBuilder();
-
-      Document doc = builder.build(conn.getInputStream());
-
-      Element root = doc.getRootElement();
-
-      Element body = root.getChild("Body");
-
-      Element items = body.getChild("items");
-
-      List<Element> item_list = items.getChildren("item");
-
-      PlaceVO[] ar = new PlaceVO[item_list.size()];
-      int i = 0;
-      for (Element item : item_list) {
-        //   private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
-        String date_idx =  item.getChildText("dateIdx");
-        String visit_order =  item.getChildText("visit_order");
-        String content_id = item.getChildText("content_id");
-        String content_type_id = item.getChildText("content_type");
-        String title = item.getChildText("title");
-        String thumnail = item.getChildText("thumbnail");
-        String map_x = item.getChildText("map_x");
-        String map_y = item.getChildText("map_y");
-        String time = item.getChildText("time");
-
-        PlaceVO vo = new PlaceVO(date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time);
-
-        ar[i++] = vo;
-      }
-
-
+          ar[i++] = vo;
+        }
+        request.setAttribute("ar", ar);
     } catch (IOException | JDOMException e) {
       e.printStackTrace();
     }
