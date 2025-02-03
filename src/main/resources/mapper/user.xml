@@ -20,5 +20,11 @@
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
 
-
+  <!-- 이메일과 비밀번호로 사용자 조회 -->
+  <select id="loginCheck" parameterType="map" resultType="mybatis.vo.UserVO">
+    SELECT idx, email, pw, nick, status
+    FROM user_table
+    WHERE email = #{email}
+    AND pw = #{pw}
+  </select>
 </mapper>
