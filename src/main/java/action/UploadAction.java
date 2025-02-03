@@ -31,10 +31,9 @@ public class UploadAction implements Action {
       ServletFileUpload upload = new ServletFileUpload(factory);
       upload.setHeaderEncoding("UTF-8");
       upload.setSizeMax(MAX_FILE_SIZE);
-
       List<FileItem> items = upload.parseRequest(request);
 
-      // 폼 필드에서 파라미터 값 가져오기
+      // Check required parameter
       String contentType = null;
       String user_idx = null;
       String journal_idx = null;
@@ -57,10 +56,8 @@ public class UploadAction implements Action {
         }
       }
 
-      // 파라미터 값 확인
       if (contentType == null || contentType.isEmpty() || user_idx == null || user_idx.isEmpty()) {
-        request.setAttribute("status", "error");
-        request.setAttribute("message", "content_type 및 user_idx 파라미터는 필수입니다.");
+        setRequestAttributes(request, "error", "content_type 및 user_idx 파라미터는 필수입니다.", null);
         return "jsp/upload_result.jsp";
       }
 
@@ -71,18 +68,15 @@ public class UploadAction implements Action {
             String extension = FilenameUtils.getExtension(originalFileName);
             String uuid = UUID.randomUUID().toString();
             String fileName = uuid + "." + extension;
-
             String originalFilePath = null;
-
             StringBuilder uploaded_img_path = new StringBuilder("upload_img/");
             uploaded_img_path.append(user_idx).append("/").append(contentType).append("/");
-
             ImageVO imageVO = new ImageVO();
 
+            // Check parameter & set VO
             if ("journal".equals(contentType)) {
               if (journal_idx == null || journal_idx.isEmpty()) {
-                request.setAttribute("status", "error");
-                request.setAttribute("message", "journal_idx 파라미터는 필수입니다.");
+                setRequestAttributes(request, "error", "journal_idx 파라미터는 필수입니다.", null);
                 return "jsp/upload_result.jsp";
               }
               originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + contentType + File.separator + journal_idx + File.separator + fileName;
@@ -90,33 +84,31 @@ public class UploadAction implements Action {
               imageVO.setJournal_idx(journal_idx);
             } else if ("review".equals(contentType)) {
               if (review_idx == null || review_idx.isEmpty()) {
-                request.setAttribute("status", "error");
-                request.setAttribute("message", "review_idx 파라미터는 필수입니다.");
+                setRequestAttributes(request, "error", "review_idx 파라미터는 필수입니다.", null);
                 return "jsp/upload_result.jsp";
               }
               originalFilePath = UPLOAD_DIR + File.separator + user_idx + File.separator + contentType + File.separator + review_idx + File.separator + fileName;
               uploaded_img_path.append(review_idx).append("/");
               imageVO.setReview_idx(review_idx);
             } else {
-              request.setAttribute("status", "error");
-              request.setAttribute("message", "잘못된 content_type 값입니다.");
+              setRequestAttributes(request, "error", "잘못된 content_type 값입니다.", null);
               return "jsp/upload_result.jsp";
             }
             imageVO.setType(contentType);
 
+            // mkdirs
             File uploadDir = new File(originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)));
             if (!uploadDir.exists()) {
               if (!uploadDir.mkdirs()) {
-                request.setAttribute("status", "error");
-                request.setAttribute("message", "업로드 디렉토리를 생성하지 못했습니다: " + uploadDir.getPath());
+                setRequestAttributes(request, "error", "업로드 디렉토리를 생성하지 못했습니다: " + uploadDir.getPath(), null);
                 return "jsp/upload_result.jsp";
               }
             }
 
-            try (InputStream is = item.getInputStream()) { // FileItem에서 InputStream 얻기
-              long fileSize = is.available(); // InputStream에서 파일 크기 얻기
+            try (InputStream is = item.getInputStream()) {
+              long fileSize = is.available();
               if (fileSize > 100 * 1024) {
-                // 리사이즈된 이미지 저장
+                // save resized image
                 String resizedFilePath = originalFilePath.substring(0, originalFilePath.lastIndexOf(File.separator)) + File.separator + "resized_" + fileName;
                 double scaleFactor = calculateScaleFactor(fileSize);
                 Thumbnails.of(is)
@@ -125,15 +117,14 @@ public class UploadAction implements Action {
                 uploaded_img_path.append("resized_").append(fileName);
                 uploadedFileNames.add(uploaded_img_path.toString());
               } else {
-                // 원본 이미지 저장
+                // save original image
                 Files.copy(is, new File(originalFilePath).toPath());
                 uploaded_img_path.append(fileName);
                 uploadedFileNames.add(uploaded_img_path.toString());
               }
             } catch (IOException innerException) {
               innerException.printStackTrace();
-              request.setAttribute("status", "error");
-              request.setAttribute("message", "리사이징 중 오류: " + innerException.getMessage());
+              setRequestAttributes(request, "error", "리사이징 중 오류: " + innerException.getMessage(), null);
               new File(originalFilePath).delete();
               return "jsp/upload_result.jsp";
             }
@@ -144,31 +135,34 @@ public class UploadAction implements Action {
         }
       }
 
-      // 파일 업로드 후 소유자 변경
+      // chown
       try {
         Runtime.getRuntime().exec("chown -R www-data:www-data " + UPLOAD_DIR + File.separator + user_idx);
       } catch (IOException e) {
         e.printStackTrace();
-        // 오류 처리
-        request.setAttribute("status", "error");
-        request.setAttribute("message", "파일 소유자 변경 중 오류 발생: " + e.getMessage());
+        setRequestAttributes(request, "error", "파일 소유자 변경 중 오류 발생: " + e.getMessage(), null);
         return "jsp/upload_result.jsp";
       }
 
-      request.setAttribute("status", "success");
-      request.setAttribute("message", "파일들이 업로드되고 크기가 조정되었습니다!");
-      request.setAttribute("fileNames", uploadedFileNames);
+      setRequestAttributes(request, "success", "파일들이 업로드되고 크기가 조정되었습니다!", uploadedFileNames);
       return "jsp/upload_result.jsp";
 
     } catch (Exception multipartException) {
       multipartException.printStackTrace();
-      request.setAttribute("status", "error");
-      request.setAttribute("message", "MultipartRequest 생성 중 오류: " + multipartException.getMessage());
+      setRequestAttributes(request, "error", "MultipartRequest 생성 중 오류: " + multipartException.getMessage(), null);
       return "jsp/upload_result.jsp";
     }
   }
 
   public double calculateScaleFactor(long fileSize) {
     return Math.sqrt((double) 100 * 1024 / fileSize);
+  }
+
+  public void setRequestAttributes(HttpServletRequest request, String status, String message, List<String> fileNames) {
+    request.setAttribute("status", status);
+    request.setAttribute("message", message);
+    if(fileNames != null && !fileNames.isEmpty()) {
+      request.setAttribute("fileNames", fileNames);
+    }
   }
 }
