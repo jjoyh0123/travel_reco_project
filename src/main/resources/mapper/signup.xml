@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="signup">
+  <!-- 이메일 중복 확인 -->
+  <select id="checkEmail" parameterType="string" resultType="int">
+    SELECT count(*)
+    FROM user_table
+    WHERE email = #{email}
+  </select>
+
+  <!-- 닉네임 중복 확인 -->
+  <select id="checkNick" parameterType="string" resultType="int">
+    SELECT count(*)
+    FROM user_table
+    WHERE nick = #{nick}
+  </select>
+
+  <!-- 회원 가입 -->
+  <insert id="insertUser">
+    INSERT INTO user_table (email, pw, nick, status)
+    VALUES (#{email}, #{pw}, #{nick}, #{status})
+  </insert>
+</mapper>

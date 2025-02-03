@@ -35,6 +35,11 @@
 
       }
 
+      .content h3, .content h5 {
+          line-height: 1.5;
+      }
+
+
       .gif_content01{
           width: 550px;
           height: 400px;
@@ -79,36 +84,40 @@
           margin-bottom: 20px;
       }
 
-      .plan_btn01{
+      .plan_btn {
           font-size: 20px;
           border-radius: 30px;
-          background-color : #FF7F50;
-          color: #ffffff;
-          border: none;
           padding: 20px;
-          margin: 20px 20px 20px 20px;
+          margin: 20px;
           box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+          border: none;
       }
 
-      .plan_btn02{
-          font-size: 20px;
-          border-radius: 30px;
-          background-color : #ffffff;
+
+      .plan_btn01 {
+          background-color: #FF7F50;
+          color: #ffffff;
+      }
+
+      .plan_btn02 {
+          background-color: #ffffff;
           color: #000000;
-          border: none;
-          padding: 20px;
-          margin: 20px 20px 20px 20px;
-          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
       }
 
   </style>
-  <title>메인 홈 페이지</title>
+  <title>ZenzenClub 메인페이지</title>
+  <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
 </head>
 <body>
-<!-- Header -->
-<jsp:include page="header.jsp"/>
+<jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
 <article class="content">
+  <h3>for all your travel planning needs</h3>
+  <h5>Create detailed itineraries, explore user-shared guides, <br/>
+    and manage your bookings seamlessly — all in one place.
+    </h5>
+  <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
+  <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
   <h3>for all your travel planning</br>
     needs</h3>
   <h5>Create detailed itineraries, explore user-shared</br>
@@ -123,14 +132,13 @@
   </div>
 </article>
   <div class="gif_content01">
-    Gif로 홈페이지 사용법 및 best planner 이벤트 소개
+    <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
   </div>
 
 </div>
-
 <div class="gif_content02">
-  Gif로 홈페이지 사용법 및 best planner 이벤트 소개
+  <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/jsp/footer.jsp"/>
 </body>
 </html>
