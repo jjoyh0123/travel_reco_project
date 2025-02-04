@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -331,7 +332,7 @@
       .nav-link{
           padding: 5px;
       }
-      #modal_textarea{
+      .modal_textarea{
           border-radius: 10px;
           width: 100%;
       }
@@ -349,14 +350,14 @@
           height: 100%; /* 원하는 높이로 조정 */
           object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
       }
-      #modal_carousel_area{
+      .modal_carousel_area{
           width: 100%;
           height: 200px;
           margin-right: 0;
           position: relative; /* 캐러셀의 부모 요소에 상대 위치 지정 */
       }
 
-      #add_image_button_area {
+      .add_image_button_area {
           position: absolute; /* 버튼을 절대 위치로 설정 */
           bottom: 20px; /* 캐러셀 하단에서 20px 떨어지게 */
           right: 20px; /* 캐러셀 오른쪽에서 20px 떨어지게 */
@@ -382,8 +383,8 @@
 <body>
 
 <!-- 모달 -->
-<c:forEach var="vo" items="${dateVO}" varStatus="index">
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<c:forEach var="list" items="${list}" varStatus="index">
+<div class="modal fade" id="exampleModal${index.count}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -391,15 +392,15 @@
 <%--        <h1 class="modal-title fs-5" id="exampleModalLabel">--%>
             <h2 class="modal_title">
               <div class="modal_day_bar">
-                  <div class="modal_day">Day ${index.index+1}</div>
+                  <div class="modal_day">Day ${list.date_idx}</div>
                   <div class="modal_vertical_line"></div>
-                  <div class="modal_date">${dateVO.date}</div>
+                  <div class="modal_date">${list.date}</div>
               </div>
             </h2>
 <%--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
       </div>
       <div class="modal-body">
-        <h3>${vo.title}</h3>
+        <h3>${list.title}</h3>
 <%--별점 기능--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
@@ -428,19 +429,19 @@
         </div>
       <%--별점 기능 끝--%>
         <hr>
-        <textarea id="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"></textarea>
+        <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"></textarea>
         <hr>
-        <div id="add_image_area">
+        <div class="add_image_area">
 <%--      사진 추가 버튼--%>
-        <div id="add_image_button_area">
-          <form action="Controller" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" id="file_input" class="file_input">
+        <div class="add_image_button_area">
+<%--          <form action="Controller" method="post" enctype="multipart/form-data">--%>
+<%--            <input type="file" name="file" id="file_input" class="file_input">--%>
             <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
-          </form>
+<%--          </form>--%>
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
-        <div id="modal_carousel_area">
+        <div class="modal_carousel_area">
           <div id="modal_carousel" class="carousel slide">
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -469,6 +470,7 @@
 </div>
 </c:forEach>
 
+
 <jsp:include page="/jsp/header.jsp"/>
 <article class="content">
 <%--  이미지 케러셀--%>
@@ -477,7 +479,7 @@
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/www/journal1.jpg" class="main_carousel_image" alt="후기 사진1">
+            <img src="http://tong.visitkorea.or.kr/cms/resource/00/2626200_image3_1.jpg" class="main_carousel_image" alt="후기 사진1">
           </div>
           <div class="carousel-item">
             <img src="/www/journal2.jpg" class="main_carousel_image" alt="후기 사진2">
@@ -513,73 +515,66 @@
   <div class="journal_box">
 
     <div class="journal_day">
+
       <nav id="navbar-example2" class="navbar">
         <ul class="nav nav-pills">
-      <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
+        <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
         <li class="nav-item">
           <a class="nav-link" href="#scrollspyHeading${index.index}">
-            <div class="day_button" onclick="changeColor(this)"><p class="day">day ${index.index+1}</p><br><p class="date">
+            <div class="day_button" onclick="changeColor(this)">
+              <p class="day">day ${index.count}</p>
+              <br>
+              <p class="date">
               <fmt:parseDate value="${dateVO.date}" pattern="yyyy-MM-dd" var="parsedDate" />
               <!-- 월/일/요일 형식으로 출력 -->
               <fmt:formatDate value="${parsedDate}" pattern="M.dd/EEE" />
-            </p></div>
+              </p>
+            </div>
           </a>
         </li>
-      </c:forEach>
+        </c:forEach>
         </ul>
       </nav>
 
 
-
-<%--        <nav id="navbar-example2" class="navbar">--%>
-<%--          <ul class="nav nav-pills">--%>
-<%--            <li class="nav-item">--%>
-<%--              <a class="nav-link" href="#scrollspyHeading1">--%>
-<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day1</p><br><p class="date">8.23/금</p></div>--%>
-<%--              </a>--%>
-<%--            </li>--%>
-<%--            <li class="nav-item">--%>
-<%--              <a class="nav-link" href="#scrollspyHeading2">--%>
-<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day2</p><br><p class="date">8.24/토</p></div>--%>
-<%--              </a>--%>
-<%--            </li>--%>
-<%--            <li class="nav-item">--%>
-<%--              <a class="nav-link" href="#scrollspyHeading3">--%>
-<%--                <div class="day_button" onclick="changeColor(this)"><p class="day">day3</p><br><p class="date">8.25/일</p></div>--%>
-<%--              </a>--%>
-<%--            </li>--%>
-<%--          </ul>--%>
-<%--        </nav>--%>
-
-
       <div class="day_box">
       <%--  Day 바 --%>
-        <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
-          <div class="day_bar" id="scrollspyHeading${index.index}">
-            Day ${index.index+1}
+      <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
+<%--        <c:if test="${dateVO.date_idx == 1}">--%>
+        <div class="day_bar" id="scrollspyHeading${index.index}">
+            Day ${index.count}
             <div class="vertical_line"></div>
-              ${dateVO.date}
+            ${dateVO.date}
             <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<%--              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
+            </button>
+        </div>
+<%--        </c:if>--%>
+
+          <hr>
+
+        <c:forEach var="list" items="${list}" varStatus="index">
+        <c:if test="${list.date_idx == dateVO.idx}">
+          <div class="journal_place">
+            <div  class="circle_container">
+              <div class="circle">${index.count}</div>
+              <div class="long_vertical_line"></div>
+            </div>
+            <div class="place_div">
+              <div class="place_name" id="day${index.count}_place${index.count}">
+                ${list.title}
+              </div>
+              <p class="place_info">${list.content_id} * ${list.content_type_id}</p>
+            </div>
+            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">
               <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
             </button>
           </div>
-          <hr>
-          <c:forEach var="ar" items="${requestScope.ar}" varStatus="index">
-            <div class="journal_place">
-              <div  class="circle_container">
-                <div class="circle">${index.index+1}</div>
-                <div class="long_vertical_line"></div>
-              </div>
-              <div class="place_div">
-                <div class="place_name" id="day${index.index}_place${index.index}">${ar.title}</div>
-                <p class="place_info">${ar.content_id} * ${ar.content_type_id}</p>
-              </div>
-              <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-              </button>
-            </div>
-          </c:forEach>
+        </c:if>
         </c:forEach>
+      </c:forEach>
+
+<%--        --%>
 
 
 

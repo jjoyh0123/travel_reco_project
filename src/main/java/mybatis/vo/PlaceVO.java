@@ -2,6 +2,7 @@ package mybatis.vo;
 
 public class PlaceVO {
   private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
+  private String plan_idx;
 
   public PlaceVO(String date_idx, String visit_order, String content_id, String content_type_id, String title,
                  String thumnail, String map_x, String map_y, String time) {
@@ -87,5 +88,13 @@ public class PlaceVO {
 
   public void setTime(String time) {
     this.time = time;
+  }
+
+  public String getPlan_idx() {
+    return plan_idx;
+  }
+
+  public void setPlan_idx(String plan_idx) {
+    this.plan_idx = plan_idx;
   }
 }

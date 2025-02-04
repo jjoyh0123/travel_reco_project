@@ -12,4 +12,32 @@
     SELECT * FROM date_table
     ORDER BY date
   </select>
+
+  <select id="getPlan" resultType="mybatis.vo.PlanVO">
+    SELECT * FROM plan_table
+  </select>
+
+  <select id="getoneIdx" parameterType="int" resultMap="resultMap">
+    SELECT p.*, d.*, pl.*
+    FROM place_table p
+    JOIN date_table d ON p.date_idx = d.idx
+    JOIN plan_table pl ON d.plan_idx = pl.idx
+    WHERE pl.idx = #{idx} AND pl.status = 0;
+  </select>
+
+  <resultMap id="resultMap" type="mybatis.vo.JournalDTO">
+    <result property="date_idx" column="date_idx"/>
+    <result property="visit_order" column="visit_order"/>
+    <result property="content_id" column="content_id"/>
+    <result property="content_type_id" column="content_type_id"/>
+    <result property="title" column="title"/>
+    <result property="thumnail" column="thumnail"/>
+    <result property="map_x" column="map_x"/>
+    <result property="map_y" column="map_y"/>
+    <result property="time" column="time"/>
+    <result property="plan_idx" column="plan_idx"/>  <!-- 추가된 필드 -->
+  </resultMap>
+
+
+
 </mapper>

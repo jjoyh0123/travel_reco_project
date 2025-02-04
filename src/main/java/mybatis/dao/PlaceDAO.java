@@ -2,7 +2,9 @@ package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.DateVO;
+import mybatis.vo.JournalDTO;
 import mybatis.vo.PlaceVO;
+import mybatis.vo.PlanVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -30,10 +32,10 @@ public class PlaceDAO {
         ss.close();
       }
     }
-    System.out.println(ar.length);
+    // System.out.println(ar.length);
     return ar;
   }
-
+  //
   public static DateVO[] getDate(){
     DateVO[] ar = null;
 
@@ -48,4 +50,30 @@ public class PlaceDAO {
 
       return ar;
   }
+  //
+  public static PlanVO[] getPlan(){
+    PlanVO[] ar = null;
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    List<PlanVO> list = ss.selectList("place.getPlan");
+    if(list != null && !list.isEmpty()){
+      ar = new PlanVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
+
+  public static List<JournalDTO> getoneIdx(int idx) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+    List<JournalDTO> list = ss.selectList("place.getoneIdx", idx);
+    ss.close();
+    return list;
+  }
 }
+
+
+
+
