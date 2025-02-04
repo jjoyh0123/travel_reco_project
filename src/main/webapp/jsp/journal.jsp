@@ -560,23 +560,23 @@
                 ${list.title}
               </div>
               <p class="place_info">
-                <c:if test="${list.areacode == 1}">서울</c:if>
-                <c:if test="${list.areacode == 2}">인천</c:if>
-                <c:if test="${list.areacode == 3}">대전</c:if>
-                <c:if test="${list.areacode == 4}">대구</c:if>
-                <c:if test="${list.areacode == 5}">광주</c:if>
-                <c:if test="${list.areacode == 6}">경남</c:if>
-                <c:if test="${list.areacode == 7}">울산</c:if>
-                <c:if test="${list.areacode == 31}">경기</c:if>
-                <c:if test="${list.areacode == 32}">강원</c:if>
-                <c:if test="${list.areacode == 33}">충북</c:if>
-                <c:if test="${list.areacode == 34}">충남</c:if>
-                <c:if test="${list.areacode == 35}">경북</c:if>
-                <c:if test="${list.areacode == 36}">경남</c:if>
-                <c:if test="${list.areacode == 37}">전북</c:if>
-                <c:if test="${list.areacode == 38}">전남</c:if>
-                <c:if test="${list.areacode == 39}">제주도</c:if>
-                <c:if test="${list.areacode == 8}">세종</c:if>
+                <c:if test="${list.area_code == 1}">서울</c:if>
+                <c:if test="${list.area_code == 2}">인천</c:if>
+                <c:if test="${list.area_code == 3}">대전</c:if>
+                <c:if test="${list.area_code == 4}">대구</c:if>
+                <c:if test="${list.area_code == 5}">광주</c:if>
+                <c:if test="${list.area_code == 6}">경남</c:if>
+                <c:if test="${list.area_code == 7}">울산</c:if>
+                <c:if test="${list.area_code == 31}">경기</c:if>
+                <c:if test="${list.area_code == 32}">강원</c:if>
+                <c:if test="${list.area_code == 33}">충북</c:if>
+                <c:if test="${list.area_code == 34}">충남</c:if>
+                <c:if test="${list.area_code == 35}">경북</c:if>
+                <c:if test="${list.area_code == 36}">경남</c:if>
+                <c:if test="${list.area_code == 37}">전북</c:if>
+                <c:if test="${list.area_code == 38}">전남</c:if>
+                <c:if test="${list.area_code == 39}">제주도</c:if>
+                <c:if test="${list.area_code == 8}">세종</c:if>
                 *
                 <c:if test="${list.content_type_id == 32}">숙박</c:if>
                 <c:if test="${list.content_type_id == 38}">쇼핑</c:if>

@@ -17,12 +17,12 @@
     SELECT * FROM plan_table
   </select>
 
-  <select id="getoneIdx" parameterType="int" resultMap="resultMap">
+  <select id="getOneIdx" parameterType="int" resultMap="resultMap">
     SELECT p.*, d.*, pl.*
     FROM place_table p
     JOIN date_table d ON p.date_idx = d.idx
     JOIN plan_table pl ON d.plan_idx = pl.idx
-    WHERE pl.idx = #{idx} AND pl.status = 0;
+    WHERE pl.idx = #{idx} AND pl.status = 0
   </select>
 
   <resultMap id="resultMap" type="mybatis.vo.JournalDTO">
