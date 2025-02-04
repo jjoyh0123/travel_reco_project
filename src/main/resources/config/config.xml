@@ -17,12 +17,14 @@
   </environments>
   <mappers>
     <mapper resource="mapper/user.xml"/>
+    <mapper resource="mapper/signup.xml"/>
     <mapper resource="mapper/badge.xml"/>
     <mapper resource="mapper/journal.xml"/>
     <mapper resource="mapper/notice.xml"/>
     <mapper resource="mapper/faq.xml"/>
     <mapper resource="mapper/support.xml"/>
     <mapper resource="mapper/journal_best.xml"/>
-    <mapper resource="mapper/event_image.xml"/>
+    <mapper resource="mapper/customer_service.xml"/>
+    <mapper resource="mapper/image.xml"/>
   </mappers>
 </configuration>

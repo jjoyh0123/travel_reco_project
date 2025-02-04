@@ -47,5 +47,4 @@
     UPDATE notice_table SET status = 0, update_date = NOW() WHERE idx = #{idx}
   </update>
 
-
 </mapper>
