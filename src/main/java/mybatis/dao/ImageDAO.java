@@ -23,7 +23,7 @@ public class ImageDAO {
     ss.close();
   }
 
-  public static void update_event_image_path(String idx, String uploaded_file_path) {
+  public static int update_event_image_path(String idx, String uploaded_file_path) {
     HashMap<String, String> map = new HashMap<>();
     map.put("idx", idx);
     map.put("uploaded_file_path", uploaded_file_path);
@@ -35,5 +35,7 @@ public class ImageDAO {
     if(cnt > 0) ss.commit();
     else ss.rollback();
     ss.close();
+
+    return cnt;
   }
 }
