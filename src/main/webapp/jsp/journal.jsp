@@ -375,9 +375,6 @@
           transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
       }
 
-      #file_input{
-          display: none;
-      }
   </style>
 </head>
 <body>
@@ -436,7 +433,7 @@
         <div class="add_image_button_area">
 <%--          <form action="Controller" method="post" enctype="multipart/form-data">--%>
 <%--            <input type="file" name="file" id="file_input" class="file_input">--%>
-            <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+            <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼" onclick="image()">
 <%--          </form>--%>
         </div>
 <%--  사진 추가 버튼 끝--%>
@@ -487,10 +484,13 @@
           <div class="carousel-item">
             <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">
           </div>
-          <div class="carousel-item">
-            <img id="preview" src="#" alt="미리보기 이미지" style="display:none; max-width: 300px; margin-top: 10px;">
+<%--          <div class="carousel-item">--%>
+<%--            <img id="preview" src="#" alt="미리보기 이미지" style="display:none; max-width: 300px; margin-top: 10px;">--%>
+<%--          </div>--%>
+          <div>
+          <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼"
+          onclick="uploadImages()">
           </div>
-          <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -540,16 +540,11 @@
       <div class="day_box">
       <%--  Day 바 --%>
       <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
-<%--        <c:if test="${dateVO.date_idx == 1}">--%>
         <div class="day_bar" id="scrollspyHeading${index.index}">
             Day ${index.count}
             <div class="vertical_line"></div>
             ${dateVO.date}
-            <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-<%--              <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
-            </button>
         </div>
-<%--        </c:if>--%>
 
           <hr>
 
@@ -557,14 +552,41 @@
         <c:if test="${list.date_idx == dateVO.idx}">
           <div class="journal_place">
             <div  class="circle_container">
-              <div class="circle">${index.count}</div>
+              <div class="circle">${list.visit_order}</div>
               <div class="long_vertical_line"></div>
             </div>
             <div class="place_div">
               <div class="place_name" id="day${index.count}_place${index.count}">
                 ${list.title}
               </div>
-              <p class="place_info">${list.content_id} * ${list.content_type_id}</p>
+              <p class="place_info">
+                <c:if test="${list.areacode == 1}">서울</c:if>
+                <c:if test="${list.areacode == 2}">인천</c:if>
+                <c:if test="${list.areacode == 3}">대전</c:if>
+                <c:if test="${list.areacode == 4}">대구</c:if>
+                <c:if test="${list.areacode == 5}">광주</c:if>
+                <c:if test="${list.areacode == 6}">경남</c:if>
+                <c:if test="${list.areacode == 7}">울산</c:if>
+                <c:if test="${list.areacode == 31}">경기</c:if>
+                <c:if test="${list.areacode == 32}">강원</c:if>
+                <c:if test="${list.areacode == 33}">충북</c:if>
+                <c:if test="${list.areacode == 34}">충남</c:if>
+                <c:if test="${list.areacode == 35}">경북</c:if>
+                <c:if test="${list.areacode == 36}">경남</c:if>
+                <c:if test="${list.areacode == 37}">전북</c:if>
+                <c:if test="${list.areacode == 38}">전남</c:if>
+                <c:if test="${list.areacode == 39}">제주도</c:if>
+                <c:if test="${list.areacode == 8}">세종</c:if>
+                *
+                <c:if test="${list.content_type_id == 32}">숙박</c:if>
+                <c:if test="${list.content_type_id == 38}">쇼핑</c:if>
+                <c:if test="${list.content_type_id == 39}">음식</c:if>
+                <c:if test="${list.content_type_id == 28}">레포츠</c:if>
+                <c:if test="${list.content_type_id == 25}">여행코스</c:if>
+                <c:if test="${list.content_type_id == 15}">축제/공연/행사</c:if>
+                <c:if test="${list.content_type_id == 14}">문화시설</c:if>
+                <c:if test="${list.content_type_id == 12}">관광지</c:if>
+              </p>
             </div>
             <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">
               <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
@@ -573,33 +595,6 @@
         </c:if>
         </c:forEach>
       </c:forEach>
-
-<%--        --%>
-
-
-
-      <%--  day1   --%>
-
-
-<%--        <div>--%>
-<%--          <c:forEach var="placeVO" items="${placeVO}" varStatus="index">--%>
-<%--            ${placeVO.title}--%>
-<%--          </c:forEach>--%>
-<%--        </div>--%>
-
-<%--        <div class="journal_place">--%>
-<%--          <div  class="circle_container">--%>
-<%--            <div class="circle">3</div>--%>
-<%--            <div class="long_vertical_line"></div>--%>
-<%--          </div>--%>
-<%--          <div class="place_div">--%>
-<%--            <div class="place_name" id="day1_place3">나원 회 포차</div>--%>
-<%--            <p class="place_info">음식점 * 서귀포</p>--%>
-<%--          </div>--%>
-<%--          <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal">--%>
-<%--            <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
-<%--          </button>--%>
-<%--        </div>--%>
 
         </div>
     </div>
@@ -610,7 +605,7 @@
   function changeColor(button) {
     // 모든 버튼에서 active 클래스를 제거
     var buttons = document.querySelectorAll('.day_button');
-    buttons.forEach(function(btn) {
+    buttons.forEach(function (btn) {
       btn.classList.remove('active');
     });
 
@@ -618,26 +613,61 @@
     button.classList.add('active');
   }
 
-  // 이미지 클릭 시 파일 선택 창 열기
-  document.querySelectorAll(".add_image_button").forEach(function (button) {
-    button.addEventListener("click", function () {
-      document.querySelector(".file_input").click();
-    });
-  });
+  // // 이미지 클릭 시 파일 선택 창 열기
+  // document.querySelectorAll(".add_image_button").forEach(function (button) {
+  //   button.addEventListener("click", function () {
+  //     document.querySelector(".file_input").click();
+  //   });
+  // });
 
   // 파일 선택 시 미리보기
-  document.getElementById("file_input").addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const preview = document.getElementById("preview");
-        preview.src = e.target.result; // 이미지 데이터 URL
-        preview.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+  // document.getElementById("file_input").addEventListener("change", function (event) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = function (e) {
+  //       const preview = document.getElementById("preview");
+  //       preview.src = e.target.result; // 이미지 데이터 URL
+  //       preview.style.display = "block";
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // });
+
+  // 이미지 업로드
+  function image(){
+
+  }
+
+  function uploadImages() {
+    var form = $('#uploadForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.status === 'success') {
+          // 결과 메시지 표시
+          const resultDiv = document.getElementById('result');
+          let fileNamesHtml = '<ul>';
+          for (let i = 0; i < response.fileNames.length; i++) {
+            fileNamesHtml += '<li>' + 'http://${applicationScope.publicIP}:4000/' + response.fileNames[i] + '</li>';
+          }
+          fileNamesHtml += '</ul>';
+          resultDiv.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + fileNamesHtml;
+        } else {
+          alert('Error: ' + response.message);
+        }
+      },
+      error: function (xhr, status, error) {
+        alert('Error: ' + error);
+      }
+    });
+  }
 </script>
 <jsp:include page="/jsp/footer.jsp"/>
 </body>

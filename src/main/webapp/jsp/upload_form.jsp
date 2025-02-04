@@ -10,8 +10,9 @@
 <h1>Image Upload</h1>
 <form id="uploadForm" enctype="multipart/form-data">
   <input type="hidden" name="content_type" value="journal">
-  <input type="hidden" name="user_idx" value="123">
-  <input type="hidden" name="journal_idx" value="456">
+  <input type="hidden" name="user_idx" value="">
+  <input type="hidden" name="journal_idx" value="">
+  <input type="hidden" name="review_idx" value="">
   <input type="file" name="file" multiple><br><br>
   <input type="button" value="Upload" onclick="uploadImages()">
 </form>
