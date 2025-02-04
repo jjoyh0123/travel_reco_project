@@ -23,5 +23,6 @@
     <mapper resource="mapper/faq.xml"/>
     <mapper resource="mapper/support.xml"/>
     <mapper resource="mapper/journal_best.xml"/>
+    <mapper resource="mapper/event_image.xml"/>
   </mappers>
 </configuration>

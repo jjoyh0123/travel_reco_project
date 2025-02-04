@@ -14,7 +14,13 @@
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
     SELECT * FROM notice_table
-    ORDER BY idx
+    <choose>
+      <when test="sort == 'idx'">ORDER BY idx</when>
+      <when test="sort == 'reg_date'">ORDER BY reg_date</when>
+      <when test="sort == 'update_date'">ORDER BY update_date</when>
+      <when test="sort == 'status'">ORDER BY status</when>
+      <otherwise>ORDER BY idx</otherwise>
+    </choose>
     ) a, (SELECT @RN := 0) b
     ) c
     WHERE c.rnum BETWEEN #{begin} AND #{end}
@@ -40,5 +46,6 @@
   <update id="restoreNotice" parameterType="String">
     UPDATE notice_table SET status = 0, update_date = NOW() WHERE idx = #{idx}
   </update>
+
 
 </mapper>

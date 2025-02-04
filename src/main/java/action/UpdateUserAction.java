@@ -1,5 +1,6 @@
 package action;
 
+import mybatis.dao.UserDAO;
 import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,8 @@ public class UpdateUserAction implements Action {
     vo.setPw(pw);
     vo.setStatus(Integer.parseInt(status));
 
-    boolean success = false;
+    boolean success;
+    success = UserDAO.updateUser(vo);
     request.setAttribute("success", success);
     return "update.jsp";
   }

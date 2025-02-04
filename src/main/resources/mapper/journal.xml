@@ -83,7 +83,7 @@
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
-    SELECT j.*, (SELECT COUNT(*) FROM journal_like_table l WHERE l.journal_idx = j.idx AND l.status = 1) AS like_count
+    SELECT j.*, (SELECT COUNT(*) FROM journal_like_table l WHERE l.journal_idx = j.idx AND l.status = 0) AS like_count
     FROM journal_table j WHERE j.reg_date >
     <choose>
       <when test="range == '3'">NOW() - INTERVAL 3 MONTH</when>

@@ -17,12 +17,12 @@
           border-spacing: 10px; /* 각 th 및 tr 간의 간격 */
       }
 
-      th, td {
+      td {
           padding: 10px; /* 추가 간격 */
           text-align: left;
       }
 
-      th {
+      thead td {
           background-color: #f2f2f2;
           text-align: center;
       }
@@ -380,6 +380,9 @@
             <c:when test="${param.tab == 'support'}">
               <li class="breadcrumb-item active" aria-current="page">1:1 문의</li>
             </c:when>
+            <c:when test="${param.tab == 'faq'}">
+              <li class="breadcrumb-item active" aria-current="page">FAQ</li>
+            </c:when>
             <c:otherwise>
 
             </c:otherwise>
@@ -532,7 +535,36 @@
             </ul>
           </c:when>
           <c:when test="${param.tab == 'notice'}">
-            <ul class="nav justify-content-end">
+            <ul class="nav nav-pills justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-disabled="true">정렬선택</a>
+              </li>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                  <c:choose>
+                    <c:when test="${param.tab3 == null || param.tab3 == 'idx'}">
+                      등록번호순
+                    </c:when>
+                    <c:when test="${param.tab3 == 'update_date'}">
+                      수정일순
+                    </c:when>
+                    <c:when test="${param.tab3 == 'reg_date'}">
+                      등록일순
+                    </c:when>
+                    <c:when test="${param.tab3 == 'status'}">
+                      상태순
+                    </c:when>
+                  </c:choose>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="?type=admin&tab=notice&tab3=idx">등록번호순</a></li>
+                  <li><a class="dropdown-item" href="?type=admin&tab=notice&tab3=reg_date">등록일순</a></li>
+                  <li><a class="dropdown-item" href="?type=admin&tab=notice&tab3=update_date">수정일순</a></li>
+                  <li><a class="dropdown-item" href="?type=admin&tab=notice&tab3=status">상태순</a></li>
+                </ul>
+              </div>
+              &nbsp;
               <li>
                 <button class="btn btn-primary" type="button"
                         onclick="window.location.href ='Controller?type=adminView&tab=notice'">공지사항 작성
@@ -772,51 +804,32 @@
             <table>
               <thead>
               <tr>
-                <th>배너 이미지</th>
-                <th>수정</th>
+                <td>배너 이미지</td>
+                <td>수정</td>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td><img src="" alt="이벤트 배너 1"></td>
-                <td>
-                  <p>
-                    <button type="button">&#x2699;</button>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td><img src="" alt="이벤트 배너 2"></td>
-                <td>
-                  <p>
-                    <button type="button">&#x2699;</button>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td><img src="" alt="이벤트 배너 3"></td>
-                <td>
-                  <p>
-                    <button type="button">&#x2699;</button>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td><img src="" alt="이벤트 배너 4"></td>
-                <td>
-                  <p>
-                    <button type="button">&#x2699;</button>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td><img src="" alt="이벤트 배너 5"></td>
-                <td>
-                  <p>
-                    <button type="button">&#x2699;</button>
-                  </p>
-                </td>
-              </tr>
+              <c:forEach var="item" items="${ar}" varStatus="status">
+                <tr>
+                  <td>
+                    <c:if test="${not empty item.file_path}">
+                      <img src="${item.file_path}" alt="이벤트 배너 ${status.index + 1}">
+                    </c:if>
+                    <c:if test="${empty item.file_path}">
+                      <p>이미지가 등록되지 않았습니다.</p>
+                    </c:if>
+                  </td>
+                  <td>
+                    <button type="button"
+                            class="btn btn-primary" ${empty item.file_path ? '' : 'style="display:none;"'}>등록
+                    </button>
+                    <button type="button"
+                            class="btn btn-success" ${not empty item.file_path ? '' : 'style="display:none;"'}>수정
+                    </button>
+                    <button type="button" class="btn btn-danger" ${empty item.file_path ? 'disabled' : ''}>삭제</button>
+                  </td>
+                </tr>
+              </c:forEach>
               </tbody>
             </table>
           </c:when>

@@ -16,13 +16,14 @@ public class NoticeDAO {
     return cnt;
   }
 
-  public static NoticeVO[] getList(int begin, int end) {
+  public static NoticeVO[] getList(int begin, int end, String sort) {
     NoticeVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
 
     map.put("begin", begin); // String.valueOf(begin);
     map.put("end", end);
+    map.put("sort", sort);
 
     SqlSession ss = FactoryService.getFactory().openSession();
 

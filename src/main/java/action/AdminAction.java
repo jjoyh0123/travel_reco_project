@@ -86,6 +86,9 @@ public class AdminAction implements Action {
       case "faq":
         totalCount = FAQDAO.getTotalCount();
         break;
+      case "event":
+        totalCount = 5;
+        break;
     }
 
     // 페이징 객체 안에 총 게시물의 수를 저장하며 전체 페이지 수를 구함
@@ -141,7 +144,9 @@ public class AdminAction implements Action {
         }
         break;
       case "notice":
-        ar = NoticeDAO.getList(page.getBegin(), page.getEnd());
+        if (tab3 == null)
+          tab3 = "idx";
+        ar = NoticeDAO.getList(page.getBegin(), page.getEnd(), tab3);
         break;
       case "support":
         ar = SupportDAO.getList(page.getBegin(), page.getEnd());
@@ -152,6 +157,9 @@ public class AdminAction implements Action {
         break;
       case "faq":
         ar = FAQDAO.getList(page.getBegin(), page.getEnd());
+        break;
+      case "event":
+        ar = EventImageDAO.getList();
         break;
       default:
         ar = TempDAO.getList();
