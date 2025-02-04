@@ -33,7 +33,7 @@ public class UploadAction implements Action {
       upload.setSizeMax(MAX_FILE_SIZE);
       List<FileItem> items = upload.parseRequest(request);
 
-      // Check required parameter
+      // Set & get required parameter
       String contentType = null;
       String user_idx = null;
       String journal_idx = null;
@@ -56,6 +56,7 @@ public class UploadAction implements Action {
         }
       }
 
+      // Parameter validation
       if (contentType == null || contentType.isEmpty() || user_idx == null || user_idx.isEmpty()) {
         setRequestAttributes(request, "error", "content_type 및 user_idx 파라미터는 필수입니다.", null);
         return "jsp/upload_result.jsp";

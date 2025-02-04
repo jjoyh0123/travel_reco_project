@@ -19,4 +19,10 @@
       #{type}, NOW(), #{file_path}
     )
   </insert>
+
+  <update id="update_event_image_path" parameterType="map">
+    UPDATE event_image_table
+    SET file_path = #{uploaded_file_path}, upload_date = NOW()
+    WHERE idx = #{idx}
+  </update>
 </mapper>
