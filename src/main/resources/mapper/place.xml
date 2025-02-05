@@ -10,11 +10,17 @@
 
   <select id="getDate" resultType="mybatis.vo.DateVO">
     SELECT * FROM date_table
+    WHERE plan_idx = 1
     ORDER BY date
   </select>
 
   <select id="getPlan" resultType="mybatis.vo.PlanVO">
     SELECT * FROM plan_table
+  </select>
+
+  <select id="getReview" resultType="mybatis.vo.ReviewVO">
+    SELECT * FROM review_table
+    WHERE user_idx = #{user_idx}
   </select>
 
   <select id="getOneIdx" parameterType="int" resultMap="resultMap">
@@ -38,6 +44,8 @@
     <result property="plan_idx" column="plan_idx"/>  <!-- 추가된 필드 -->
   </resultMap>
 
-
+  <insert id="insertReview">
+    INSERT INTO reviews (review, rate) VALUES (#{review}, #{rate})
+  </insert>
 
 </mapper>

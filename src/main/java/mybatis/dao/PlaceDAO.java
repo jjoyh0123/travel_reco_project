@@ -1,10 +1,7 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import mybatis.vo.DateVO;
-import mybatis.vo.JournalDTO;
-import mybatis.vo.PlaceVO;
-import mybatis.vo.PlanVO;
+import mybatis.vo.*;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -60,6 +57,21 @@ public class PlaceDAO {
     if(list != null && !list.isEmpty()){
       ar = new PlanVO[list.size()];
       list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
+
+  public static ReviewVO[] getReview(){
+    ReviewVO[] ar = null;
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    List<ReviewVO> list = ss.selectList("place.getReview");
+    if(list != null && !list.isEmpty()){
+      ar = new ReviewVO[list.size()];
+      list.toArray();
     }
     ss.close();
 

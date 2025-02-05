@@ -1,8 +1,13 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class PlaceVO {
   private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
   private String plan_idx;
+  private String review;
+  private String rate;
+  private List<String> image_list;
 
   public PlaceVO(String date_idx, String visit_order, String content_id, String content_type_id, String title,
                  String thumnail, String map_x, String map_y, String time) {

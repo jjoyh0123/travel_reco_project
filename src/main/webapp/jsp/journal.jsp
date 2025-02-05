@@ -279,6 +279,8 @@
           background-color: white;
           border: none;
           margin-left: auto;
+          padding-top: 10px;
+          align-self: start;
       }
       .modal_button:hover{
           cursor: pointer; /* 클릭 가능한 커서로 변경 */
@@ -401,33 +403,44 @@
 <%--별점 기능--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
-            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
-            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
-            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
-            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
-            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
-            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
-            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
-            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
-            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
-            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
+            <c:forEach var="i" begin="1" end="10">
+              <label for="starpoint_${index.count}_${i}" class="label_star">
+                <span class="blind">${i * 0.5}점</span>
+              </label>
+              <input type="radio" name="starpoint${index.count}" id="starpoint_${index.count}_${i}"
+                     class="star_radio" value="${i * 0.5}" ${list.rate == 0.5 ? 'checked' : ''}>
+            </c:forEach>
+
+<%--            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>--%>
+<%--            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>--%>
+<%--            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>--%>
+<%--            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>--%>
+<%--            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>--%>
+<%--            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>--%>
+<%--            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>--%>
+<%--            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>--%>
+<%--            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>--%>
+<%--            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">--%>
+<%--            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">--%>
             <span class="starpoint_bg"></span>
           </div>
         </div>
       <%--별점 기능 끝--%>
         <hr>
-        <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"></textarea>
+      <%--후기 입력--%>
+        <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"
+          id="textarea${index.count}" name="review">${list.review}</textarea>
         <hr>
+
         <div class="add_image_area">
 <%--      사진 추가 버튼--%>
         <div class="add_image_button_area">
@@ -459,7 +472,12 @@
 <%--      캐러셀 끝--%>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">수정</button>
+          <%--        <c:if test="${review != null}">--%>
+          <%--          <div>${reviewVO.review}</div>--%>
+          <%--        </c:if>--%>
+        <button type="button" class="btn btn-primary" onclick="saveReview(${index.count})"
+<%--                oninput="updateButton(${index.count})"--%>
+                data-bs-dismiss="modal">저장</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
       </div>
     </div>
@@ -548,6 +566,16 @@
 
           <hr>
 
+<%--        plan--%>
+<%--          date--%>
+<%--            place--%>
+
+
+
+<%--        장소의 리뷰가 없으면 버튼이 등록, 삭제
+            리뷰가 있으면 수정, 삭제 --%>
+
+
         <c:forEach var="list" items="${list}" varStatus="index">
         <c:if test="${list.date_idx == dateVO.idx}">
           <div class="journal_place">
@@ -587,11 +615,14 @@
                 <c:if test="${list.content_type_id == 14}">문화시설</c:if>
                 <c:if test="${list.content_type_id == 12}">관광지</c:if>
               </p>
+              <%-- review가 표시될 div --%>
+              <div id="reviewPreview${index.count}" class="place_info"></div>
             </div>
             <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">
               <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
             </button>
           </div>
+          <div>hi</div>
         </c:if>
         </c:forEach>
       </c:forEach>
@@ -601,6 +632,7 @@
   </div>
 
 </article>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   function changeColor(button) {
     // 모든 버튼에서 active 클래스를 제거
@@ -634,40 +666,75 @@
   //   }
   // });
 
-  // 이미지 업로드
-  function image(){
+  // review를 div에 표시하는 함수
+  function saveReview(index) {
+    let textarea = document.getElementById("textarea" + index);
+    let previewDiv = document.getElementById("reviewPreview" + index);
 
+    // textarea 내용을 div에 표시
+    previewDiv.innerText = textarea.value;
+
+    // 모달 닫기
+    let modal = new bootstrap.Modal(document.getElementById("exampleModal" + index));
+    modal.hide();
   }
 
-  function uploadImages() {
-    var form = $('#uploadForm')[0];
-    var formData = new FormData(form);
+  // 작성한 review가 있으면 수정, 없으면 저장
+  function updateButton(index) {
+    let textarea = document.getElementById("textarea" + index);
+    let button = document.getElementById("saveButton" + index);
+
+    // textarea에 내용이 있으면 버튼을 "수정"으로 변경, 없으면 "저장"
+    if (textarea.value.trim() !== "") {
+      button.innerText = "수정";
+    } else {
+      button.innerText = "저장";
+    }
+  }
+
+  // // 모달이 열릴 때 textarea를 초기화하는 코드
+  // document.addEventListener("DOMContentLoaded", function() {
+  //   let modals = document.querySelectorAll(".modal");
+  //
+  //   modals.forEach((modal) => {
+  //     modal.addEventListener("show.bs.modal", function() {
+  //       let index = this.getAttribute("id").replace("exampleModal", ""); // index 가져오기
+  //       let textarea = document.getElementById("textarea" + index);
+  //       let button = document.getElementById("saveButton" + index);
+  //
+  //       if (textarea) {
+  //         textarea.value = ""; // textarea 초기화
+  //       }
+  //       if (button) {
+  //         button.innerText = "저장"; // 버튼도 "저장"으로 초기화
+  //       }
+  //     });
+  //   });
+  // });
+  function saveReview(index) {
+    const selectedStar = $(`input[name="starpoint${index}"]:checked`).val();
+    const reviewText = $(`#textarea${index}`).val();
+
+    if (!selectedStar) {
+      alert("별점을 선택하세요!");
+      return;
+    }
 
     $.ajax({
-      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload',
-      type: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=place',
+      type: "POST",
+      data: { rate: selectedStar, review: reviewText },
       success: function (response) {
-        if (response.status === 'success') {
-          // 결과 메시지 표시
-          const resultDiv = document.getElementById('result');
-          let fileNamesHtml = '<ul>';
-          for (let i = 0; i < response.fileNames.length; i++) {
-            fileNamesHtml += '<li>' + 'http://${applicationScope.publicIP}:4000/' + response.fileNames[i] + '</li>';
-          }
-          fileNamesHtml += '</ul>';
-          resultDiv.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + fileNamesHtml;
-        } else {
-          alert('Error: ' + response.message);
-        }
+        alert(response);  // "저장 완료" 메시지 표시
+        $(`#reviewDisplay${index}`).text(reviewText);
       },
-      error: function (xhr, status, error) {
-        alert('Error: ' + error);
+      error: function () {
+        alert("저장 중 오류가 발생했습니다.");
       }
     });
   }
+
+
 </script>
 <jsp:include page="/jsp/footer.jsp"/>
 </body>
