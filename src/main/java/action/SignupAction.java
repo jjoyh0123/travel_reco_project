@@ -39,6 +39,7 @@ public class SignupAction implements Action {
       session.setAttribute("profileImg", emailLoginProfileImg);
       session.setAttribute("email", email);
       session.setAttribute("user", user);
+      session.setAttribute("nick", user.getNick());
       session.setAttribute("signupSuccess", true);
 
       // 메인 페이지로 리다이렉트

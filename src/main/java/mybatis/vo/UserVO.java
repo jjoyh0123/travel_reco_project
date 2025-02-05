@@ -1,6 +1,6 @@
 package mybatis.vo;
 
-public class UserVO {
+public class UserVO extends TempVO{
   private int idx;
   private String email;
   private String nick;

@@ -32,6 +32,7 @@
       .header-left-section h3 {
           margin-left: 10px;
           color: #ff7f50;
+          font-weight: bold;
       }
 
       .header-right-section {
@@ -94,7 +95,7 @@
 <body>
 <header>
   <div class="header-left-section">
-    <a href="index.jsp"><img src="${pageContext.request.contextPath}/www/logo.png" alt="로고"></a>&nbsp;&nbsp;
+    <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png" alt="로고"></a>&nbsp;&nbsp;
     <h3>Zenzen Club</h3><%--이미지로 변경 필요--%>
   </div>
   <div class="header-right-section">
@@ -109,7 +110,7 @@
             <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">마이페이지</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/mypage.jsp">마이페이지</a></li>
             <li><a class="dropdown-item" href="#">1:1문의</a></li>
             <li>
               <hr class="dropdown-divider">

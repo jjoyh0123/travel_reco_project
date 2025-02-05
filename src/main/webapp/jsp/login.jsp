@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>로그인방법 선택</title>
+  <title>로그인</title>
   <style>
       /* 네비게이션 바 스타일 */
       .navbar {
@@ -12,7 +12,7 @@
           top: 0;
           left: 0;
           text-align: center;
-          margin-bottom: 200px;
+          margin-bottom: 150px;
       }
 
       #back_btn{

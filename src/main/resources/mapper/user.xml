@@ -27,4 +27,15 @@
     WHERE email = #{email}
     AND pw = #{pw}
   </select>
+
+  <update id="updateUserProfile" parameterType="mybatis.vo.UserVO">
+    UPDATE user_table
+    SET nick = #{nick},
+    pw = #{pw}
+    WHERE idx = #{idx}
+  </update>
+
+  <delete id="userDelete" parameterType="int">
+    DELETE FROM user_table WHERE idx = #{idx}
+  </delete>
 </mapper>

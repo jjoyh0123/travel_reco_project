@@ -89,6 +89,7 @@
     <button type="submit">로그인</button>
   </form>
 
+
   <!-- 오류 메시지 표시 -->
   <c:if test="${not empty error && error != null}">
     <p style="color: red; font-size: 14px;">${error}</p>
