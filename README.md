@@ -132,6 +132,7 @@
 | PK  | idx         | 고유 식별자     | bigint       | AI                         |
 | FK  | journal_idx | 후기 식별자     | bigint       | journal_table 기본키, null 가능 |
 | FK  | review_idx  | 리뷰 식별자     | bigint       | review_table 기본키, null 가능  |
+| FK | place_idx | 계획-장소 식별자 | bigint       | place_table 기본키            |
 |     | type        | 종류         | varchar(10)  | journal / review           |
 |     | upload_date | 이미지 업로드 일자 | datetime     |                            |
 |     | file_path   | 파일 경로      | varchar(255) |                            |

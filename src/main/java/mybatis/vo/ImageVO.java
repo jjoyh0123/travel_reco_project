@@ -1,8 +1,6 @@
 package mybatis.vo;
 
 public class ImageVO {
-  private String idx, journal_idx, review_idx, type, upload_date, file_path;
-
   public String getIdx() {
     return idx;
   }
@@ -11,20 +9,20 @@ public class ImageVO {
     this.idx = idx;
   }
 
-  public String getJournal_idx() {
-    return journal_idx;
+  public String getPlan_idx() {
+    return plan_idx;
   }
 
-  public void setJournal_idx(String journal_idx) {
-    this.journal_idx = journal_idx;
+  public void setPlan_idx(String plan_idx) {
+    this.plan_idx = plan_idx;
   }
 
-  public String getReview_idx() {
-    return review_idx;
+  public String getPlace_idx() {
+    return place_idx;
   }
 
-  public void setReview_idx(String review_idx) {
-    this.review_idx = review_idx;
+  public void setPlace_idx(String place_idx) {
+    this.place_idx = place_idx;
   }
 
   public String getType() {
@@ -50,4 +48,6 @@ public class ImageVO {
   public void setFile_path(String file_path) {
     this.file_path = file_path;
   }
+
+  private String idx, plan_idx, place_idx, type, upload_date, file_path;
 }
