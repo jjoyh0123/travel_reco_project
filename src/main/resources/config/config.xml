@@ -26,5 +26,6 @@
     <mapper resource="mapper/journal_best.xml"/>
     <mapper resource="mapper/customer_service.xml"/>
     <mapper resource="mapper/image.xml"/>
+    <mapper resource="mapper/event_image.xml"/>
   </mappers>
 </configuration>

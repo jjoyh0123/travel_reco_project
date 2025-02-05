@@ -42,7 +42,7 @@ public class AdminViewAction implements Action {
       }
 
       request.setAttribute("vo", vo);
-      viewpath = "admin_view.jsp";
+      viewpath = "jsp/admin_view.jsp";
     } else if (enc_type.startsWith("application")) {
       try {
         String title = request.getParameter("title");

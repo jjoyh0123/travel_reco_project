@@ -1,6 +1,6 @@
 package action;
 
-import mybatis.dao.ImageDAO;
+import mybatis.dao.EventImageDAO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -33,16 +33,16 @@ public class UploadEventImageAction implements Action {
 
       for (FileItem item : items) {
         /*
-        * item 1 (name="type")
-        * name=null, StoreLocation=null, size=3 bytes, isFormField=true, FieldName=type
-        * item 2 (name="idx")
-        * name=null, StoreLocation=null, size=1 bytes, isFormField=true, FieldName=idx
-        * item 3 (이미지파일)
-        * name=crossburnpurp.gif,
-        * StoreLocation=D:\Code\SIST_JSP\Util\apache-tomcat-9.0.98-windows-x64\apache-tomcat-9.0.98\temp\\upload_329481e1_e4e4_40c2_9173_e2ec12480cc2_00000002.tmp,
-        * (unicode escape로 인해 \\임의 변경)
-        * size=18034 bytes, isFormField=false, FieldName=file
-        */
+         * item 1 (name="type")
+         * name=null, StoreLocation=null, size=3 bytes, isFormField=true, FieldName=type
+         * item 2 (name="idx")
+         * name=null, StoreLocation=null, size=1 bytes, isFormField=true, FieldName=idx
+         * item 3 (이미지파일)
+         * name=crossburnpurp.gif,
+         * StoreLocation=D:\Code\SIST_JSP\Util\apache-tomcat-9.0.98-windows-x64\apache-tomcat-9.0.98\temp\\upload_329481e1_e4e4_40c2_9173_e2ec12480cc2_00000002.tmp,
+         * (unicode escape 로 인해 \\임의 변경)
+         * size=18034 bytes, isFormField=false, FieldName=file
+         */
         if (item.isFormField()) {
           String fieldName = item.getFieldName();
           String fieldValue = item.getString("UTF-8");
@@ -52,6 +52,7 @@ public class UploadEventImageAction implements Action {
           } else if ("idx".equals(fieldName)) {
             idx = fieldValue;
           }
+
         }
       }
 
@@ -61,7 +62,7 @@ public class UploadEventImageAction implements Action {
         return "jsp/upload_event_image_result.jsp";
       }
 
-      String upload_image_path = null;
+      String upload_image_path = "";
       StringBuilder upload_image_path_builder = new StringBuilder("upload_img/event/");
 
       for (FileItem item : items) {
@@ -72,13 +73,13 @@ public class UploadEventImageAction implements Action {
             String extension = FilenameUtils.getExtension(upload_file_name);
             String new_file_name = idx + "." + extension;
 
-            // 이미지 경로 내부에 idx로 시작하는 파일 삭제
+            // 이미지 경로 내부에 idx 로 시작하는 파일 삭제
             File directory = new File(UPLOAD_DIR);
             String final_idx = idx;
             File[] files = directory.listFiles((dir, name) -> name.startsWith(final_idx));
-            if(files != null) {
-              for(File file : files) {
-                if(file.isFile() && !file.delete()) {
+            if (files != null) {
+              for (File file : files) {
+                if (file.isFile() && !file.delete()) {
                   set_request_attribute(request, "error", "기존 파일 삭제 실패", null);
                   return "jsp/upload_event_image_result.jsp";
                 }
@@ -100,11 +101,10 @@ public class UploadEventImageAction implements Action {
             }
 
             // DB file_path UPDATE
-            ImageDAO.update_event_image_path(idx, upload_image_path);
+            EventImageDAO.update_event_image_path(idx, upload_image_path);
           }
         }
       }
-
       // 이미지 파일 권한 변경
       try {
         Runtime.getRuntime().exec("chown -R www-data:www-data " + UPLOAD_DIR);
@@ -114,10 +114,9 @@ public class UploadEventImageAction implements Action {
         return "jsp/upload_event_image_result.jsp";
       }
 
-      if(type.equals("modify")) {
+      if (type.equals("modify")) {
         set_request_attribute(request, "success", "파일 업로드 완료!", upload_image_path);
-      }
-      else if(type.equals("delete")) {
+      } else if (type.equals("delete")) {
         set_request_attribute(request, "success", "파일 삭제 완료!", upload_image_path);
       }
       return "jsp/upload_event_image_result.jsp";
@@ -132,7 +131,7 @@ public class UploadEventImageAction implements Action {
   public void set_request_attribute(HttpServletRequest request, String status, String message, String upload_image_path) {
     request.setAttribute("status", status);
     request.setAttribute("message", message);
-    if(upload_image_path != null && !upload_image_path.isEmpty()) {
+    if (upload_image_path != null && !upload_image_path.isEmpty()) {
       request.setAttribute("upload_image_path", upload_image_path);
     }
   }

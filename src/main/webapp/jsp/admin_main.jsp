@@ -799,13 +799,11 @@
             </ol>
           </c:when>
           <c:when test="${param.tab == 'event'}">
-            <%--이벤트 배너 5개 이미지를 각각 보여줘야 함--%>
-            <%--그리고 해당 이미지를 변경하는 기능도 있어야 함--%>
             <table>
               <thead>
               <tr>
                 <td>배너 이미지</td>
-                <td>수정</td>
+                <td>관리</td>
               </tr>
               </thead>
               <tbody>
@@ -813,25 +811,65 @@
                 <tr>
                   <td>
                     <c:if test="${not empty item.file_path}">
-                      <img src="${item.file_path}" alt="이벤트 배너 ${status.index + 1}">
+                      <img src="http://${applicationScope.publicIP}:4000/${item.file_path}"
+                           alt="이벤트 배너 ${status.index + 1}" style="max-height: 150px;">
                     </c:if>
                     <c:if test="${empty item.file_path}">
-                      <p>이미지가 등록되지 않았습니다.</p>
+                      <p class="text-muted">이미지 미등록</p>
                     </c:if>
                   </td>
                   <td>
-                    <button type="button"
-                            class="btn btn-primary" ${empty item.file_path ? '' : 'style="display:none;"'}>등록
-                    </button>
-                    <button type="button"
-                            class="btn btn-success" ${not empty item.file_path ? '' : 'style="display:none;"'}>수정
-                    </button>
-                    <button type="button" class="btn btn-danger" ${empty item.file_path ? 'disabled' : ''}>삭제</button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary btn-sm"
+                        ${empty item.file_path ? '' : 'style="display:none;"'}
+                              onclick="openImageModal('upload', ${item.idx})">
+                        등록
+                      </button>
+                      <button type="button" class="btn btn-success btn-sm"
+                        ${not empty item.file_path ? '' : 'style="display:none;"'}
+                              onclick="openImageModal('modify', ${item.idx})">
+                        수정
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm"
+                        ${empty item.file_path ? 'disabled' : ''}
+                              onclick="openImageModal('delete', ${item.idx})">
+                        삭제
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </c:forEach>
               </tbody>
             </table>
+
+            <!-- Image Management Modal -->
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">이미지 관리</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                      <input type="hidden" name="type" id="uploadType" value="modify">
+                      <input type="hidden" name="idx" id="uploadIdx">
+                      <div id="fileUploadSection" class="mb-3">
+                        <input type="file" name="file" class="form-control" accept="image/*">
+                      </div>
+                    </form>
+                    <div id="deleteWarning" class="alert alert-warning d-none">
+                      정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary" id="modalActionBtn"
+                            onclick="handleImageAction()"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </c:when>
           <c:when test="${param.tab == 'best_plan'}">
             <ol class="list-group">
@@ -1041,6 +1079,68 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+  function openImageModal(action, idx) {
+    const uploadType = document.getElementById('uploadType');
+    const uploadIdx = document.getElementById('uploadIdx');
+    const fileSection = document.getElementById('fileUploadSection');
+    const deleteWarning = document.getElementById('deleteWarning');
+    const actionBtn = document.getElementById('modalActionBtn');
+
+    uploadIdx.value = idx;
+    uploadType.value = action === 'delete' ? 'delete' : 'modify';
+
+    // UI 초기화
+    fileSection.classList.remove('d-none');
+    deleteWarning.classList.add('d-none');
+    actionBtn.classList.remove('btn-danger');
+
+    if (action === 'delete') {
+      fileSection.classList.add('d-none');
+      deleteWarning.classList.remove('d-none');
+      actionBtn.textContent = '삭제';
+      actionBtn.classList.add('btn-danger');
+    } else {
+      actionBtn.textContent = action === 'upload' ? '등록' : '수정';
+      actionBtn.classList.add('btn-primary');
+    }
+
+    $('#imageModal').modal('show');
+  }
+
+  function handleImageAction() {
+    const formData = new FormData(document.getElementById('uploadForm'));
+    const isDelete = document.getElementById('uploadType').value === 'delete';
+    formData.forEach((value, key) => {
+      console.log(key + ": " + value);
+    });
+    if (!isDelete && !document.querySelector('input[name="file"]').files[0]) {
+      alert('파일을 선택해주세요.');
+      return;
+    }
+
+    let data = {
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.status === 'success') {
+          alert(response.message);
+          location.reload();
+        } else {
+          alert('처리 실패: ' + response.message);
+        }
+      },
+      error: function (xhr) {
+        alert('오류 발생: ' + xhr.statusText);
+      }
+    }
+    console.log(data);
+
+    $.ajax(data);
+  }
+
   $(document).ready(function () {
     // 모달이 열릴 때 이벤트 리스너 추가
     $('#userModal').on('show.bs.modal', function (event) {

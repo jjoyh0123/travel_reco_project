@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,9 +21,9 @@
 
 <script>
   function uploadImages() {
-    var form = $('#uploadForm')[0];
-    var formData = new FormData(form);
-    var param = {
+    let form = $('#uploadForm')[0];
+    let formData = new FormData(form);
+    let param = {
       url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
       type: 'POST',
       data: formData,
@@ -35,10 +35,9 @@
           const resultDiv = document.getElementById('result');
           let file_name_html = '<ul>';
           file_name_html += '<li>';
-          if(response.message === "파일 업로드 완료!") {
+          if (response.message === "파일 업로드 완료!") {
             file_name_html += '<li>' + 'http://${applicationScope.publicIP}:4000/' + response.upload_image_path + '</li>';
-          }
-          else {
+          } else {
             file_name_html += '<li>' + response.upload_image_path + '</li>';
           }
           file_name_html += '</ul>';
@@ -58,7 +57,7 @@
   }
 
   function switch_type() {
-    var $type = $("input[name='type']");
+    let $type = $("input[name='type']");
     if ($type.val() === 'delete') {
       $type.val("modify");
     } else {

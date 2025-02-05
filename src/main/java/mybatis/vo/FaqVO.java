@@ -1,6 +1,6 @@
 package mybatis.vo;
 
-public class FaqVO {
+public class FaqVO extends TempVO {
   private String idx, title, content, reg_date, status;
 
   public String getIdx() {

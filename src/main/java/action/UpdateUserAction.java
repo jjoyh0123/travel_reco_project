@@ -25,6 +25,6 @@ public class UpdateUserAction implements Action {
     boolean success;
     success = UserDAO.updateUser(vo);
     request.setAttribute("success", success);
-    return "update.jsp";
+    return "jsp/update.jsp";
   }
 }

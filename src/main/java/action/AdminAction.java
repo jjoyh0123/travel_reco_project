@@ -172,6 +172,6 @@ public class AdminAction implements Action {
     request.setAttribute("tab", tab);
     request.setAttribute("best", best);
 
-    return "admin_main.jsp";
+    return "jsp/admin_main.jsp";
   }
 }

@@ -9,7 +9,7 @@
     SELECT COUNT(*) FROM faq_table;
   </select>
 
-  <select id="list" resultType="mybatis.vo.FAQVO" parameterType="Map">
+  <select id="list" resultType="mybatis.vo.FaqVO" parameterType="Map">
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
@@ -20,7 +20,7 @@
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
 
-  <select id="selectOne" resultType="mybatis.vo.FAQVO" parameterType="String">
+  <select id="selectOne" resultType="mybatis.vo.FaqVO" parameterType="String">
     SELECT * FROM faq_table WHERE idx = #{idx}
   </select>
 

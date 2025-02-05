@@ -4,6 +4,7 @@ import mybatis.service.FactoryService;
 import mybatis.vo.EventImageVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class EventImageDAO {
@@ -24,18 +25,17 @@ public class EventImageDAO {
     return ar;
   }
 
-  public static boolean update(EventImageVO vo) {
-    int flag;
-    SqlSession ss = FactoryService.getFactory().openSession();
+  public static void update_event_image_path(String idx, String uploaded_file_path) {
+    HashMap<String, String> map = new HashMap<>();
+    map.put("idx", idx);
+    map.put("uploaded_file_path", uploaded_file_path);
 
-    flag = ss.update("event_image.update_image", vo);
-    if (flag > 0) {
-      ss.commit();
-    } else {
-      ss.rollback();
-    }
+    int cnt;
+    SqlSession ss;
+    ss = FactoryService.getFactory().openSession();
+    cnt = ss.update("event_image.update_event_image_path", map);
+    if (cnt > 0) ss.commit();
+    else ss.rollback();
     ss.close();
-
-    return flag > 0;
   }
 }

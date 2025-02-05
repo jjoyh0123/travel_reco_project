@@ -87,6 +87,7 @@
         zoom: 16
       });
     } else {
+      map.zoom = 16;
       map.setCenter(new Tmapv3.LatLng(coordinates.lat, coordinates.lng));
     }
   }

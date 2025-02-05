@@ -1,7 +1,7 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import mybatis.vo.FAQVO;
+import mybatis.vo.FaqVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -16,8 +16,8 @@ public class FAQDAO {
     return cnt;
   }
 
-  public static FAQVO[] getList(int begin, int end) {
-    FAQVO[] ar = null;
+  public static FaqVO[] getList(int begin, int end) {
+    FaqVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
 
@@ -26,10 +26,10 @@ public class FAQDAO {
 
     SqlSession ss = FactoryService.getFactory().openSession();
 
-    List<FAQVO> list = ss.selectList("faq.list", map);
+    List<FaqVO> list = ss.selectList("faq.list", map);
 
     if (list != null && !list.isEmpty()) {
-      ar = new FAQVO[list.size()];
+      ar = new FaqVO[list.size()];
       list.toArray(ar);
     }
     ss.close();
@@ -37,8 +37,8 @@ public class FAQDAO {
     return ar;
   }
 
-  public static FAQVO getOne(String idx) {
-    FAQVO ar = null;
+  public static FaqVO getOne(String idx) {
+    FaqVO ar = null;
     SqlSession ss = FactoryService.getFactory().openSession();
     ar = ss.selectOne("faq.selectOne", idx);
     ss.close();
