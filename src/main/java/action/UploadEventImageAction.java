@@ -86,17 +86,15 @@ public class UploadEventImageAction implements Action {
               String new_file_name = idx + "." + extension;
 
               // 신규 이미지 업로드
-              if (type.equals("modify")) {
-                try (InputStream is = item.getInputStream()) {
-                  Files.copy(is, new File(UPLOAD_DIR + new_file_name).toPath());
-                  upload_image_path_builder.append(new_file_name);
-                  upload_image_path = upload_image_path_builder.toString();
-                } catch (IOException innerException) {
-                  innerException.printStackTrace();
-                  set_request_attribute(request, "error", "이미지 업로드 중 오류: " + innerException.getMessage(), null);
-                  new File(UPLOAD_DIR + new_file_name).delete();
-                  return "jsp/upload_event_image_result.jsp";
-                }
+              try (InputStream is = item.getInputStream()) {
+                Files.copy(is, new File(UPLOAD_DIR + new_file_name).toPath());
+                upload_image_path_builder.append(new_file_name);
+                upload_image_path = upload_image_path_builder.toString();
+              } catch (IOException innerException) {
+                innerException.printStackTrace();
+                set_request_attribute(request, "error", "이미지 업로드 중 오류: " + innerException.getMessage(), null);
+                new File(UPLOAD_DIR + new_file_name).delete();
+                return "jsp/upload_event_image_result.jsp";
               }
             }
           }

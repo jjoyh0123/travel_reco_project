@@ -8,19 +8,19 @@ import java.util.HashMap;
 
 public class ImageDAO {
   public static void insert_image_path(ImageVO imageVO) {
-    HashMap<String, String> map = new HashMap<>();
-    if(imageVO.getJournal_idx() != null) map.put("journal_idx", imageVO.getJournal_idx());
-    if(imageVO.getReview_idx() != null) map.put("review_idx", imageVO.getReview_idx());
-    map.put("type", imageVO.getType());
-    map.put("file_path", imageVO.getFile_path());
-
-    int cnt = 0;
-    SqlSession ss = null;
-    ss = FactoryService.getFactory().openSession();
-    cnt = ss.insert("image.insert_image_path", map);
-    if (cnt > 0) ss.commit();
-    else ss.rollback();
-    ss.close();
+    // HashMap<String, String> map = new HashMap<>();
+    // if(imageVO.getJournal_idx() != null) map.put("journal_idx", imageVO.getJournal_idx());
+    // if(imageVO.getReview_idx() != null) map.put("review_idx", imageVO.getReview_idx());
+    // map.put("type", imageVO.getType());
+    // map.put("file_path", imageVO.getFile_path());
+    //
+    // int cnt = 0;
+    // SqlSession ss = null;
+    // ss = FactoryService.getFactory().openSession();
+    // cnt = ss.insert("image.insert_image_path", map);
+    // if (cnt > 0) ss.commit();
+    // else ss.rollback();
+    // ss.close();
   }
 
   public static int update_event_image_path(String idx, String uploaded_file_path) {
