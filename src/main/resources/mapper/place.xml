@@ -45,7 +45,7 @@
   </resultMap>
 
   <insert id="insertReview">
-    INSERT INTO reviews (review, rate) VALUES (#{review}, #{rate})
+    INSERT INTO review_table (review, rate) VALUES (#{review}, #{rate})
   </insert>
 
 </mapper>

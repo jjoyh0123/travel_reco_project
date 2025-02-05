@@ -84,6 +84,7 @@ public class PlaceDAO {
     ss.close();
     return list;
   }
+
 }
 
 

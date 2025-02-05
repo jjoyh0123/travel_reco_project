@@ -403,34 +403,34 @@
 <%--별점 기능--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
-            <c:forEach var="i" begin="1" end="10">
-              <label for="starpoint_${index.count}_${i}" class="label_star">
-                <span class="blind">${i * 0.5}점</span>
-              </label>
-              <input type="radio" name="starpoint${index.count}" id="starpoint_${index.count}_${i}"
-                     class="star_radio" value="${i * 0.5}" ${list.rate == 0.5 ? 'checked' : ''}>
-            </c:forEach>
+<%--            <c:forEach var="i" begin="1" end="10">--%>
+<%--              <label for="starpoint_${index.count}_${i}" class="label_star">--%>
+<%--                <span class="blind">${i * 0.5}점</span>--%>
+<%--              </label>--%>
+<%--              <input type="radio" name="starpoint${index.count}" id="starpoint_${index.count}_${i}"--%>
+<%--                     class="star_radio" value="${i * 0.5}" ${list.rate == 0.5 ? 'checked' : ''}>--%>
+<%--            </c:forEach>--%>
 
-<%--            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>--%>
-<%--            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>--%>
-<%--            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>--%>
-<%--            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>--%>
-<%--            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>--%>
-<%--            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>--%>
-<%--            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>--%>
-<%--            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>--%>
-<%--            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>--%>
-<%--            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">--%>
-<%--            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">--%>
+            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
+            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
+            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
+            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
+            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
+            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
+            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
+            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
+            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
+            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
+            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
+            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
             <span class="starpoint_bg"></span>
           </div>
         </div>
@@ -438,7 +438,7 @@
         <hr>
       <%--후기 입력--%>
         <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"
-          id="textarea${index.count}" name="review">${list.review}</textarea>
+          id="textarea${index.count}" name="review"></textarea>
         <hr>
 
         <div class="add_image_area">
@@ -711,28 +711,29 @@
   //     });
   //   });
   // });
-  function saveReview(index) {
-    const selectedStar = $(`input[name="starpoint${index}"]:checked`).val();
-    const reviewText = $(`#textarea${index}`).val();
 
-    if (!selectedStar) {
-      alert("별점을 선택하세요!");
-      return;
-    }
+  <%--function saveReview(index) {--%>
+  <%--  const selectedStar = $(`input[name="starpoint${index}"]:checked`).val();--%>
+  <%--  const reviewText = $(`#textarea${index}`).val();--%>
 
-    $.ajax({
-      url: 'http://${applicationScope.publicIP}:8080/Controller?type=place',
-      type: "POST",
-      data: { rate: selectedStar, review: reviewText },
-      success: function (response) {
-        alert(response);  // "저장 완료" 메시지 표시
-        $(`#reviewDisplay${index}`).text(reviewText);
-      },
-      error: function () {
-        alert("저장 중 오류가 발생했습니다.");
-      }
-    });
-  }
+  <%--  if (!selectedStar) {--%>
+  <%--    alert("별점을 선택하세요!");--%>
+  <%--    return;--%>
+  <%--  }--%>
+
+  <%--  $.ajax({--%>
+  <%--    url: 'http://${applicationScope.publicIP}:8080/Controller?type=place',--%>
+  <%--    type: "POST",--%>
+  <%--    data: { rate: selectedStar, review: reviewText },--%>
+  <%--    success: function (response) {--%>
+  <%--      alert(response);  // "저장 완료" 메시지 표시--%>
+  <%--      $(`#reviewDisplay${index}`).text(reviewText);--%>
+  <%--    },--%>
+  <%--    error: function () {--%>
+  <%--      alert("저장 중 오류가 발생했습니다.");--%>
+  <%--    }--%>
+  <%--  });--%>
+  <%--}--%>
 
 
 </script>

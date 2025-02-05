@@ -36,5 +36,7 @@ public class PlaceAction implements Action{
     request.setAttribute("reviewVO", reviewVO);
 
     return "/jsp/journal.jsp";
+
+
   }
 }
