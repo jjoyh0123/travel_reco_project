@@ -1,6 +1,6 @@
 package action;
 
-import mybatis.dao.EventImageDAO;
+import mybatis.dao.ImageDAO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -52,7 +52,6 @@ public class UploadEventImageAction implements Action {
           } else if ("idx".equals(fieldName)) {
             idx = fieldValue;
           }
-
         }
       }
 
@@ -62,65 +61,68 @@ public class UploadEventImageAction implements Action {
         return "jsp/upload_event_image_result.jsp";
       }
 
-      String upload_image_path = "";
+      String upload_image_path = null;
       StringBuilder upload_image_path_builder = new StringBuilder("upload_img/event/");
 
-      for (FileItem item : items) {
-        if (!item.isFormField()) {
-          String upload_file_name = item.getName(); // item.getName() == [image_name.extension]
+      // 이미지 경로 내부에 idx로 시작하는 파일 삭제
+      File directory = new File(UPLOAD_DIR);
+      String final_idx = idx;
+      File[] files = directory.listFiles((dir, name) -> name.startsWith(final_idx));
+      if(files != null) {
+        for(File file : files) {
+          if(file.isFile() && !file.delete()) {
+            set_request_attribute(request, "error", "기존 파일 삭제 실패", null);
+            return "jsp/upload_event_image_result.jsp";
+          }
+        }
+      }
 
-          if (upload_file_name != null && !upload_file_name.isEmpty()) {
-            String extension = FilenameUtils.getExtension(upload_file_name);
-            String new_file_name = idx + "." + extension;
+      if (type.equals("modify")) {
+        for (FileItem item : items) {
+          if (!item.isFormField()) {
+            String upload_file_name = item.getName(); // item.getName() == [image_name.extension]
+            if (upload_file_name != null && !upload_file_name.isEmpty()) {
+              String extension = FilenameUtils.getExtension(upload_file_name);
+              String new_file_name = idx + "." + extension;
 
-            // 이미지 경로 내부에 idx 로 시작하는 파일 삭제
-            File directory = new File(UPLOAD_DIR);
-            String final_idx = idx;
-            File[] files = directory.listFiles((dir, name) -> name.startsWith(final_idx));
-            if (files != null) {
-              for (File file : files) {
-                if (file.isFile() && !file.delete()) {
-                  set_request_attribute(request, "error", "기존 파일 삭제 실패", null);
+              // 신규 이미지 업로드
+              if (type.equals("modify")) {
+                try (InputStream is = item.getInputStream()) {
+                  Files.copy(is, new File(UPLOAD_DIR + new_file_name).toPath());
+                  upload_image_path_builder.append(new_file_name);
+                  upload_image_path = upload_image_path_builder.toString();
+                } catch (IOException innerException) {
+                  innerException.printStackTrace();
+                  set_request_attribute(request, "error", "이미지 업로드 중 오류: " + innerException.getMessage(), null);
+                  new File(UPLOAD_DIR + new_file_name).delete();
                   return "jsp/upload_event_image_result.jsp";
                 }
               }
             }
-
-            // 신규 이미지 업로드
-            if (type.equals("modify")) {
-              try (InputStream is = item.getInputStream()) {
-                Files.copy(is, new File(UPLOAD_DIR + new_file_name).toPath());
-                upload_image_path_builder.append(new_file_name);
-                upload_image_path = upload_image_path_builder.toString();
-              } catch (IOException innerException) {
-                innerException.printStackTrace();
-                set_request_attribute(request, "error", "이미지 업로드 중 오류: " + innerException.getMessage(), null);
-                new File(UPLOAD_DIR + new_file_name).delete();
-                return "jsp/upload_event_image_result.jsp";
-              }
-            }
-
-            // DB file_path UPDATE
-            EventImageDAO.update_event_image_path(idx, upload_image_path);
           }
         }
-      }
-      // 이미지 파일 권한 변경
-      try {
-        Runtime.getRuntime().exec("chown -R www-data:www-data " + UPLOAD_DIR);
-      } catch (IOException e) {
-        e.printStackTrace();
-        set_request_attribute(request, "error", "파일 소유자 변경 중 오류 발생: " + e.getMessage(), null);
-        return "jsp/upload_event_image_result.jsp";
-      }
 
-      if (type.equals("modify")) {
+        // 이미지 파일 권한 변경
+        try {
+          Runtime.getRuntime().exec("chown -R www-data:www-data " + UPLOAD_DIR);
+        } catch (IOException e) {
+          e.printStackTrace();
+          set_request_attribute(request, "error", "파일 소유자 변경 중 오류 발생: " + e.getMessage(), null);
+          return "jsp/upload_event_image_result.jsp";
+        }
+
         set_request_attribute(request, "success", "파일 업로드 완료!", upload_image_path);
-      } else if (type.equals("delete")) {
+      } else if(type.equals("delete")) {
         set_request_attribute(request, "success", "파일 삭제 완료!", upload_image_path);
       }
-      return "jsp/upload_event_image_result.jsp";
 
+      // DB file_path UPDATE
+      int cnt = ImageDAO.update_event_image_path(idx, upload_image_path);
+      if(cnt == 0) {
+        set_request_attribute(request, "error", "파일이 업로드 되었으나 DB에서 업데이트 되지 않음.", null);
+      }
+
+      return "jsp/upload_event_image_result.jsp";
     } catch (Exception multipartException) {
       multipartException.printStackTrace();
       set_request_attribute(request, "error", "MultipartRequest 생성 중 오류: " + multipartException.getMessage(), null);
@@ -131,7 +133,7 @@ public class UploadEventImageAction implements Action {
   public void set_request_attribute(HttpServletRequest request, String status, String message, String upload_image_path) {
     request.setAttribute("status", status);
     request.setAttribute("message", message);
-    if (upload_image_path != null && !upload_image_path.isEmpty()) {
+    if(upload_image_path != null && !upload_image_path.isEmpty()) {
       request.setAttribute("upload_image_path", upload_image_path);
     }
   }
