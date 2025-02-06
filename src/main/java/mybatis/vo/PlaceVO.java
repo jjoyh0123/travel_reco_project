@@ -3,15 +3,16 @@ package mybatis.vo;
 import java.util.List;
 
 public class PlaceVO {
-  private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
+  private String idx, date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
   private String plan_idx;
   private String review;
   private String rate;
   private List<String> image_list;
 
-  public PlaceVO(String date_idx, String visit_order, String content_id, String content_type_id, String title,
+  public PlaceVO(String idx, String date_idx, String visit_order, String content_id, String content_type_id, String title,
                  String thumnail, String map_x, String map_y, String time) {
             super();
+            this.idx = idx;
             this.date_idx = date_idx;
             this.visit_order = visit_order;
             this.content_id = content_id;
@@ -21,6 +22,14 @@ public class PlaceVO {
             this.map_x = map_x;
             this.map_y = map_y;
             this.time = time;
+  }
+
+  public String getp_Idx() {
+    return idx;
+  }
+
+  public void setp_Idx(String idx) {
+    this.idx = idx;
   }
 
   public String getDate_idx() {

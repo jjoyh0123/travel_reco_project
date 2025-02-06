@@ -78,9 +78,9 @@ public class PlaceDAO {
     return ar;
   }
 
-  public static List<JournalDTO> getoneIdx(int idx) {
+  public static List<JournalDTO> getPlan_idx(int plan_idx) {
     SqlSession ss = FactoryService.getFactory().openSession();
-    List<JournalDTO> list = ss.selectList("place.getOneIdx", idx);
+    List<JournalDTO> list = ss.selectList("place.getPlan_Idx", plan_idx);
     ss.close();
     return list;
   }

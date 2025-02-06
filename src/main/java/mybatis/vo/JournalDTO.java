@@ -1,16 +1,24 @@
 package mybatis.vo;
 
 public class JournalDTO {
-  private String date_idx, visit_order, content_id, content_type_id,
-      title, thumnail, map_x, map_y, time, idx, plan_idx, date,
-       area_code, start_date, end_date, status;
+  private String place_idx, place_date_idx, visit_order, content_id, content_type_id,
+      title, thumbnail, map_x, map_y, time, date_idx, place_plan_idx, plan_idx, date, memo,
+      plan_title, plan_user_idx, plan_area_code, plan_start_date, plan_end_date, plan_status;
 
-  public String getDate_idx() {
-    return date_idx;
+  public String getPlace_idx() {
+    return place_idx;
   }
 
-  public void setDate_idx(String date_idx) {
-    this.date_idx = date_idx;
+  public void setPlace_idx(String place_idx) {
+    this.place_idx = place_idx;
+  }
+
+  public String getPlace_date_idx() {
+    return place_date_idx;
+  }
+
+  public void setPlace_date_idx(String place_date_idx) {
+    this.place_date_idx = place_date_idx;
   }
 
   public String getVisit_order() {
@@ -45,12 +53,12 @@ public class JournalDTO {
     this.title = title;
   }
 
-  public String getThumnail() {
-    return thumnail;
+  public String getThumbnail() {
+    return thumbnail;
   }
 
-  public void setThumnail(String thumnail) {
-    this.thumnail = thumnail;
+  public void setThumbnail(String thumbnail) {
+    this.thumbnail = thumbnail;
   }
 
   public String getMap_x() {
@@ -77,12 +85,20 @@ public class JournalDTO {
     this.time = time;
   }
 
-  public String getIdx() {
-    return idx;
+  public String getDate_idx() {
+    return date_idx;
   }
 
-  public void setIdx(String idx) {
-    this.idx = idx;
+  public void setDate_idx(String date_idx) {
+    this.date_idx = date_idx;
+  }
+
+  public String getPlace_plan_idx() {
+    return place_plan_idx;
+  }
+
+  public void setPlace_plan_idx(String place_plan_idx) {
+    this.place_plan_idx = place_plan_idx;
   }
 
   public String getPlan_idx() {
@@ -101,35 +117,59 @@ public class JournalDTO {
     this.date = date;
   }
 
-  public String getArea_code() {
-    return area_code;
+  public String getMemo() {
+    return memo;
   }
 
-  public void setArea_code(String area_code) {
-    this.area_code = area_code;
+  public void setMemo(String memo) {
+    this.memo = memo;
   }
 
-  public String getStart_date() {
-    return start_date;
+  public String getPlan_title() {
+    return plan_title;
   }
 
-  public void setStart_date(String start_date) {
-    this.start_date = start_date;
+  public void setPlan_title(String plan_title) {
+    this.plan_title = plan_title;
   }
 
-  public String getEnd_date() {
-    return end_date;
+  public String getPlan_user_idx() {
+    return plan_user_idx;
   }
 
-  public void setEnd_date(String end_date) {
-    this.end_date = end_date;
+  public void setPlan_user_idx(String plan_user_idx) {
+    this.plan_user_idx = plan_user_idx;
   }
 
-  public String getStatus() {
-    return status;
+  public String getPlan_area_code() {
+    return plan_area_code;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setPlan_area_code(String plan_area_code) {
+    this.plan_area_code = plan_area_code;
+  }
+
+  public String getPlan_start_date() {
+    return plan_start_date;
+  }
+
+  public void setPlan_start_date(String plan_start_date) {
+    this.plan_start_date = plan_start_date;
+  }
+
+  public String getPlan_end_date() {
+    return plan_end_date;
+  }
+
+  public void setPlan_end_date(String plan_end_date) {
+    this.plan_end_date = plan_end_date;
+  }
+
+  public String getPlan_status() {
+    return plan_status;
+  }
+
+  public void setPlan_status(String plan_status) {
+    this.plan_status = plan_status;
   }
 }

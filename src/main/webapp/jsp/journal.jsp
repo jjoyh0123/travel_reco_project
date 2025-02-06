@@ -393,6 +393,8 @@
 <%--        <h1 class="modal-title fs-5" id="exampleModalLabel">--%>
             <h2 class="modal_title">
               <div class="modal_day_bar">
+<%--                  ${list.place_idx}--%>
+<%--                  ${list.content_id}--%>
                   <div class="modal_day">Day ${list.date_idx}</div>
                   <div class="modal_vertical_line"></div>
                   <div class="modal_date">${list.date}</div>
@@ -446,20 +448,15 @@
         <div class="add_image_area">
 <%--      사진 추가 버튼--%>
         <div class="add_image_button_area">
-          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button"
-               alt="사진 추가 버튼">
-<%--          <input type="file" id="review_image_input" style="display: none;" accept="image/*" onchange="addImageToCarousel()">--%>
+<%--          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">--%>
 
-          <form id="upload_form" enctype="multipart/form-data">
-            <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
-            <input type="hidden" name="type" placeholder="type: journal or review"><br> <%-- value journal / review --%>
-            <input type="hidden" name="user_idx" placeholder="user_idx"><br>
-            <input type="hidden" name="plan_idx" placeholder="plan_idx, when type journal"><br>
-            <input type="hidden" name="place_idx" placeholder="place_idx when type review"><br>
-            <input type="file" name="file" multiple><br><br>
-            <input type="button" value="Upload" onclick="upload_images()">
-          </form>
 
+<%--            <input type="file" name="file" multiple><br><br>--%>
+
+        <%--          plan_idx :  --%>
+        <%--          ${type}.val(journal)--%>
+        <%--          ${plan_idx}.val()--%>
+<%-- setImage_list(image_names[i])--%>
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
@@ -473,7 +470,6 @@
                 </div>
                 </c:forEach>
             </div>
-
             <button class="carousel-control-prev" type="button" data-bs-target="#modal_carousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -488,6 +484,20 @@
 <%--      캐러셀 끝--%>
       </div>
       <div class="modal-footer">
+
+        <form id="upload_form" enctype="multipart/form-data">
+          <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
+          <input type="hidden" name="type" placeholder="type: journal or review" value="journal"><br> <%-- value journal / review --%>
+          <input type="hidden" name="user_idx" placeholder="user_idx" value="1"><br>
+          <input type="hidden" name="plan_idx" placeholder="plan_idx, when type journal" value="2"><br>
+          <input type="hidden" name="place_idx" placeholder="place_idx when type review"><br>
+          <label for="fileInput">
+            <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+          </label>
+          <input type="file" id="fileInput" name="file" multiple style="display: none;"><br><br>
+          <input type="button" value="Upload" onclick="upload_images()">
+        </form>
+        <div id="result"></div>
         <button type="button" class="btn btn-primary" onclick="send_images()" data-bs-dismiss="modal">저장</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
       </div>
@@ -595,7 +605,7 @@
 
 
         <c:forEach var="list" items="${list}" varStatus="index">
-        <c:if test="${list.date_idx == dateVO.idx}">
+        <c:if test="${list.place_date_idx == dateVO.idx}">
           <div class="journal_place">
             <div  class="circle_container">
               <div class="circle">${list.visit_order}</div>
@@ -606,23 +616,23 @@
                 ${list.title}
               </div>
               <p class="place_info">
-                <c:if test="${list.area_code == 1}">서울</c:if>
-                <c:if test="${list.area_code == 2}">인천</c:if>
-                <c:if test="${list.area_code == 3}">대전</c:if>
-                <c:if test="${list.area_code == 4}">대구</c:if>
-                <c:if test="${list.area_code == 5}">광주</c:if>
-                <c:if test="${list.area_code == 6}">경남</c:if>
-                <c:if test="${list.area_code == 7}">울산</c:if>
-                <c:if test="${list.area_code == 31}">경기</c:if>
-                <c:if test="${list.area_code == 32}">강원</c:if>
-                <c:if test="${list.area_code == 33}">충북</c:if>
-                <c:if test="${list.area_code == 34}">충남</c:if>
-                <c:if test="${list.area_code == 35}">경북</c:if>
-                <c:if test="${list.area_code == 36}">경남</c:if>
-                <c:if test="${list.area_code == 37}">전북</c:if>
-                <c:if test="${list.area_code == 38}">전남</c:if>
-                <c:if test="${list.area_code == 39}">제주도</c:if>
-                <c:if test="${list.area_code == 8}">세종</c:if>
+                <c:if test="${list.plan_area_code == 1}">서울</c:if>
+                <c:if test="${list.plan_area_code == 2}">인천</c:if>
+                <c:if test="${list.plan_area_code == 3}">대전</c:if>
+                <c:if test="${list.plan_area_code == 4}">대구</c:if>
+                <c:if test="${list.plan_area_code == 5}">광주</c:if>
+                <c:if test="${list.plan_area_code == 6}">경남</c:if>
+                <c:if test="${list.plan_area_code == 7}">울산</c:if>
+                <c:if test="${list.plan_area_code == 31}">경기</c:if>
+                <c:if test="${list.plan_area_code == 32}">강원</c:if>
+                <c:if test="${list.plan_area_code == 33}">충북</c:if>
+                <c:if test="${list.plan_area_code == 34}">충남</c:if>
+                <c:if test="${list.plan_area_code == 35}">경북</c:if>
+                <c:if test="${list.plan_area_code == 36}">경남</c:if>
+                <c:if test="${list.plan_area_code == 37}">전북</c:if>
+                <c:if test="${list.plan_area_code == 38}">전남</c:if>
+                <c:if test="${list.plan_area_code == 39}">제주도</c:if>
+                <c:if test="${list.plan_area_code == 8}">세종</c:if>
                 *
                 <c:if test="${list.content_type_id == 32}">숙박</c:if>
                 <c:if test="${list.content_type_id == 38}">쇼핑</c:if>
@@ -661,34 +671,6 @@
 
     // 클릭한 버튼에 active 클래스 추가
     button.classList.add('active');
-  }
-
-  // review 이미지 미리보기 함수
-
-  function showReviewPreview() {
-    const file = document.getElementById('review_image_input').files[0]; // 파일 가져오기
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('preview').src = e.target.result; // 이미지 미리보기 설정
-      };
-      reader.readAsDataURL(file); // 파일을 읽어 DataURL로 변환
-    }
-  }
-
-  // journal 이미지 미리보기 함수
-  document.getElementById("add_image_button2").addEventListener("click", function () {
-    document.querySelector(".main_file_input").click();
-  });
-
-  function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function() {
-      // 이미지 미리보기 영역에 선택된 이미지 표시
-      var output = document.getElementById('main_preview');
-      output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]); // 선택된 파일 읽기
   }
 
   // review를 div에 표시하는 함수
@@ -745,6 +727,36 @@
 
   }
 
+  function upload_images() {
+    var form = $('#upload_form')[0];
+    var form_data = new FormData(form);
+    const result_div = document.getElementById('result');
+
+    $.ajax({
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_image',
+      type: 'POST',
+      data: form_data,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.status === 'success') {
+          // 결과 메시지 표시
+          result_div.innerHTML = '';
+          let image_names_html = '<ul>';
+          for (let i = 0; i < response.image_names.length; i++) {
+            image_names_html += '<li>' + 'http://${applicationScope.publicIP}' + response.image_names[i] + '</li>';
+          }
+          image_names_html += '</ul>';
+          result_div.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + image_names_html;
+        } else {
+          result_div.innerHTML = '<p>${response.status}</p><p>${response.message}</p>';
+        }
+      },
+      error: function (xhr, status, error) {
+        alert('Error: ' + error);
+      }
+    });
+  }
 
 
 

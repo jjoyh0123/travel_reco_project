@@ -30,7 +30,7 @@ public class PlaceAction implements Action{
     PlanVO[] planVO = PlaceDAO.getPlan();
     request.setAttribute("planVO", planVO);
 
-    List<JournalDTO> list = PlaceDAO.getoneIdx(1);
+    List<JournalDTO> list = PlaceDAO.getPlan_idx(1);
     request.setAttribute("list", list);
 
     ReviewVO[] reviewVO = PlaceDAO.getReview();
