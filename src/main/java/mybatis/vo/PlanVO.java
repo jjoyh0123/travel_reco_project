@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class PlanVO {
-  private String idx, user_idx, area_code, title, start_date, end_date, status;
+  private String idx, user_idx, area_code, title, start_date, end_date, status, date_idx;
 
 
   public String getIdx() {
@@ -59,4 +59,9 @@ public class PlanVO {
   public void setEnd_date(String end_date) {
     this.end_date = end_date;
   }
+
+  public String getDate_idx() {
+    return date_idx;
+  }
+  public void setDate_idx(String date_idx) {}
 }

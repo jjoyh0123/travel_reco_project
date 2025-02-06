@@ -305,10 +305,7 @@
   <!-- Left Panel -->
   <div id="left-panel">
     <div id="logo">zenzenclub</div>
-    <div class="date active">2025-01-14</div>
-    <div class="date">2025-01-15</div>
-    <div class="date">2025-01-16</div>
-    <div class="date">2025-01-17</div>
+    <div id="date-container"></div> <!-- Dates will be added dynamically -->
     <div id="action-buttons">
       <button class="action-button" onclick="savePlan()">저장</button>
     </div>
@@ -352,12 +349,115 @@
 <script>
   // GLOBAL array to store the current plan (so we can reorder, limit to 10, etc.)
   let currentPlan = [];
+  const allDates = [];
+
+  function generateDateRange(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const dates = [];
+
+    while (start <= end) {
+      // Format the date as YYYY-MM-DD
+      dates.push(start.toISOString().split('T')[0]);
+      start.setDate(start.getDate() + 1);
+    }
+
+    return dates;
+  }
 
   document.addEventListener("DOMContentLoaded", function() {
     fetchTouristSpots();
     setupDragAndDrop();
+    initializeDates();
   });
 
+  // Store previous date selection
+  let previousDate = null;
+  let selectedDate = null;
+
+  // Function to generate date range from session storage
+  function initializeDates() {
+    const startDate = sessionStorage.getItem("startDate");
+    const endDate = sessionStorage.getItem("endDate");
+
+    if (!startDate || !endDate) {
+      console.error("Start date or end date missing from session storage.");
+      return;
+    }
+
+    const dateContainer = document.getElementById("date-container");
+    dateContainer.innerHTML = "";
+
+    const allDates = generateDateRange(startDate, endDate);
+
+    allDates.forEach((date, index) => {
+      const dateElement = document.createElement("div");
+      dateElement.classList.add("date");
+      dateElement.textContent = date;
+
+      if (index === 0) {
+        dateElement.classList.add("active"); // Default to first date
+        selectedDate = date;
+      }
+
+      dateElement.addEventListener("click", function() {
+        selectDate(date, dateElement);
+      });
+
+      dateContainer.appendChild(dateElement);
+    });
+
+    updateSelectedPlaces(selectedDate);
+  }
+
+  // Function to handle date selection
+  function selectDate(date, element) {
+    previousDate = selectedDate;
+    selectedDate = date;
+
+    // Update active class
+    document.querySelectorAll(".date").forEach(d => d.classList.remove("active"));
+    element.classList.add("active");
+
+    console.log(`Previous Date: ${previousDate}, Selected Date: ${selectedDate}`);
+
+    // Update places for the selected date
+    updateSelectedPlaces(selectedDate);
+  }
+
+  // Function to update selected places based on selectedDate
+  function updateSelectedPlaces(date) {
+    const container = document.getElementById("selected-places");
+    container.innerHTML = "";
+
+    const placesForDate = currentPlan.filter(place => place.date === date);
+
+    if (placesForDate.length === 0) {
+      container.innerHTML = `<p>장소 추가하기</p>`;
+    } else {
+      renderSelectedPlaces(placesForDate);
+    }
+  }
+
+  // Ensure adding places saves them under selectedDate
+  function addPlaceToPlan(place) {
+    if (currentPlan.length >= 10) {
+      alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
+      return;
+    }
+
+    if (!selectedDate) {
+      alert("날짜가 선택되지 않았습니다.");
+      return;
+    }
+
+    place.date = selectedDate;
+    currentPlan.push(place);
+    updateSelectedPlaces(selectedDate);
+  }
+
+
+  /////
   // 1) Fetch your list of tourist spots
   function fetchTouristSpots() {
     fetch('/Controller?type=getTouristSpots')
@@ -405,34 +505,40 @@
   }
 
   // 3) Add to plan, with limit of 10
-  function addPlaceToPlan(place) {
-    if (currentPlan.length >= 10) {
-      alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
-      return;
-    }
-    // Example: call the server to store in session or DB
-    const url = '/Controller?type=addPlaceToPlan'
-        + '&contentid=' + encodeURIComponent(place.contentid)
-        + '&title=' + encodeURIComponent(place.title)
-        + '&address=' + encodeURIComponent(place.address)
-        + '&image=' + encodeURIComponent(place.image)
-        + '&category=' + encodeURIComponent(place.category)
-        + '&mapx=' + encodeURIComponent(place.mapx)
-        + '&mapy=' + encodeURIComponent(place.mapy);
 
-    fetch(url)
-        .then(response => response.text())
-        .then(text => JSON.parse(text))
-        .then(updatedPlanFromServer => {
-          // We'll keep a local array, but let's use the server's plan if needed:
-          currentPlan = updatedPlanFromServer;
-          // (If your server doesn't reorder, it's basically appended.)
-          renderSelectedPlaces(currentPlan);
-        })
-        .catch(error => {
-          console.error("Error adding place to plan:", error);
-        });
-  }
+  // function addPlaceToPlan(place) {
+  //   if (currentPlan.length >= 10) {
+  //     alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
+  //     return;
+  //   }
+  //
+  //   // // Get the selected date (for simplicity, let's assume you have a variable that stores the selected date)
+  //   // const selectedDate = document.querySelector(".date.active").textContent; // Example of getting the active date
+  //   if (!selectedDate) {
+  //     alert("날짜가 선택되지 않았습니다.");
+  //     return;
+  //   }
+  //   place.date = selectedDate;
+  //
+  //
+  //   console.log(selectedDate);
+  //   if (!selectedDate) {
+  //     alert("날짜가 선택되지 않았습니다.");
+  //     return;
+  //   }
+  //
+  //   // Add the selected date to the place object
+  //   place.date = selectedDate; // Assign date to place
+  //
+  //   // Now continue to add the place to the plan as usual
+  //   currentPlan.push(place);
+  //
+  //   // (Re-render or update the plan as needed)
+  //   // renderSelectedPlaces(currentPlan);
+  //   updateSelectedPlaces(selectedDate);
+  //
+  // }
+
 
   // 4) Render selected places in the middle panel
   function renderSelectedPlaces(planArray) {
@@ -553,12 +659,90 @@
     renderSelectedPlaces(currentPlan);
   });
 
-  // 7) Save plan (you can send the updated currentPlan to your server)
+  // // 7) Save plan (you can send the updated currentPlan to your server)
+
   function savePlan() {
-    // Example: convert to JSON, send to server with fetch POST, etc.
-    console.log("Saving plan: ", currentPlan);
-    alert("Plan saved to DB (implement as needed)!");
+    if (currentPlan.length === 0) {
+      alert("여행 계획을 추가하세요.");
+      return;
+    }
+
+    // Fetch session data
+    const user_idx = sessionStorage.getItem("user_idx") || "1";
+    const area_code = sessionStorage.getItem("area_code") || "1";
+    const start_date = sessionStorage.getItem("startDate");
+    const end_date = sessionStorage.getItem("endDate");
+    const title = prompt("여행 계획 제목을 입력하세요:");
+
+    if (!title) return;
+
+    // Check if start_date and end_date are available
+    if (!start_date || !end_date) {
+      alert("여행 시작일과 종료일이 필요합니다.");
+      return;
+    }
+
+    // // Generate all dates between start_date and end_date
+    // const allDates = generateDateRange(start_date, end_date);
+
+    // Convert plan to structured format
+    const planData = {
+      user_idx: user_idx,
+      area_code: area_code,
+      title: title,
+      start_date: start_date,
+      end_date: end_date,
+      status: 0,
+      dates: {} // Will be populated with places for each date
+    };
+
+    // Initialize empty arrays for each date in the date range
+    allDates.forEach(date => {
+      planData.dates[date] = []; // Initialize an empty array for each date
+    });
+
+    // Populate the dates with the places from currentPlan
+    currentPlan.forEach(place => {
+      const dateKey = place.date; // This will be set in addPlaceToPlan
+      if (planData.dates[dateKey]) {
+        planData.dates[dateKey].push({
+          content_id: place.contentid,
+          content_type_id: 1,
+          title: place.title,
+          thumbnail: place.image,
+          map_x: place.mapx,
+          map_y: place.mapy,
+          time: place.time || "00:00"
+        });
+      }
+    });
+
+    // Ensure the dates object is correctly populated
+    console.log("Plan data to be sent:", planData);
+
+    // Send planData to the server
+    fetch("/Controller?type=savePlan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(planData)
+    })
+        .then(response => response.json())
+        .then(data => {
+          console.log("data:", data);
+          if (data.success) {
+            alert("여행 계획이 저장되었습니다!");
+          } else {
+            alert("저장 실패: " + data.error);
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("서버와의 연결에서 문제가 발생했습니다.");
+        });
   }
+
 </script>
 </body>
 </html>
