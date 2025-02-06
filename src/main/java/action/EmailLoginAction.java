@@ -1,12 +1,11 @@
 package action;
 
+import mybatis.dao.UserDAO;
+import mybatis.vo.UserVO;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import mybatis.service.FactoryService;
-import mybatis.dao.UserDAO;
-import mybatis.vo.UserVO;
 
 public class EmailLoginAction implements Action {
   @Override
@@ -21,7 +20,7 @@ public class EmailLoginAction implements Action {
       return "jsp/emailLogin.jsp";
     }
 
-    UserVO user = UserDAO.loginCheck(email, password);
+    UserVO user = UserDAO.login_check(email, password);
 
     if (user != null) {
       // 로그인 성공 - 세션에 사용자 정보 저장

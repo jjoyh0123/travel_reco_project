@@ -1,12 +1,12 @@
 package action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import mybatis.dao.SignupDAO;
 import mybatis.dao.UserDAO;
 import mybatis.vo.UserVO;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SignupAction implements Action {
 
@@ -29,7 +29,7 @@ public class SignupAction implements Action {
     SignupDAO.signup(email, pw, nick);
 
     // 회원가입 성공 후 자동 로그인 처리
-    UserVO user = UserDAO.loginCheck(email, pw);
+    UserVO user = UserDAO.login_check(email, pw);
 
     if (user != null) {
       // 세션에 사용자 정보와 프로필 사진 저장

@@ -15,7 +15,7 @@
           margin-bottom: 200px;
       }
 
-      #back_btn{
+      #back_btn {
           position: absolute;
           left: 10px;
           top: 0;
@@ -133,7 +133,7 @@
 <body>
 <!-- 네비게이션 바 추가 -->
 <div class="navbar">
-  <a href="${pageContext.request.contextPath}/jsp/index.jsp" id="back_btn">&lt;</a>
+  <a href="${pageContext.request.contextPath}/Controller" id="back_btn">&lt;</a>
   <a id="login_name">로그인</a>
 </div>
 
@@ -141,23 +141,27 @@
 <p id="logo_name">zenzenclub</p>
 
 <div class="social-buttons">
-  <button class="social-button kakao" aria-label="카카오 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=kakaoLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-kakao.svg" alt="카카오 로그인"  />
+  <button class="social-button kakao" aria-label="카카오 로그인"
+          onclick="location.href='${pageContext.request.contextPath}/Controller?type=kakaoLogin'">
+    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-kakao.svg" alt="카카오 로그인"/>
     <span>카카오로 시작하기</span>
   </button>
 
-  <button class="social-button naver" aria-label="네이버 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=naverLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-naver.svg" alt="네이버 로그인" />
+  <button class="social-button naver" aria-label="네이버 로그인"
+          onclick="location.href='${pageContext.request.contextPath}/Controller?type=naverLogin'">
+    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-naver.svg" alt="네이버 로그인"/>
     <span>네이버로 시작하기</span>
   </button>
 
-  <button class="social-button google" aria-label="구글 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=googleLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-google.svg" alt="구글 로그인" />
+  <button class="social-button google" aria-label="구글 로그인"
+          onclick="location.href='${pageContext.request.contextPath}/Controller?type=googleLogin'">
+    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-google.svg" alt="구글 로그인"/>
     <span>Google로 시작하기</span>
   </button>
 
-  <button class="social-button apple" aria-label="애플 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=appleLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-apple.svg" alt="애플 로그인" />
+  <button class="social-button apple" aria-label="애플 로그인"
+          onclick="location.href='${pageContext.request.contextPath}/Controller?type=appleLogin'">
+    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-apple.svg" alt="애플 로그인"/>
     <span>Apple로 시작하기</span>
   </button>
 

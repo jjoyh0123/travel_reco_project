@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FAQDAO {
-  public static int getTotalCount() {
-    SqlSession ss = FactoryService.getFactory().openSession();
+  public static int get_total_count() {
+    SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("faq.totalCount");
     ss.close();
 
     return cnt;
   }
 
-  public static FaqVO[] getList(int begin, int end) {
+  public static FaqVO[] get_list(int begin, int end) {
     FaqVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
@@ -24,7 +24,7 @@ public class FAQDAO {
     map.put("begin", begin); // String.valueOf(begin);
     map.put("end", end);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<FaqVO> list = ss.selectList("faq.list", map);
 
@@ -37,9 +37,9 @@ public class FAQDAO {
     return ar;
   }
 
-  public static FaqVO getOne(String idx) {
+  public static FaqVO get_one(String idx) {
     FaqVO ar = null;
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     ar = ss.selectOne("faq.selectOne", idx);
     ss.close();
     return ar;

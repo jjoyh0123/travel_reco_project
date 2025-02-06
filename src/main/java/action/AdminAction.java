@@ -39,14 +39,14 @@ public class AdminAction implements Action {
       case "user":
         if (search == null || search.isEmpty()) {
           if (tab2 == null || tab2.equals("user"))
-            totalCount = UserDAO.getTotalCount();
+            totalCount = UserDAO.get_total_count();
           else if (tab2.equals("badge"))
-            totalCount = BadgeDAO.getTotalCount();
+            totalCount = BadgeDAO.get_total_count();
         } else {
           if (tab2 == null || tab2.equals("user"))
-            totalCount = UserDAO.getSearchCount(search);
+            totalCount = UserDAO.get_search_count(search);
           else if (tab2.equals("badge"))
-            totalCount = BadgeDAO.getSearchCount(search);
+            totalCount = BadgeDAO.get_search_count(search);
         }
         break;
       case "post":
@@ -56,9 +56,9 @@ public class AdminAction implements Action {
             area_code = tab2.replaceAll("\\D", "");
           }
           if (area_code.isEmpty()) {
-            totalCount = JournalDAO.getTotalCount();
+            totalCount = JournalDAO.get_total_count();
           } else {
-            totalCount = JournalDAO.getAreaCount(area_code);
+            totalCount = JournalDAO.get_area_count(area_code);
           }
         } else {
           String area_code = "";
@@ -66,25 +66,25 @@ public class AdminAction implements Action {
             area_code = tab2.replaceAll("\\D", "");
           }
           if (area_code.isEmpty()) {
-            totalCount = JournalDAO.getTotalCount(search);
+            totalCount = JournalDAO.get_total_count(search);
           } else {
-            totalCount = JournalDAO.getSearchCount(area_code, search);
+            totalCount = JournalDAO.get_search_count(area_code, search);
           }
         }
         break;
       case "notice":
-        totalCount = NoticeDAO.getTotalCount();
+        totalCount = NoticeDAO.get_total_count();
         break;
       case "support":
-        totalCount = SupportDAO.getTotalCount();
+        totalCount = SupportDAO.get_total_count();
         break;
       case "best_plan":
         if (tab3 == null)
           tab3 = "3";
-        totalCount = JournalDAO.getRangeCount(tab3);
+        totalCount = JournalDAO.get_range_count(tab3);
         break;
       case "faq":
-        totalCount = FAQDAO.getTotalCount();
+        totalCount = FAQDAO.get_total_count();
         break;
       case "event":
         totalCount = 5;
@@ -110,14 +110,14 @@ public class AdminAction implements Action {
       case "user":
         if (search == null || search.isEmpty()) {
           if (tab2 == null || tab2.equals("user"))
-            ar = UserDAO.getList(page.getBegin(), page.getEnd());
+            ar = UserDAO.get_list(page.getBegin(), page.getEnd());
           else if (tab2.equals("badge"))
-            ar = BadgeDAO.getList(page.getBegin(), page.getEnd());
+            ar = BadgeDAO.get_list(page.getBegin(), page.getEnd());
         } else {
           if (tab2 == null || tab2.equals("user"))
-            ar = UserDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+            ar = UserDAO.get_search_list(page.getBegin(), page.getEnd(), search);
           else if (tab2.equals("badge"))
-            ar = BadgeDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+            ar = BadgeDAO.get_search_list(page.getBegin(), page.getEnd(), search);
         }
         break;
       case "post":
@@ -127,9 +127,9 @@ public class AdminAction implements Action {
             area_code = tab2.replaceAll("\\D", "");
           }
           if (area_code.isEmpty()) {
-            ar = JournalDAO.getList(page.getBegin(), page.getEnd());
+            ar = JournalDAO.get_list(page.getBegin(), page.getEnd());
           } else {
-            ar = JournalDAO.getList(page.getBegin(), page.getEnd(), area_code);
+            ar = JournalDAO.get_list(page.getBegin(), page.getEnd(), area_code);
           }
         } else {
           String area_code = "";
@@ -137,32 +137,32 @@ public class AdminAction implements Action {
             area_code = tab2.replaceAll("\\D", "");
           }
           if (area_code.isEmpty()) {
-            ar = JournalDAO.getSearchList(page.getBegin(), page.getEnd(), search);
+            ar = JournalDAO.get_search_list(page.getBegin(), page.getEnd(), search);
           } else {
-            ar = JournalDAO.getSearchList(page.getBegin(), page.getEnd(), area_code, search);
+            ar = JournalDAO.get_search_list(page.getBegin(), page.getEnd(), area_code, search);
           }
         }
         break;
       case "notice":
         if (tab3 == null)
           tab3 = "idx";
-        ar = NoticeDAO.getList(page.getBegin(), page.getEnd(), tab3);
+        ar = NoticeDAO.get_list(page.getBegin(), page.getEnd(), tab3);
         break;
       case "support":
-        ar = SupportDAO.getList(page.getBegin(), page.getEnd());
+        ar = SupportDAO.get_list(page.getBegin(), page.getEnd());
         break;
       case "best_plan":
-        best = JournalBestDAO.getList();
-        ar = JournalDAO.getRangeList(page.getBegin(), page.getEnd(), tab3, tab2);
+        best = JournalBestDAO.get_list();
+        ar = JournalDAO.get_range_list(page.getBegin(), page.getEnd(), tab3, tab2);
         break;
       case "faq":
-        ar = FAQDAO.getList(page.getBegin(), page.getEnd());
+        ar = FAQDAO.get_list(page.getBegin(), page.getEnd());
         break;
       case "event":
-        ar = EventImageDAO.getList();
+        ar = EventImageDAO.get_list();
         break;
       default:
-        ar = TempDAO.getList();
+        ar = TempDAO.get_list();
         break;
     }
 

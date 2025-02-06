@@ -8,10 +8,10 @@ import java.util.List;
 
 public class JournalBestDAO {
 
-  public static JournalBestVO[] getList() {
+  public static JournalBestVO[] get_list() {
     JournalBestVO[] ar = null;
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<JournalBestVO> list = ss.selectList("journal_best.list");
 

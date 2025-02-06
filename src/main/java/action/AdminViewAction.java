@@ -32,12 +32,12 @@ public class AdminViewAction implements Action {
 
           break;
         case "notice":
-          vo = NoticeDAO.getOne(idx);
+          vo = NoticeDAO.get_one(idx);
           break;
         case "support":
           break;
         case "faq":
-          vo = FAQDAO.getOne(idx);
+          vo = FAQDAO.get_one(idx);
           break;
       }
 

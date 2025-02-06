@@ -23,7 +23,7 @@ public class UpdateUserAction implements Action {
     vo.setStatus(Integer.parseInt(status));
 
     boolean success;
-    success = UserDAO.updateUser(vo);
+    success = UserDAO.update_user(vo);
     request.setAttribute("success", success);
     return "jsp/update.jsp";
   }

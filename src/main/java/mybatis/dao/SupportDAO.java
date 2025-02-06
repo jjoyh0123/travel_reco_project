@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SupportDAO {
-  public static int getTotalCount() {
-    SqlSession ss = FactoryService.getFactory().openSession();
+  public static int get_total_count() {
+    SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("support.totalCount");
     ss.close();
 
     return cnt;
   }
 
-  public static SupportVO[] getList(int begin, int end) {
+  public static SupportVO[] get_list(int begin, int end) {
     SupportVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
@@ -24,7 +24,7 @@ public class SupportDAO {
     map.put("begin", begin); // String.valueOf(begin);
     map.put("end", end);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<SupportVO> list = ss.selectList("support.list", map);
 

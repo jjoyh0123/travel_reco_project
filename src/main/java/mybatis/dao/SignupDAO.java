@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 public class SignupDAO {
 
   public static boolean emailCheck(String email) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     try {
       Integer count = ss.selectOne("signup.checkEmail", email);
@@ -22,7 +22,7 @@ public class SignupDAO {
 
 
   public static boolean nickCheck(String nickname) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     try {
       Integer count = ss.selectOne("signup.checkNick", nickname);
@@ -33,7 +33,7 @@ public class SignupDAO {
   }
 
   public static void signup(String email, String pw, String nick) {
-    SqlSession session = FactoryService.getFactory().openSession();
+    SqlSession session = FactoryService.get_factory().openSession();
     try {
       UserVO userVO = new UserVO();
       userVO.setEmail(email);

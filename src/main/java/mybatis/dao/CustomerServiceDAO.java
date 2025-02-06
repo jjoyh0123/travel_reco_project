@@ -13,7 +13,7 @@ public class CustomerServiceDAO {
     SqlSession ss = null;
 
     try {
-      ss = FactoryService.getFactory().openSession();
+      ss = FactoryService.get_factory().openSession();
 
       List<NoticeVO> list = ss.selectList("customer_service.getNotice");
 
@@ -36,16 +36,15 @@ public class CustomerServiceDAO {
   public static FaqVO[] getFaq() {
     FaqVO[] ar = null;
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<FaqVO> list = ss.selectList("customer_service.getFaq");
-    if (list != null && !list.isEmpty()){
+    if (list != null && !list.isEmpty()) {
       ar = new FaqVO[list.size()];
       list.toArray(ar);
     }
     ss.close();
 
-    System.out.println(ar.length);
     return ar;
   }
 }
