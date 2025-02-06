@@ -16,6 +16,11 @@
   <input type="file" name="file" multiple><br><br>
   <input type="button" value="Upload" onclick="upload_images()">
 </form>
+<br><hr><br>
+<form id="delete_one">
+  <input type="text" name="file_path" placeholder="file_path"><br>
+  <input type="button" value="Delete one" onclick="delete_one_image()">
+</form>
 
 <div id="result"></div>
 
@@ -51,6 +56,10 @@
         alert('Error: ' + error);
       }
     });
+  }
+
+  function delete_one_image() {
+    // var form = $('#delete_one')[0];
   }
 </script>
 </body>
