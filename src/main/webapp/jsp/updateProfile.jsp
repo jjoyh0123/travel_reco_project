@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>프로필관리</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <style>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
       .logo {
           height: 50px;
           position: absolute;
@@ -21,11 +22,11 @@
           gap: 20px;
           width: 90%;
           max-width: 1000px;
-          /* background: white; */
           padding: 0;
           border-radius: 15px;
           margin: 100px auto 50px auto;
       }
+
       .header {
           background-color: #ff7f50;
           color: white;
@@ -38,58 +39,96 @@
           border-radius: 10px;
       }
 
-
-
-      h1 {
-          color: #1A1A1A;
-          margin-top: 0px;
-          padding: 20px;
-      }
-
-
       .profile-form {
-          padding: 10px 200px 0 470px;
-          max-width: 600px;
-          margin: 0 100px  100px;
-      }
-
-
-      .form-group input{
-          width: 300px;
-          height: 30px;
-          border-radius: 5px;
-          border: 1px solid;
-          margin-bottom: 5px;
-          gap: 3px;
-
-      }
-
-      /* 버튼 영역 */
-      .profile-form .button-group {
           display: flex;
-          gap: 10px;
+          flex-direction: column;
+          align-items: center;
+          width: 90%;
+          max-width: 1000px;
+          margin: 50px auto;
+          padding: 20px;
+          border-radius: 10px;
+
+      }
+
+      .form-group {
+          width: 100%;
+          margin-bottom: 20px;
+      }
+
+      .form-group label {
+          font-weight: bold;
+          margin-bottom: 5px;
+          display: inline-block;
+      }
+
+      .form-group input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
           border-radius: 5px;
+          box-sizing: border-box;
       }
 
-      .profile-form .userDelete_btn{
-          width: 305px;
-          height: 30px;
-          margin-top: 20px;
-      }
-
-      .profile-form .cancel_btn , .save_btn {
-          width: 145px;
-          height: 35px;
-          margin-top: 15px;
+      .button-group button {
+          font-size: 16px;
+          font-weight: bold;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
 
       }
 
+      .btn-outline-danger {
+          width: 513.63px; /* 원하는 너비로 조정 */
+          height: 40px; /* 원하는 높이로 조정 */
+          background: #ced4da;
+          color: #fff;
+          border: 1px solid #6c757d;
+
+      }
+
+      .btn-outline-danger:hover {
+          background-color: #adb5bd;
+          color: white;
+          border: none;
+      }
+
+      .btn-secondary {
+          width: 250px;
+          height: 40px;
+          background-color: #ced4da;
+          color: white;
+
+
+      }
+
+      #deleteAccountButton {
+          border: none;
+      }
+
+      .btn-secondary:hover {
+          background-color: #adb5bd;
+      }
+
+      .save_btn {
+          width: 250px;
+          height: 40px;
+          background-color: #ced4da;
+          color: white;
+      }
+
+      .save_btn:hover {
+          background-color: #ff7f50;
+      }
   </style>
+
 </head>
 <body>
 <header>
   <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png" class="logo" alt="로고"></a>
 </header>
+
 <div class="container">
   <!-- 닉네임 표시 조건 추가 -->
   <div class="header">
@@ -97,7 +136,6 @@
       <!-- 세션에 닉네임이 있을 경우 닉네임 출력 -->
       <c:when test="${not empty sessionScope.nick}">
         <div class="nickname-area">
-
           <div id="nicknameDisplay">
             <span id="nicknameText">${sessionScope.nick} 님!</span>
           </div>
@@ -106,39 +144,46 @@
     </c:choose>
   </div>
 </div>
+
 <div class="profile-form">
-  <h1>프로필 설정</h1>
-  <form id="updateProfile" action="${pageContext.request.contextPath}/Controller?type=updateProfile" method="post" onsubmit="validateProfileForm();">
+    <h1 class="text-center mb-4">프로필 설정</h1>
+
+    <!-- 프로필 수정 폼 -->
+    <form id="updateProfile" action="${pageContext.request.contextPath}/Controller?type=updateProfile" method="post">
       <div class="form-group">
-        <label for="email">이메일주소</label><br/>
+        <label for="email">이메일 주소</label>
         <input type="text" id="email" name="email" value="${sessionScope.email}" disabled>
       </div>
       <div class="form-group">
-        <label for="nickname">닉네임</label><br/>
+        <label for="nickname">닉네임</label>
         <input type="text" id="nickname" name="nickname" value="${sessionScope.nick}" required>
-        <div id="nickname-message" class="error-message" style="display:none; color:red;"></div>
+        <div id="nickname-message" class="error-message text-danger mt-1" style="display:none;"></div>
       </div>
       <div class="form-group">
-        <label for="password">패스워드 변경</label><br/>
+        <label for="password">패스워드 변경</label>
         <input type="password" id="password" name="password" value="${sessionScope.password}" required>
-        <div id="password-message" class="error-message" style="display:none; color:red;"></div>
       </div>
-    <div class="form-group">
-      <label for="passwordConfirm">패스워드 변경 확인</label><br/>
-      <input type="password" id="passwordConfirm" name="password" value="${sessionScope.password}" required>
-      <div id="passwordConfirm-message" class="error-message" style="display:none; color:red;"></div>
-    </div>
+      <div class="form-group">
+        <label for="passwordConfirm">패스워드 변경 확인</label>
+        <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}" required>
+        <div id="password-message" class="error-message text-danger mt-1" style="display:none;"></div>
+      </div>
 
-      <div class="button-group">
-        <button type="button" class="userDelete_btn" onclick="if(confirm('정말 회원탈퇴 하시겠습니까?')) { window.location.href='${pageContext.request.contextPath}/'; }">회원탈퇴</button><br/>
-      </div>
-      <div class="button-group">
-        <button type="button" class="cancel_btn" onclick="window.history.back();">취소</button>
-        <button type="submit" class="save_btn" onclick="if (confirm('저장하시겠습니까?')) { window.location.href='${pageContext.request.contextPath}/Controller?type=updateProfile'; }">저장</button>
+      <!-- 버튼 그룹 -->
+      <div class="button-group mt-4">
+        <button type="button" class="btn btn-secondary" onclick="window.history.back();">취소</button>
+        <button type="submit" class="save_btn">저장</button>
       </div>
     </form>
-  </div>
 
+    <!-- 회원탈퇴 폼 -->
+    <form action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" class="mt-4">
+      <button type="submit" id="deleteAccountButton" class="btn btn-outline-danger"
+              onclick="return confirm('정말로 회원탈퇴를 진행하시겠습니까?');">
+        회원탈퇴
+      </button>
+    </form>
+  </div>
 <script>
   let isNicknameValid = false;
   let isPasswordValid = false;
@@ -175,8 +220,8 @@
     const passwordConfirm = document.getElementById("passwordConfirm").value;
     const passwordMessage = document.getElementById("password-message");
 
-    if (password.length < 4) {
-      passwordMessage.textContent = "패스워드는 4자리 이상이어야 합니다.";
+    if (password.length < 6) {
+      passwordMessage.textContent = "패스워드는 6자리 이상이어야 합니다.";
       passwordMessage.style.display = "block";
       passwordMessage.style.color = "red";
       isPasswordValid = false;
@@ -201,8 +246,8 @@
   document.getElementById("password").addEventListener("input", validatePassword);
   document.getElementById("passwordConfirm").addEventListener("input", validatePassword);
 
-  // 폼 제출 시 전체 검증 확인
-  document.getElementById("updateProfile").addEventListener("submit", function(event) {
+  // 프로필 수정 폼 제출 시 유효성 검사
+  document.getElementById("updateProfile").addEventListener("submit", function (event) {
     validateNickname();
     validatePassword();
 
@@ -211,9 +256,6 @@
       alert("입력 정보를 확인해주세요.");
     }
   });
-
-
-
 </script>
 </body>
 </html>

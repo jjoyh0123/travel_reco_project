@@ -34,8 +34,8 @@ public class UpdateProfileAction implements Action {
     }
 
     // 2. 패스워드 길이 검사
-    if (newPw == null || newPw.length() < 4) {
-      request.setAttribute("msg", "패스워드는 4자리 이상 입력해야 합니다.");
+    if (newPw == null || newPw.length() < 6) {
+      request.setAttribute("msg", "패스워드는 6자리 이상 입력해야 합니다.");
       return "jsp/updateProfile.jsp";
     }
 

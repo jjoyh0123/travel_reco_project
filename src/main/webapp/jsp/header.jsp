@@ -51,8 +51,33 @@
       }
 
       .profile {
-          background-image: none; /*프로필 사진*/
-          padding: 0;
+/*          background-image: none; !*프로필 사진*!
+          padding: 0;*/
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: #ffff; /* 이미지가 없을 때 기본 색상 */
+          border: 1px;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .profile_icon{
+          .profile_icon {
+              width: 100%;
+               height: 100%;
+              border-radius: 50%;
+              overflow: hidden;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+          }
+      }
+
+      .profile-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* 이미지를 원형 안에 맞게 채우기 */
       }
 
       .btn.btn-outline-secondary{
@@ -107,10 +132,12 @@
         <div class="dropdown">
           <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="border: none;">
+            <div class="profile_icon">
             <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
+            </div>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/mypage.jsp">마이페이지</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/my_page.jsp">마이페이지</a></li>
             <li><a class="dropdown-item" href="#">1:1문의</a></li>
             <li>
               <hr class="dropdown-divider">

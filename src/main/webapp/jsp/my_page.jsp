@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <head>
   <meta charset="UTF-8">
   <title>마이페이지</title>
@@ -67,6 +68,11 @@
           color: black;
       }
 
+      .nav a:hover{
+          color: #ff7f50;
+          text-decoration: none;
+      }
+
       .nav a:nth-child(2),
       .nav a:nth-child(3) {
           border-left: 1px solid #999;
@@ -74,7 +80,7 @@
       }
 
 
-      .new-trip {
+      .new_trip {
           background-color: #ff7f50;
           color: white;
           padding: 15px;
@@ -84,7 +90,7 @@
           border-radius: 10px;
       }
 
-      .trip-container {
+      .trip_container {
           position: relative;
           background: white;
           border-radius: 10px;
@@ -96,12 +102,12 @@
       }
 
 
-      .trip-img {
+      .trip_img {
           border-right: 1px solid #ccc; /* 회색 선 추가 */
           text-align: center;
       }
 
-      .trip-img img {
+      .trip_img img {
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -111,8 +117,13 @@
       }
 
 
-      .trip-info {
+      .trip_info {
           text-align: center;
+      }
+
+      .new_trip a{
+          color: #ffff;
+          text-decoration: none;
       }
 
       .menu {
@@ -135,13 +146,13 @@
           position: absolute;
           top: 10px;
           right: 15px;
-          font-size: 20px;
+          font-size: 15px;
           cursor: pointer;
       }
 
       /* 팝업 */
       /* 팝업 메뉴 기본적으로 숨김 */
-      .popup-menu {
+      .popup_menu {
           display: none;
           position: absolute;
           top: 25px;
@@ -154,28 +165,28 @@
           z-index: 10;
       }
 
-      .popup-menu ul {
+      .popup_menu ul {
           list-style: none;
           padding: 0;
           margin: 0;
       }
 
-      .popup-menu ul li {
+      .popup_menu ul li {
           padding: 8px 15px;
           cursor: pointer;
           font-size: 16px;
       }
 
-      .popup-menu ul li:hover {
+      .popup_menu ul li:hover {
           background-color: #f0f0f0;
       }
 
-      .popup-menu ul li.delete {
+      .popup_menu ul li.delete {
           color: red;
           font-weight: bold;
       }
 
-      .share-menu {
+      .share_menu {
           font-size: 11px;
           color: darkgray;
           display: none;
@@ -189,22 +200,22 @@
           margin-top: 10px;
       }
 
-      .share-menu ul {
+      .share_menu ul {
           list-style: none;
           padding: 0;
           margin: 0;
       }
 
-      .share-menu ul li {
+      .share_menu ul li {
           padding: 8px 15px;
           cursor: pointer;
       }
 
-      .share-menu ul li:hover {
+      .share_menu ul li:hover {
           background-color: #f0f0f0;
       }
 
-      .share-option {
+      .share_option {
           display: flex;
           align-items: center;
           color: black;
@@ -215,12 +226,12 @@
           transition: background-color 0.3s ease;
       }
 
-      .share-option img {
+      .share_option img {
           width: 30px;
           height: 30px;
       }
 
-      .share-option:hover {
+      .share_option:hover {
           background-color: #f0f0f0;
       }
 
@@ -231,36 +242,51 @@
       }
 
 
-      .nickname-area {
+      .nickname_area {
           display: inline-flex;
           align-items: center;
           gap: 8px;
       }
 
-      #nicknameDisplay span {
+      #nickname_display span {
           font-size: inherit;
-          color: #fff; /* 헤더 배경색과 조화되도록 설정 (필요에 따라 조정) */
+          color: #fff;
       }
 
-      #nicknameDisplay button,
-      #nicknameEdit button {
+      #nickname_display button {
           padding: 4px 8px;
           font-size: 14px;
           cursor: pointer;
+          color: #fff;
       }
 
-      #editNicknameBtn {
-          width: 20px;
-          height: 20px;
+
+      .bi-gear-fill {
+          color: #ffffff;
       }
 
+
+
+      .profile_link {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          color: white;
+          text-decoration: none;
+          font-size: 15px;
+      }
+
+      .profile_text {
+
+          color: #ffffff;
+          opacity: 0.8;
+      }
 
   </style>
 </head>
 <body>
 <header>
-  <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png"
-                                                               class="logo" alt="로고"></a>
+  <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png" class="logo" alt="로고"></a>
 </header>
 <div class="container">
   <!-- 닉네임 표시 조건 추가 -->
@@ -268,18 +294,17 @@
     <c:choose>
       <%-- 세션에 닉네임이 있을 경우 닉네임 출력 --%>
       <c:when test="${not empty sessionScope.nick}">
-        <div class="nickname-area">
+        <div class="nickname_area">
 
-          <div id="nicknameDisplay">
-            <span id="nicknameText">${sessionScope.nick} 님!</span>
-            <a href="${pageContext.request.contextPath}/jsp/updateProfile.jsp">
-              <img src="${pageContext.request.contextPath}/www/seeting_img.jpg" alt="프로필수정" id="editNicknameBtn"
-                   style="cursor:pointer;"></a>
+          <div id="nickname_display">
+            <span id="nickname_text">${sessionScope.nick} 님!</span>
+            <a href="${pageContext.request.contextPath}/jsp/updateProfile.jsp" class="profile_link ">
+              <i class="bi bi-gear-fill"></i><span class="profile_text">프로필 관리</span></a>
           </div>
         </div>
       </c:when>
 
-      <%-- 세션에 닉네임이나 사용자 정보가 없을 경우 'Guest' 출력 --%>
+      <%-- 세션에 닉네임이나 사용자 정보가 없을 경우 'Guest' 라는 이름을 출력 --%>
       <c:otherwise>
         <div class="nickname">Guest 님!</div>
       </c:otherwise>
@@ -289,52 +314,58 @@
   </div>
 
   <div class="nav">
-    <a href="#">나의 여행</a>
-    <a href="#">여행 후기</a>
-    <a href="#">내가 쓴 리뷰</a>
+    <!-- 세션에 저장된 type 값을 활용해 링크 설정 -->
+    <a href="${pageContext.request.contextPath}/Controller?type=my_trip_plan">나의 여행</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=my_trip_review">여행 후기</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=my_review_history">내가 쓴 리뷰</a>
   </div>
-  <div class="new-trip">새 여행 만들기 +</div>
-  <div class="trip-container">
-    <div class="trip-img">
+
+
+
+  <div class="new_trip"><a href="">새 여행 만들기 +</a>
+  </div>
+
+  <div class="trip_container">
+    <div class="trip_img">
       <p class="rank">1</p>
       <img src="" alt="여행지사진">
     </div>
-    <div class="trip-info">
+    <div class="trip_info">
       <strong>여행 이름 / 후기 이름</strong><br>
       여행 기간: 2.26 - 2.28<br>
       지역: 부산
     </div>
     <div class="menu" onclick="toggleMenu(this)">• • •
-      <div class="popup-menu">
+      <div class="popup_menu">
         <ul>
           <li onclick="toggleShareMenu(this)">공유하기</li>
           <li>후기작성</li>
           <li class="delete">삭제</li>
         </ul>
       </div>
-      <div class="share-menu">
+      <div class="share_menu">
         <strong>공유하기</strong>
-        <div class="share-option" onclick="shareKakao()">
+        <div class="share_option" onclick="shareKakao()">
           <img src="${pageContext.request.contextPath}/www/kakaoGo_img.png" alt="카카오톡 공유">카카오톡으로 링크보내기
         </div>
-        <div class="share-option" onclick="copyLink()">
+        <div class="share_option" onclick="copyLink()">
           <img src="${pageContext.request.contextPath}/www/linkGo_img.png" alt="링크복사">링크 복사하기
         </div>
       </div>
     </div>
   </div>
-  <div class="trip-container">
-    <div class="trip-img">
+  <div class="trip_container">
+    <div class="trip_img">
       <p class="rank">2</p>
       <img src="" alt="여행지사진">
     </div>
-    <div class="trip-info">
+    <div class="trip_info">
       <strong>여행 이름</strong><br>
       여행 기간: 12.6 - 12.8<br>
       지역: 도쿄
     </div>
-    <div class="menu" onclick="popup-menu">• • •
-      <div class="popup-menu">
+    <div class="menu" onclick="toggleMenu(this)">• • •
+      <div class="popup_menu">
         <ul>
           <li onclick="toggleShareMenu(this)">공유하기</li>
           <li>후기작성</li>
@@ -345,142 +376,64 @@
   </div>
 </div>
 </body>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-
-
-    // 인라인 편집 관련 요소 선택
-    const nicknameDisplay = document.getElementById('nicknameDisplay');
-    const nicknameEdit = document.getElementById('nicknameEdit');
-    const nicknameText = document.getElementById('nicknameText');
-    const nicknameInput = document.getElementById('nicknameInput');
-
-    const editNicknameBtn = document.getElementById('editNicknameBtn');
-
-    const cancelNicknameBtn = document.getElementById('cancelNicknameBtn');
-
-    // '수정' 버튼 클릭 시 편집 영역으로 전환
-    editNicknameBtn.addEventListener('click', function () {
-      nicknameEdit.style.display = 'inline-flex';
-      nicknameInput.focus();
-    });
-
-    // '취소' 버튼 클릭 시 원래 영역으로 복귀
-    cancelNicknameBtn.addEventListener('click', function () {
-      nicknameEdit.style.display = 'none';
-      nicknameDisplay.style.display = 'inline-flex';
-      // 입력값을 원래 값으로 복원 (님! 제거)
-      nicknameInput.value = nicknameText.textContent.replace(" 님!", "");
-    });
-
-    // '저장' 버튼 클릭 시 AJAX로 변경 내용 전송
-    saveNicknameBtn.addEventListener('click', function () {
-      const newNickname = nicknameInput.value.trim();
-      if (newNickname === "") {
-        alert("닉네임을 입력하세요.");
-        nicknameInput.focus();
-        return;
-      }
-
-      // AJAX 요청: updateProfileAction.jsp (Java Action)로 POST 전송
-      fetch('${pageContext.request.contextPath}/updateProfileAction.jsp', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'nickname=' + encodeURIComponent(newNickname)
-      })
-          .then(response => response.text())
-          .then(result => {
-            if (result.trim() === "success") {
-              alert("프로필이 성공적으로 업데이트되었습니다.");
-              // 헤더 닉네임 업데이트
-              nicknameText.textContent = newNickname + " 님!";
-              nicknameEdit.style.display = 'none';
-              nicknameDisplay.style.display = 'inline-flex';
-            } else {
-              alert("프로필 업데이트에 실패하였습니다.");
-            }
-          })
-          .catch(error => {
-            console.error("업데이트 오류:", error);
-            alert("프로필 업데이트 중 오류가 발생하였습니다.");
-          });
-    });
-  });
-
-  // 메뉴 토글 함수
+  // 메뉴 토글 기능
   function toggleMenu(menuElement) {
-    // 모든 다른 메뉴 닫기
-    document.querySelectorAll(".popup-menu").forEach(menu => {
-      if (menu !== menuElement.querySelector(".popup-menu")) {
+    const popupMenu = menuElement.querySelector(".popup_menu");
+
+    // 다른 열린 메뉴들은 닫기
+    document.querySelectorAll(".popup_menu").forEach(menu => {
+      if (menu !== popupMenu) {
         menu.style.display = "none";
       }
     });
 
-    let popupMenu = menuElement.querySelector(".popup-menu");
-    let shareMenu = menuElement.querySelector(".share-menu");
-
-    // 현재 클릭한 메뉴만 토글
-    if (popupMenu.style.display === "block") {
-      popupMenu.style.display = "none";
-      shareMenu.style.display = "none"; // 공유하기 메뉴도 닫기
-    } else {
-      popupMenu.style.display = "block";
-    }
+    // 현재 메뉴의 display 상태 토글
+    popupMenu.style.display = popupMenu.style.display === "block" ? "none" : "block";
   }
 
-  // 공유 메뉴 토글 함수
+  // 공유 메뉴 토글 기능
   function toggleShareMenu(shareElement) {
-    let shareMenu = shareElement.closest(".menu").querySelector(".share-menu");
+    const shareMenu = shareElement.closest(".menu").querySelector(".share_menu");
 
-    // 모든 공유하기 메뉴 닫기
-    document.querySelectorAll(".share-menu").forEach(menu => {
-      if (menu !== shareMenu) menu.style.display = "none";
-    });
-
-    // 현재 클릭한 공유하기 메뉴만 토글
-    shareMenu.style.display = (shareMenu.style.display === "block") ? "none" : "block";
-  }
-
-  function shareKakao() {
-    alert("카카오톡 공유 기능이 구현될 예정입니다.");
-  }
-
-  function copyLink() {
-    const dummy = document.createElement("textarea");
-    dummy.value = window.location.href;
-    document.body.appendChild(dummy);
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-    alert("링크가 복사되었습니다!");
-  }
-
-  // 화면의 다른 곳을 클릭하면 모든 메뉴 닫기
-  document.addEventListener("click", function (event) {
-    let isClickInsideMenu = event.target.closest(".menu");
-    if (!isClickInsideMenu) {
-      document.querySelectorAll(".popup-menu, .share-menu").forEach(menu => {
+    // 다른 열린 공유 메뉴 닫기
+    document.querySelectorAll(".share_menu").forEach(menu => {
+      if (menu !== shareMenu) {
         menu.style.display = "none";
-      });
-    }
-  });
-
-  // 모든 메뉴 요소에 이벤트 바인딩
-  document.querySelectorAll(".menu").forEach(menu => {
-    menu.addEventListener("click", function (event) {
-      event.stopPropagation(); // 이벤트 버블링 방지
-      toggleMenu(this);
+      }
     });
-  });
 
-  // 공유하기 메뉴 항목에 이벤트 바인딩
-  document.querySelectorAll(".popup-menu ul li").forEach(item => {
-    if (item.textContent.includes("공유하기")) {
-      item.addEventListener("click", function (event) {
-        event.stopPropagation(); // 이벤트 버블링 방지
-        toggleShareMenu(this);
+    // 현재 공유 메뉴 display 상태 토글
+    shareMenu.style.display = shareMenu.style.display === "block" ? "none" : "block";
+  }
+
+  // 카카오톡 공유 기능 예시
+  function shareKakao() {
+    alert("카카오톡 공유 기능이 호출되었습니다!");
+    // 실제 카카오톡 API 연동 필요
+  }
+
+  // 링크 복사 기능 예시
+  function copyLink() {
+    const linkToCopy = "https://example.com/my-trip";  // 복사할 링크 예시
+    navigator.clipboard.writeText(linkToCopy).then(() => {
+      alert("링크가 복사되었습니다!");
+    }).catch(() => {
+      alert("링크 복사에 실패했습니다.");
+    });
+  }
+
+  // 페이지 외부 클릭 시 메뉴 닫기 기능
+  document.addEventListener("click", function (event) {
+    const isMenuClick = event.target.closest(".menu");
+    if (!isMenuClick) {
+      document.querySelectorAll(".popup_menu, .share_menu").forEach(menu => {
+        menu.style.display = "none";
       });
     }
   });
 </script>
+
+
 </html>

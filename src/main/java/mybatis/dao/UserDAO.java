@@ -52,4 +52,22 @@ public class UserDAO {
 
     return userVO;
   }
+
+
+  public static boolean deactivateUser(int userId) {
+    try (SqlSession sqlSession = FactoryService.getFactory().openSession()) {
+      int result = sqlSession.update("user.deactivateUser", userId);
+      if (result > 0) {
+        sqlSession.commit();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+
 }
