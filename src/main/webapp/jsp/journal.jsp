@@ -1,3 +1,5 @@
+<%@ page import="mybatis.vo.PlaceVO" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -345,7 +347,7 @@
           font-weight: 700;
       }
 
-      .modal_img{
+      .modal_image{
           /*display: inline-block;*/
           border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
           width: 100%; /* 부모 요소에 맞춤 */
@@ -403,7 +405,7 @@
 <%--별점 기능--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
-<%--            <c:forEach var="i" begin="1" end="10">--%>
+<%--            <c:forEach var="i" begin="1" end="10" varStatus="index">--%>
 <%--              <label for="starpoint_${index.count}_${i}" class="label_star">--%>
 <%--                <span class="blind">${i * 0.5}점</span>--%>
 <%--              </label>--%>
@@ -444,25 +446,28 @@
         <div class="add_image_area">
 <%--      사진 추가 버튼--%>
         <div class="add_image_button_area">
-<%--          <form action="Controller" method="post" enctype="multipart/form-data">--%>
-<%--            <input type="file" name="file" id="file_input" class="file_input">--%>
-            <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼" onclick="image()">
-<%--          </form>--%>
+          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button"
+               alt="사진 추가 버튼" onclick="document.getElementById('review_image_input').click();">
+          <input type="file" id="review_image_input" style="display: none;" accept="image/*" onchange="addImageToCarousel()">
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
         <div class="modal_carousel_area">
           <div id="modal_carousel" class="carousel slide">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="" class="modal_img" alt="...">
-              </div>
+            <div class="carousel-inner" id="carouselInner">
+                <%-- 초기 미리보기 이미지 --%>
+                <c:forEach var="image_list" items="${placeVO.image_list}" varStatus="index">
+                <div class="carousel-item ${index.first ? 'active' : ''}">
+                  <img src="${image_list}" alt="후기 사진을 등록해주세요" class="modal_image">
+                </div>
+                </c:forEach>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#modal_carousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#modal_carousel" data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
@@ -472,12 +477,7 @@
 <%--      캐러셀 끝--%>
       </div>
       <div class="modal-footer">
-          <%--        <c:if test="${review != null}">--%>
-          <%--          <div>${reviewVO.review}</div>--%>
-          <%--        </c:if>--%>
-        <button type="button" class="btn btn-primary" onclick="saveReview(${index.count})"
-<%--                oninput="updateButton(${index.count})"--%>
-                data-bs-dismiss="modal">저장</button>
+        <button type="button" class="btn btn-primary" onclick="send_images()" data-bs-dismiss="modal">저장</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
       </div>
     </div>
@@ -502,12 +502,19 @@
           <div class="carousel-item">
             <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">
           </div>
-<%--          <div class="carousel-item">--%>
-<%--            <img id="preview" src="#" alt="미리보기 이미지" style="display:none; max-width: 300px; margin-top: 10px;">--%>
-<%--          </div>--%>
+<%--          <c:forEach var="i" items="${imageVO}" varStatus="index">--%>
+<%--            <div class="carousel-item active">--%>
+<%--            <img src="#" id="preview${index.count}" class="main_carousel_image" alt="후기 사진을 등록해주세요">--%>
+<%--            </div>--%>
+<%--          </c:forEach>--%>
+          <div class="carousel-item">
+            <img id="main_preview" src="#" alt="미리보기 이미지" class="main_carousel_image">
+          </div>
+
           <div>
-          <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼"
-          onclick="uploadImages()">
+              <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼"
+                   onclick="document.getElementById('image_input').click();">
+            <input type="file" id="image_input" style="display:none;" accept="image/*" onchange="previewImage(event)">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -645,26 +652,33 @@
     button.classList.add('active');
   }
 
-  // // 이미지 클릭 시 파일 선택 창 열기
-  // document.querySelectorAll(".add_image_button").forEach(function (button) {
-  //   button.addEventListener("click", function () {
-  //     document.querySelector(".file_input").click();
-  //   });
-  // });
+  // review 이미지 미리보기 함수
 
-  // 파일 선택 시 미리보기
-  // document.getElementById("file_input").addEventListener("change", function (event) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = function (e) {
-  //       const preview = document.getElementById("preview");
-  //       preview.src = e.target.result; // 이미지 데이터 URL
-  //       preview.style.display = "block";
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // });
+  function showReviewPreview() {
+    const file = document.getElementById('review_image_input').files[0]; // 파일 가져오기
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview').src = e.target.result; // 이미지 미리보기 설정
+      };
+      reader.readAsDataURL(file); // 파일을 읽어 DataURL로 변환
+    }
+  }
+
+  // journal 이미지 미리보기 함수
+  document.getElementById("add_image_button2").addEventListener("click", function () {
+    document.querySelector(".main_file_input").click();
+  });
+
+  function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+      // 이미지 미리보기 영역에 선택된 이미지 표시
+      var output = document.getElementById('main_preview');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]); // 선택된 파일 읽기
+  }
 
   // review를 div에 표시하는 함수
   function saveReview(index) {
@@ -677,63 +691,51 @@
     // 모달 닫기
     let modal = new bootstrap.Modal(document.getElementById("exampleModal" + index));
     modal.hide();
-  }
 
-  // 작성한 review가 있으면 수정, 없으면 저장
-  function updateButton(index) {
-    let textarea = document.getElementById("textarea" + index);
-    let button = document.getElementById("saveButton" + index);
 
-    // textarea에 내용이 있으면 버튼을 "수정"으로 변경, 없으면 "저장"
-    if (textarea.value.trim() !== "") {
-      button.innerText = "수정";
-    } else {
-      button.innerText = "저장";
+    function send_images() {
+      // 세션에서 user_idx, place_idx 가져오기
+      const user_idx = "${sessionScope.user_idx}";  // 세션에서 user_idx 가져오기
+      const place_idx = "${sessionScope.place_idx}";  // 세션에서 place_idx 가져오기
+
+      // user_idx나 place_idx가 없다면 경고 후 종료
+      if (!user_idx || !place_idx) {
+        alert("로그인 또는 장소 정보가 없습니다.");
+        return;
+      }
+
+      // 업로드할 파일 선택
+      const files = $("#fileInput")[0].files;  // input에서 선택된 파일 가져오기
+      const form_data = new FormData();
+      form_data.append("user_idx", user_idx);  // user_idx 추가
+      form_data.append("place_idx", place_idx);  // place_idx 추가
+
+      // 선택된 파일을 FormData에 추가
+      for (let i = 0; i < files.length; i++) {
+        form_data.append("images", files[i]);  // 각 파일을 images 키로 추가
+      }
+
+      // AJAX 요청 보내기
+      $.ajax({
+        url: '/Controller?type=upload_image',  // 서버 URL
+        type: "POST",
+        data: form_data,
+        processData: false,  // FormData는 기본적으로 데이터 처리 방식을 처리함
+        contentType: false,  // Content-Type을 자동으로 처리하도록 설정
+        success: function(response) {
+          console.log("업로드된 파일 리스트:", response.image_list);
+          // 응답받은 image_list를 처리하는 부분 (필요 시 여기에 추가 작업 가능)
+        },
+        error: function(xhr, status, error) {
+          console.error("업로드 실패:", error);
+        }
+      });
     }
+
   }
 
-  // // 모달이 열릴 때 textarea를 초기화하는 코드
-  // document.addEventListener("DOMContentLoaded", function() {
-  //   let modals = document.querySelectorAll(".modal");
-  //
-  //   modals.forEach((modal) => {
-  //     modal.addEventListener("show.bs.modal", function() {
-  //       let index = this.getAttribute("id").replace("exampleModal", ""); // index 가져오기
-  //       let textarea = document.getElementById("textarea" + index);
-  //       let button = document.getElementById("saveButton" + index);
-  //
-  //       if (textarea) {
-  //         textarea.value = ""; // textarea 초기화
-  //       }
-  //       if (button) {
-  //         button.innerText = "저장"; // 버튼도 "저장"으로 초기화
-  //       }
-  //     });
-  //   });
-  // });
 
-  <%--function saveReview(index) {--%>
-  <%--  const selectedStar = $(`input[name="starpoint${index}"]:checked`).val();--%>
-  <%--  const reviewText = $(`#textarea${index}`).val();--%>
 
-  <%--  if (!selectedStar) {--%>
-  <%--    alert("별점을 선택하세요!");--%>
-  <%--    return;--%>
-  <%--  }--%>
-
-  <%--  $.ajax({--%>
-  <%--    url: 'http://${applicationScope.publicIP}:8080/Controller?type=place',--%>
-  <%--    type: "POST",--%>
-  <%--    data: { rate: selectedStar, review: reviewText },--%>
-  <%--    success: function (response) {--%>
-  <%--      alert(response);  // "저장 완료" 메시지 표시--%>
-  <%--      $(`#reviewDisplay${index}`).text(reviewText);--%>
-  <%--    },--%>
-  <%--    error: function () {--%>
-  <%--      alert("저장 중 오류가 발생했습니다.");--%>
-  <%--    }--%>
-  <%--  });--%>
-  <%--}--%>
 
 
 </script>

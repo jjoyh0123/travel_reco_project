@@ -102,4 +102,28 @@ public class PlaceVO {
   public void setPlan_idx(String plan_idx) {
     this.plan_idx = plan_idx;
   }
+
+  public String getReview() {
+    return review;
+  }
+
+  public void setReview(String review) {
+    this.review = review;
+  }
+
+  public String getRate() {
+    return rate;
+  }
+
+  public void setRate(String rate) {
+    this.rate = rate;
+  }
+
+  public List<String> getImage_list() {
+    return image_list;
+  }
+
+  public void setImage_list(List<String> image_list) {
+    this.image_list = image_list;
+  }
 }

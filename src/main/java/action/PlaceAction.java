@@ -10,6 +10,7 @@ import org.jdom2.input.SAXBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,6 +35,10 @@ public class PlaceAction implements Action{
 
     ReviewVO[] reviewVO = PlaceDAO.getReview();
     request.setAttribute("reviewVO", reviewVO);
+
+    HttpSession ss = request.getSession();
+    String user_idx = (String) ss.getAttribute("user_idx");
+    String place_idx = (String) ss.getAttribute("place_idx");
 
     return "/jsp/journal.jsp";
 

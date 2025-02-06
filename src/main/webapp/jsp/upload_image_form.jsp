@@ -22,7 +22,7 @@
 <script>
   function upload_images() {
     var form = $('#upload_form')[0];
-    var form_data = new FormData(form);
+    var form_data = new FormData(form)
 
     $.ajax({
       url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_image',
@@ -43,6 +43,12 @@
           result_div.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + image_names_html;
         } else {
           // alert('Error: ' + response.message);
+          // [
+          //  http://ipv4:4000/upload_tmp/1/review/3/imagename1.jpg
+          //  http://ipv4:4000/upload_tmp/1/review/3/imagename2.jpg
+          //  http://ipv4:4000/upload_tmp/1/review/3/imagename3.jpg
+          // localhost:8080/www/1.jpg
+          // ]
           result_div.innerHTML = `<p>${response.status}</p>`;
           result_div += `<p>${response.message}</p>`;
         }
