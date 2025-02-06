@@ -84,7 +84,7 @@ public class UploadImageAction implements Action {
         delete_one_image_file(request, file_path);
         break;
       } case "delete_all": {
-        delete_all_image_files(request);
+        delete_all_image_files(request, user_idx);
         break;
       } default: {
         set_request_attribute(request, "error", "유효하지 않은 action.", null);
@@ -195,21 +195,28 @@ public class UploadImageAction implements Action {
   }
 
   private void delete_one_image_file(HttpServletRequest request, String file_path) {
-    List<String> uploaded_image_paths = new ArrayList<>();
-
     if(file_path == null || file_path.isEmpty()) {
       set_request_attribute(request, "error", "file_path 는 필수.", null);
       return;
     }
 
+    List<String> uploaded_image_paths = new ArrayList<>();
     String target_located_url_path = file_path.substring(file_path.lastIndexOf("upload_tmp"), file_path.lastIndexOf("/"));
     String target_file_path = "/var/www/html/" + file_path.substring(file_path.lastIndexOf("upload_tmp"));
     String target_located_path = "/var/www/html/" + target_located_url_path;
 
-    try {
-      Runtime.getRuntime().exec("rm -f " + target_file_path);
-    } catch (IOException delete_image_IO_exception) {
-      set_request_attribute(request, "error", "이미지 삭제 중 오류:\n" + delete_image_IO_exception.getMessage(), null);
+    int exit_code = 0;
+    if(new File(target_file_path).exists()) {
+      try {
+        Process process = Runtime.getRuntime().exec("rm -f " + target_file_path);
+        exit_code = process.waitFor();
+      } catch (IOException delete_image_IO_exception) {
+        set_request_attribute(request, "error", "이미지 삭제 중 오류:\n" + delete_image_IO_exception.getMessage(), null);
+      } catch (InterruptedException interruptedException) {
+        set_request_attribute(request, "error", "이미지 삭제 중 exit_code " + exit_code + ":\n" + interruptedException.getMessage(), null);
+      }
+    } else {
+      set_request_attribute(request, "error", "이미지 삭제 중 오류, 해당 파일이 존재하지 않음.", null);
     }
 
     if(new File(target_located_path).exists()) {
@@ -223,7 +230,28 @@ public class UploadImageAction implements Action {
     set_request_attribute(request, "success", "이미지 삭제 완료", uploaded_image_paths);
   }
 
-  private void delete_all_image_files(HttpServletRequest request) {}
+  private void delete_all_image_files(HttpServletRequest request, String user_idx) {
+    if (user_idx == null || user_idx.isEmpty()) {
+      set_request_attribute(request, "error", "user_idx 값은 필수임.", null);
+      System.out.println("error: user_idx required");
+      return;
+    }
+
+    String target_path = "/var/www/html/upload_tmp/" + user_idx;
+    if(new File(target_path).exists()) {
+      try {
+        Runtime.getRuntime().exec("rm -rf " + target_path);
+        set_request_attribute(request, "success", "이미지 전체 삭제 완료", null);
+      } catch (IOException delete_all_IO_exception) {
+        set_request_attribute(request, "error", "이미지 삭제 중 오류:\n" + delete_all_IO_exception.getMessage(), null);
+        System.out.println("error: delete IO exception");
+        delete_all_IO_exception.printStackTrace();
+      }
+    } else {
+      set_request_attribute(request, "error", "삭제 대상이 없습니다.", null);
+      System.out.println("error: target path not exist");
+    }
+  }
 
   private double calculate_scale_factor(long file_size) {
     return Math.sqrt((double) 100 * 1024 / file_size);
