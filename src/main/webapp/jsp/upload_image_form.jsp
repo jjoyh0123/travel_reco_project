@@ -64,6 +64,7 @@
     });
   }
 
+
   function delete_one_image() {
     var form = $('#delete_one')[0];
     var form_data = new FormData(form);

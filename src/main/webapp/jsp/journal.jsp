@@ -447,8 +447,19 @@
 <%--      사진 추가 버튼--%>
         <div class="add_image_button_area">
           <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button"
-               alt="사진 추가 버튼" onclick="document.getElementById('review_image_input').click();">
-          <input type="file" id="review_image_input" style="display: none;" accept="image/*" onchange="addImageToCarousel()">
+               alt="사진 추가 버튼">
+<%--          <input type="file" id="review_image_input" style="display: none;" accept="image/*" onchange="addImageToCarousel()">--%>
+
+          <form id="upload_form" enctype="multipart/form-data">
+            <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
+            <input type="hidden" name="type" placeholder="type: journal or review"><br> <%-- value journal / review --%>
+            <input type="hidden" name="user_idx" placeholder="user_idx"><br>
+            <input type="hidden" name="plan_idx" placeholder="plan_idx, when type journal"><br>
+            <input type="hidden" name="place_idx" placeholder="place_idx when type review"><br>
+            <input type="file" name="file" multiple><br><br>
+            <input type="button" value="Upload" onclick="upload_images()">
+          </form>
+
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
@@ -456,9 +467,9 @@
           <div id="modal_carousel" class="carousel slide">
             <div class="carousel-inner" id="carouselInner">
                 <%-- 초기 미리보기 이미지 --%>
-                <c:forEach var="image_list" items="${placeVO.image_list}" varStatus="index">
+                <c:forEach var="image_list" items="${imageVO}" varStatus="index">
                 <div class="carousel-item ${index.first ? 'active' : ''}">
-                  <img src="${image_list}" alt="후기 사진을 등록해주세요" class="modal_image">
+                  <img src="${image_list.file_path}" alt="후기 사진을 등록해주세요" class="modal_image">
                 </div>
                 </c:forEach>
             </div>
@@ -493,20 +504,20 @@
     <div id="journal_carousel">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="http://tong.visitkorea.or.kr/cms/resource/00/2626200_image3_1.jpg" class="main_carousel_image" alt="후기 사진1">
-          </div>
-          <div class="carousel-item">
-            <img src="/www/journal2.jpg" class="main_carousel_image" alt="후기 사진2">
-          </div>
-          <div class="carousel-item">
-            <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">
-          </div>
-<%--          <c:forEach var="i" items="${imageVO}" varStatus="index">--%>
-<%--            <div class="carousel-item active">--%>
-<%--            <img src="#" id="preview${index.count}" class="main_carousel_image" alt="후기 사진을 등록해주세요">--%>
-<%--            </div>--%>
-<%--          </c:forEach>--%>
+<%--          <div class="carousel-item active">--%>
+<%--            <img src="http://tong.visitkorea.or.kr/cms/resource/00/2626200_image3_1.jpg" class="main_carousel_image" alt="후기 사진1">--%>
+<%--          </div>--%>
+<%--          <div class="carousel-item">--%>
+<%--            <img src="/www/journal2.jpg" class="main_carousel_image" alt="후기 사진2">--%>
+<%--          </div>--%>
+<%--          <div class="carousel-item">--%>
+<%--            <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">--%>
+<%--          </div>--%>
+              <c:forEach var="image_list" items="${imageVO}" varStatus="index">
+                <div class="carousel-item ${index.first ? 'active' : ''}">
+                  <img src="${image_list.file_path}" alt="${image_list.file_path}" class="main_carousel_image">
+                </div>
+              </c:forEach>
           <div class="carousel-item">
             <img id="main_preview" src="#" alt="미리보기 이미지" class="main_carousel_image">
           </div>

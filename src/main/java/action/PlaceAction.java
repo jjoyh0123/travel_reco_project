@@ -36,6 +36,9 @@ public class PlaceAction implements Action{
     ReviewVO[] reviewVO = PlaceDAO.getReview();
     request.setAttribute("reviewVO", reviewVO);
 
+    ImageVO[] imageVO = PlaceDAO.get_Images();
+    request.setAttribute("imageVO", imageVO);
+
     HttpSession ss = request.getSession();
     String user_idx = (String) ss.getAttribute("user_idx");
     String place_idx = (String) ss.getAttribute("place_idx");

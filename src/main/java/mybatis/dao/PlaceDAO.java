@@ -71,7 +71,7 @@ public class PlaceDAO {
     List<ReviewVO> list = ss.selectList("place.getReview");
     if(list != null && !list.isEmpty()){
       ar = new ReviewVO[list.size()];
-      list.toArray();
+      list.toArray(ar);
     }
     ss.close();
 
@@ -85,6 +85,19 @@ public class PlaceDAO {
     return list;
   }
 
+  public static ImageVO[] get_Images(){
+    ImageVO[] ar = null;
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+    List<ImageVO> list = ss.selectList("place.getImages");
+    if(list != null && !list.isEmpty()){
+      ar = new ImageVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
 }
 
 

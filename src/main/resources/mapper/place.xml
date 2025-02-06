@@ -48,4 +48,8 @@
     INSERT INTO review_table (review, rate) VALUES (#{review}, #{rate})
   </insert>
 
+  <select id="getImages" resultType="mybatis.vo.ImageVO">
+    SELECT * FROM image_table
+  </select>
+
 </mapper>
