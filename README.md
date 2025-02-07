@@ -55,8 +55,9 @@
 
 | Key | Column           | Korean         | Data type    | Etc               |
 |:---:|:-----------------|:---------------|:-------------|:------------------|
-| PK  | date_idx         | 여행계획-날짜 고유 식별자 | bigint       |                   |
-| PK  | visit_order      | 여행 순서          | tinyint      | 최대 20             |
+| PK  | place_idx         | 여행계획-날짜 고유 식별자 | bigint  |   AI              |
+| FK  | date_idx         | 여행계획-날짜 고유 식별자 | bigint    |                   |
+|     | visit_order      | 여행 순서          | tinyint      | 최대 20             |
 |     | content_id       | 장소 고유값         | varchar(20)  |                   |
 |     | content_type_id  | 장소 구분          | tinyint      | 숙박/식당/관광지 등       |
 |     | title            | 장소 이름          | varchar(50)  |                   |
