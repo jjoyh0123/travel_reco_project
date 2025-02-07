@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
 
     ServletContext application = this.getServletContext();
 
-    String publicIP = "3.39.251.247";
+    String publicIP = "43.201.37.240";
     application.setAttribute("publicIP", publicIP);
 
     String realPath = application.getRealPath(props_path);

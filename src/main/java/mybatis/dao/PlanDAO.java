@@ -31,9 +31,9 @@ public class PlanDAO {
         return Integer.parseInt(plan.getIdx()); // Get auto-generated plan_idx
       } else {
         ss.rollback();
+        return -1;
       }
     }
-    return -1;
   }
 
 
@@ -44,20 +44,27 @@ public class PlanDAO {
       Map<String, Object> param = new HashMap<>();
       param.put("plan_idx", planIdx);
       param.put("date", date);
+
+      String date_idx = null;
       int cnt = ss.insert("plan.insertDate", param);
       if (cnt > 0) {
         ss.commit();
-        System.out.println("Inserted date with param: " + param);
-        return (Integer) param.get("idx"); // Auto-generated ID
+        System.out.printf("Inserted date with param: %s, idx: %s", param, param.get("idx"));
+        date_idx = param.get("idx").toString();
       } else {
         ss.rollback();
       }
+
+      if (date_idx == null || date_idx.isEmpty()) {
+        return -1;
+      } else {
+        return Integer.parseInt(date_idx);
+      }
     }
-    return -1;
   }
 
   // Insert into place_table
-  public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
+  public static int insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
     try (SqlSession ss = FactoryService.getFactory().openSession()) {
       Map<String, Object> param = new HashMap<>();
       param.put("plan_idx", planIdx);
@@ -74,11 +81,34 @@ public class PlanDAO {
       int cnt = ss.insert("plan.insertPlace", param);
       if (cnt > 0) {
         ss.commit();
-        return true;
       } else {
         ss.rollback();
       }
+      return cnt;
     }
-    return false;
   }
+  // public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
+  //   try (SqlSession ss = FactoryService.getFactory().openSession()) {
+  //     Map<String, Object> param = new HashMap<>();
+  //     param.put("plan_idx", planIdx);
+  //     param.put("date_idx", dateIdx);
+  //     param.put("visit_order", order);
+  //     param.put("content_id", place.getString("content_id"));
+  //     param.put("content_type_id", place.getInt("content_type_id"));
+  //     param.put("title", place.getString("title"));
+  //     param.put("thumbnail", place.getString("thumbnail"));
+  //     param.put("map_x", place.getDouble("map_x"));
+  //     param.put("map_y", place.getDouble("map_y"));
+  //     param.put("time", place.getString("time"));
+  //
+  //     int cnt = ss.insert("plan.insertPlace", param);
+  //     if (cnt > 0) {
+  //       ss.commit();
+  //       return true;
+  //     } else {
+  //       ss.rollback();
+  //       return false;
+  //     }
+  //   }
+  // }
 }

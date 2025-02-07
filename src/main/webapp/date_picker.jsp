@@ -4,7 +4,6 @@
 <head>
   <title>여행 기간 선택</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-  <link rel="stylesheet" href="www/css/styles.css">
   <style>
       body {
           font-family: 'Arial', sans-serif;

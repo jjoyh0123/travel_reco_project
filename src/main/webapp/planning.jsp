@@ -306,7 +306,7 @@
   <div id="left-panel">
     <div id="logo">zenzenclub</div>
     <div id="date-container"></div> <!-- Dates will be added dynamically -->
-    <div id="action-buttons">
+    <div id="plan-save-buttons">
       <button class="action-button" onclick="savePlan()">저장</button>
     </div>
   </div>
@@ -349,7 +349,7 @@
 <script>
   // GLOBAL array to store the current plan (so we can reorder, limit to 10, etc.)
   let currentPlan = [];
-  const allDates = [];
+  let allDates = [];
 
   function generateDateRange(startDate, endDate) {
     const start = new Date(startDate);
@@ -388,7 +388,7 @@
     const dateContainer = document.getElementById("date-container");
     dateContainer.innerHTML = "";
 
-    const allDates = generateDateRange(startDate, endDate);
+    allDates = generateDateRange(startDate, endDate);
 
     allDates.forEach((date, index) => {
       const dateElement = document.createElement("div");
@@ -472,7 +472,7 @@
     destinationList.innerHTML = "";
 
     places.forEach(function(place) {
-      const imgSrc = place.image ? place.image : "https://via.placeholder.com/50";
+      const imgSrc = place.image ? place.image : "https://dummyimage.com/50";
       const shortAddress = place.address;
 
       const listItem = document.createElement("div");
@@ -546,7 +546,7 @@
     container.innerHTML = "";
 
     planArray.forEach((spot, index) => {
-      const imgSrc = spot.image || "https://via.placeholder.com/50";
+      const imgSrc = spot.image || "https://dummyimage.com/50";
       const div = document.createElement("div");
       div.classList.add("selected-place");
       div.setAttribute("draggable", "true"); // for reordering
@@ -701,6 +701,8 @@
       planData.dates[date] = []; // Initialize an empty array for each date
     });
 
+    console.log("planData", planData); //**
+
     // Populate the dates with the places from currentPlan
     currentPlan.forEach(place => {
       const dateKey = place.date; // This will be set in addPlaceToPlan
@@ -723,24 +725,34 @@
     // Send planData to the server
     fetch("/Controller?type=savePlan", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      // headers: {
+      //   "Content-Type": "application/json"
+      // },
       body: JSON.stringify(planData)
     })
-        .then(response => response.json())
-        .then(data => {
-          console.log("data:", data);
-          if (data.success) {
-            alert("여행 계획이 저장되었습니다!");
-          } else {
-            alert("저장 실패: " + data.error);
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          alert("서버와의 연결에서 문제가 발생했습니다.");
-        });
+    .then(response => response.json())
+    .then(data => {
+      console.log("fetch recieve data", data)
+      if(data.success) {
+        console.log("result success!");
+      } else {
+        console.log("result fail!");
+      }
+    })
+    .catch(err => console.log("fetch recieve error", err))
+        // .then(response => response.json())
+        // .then(data => {
+        //   console.log("data:", data);
+        //   if (data.success) {
+        //     alert("여행 계획이 저장되었습니다!");
+        //   } else {
+        //     alert("저장 실패: " + data.error);
+        //   }
+        // })
+        // .catch(error => {
+        //   console.error("Error:", error);
+        //   alert("서버와의 연결에서 문제가 발생했습니다.");
+        // });
   }
 
 </script>
