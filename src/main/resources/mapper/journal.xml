@@ -14,7 +14,7 @@
   </select>
 
   <select id="areaCount" resultType="int" parameterType="String">
-    SELECT COUNT(*) FROM journal_table WHERE plan_idx =
+    SELECT COUNT(*) FROM journal_table WHERE plan_idx
     (SELECT plan_idx FROM plan_table WHERE area_code = #{area_code})
   </select>
 

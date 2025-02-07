@@ -124,6 +124,11 @@
           justify-content: space-between;
       }
 
+      .tab-notice,
+      .tab-post {
+          height: 65px;
+      }
+
       .tab-user p,
       .tab-badge p,
       .tab-post p,
@@ -188,11 +193,11 @@
       }
 
       .tab-post p:nth-child(1) {
-          flex: 0 0 10%;
+          flex: 0 0 12%;
       }
 
       .tab-post p:nth-child(2) {
-          flex: 0 0 15%;
+          flex: 0 0 13%;
       }
 
       .tab-post p:nth-child(3) {
@@ -234,11 +239,11 @@
       }
 
       .tab-notice p:nth-child(6) {
-          flex: 0 0 10%;
+          flex: 0 0 7%;
       }
 
       .tab-notice p:nth-child(7) {
-          flex: 0 0 5%;
+          flex: 0 0 8%;
       }
 
       .tab-support p:nth-child(1) {
@@ -262,11 +267,11 @@
       }
 
       .tab-support p:nth-child(6) {
-          flex: 0 0 10%;
+          flex: 0 0 8%;
       }
 
       .tab-support p:nth-child(7) {
-          flex: 0 0 5%;
+          flex: 0 0 7%;
       }
 
       .tab-post2 p:nth-child(1) {
@@ -996,11 +1001,31 @@
                   <p>${item.hit}</p>
                   <p>${item.status}</p>
                   <p>
-                    <button type="button">&#x2699;</button>
+                    <button type="button" data-idx="${item.idx}" data-bs-toggle="modal"
+                            data-bs-target="#rankModal">&#x2699;
+                    </button>
                   </p>
                 </li>
               </c:forEach>
             </ol>
+            <div class="modal fade" id="rankModal" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Best 순위 설정</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>선택할 순위를 클릭하세요.</p>
+                    <div class="btn-group">
+                      <button class="btn btn-primary" onclick="selectRank(1)">1위</button>
+                      <button class="btn btn-primary" onclick="selectRank(2)">2위</button>
+                      <button class="btn btn-primary" onclick="selectRank(3)">3위</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </c:when>
           <c:when test="${param.tab == 'faq'}">
             <ol class="list-group">
@@ -1079,6 +1104,34 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+  let selectedIdx = null; // 현재 선택된 게시물의 idx 저장
+
+
+  // 순위 선택 시 AJAX 요청
+  function selectRank(tier) {
+    if (!selectedIdx) return;
+
+    $.ajax({
+      type: 'POST',
+      url: 'Controller?type=update_best',
+      data: {
+        idx: selectedIdx,
+        tier: tier
+      },
+      success: function (response) {
+        console.log(response);
+        if (response.success) {
+          location.reload(); // 성공 시 페이지 새로고침
+        } else {
+          alert('처리 중 오류가 발생했습니다.');
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('Error:', error);
+      }
+    });
+  }
+
   function openImageModal(action, idx) {
     const uploadType = document.getElementById('uploadType');
     const uploadIdx = document.getElementById('uploadIdx');
@@ -1143,6 +1196,11 @@
 
   $(document).ready(function () {
     // 모달이 열릴 때 이벤트 리스너 추가
+    $('#rankModal').on('show.bs.modal', function (event) {
+      const button = $(event.relatedTarget); // 클릭된 버튼
+      selectedIdx = button.data('idx'); // data-idx 속성 값
+    });
+
     $('#userModal').on('show.bs.modal', function (event) {
       const button = $(event.relatedTarget); // 클릭된 버튼
       const idx = button.data('idx'); // data-idx 속성 값
