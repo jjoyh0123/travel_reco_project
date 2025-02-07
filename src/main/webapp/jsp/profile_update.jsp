@@ -9,13 +9,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <style>
-      .logo {
-          height: 50px;
-          position: absolute;
-          top: 20px;
-          left: 20px;
-      }
-
       .container {
           display: grid;
           grid-template-columns: 1fr;
@@ -124,9 +117,10 @@
   </style>
 
 </head>
+
 <body>
 <header>
-  <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png" class="logo" alt="로고"></a>
+  <jsp:include page="/jsp/header.jsp"/>
 </header>
 
 <div class="container">
@@ -149,8 +143,8 @@
     <h1 class="text-center mb-4">프로필 설정</h1>
 
     <!-- 프로필 수정 폼 -->
-    <form id="updateProfile" action="${pageContext.request.contextPath}/Controller?type=updateProfile" method="post">
-      <div class="form-group">
+  <form action="${pageContext.request.contextPath}/Controller?type=profile_update" method="post">
+  <div class="form-group">
         <label for="email">이메일 주소</label>
         <input type="text" id="email" name="email" value="${sessionScope.email}" disabled>
       </div>
@@ -220,8 +214,8 @@
     const passwordConfirm = document.getElementById("passwordConfirm").value;
     const passwordMessage = document.getElementById("password-message");
 
-    if (password.length < 6) {
-      passwordMessage.textContent = "패스워드는 6자리 이상이어야 합니다.";
+    if (password.length > 4) {
+      passwordMessage.textContent = "패스워드는 4자리 이상이어야 합니다.";
       passwordMessage.style.display = "block";
       passwordMessage.style.color = "red";
       isPasswordValid = false;

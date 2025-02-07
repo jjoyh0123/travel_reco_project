@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public class NaverLoginAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
-    return "jsp/naverLogin.jsp";
+    return "jsp/naver_login.jsp";
   }
 }

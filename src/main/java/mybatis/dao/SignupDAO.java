@@ -10,7 +10,7 @@ public class SignupDAO {
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
-      Integer count = ss.selectOne("signup.checkEmail", email);
+      Integer count = ss.selectOne("sign_up.checkEmail", email);
       return count != null && count > 0;
     } catch (Exception e) {
       e.printStackTrace();
@@ -25,7 +25,7 @@ public class SignupDAO {
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
-      Integer count = ss.selectOne("signup.checkNick", nickname);
+      Integer count = ss.selectOne("sign_up.checkNick", nickname);
       return count != null && count > 0;
     } finally {
       ss.close(); // 세션 닫기
@@ -42,7 +42,7 @@ public class SignupDAO {
       userVO.setStatus(0);
 
       // 회원 정보를 DB에 저장
-      session.insert("signup.insertUser", userVO);
+      session.insert("sign_up.insertUser", userVO);
       session.commit();  // 트랜잭션 커밋
     } finally {
       session.close();

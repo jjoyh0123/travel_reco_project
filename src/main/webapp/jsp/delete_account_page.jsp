@@ -75,6 +75,5 @@
     window.location.href = "${pageContext.request.contextPath}/Controller?type=index";
   }, 5000);
 </script>
-
 </body>
 </html>

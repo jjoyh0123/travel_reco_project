@@ -22,10 +22,10 @@ public class UserDeleteAction implements Action {
     // 회원탈퇴 처리
     if (UserDAO.deactivateUser(userId)) {
       session.invalidate();  // 세션 무효화
-      return "jsp/deleted.jsp";  // 탈퇴 완료 페이지로 이동
+      return "jsp/delete_account_page.jsp";  // 탈퇴 완료 페이지로 이동
     } else {
       request.setAttribute("msg", "회원탈퇴에 실패했습니다.");
-      return "jsp/updateProfile.jsp";
+      return "jsp/profile_update.jsp";
     }
   }
 }

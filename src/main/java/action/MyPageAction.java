@@ -1,11 +1,8 @@
 package action;
 
 import mybatis.vo.UserVO;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,39 +11,35 @@ public class MyPageAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-    // session에서 'type' 파라미터를 가져옵니다.
+    // type 값 가져오기
     String type = request.getParameter("type");
 
-    // 각 'type'에 따라 다르게 처리
+    // 데이터 생성 (예시 데이터)
     if ("my_trip_plan".equals(type)) {
-      // DB에서 나의 여행 데이터를 가져오는 로직
       List<UserVO> myTrips = new ArrayList<>();
-      UserVO userVO = new UserVO();
-      userVO.setNick("nick");
-      userVO.setEmail("email");
-      myTrips.add(userVO);
-      myTrips.add(userVO);
+      UserVO trip1 = new UserVO();
+      trip1.setNick("여행1");
+      trip1.setEmail("trip1@example.com");
+      myTrips.add(trip1);
       request.setAttribute("myTrips", myTrips);
 
     } else if ("my_trip_review".equals(type)) {
-      // DB에서 나의 여행 후기 데이터를 가져오는 로직
-      // 예시: List<ReviewDTO> myReviews = TripDAO.getMyReviews();
-      // request.setAttribute("myReviews", myReviews);
       List<UserVO> myReviews = new ArrayList<>();
-      UserVO userVO = new UserVO();
-      userVO.setNick("nick");
-      userVO.setEmail("email");
-      myReviews.add(userVO);
+      UserVO review1 = new UserVO();
+      review1.setNick("후기1");
+      review1.setEmail("review1@example.com");
+      myReviews.add(review1);
       request.setAttribute("myReviews", myReviews);
 
     } else if ("my_review_history".equals(type)) {
-      // DB에서 나의 리뷰 이력 데이터를 가져오는 로직
-      // 예시: List<ReviewHistoryDTO> myReviewHistory = TripDAO.getMyReviewHistory();
-      // request.setAttribute("myReviewHistory", myReviewHistory);
-
+      List<UserVO> myReviewHistory = new ArrayList<>();
+      UserVO reviewHistory1 = new UserVO();
+      reviewHistory1.setNick("리뷰 기록1");
+      reviewHistory1.setEmail("history1@example.com");
+      myReviewHistory.add(reviewHistory1);
+      request.setAttribute("myReviewHistory", myReviewHistory);
     }
 
-    // 요청에 해당하는 데이터를 전달하고 my_page.jsp로 이동
     return "jsp/my_page.jsp";
   }
 }

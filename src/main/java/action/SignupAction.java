@@ -16,13 +16,17 @@ public class SignupAction implements Action {
     String pw = request.getParameter("password");
     String nick = request.getParameter("nickname");
 
+    if (email == null || pw == null || nick  == null) {
+      return "jsp/sign_up.jsp";
+    }
+
     // 중복 체크
     boolean isDuplicateEmail = SignupDAO.emailCheck(email);
     boolean isDuplicateNick = SignupDAO.nickCheck(nick);
 
     if (isDuplicateEmail || isDuplicateNick) {
       request.setAttribute("errorMessage", "이메일 또는 닉네임이 이미 사용 중입니다.");
-      return "jsp/signup.jsp";
+      return "jsp/sign_up.jsp";
     }
 
     // 회원 정보 저장
@@ -48,7 +52,7 @@ public class SignupAction implements Action {
     } else {
       // 로그인 실패 시 (정상적이라면 발생하지 않음)
       request.setAttribute("errorMessage", "자동 로그인에 실패했습니다.");
-      return "jsp/emailLogin.jsp";
+      return "jsp/email_login.jsp";
     }
   }
 }

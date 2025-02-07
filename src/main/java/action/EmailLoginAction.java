@@ -18,7 +18,7 @@ public class EmailLoginAction implements Action {
 
     if (email == null || password == null) {
       // 이메일과 비밀번호가 없는 초기 상태에서는 error 설정하지 않음
-      return "jsp/emailLogin.jsp";
+      return "jsp/email_login.jsp";
     }
 
     UserVO user = UserDAO.loginCheck(email, password);
@@ -38,7 +38,7 @@ public class EmailLoginAction implements Action {
     } else {
       // 로그인 실패 - 오류 메시지 설정
       request.setAttribute("error", "이메일 또는 비밀번호를 확인해주세요.");
-      return "jsp/emailLogin.jsp"; // 로그인 화면으로 이동
+      return "jsp/email_login.jsp"; // 로그인 화면으로 이동
     }
   }
 }

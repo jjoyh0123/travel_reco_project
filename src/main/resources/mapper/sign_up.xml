@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="signup">
+<mapper namespace="sign_up">
   <!-- 이메일 중복 확인 -->
   <select id="checkEmail" parameterType="string" resultType="int">
     SELECT count(*)

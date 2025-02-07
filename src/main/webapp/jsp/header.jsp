@@ -51,12 +51,9 @@
       }
 
       .profile {
-/*          background-image: none; !*프로필 사진*!
-          padding: 0;*/
           width: 50px;
           height: 50px;
           border-radius: 50%;
-          background-color: #ffff; /* 이미지가 없을 때 기본 색상 */
           border: 1px;
           overflow: hidden;
           display: flex;
@@ -67,7 +64,7 @@
       .profile_icon{
           .profile_icon {
               width: 100%;
-               height: 100%;
+              height: 100%;
               border-radius: 50%;
               overflow: hidden;
               box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
@@ -133,21 +130,21 @@
           <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="border: none;">
             <div class="profile_icon">
-            <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
+              <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
             </div>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/my_page.jsp">마이페이지</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=my_page">마이페이지</a></li>
             <li><a class="dropdown-item" href="#">1:1문의</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/jsp/logout.jsp">로그아웃</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=logout">로그아웃</a></li>
           </ul>
         </div>
       </c:when>
       <c:otherwise>
-        <a href="${pageContext.request.contextPath}/jsp/login.jsp"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
+        <a href="${pageContext.request.contextPath}/Controller?type=login"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
       </c:otherwise>
     </c:choose>
   </div>

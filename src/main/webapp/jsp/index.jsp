@@ -139,19 +139,17 @@
 <body>
 <jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
-<article class="content">
-  <h3>for all your travel planning needs</h3>
-  <h5>Create detailed itineraries, explore user-shared guides, <br/>
-    and manage your bookings seamlessly — all in one place.
+  <article class="content">
+    <h3>for all your travel planning needs</h3>
+    <h5>Create detailed itineraries, explore user-shared guides, <br/>
+      and manage your bookings seamlessly — all in one place.
     </h5>
-  <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
-  <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
-</article>
+    <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
+    <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
+  </article>
   <div class="gif_content01">
     <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
-    <button class="fullscreen_icon" onclick="openFullscreen()">
-      <img src="${pageContext.request.contextPath}/www/fullScreen_icon.png" alt="전체화면 보기">
-    </button>
+
   </div>
 
 </div>
