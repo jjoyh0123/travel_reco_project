@@ -71,7 +71,7 @@
        }
 
        .accordion-body{
-           background-color: #F5F5F7;
+           background-color: white;
        }
        #FAQ{
            margin-bottom: 70px;
@@ -86,6 +86,7 @@
       .accordion-button:not(.collapsed) {
           background-color: #f8f9fa;  /* 기본 배경색 설정 */
       }
+
 
 
   </style>

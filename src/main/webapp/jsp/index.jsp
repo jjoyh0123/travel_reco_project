@@ -40,7 +40,6 @@
       }
 
 
-
       .gif_content01{
           width: 550px;
           height: 400px;
