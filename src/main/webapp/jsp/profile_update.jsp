@@ -155,11 +155,11 @@
     </div>
     <div class="form-group">
       <label for="password">패스워드 변경</label>
-      <input type="password" id="password" name="password" value="${sessionScope.password}" required>
+      <input type="password" id="password" name="password" value="${sessionScope.password}">
     </div>
     <div class="form-group">
       <label for="passwordConfirm">패스워드 변경 확인</label>
-      <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}" required>
+      <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}">
       <div id="password-message" class="error-message text-danger mt-1" style="display:none;"></div>
     </div>
 
@@ -205,8 +205,13 @@
 </div>
 <%
   String nicknameMsg = (String) request.getAttribute("nicknameMessage");
+  String successMsg = (String) request.getAttribute("successMsg");
 %>
   <script>
+
+    <% if (successMsg != null) { %>
+    alert("<%= successMsg %>");
+    <% } %>
 
     document.addEventListener("DOMContentLoaded", function () {
       // 닉네임 중복 메시지 표시
@@ -256,6 +261,13 @@
       const password = document.getElementById("password").value;
       const passwordConfirm = document.getElementById("passwordConfirm").value;
       const passwordMessage = document.getElementById("password-message");
+
+      // 비밀번호가 입력되지 않은 경우 (검사 없이 통과)
+      if (!password && !passwordConfirm) {
+        passwordMessage.style.display = "none";
+        isPasswordValid = true;  // 비밀번호 없이도 저장 가능하도록 설정
+        return true;
+      }
 
       if (password.length < 4) {
         passwordMessage.textContent = "패스워드는 4자리 이상이어야 합니다.";
