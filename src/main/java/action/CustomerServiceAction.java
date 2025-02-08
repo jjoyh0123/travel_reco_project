@@ -18,7 +18,7 @@ public class CustomerServiceAction implements Action{
     FaqVO[] faqVO = CustomerServiceDAO.getFaq();
     request.setAttribute("faqVO", faqVO);
 
-     // System.out.println(fvo);
+     // System.out.println(faqVO);
 
     return "/jsp/customer_service.jsp";
   }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="place">
+  <select id="getPlace" resultType="mybatis.vo.PlaceVO">
+    SELECT * FROM place_table
+    ORDER BY date_idx
+  </select>
+
+  <select id="getDate" resultType="mybatis.vo.DateVO">
+    SELECT * FROM date_table
+    WHERE plan_idx = 1
+    ORDER BY date
+  </select>
+
+  <select id="getPlan" resultType="mybatis.vo.PlanVO">
+    SELECT * FROM plan_table
+  </select>
+
+  <select id="getReview" resultType="mybatis.vo.ReviewVO">
+    SELECT * FROM review_table
+    WHERE user_idx = #{user_idx}
+  </select>
+
+  <select id="getPlan_Idx" parameterType="int" resultMap="resultMap">
+    SELECT
+    place_table.idx AS place_idx,
+    place_table.date_idx AS place_date_idx,
+    place_table.visit_order,
+    place_table.content_id,
+    place_table.content_type_id,
+    place_table.title,
+    place_table.thumbnail,
+    place_table.map_x,
+    place_table.map_y,
+    place_table.time,
+    date_table.idx AS date_idx,
+    date_table.plan_idx AS date_plan_idx,
+    date_table.date AS date,
+    date_table.memo,
+    plan_table.idx AS plan_idx,
+    plan_table.user_idx,
+    plan_table.area_code,
+    plan_table.title AS plan_title,
+    plan_table.start_date,
+    plan_table.end_date,
+    plan_table.status AS plan_status
+    FROM place_table
+    JOIN date_table ON place_table.date_idx = date_table.idx
+    JOIN plan_table ON date_table.plan_idx = plan_table.idx
+    WHERE date_table.plan_idx = #{plan_idx}
+  </select>
+
+
+  <resultMap id="resultMap" type="mybatis.vo.JournalDTO">
+    <result property="place_idx" column="place_idx"/>
+    <result property="place_date_idx" column="place_date_idx"/>
+    <result property="visit_order" column="visit_order"/>
+    <result property="content_id" column="content_id"/>
+    <result property="content_type_id" column="content_type_id"/>
+    <result property="title" column="title"/>
+    <result property="thumnail" column="thumnail"/>
+    <result property="map_x" column="map_x"/>
+    <result property="map_y" column="map_y"/>
+    <result property="time" column="time"/>
+    <result property="place_plan_idx" column="plan_idx"/>
+    <result property="date" column="date"/>
+    <result property="memo" column="memo"/>
+    <result property="plan_idx" column="plan_idx"/>
+    <result property="plan_title" column="plan_title"/>
+    <result property="plan_user_idx" column="user_idx"/>
+    <result property="plan_area_code" column="area_code"/>
+    <result property="plan_start_date" column="start_date"/>
+    <result property="plan_end_date" column="end_date"/>
+    <result property="plan_status" column="plan_status"/>
+  </resultMap>
+
+
+
+  <insert id="insertReview">
+    INSERT INTO review_table (review, rate) VALUES (#{review}, #{rate})
+  </insert>
+
+  <select id="getImages" resultType="mybatis.vo.ImageVO">
+    SELECT * FROM image_table
+  </select>
+
+</mapper>
