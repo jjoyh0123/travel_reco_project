@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 public class IndexAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
-    return "jsp/index.jsp";
+    if(request.getAttribute("action") == null) return "jsp/index.jsp";
+    else return "jsp/error.jsp";
   }
 }

@@ -576,7 +576,7 @@
   let mapx;
   let mapy;
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const modal = document.getElementById("staticBackdrop");
     modal.addEventListener("show.bs.modal", function (event) {
     const button = event.relatedTarget; // 모달을 연 버튼
@@ -622,7 +622,7 @@
 function sendArea() {
 console.log("클릭");
 }
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
       const areaIcons = document.querySelectorAll('.area-icon');
 
       console.log(areaIcons);  // 아이콘이 제대로 선택됐는지 확인
@@ -650,10 +650,10 @@ console.log("클릭");
     function sendContentId() {
       console.log("클릭");
     }
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const searchTypeSelect = document.querySelector(".option_button"); //select 태그에 있는 요소들 다 가져오기.
 
-    searchTypeSelect.addEventListener("change", function () {
+    searchTypeSelect.addEventListener("change", function() {
       const selectedOption = searchTypeSelect.options[searchTypeSelect.selectedIndex]; // 선택된 옵션 가져오기
       const contentTypeId = selectedOption.getAttribute("data-contentTypeId"); // data-contentTypeId 값 가져오기
       const urlParams = new URLSearchParams(window.location.search); // 현재 URL의 파라미터 가져오기

@@ -536,7 +536,7 @@
 
   $(document).ready(function() {
     // 인디케이터 클릭 이벤트 핸들러
-    $(".indicator").on("click", function () {
+    $(".indicator").on("click", function() {
       let newIndex = $(this).data("index"); // 클릭한 인디케이터의 인덱스
       showImage(newIndex); // 해당 이미지로 갱신하는 함수 호출
 

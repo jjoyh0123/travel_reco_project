@@ -384,7 +384,7 @@ function fail() {
   return false;
 }
 function not(f) {
-  return function () {
+  return function() {
     return !f.apply(f, arguments);
   };
 }
@@ -397,7 +397,7 @@ function func_self(a) {
   return a;
 }
 function invoke(obj, method) {
-  return function () {
+  return function() {
     return obj[method].apply(obj, arguments);
   };
 }
@@ -483,7 +483,7 @@ function namespaceToCamel(namespace, prefix) {
  */
 function debounce(func, wait, immediate) {
   var timeout;
-  return function () {
+  return function() {
     var context = this;
     var args = arguments;
     var later = function later() {
@@ -1902,7 +1902,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
-var Context = /*#__PURE__*/function () {
+var Context = /*#__PURE__*/function() {
   /**
    * @param {jQuery} $note
    * @param {Object} options
@@ -2307,7 +2307,7 @@ function pointToTextRange(point) {
    * @param {Node} ec - end container
    * @param {Number} eo - end offset
    */
-var WrappedRange = /*#__PURE__*/function () {
+var WrappedRange = /*#__PURE__*/function() {
   function WrappedRange(sc, so, ec, eo) {
     range_classCallCheck(this, WrappedRange);
     this.sc = sc;
@@ -2630,7 +2630,7 @@ var WrappedRange = /*#__PURE__*/function () {
   }, {
     key: "makeIsOn",
     value: function makeIsOn(pred) {
-      return function () {
+      return function() {
         var ancestor = dom.ancestor(this.sc, pred);
         return !!ancestor && ancestor === dom.ancestor(this.ec, pred);
       };
@@ -3200,10 +3200,10 @@ function readFileAsDataURL(file) {
 function createImage(url) {
   return external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().Deferred(function (deferred) {
     var $img = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<img>');
-    $img.one('load', function () {
+    $img.one('load', function() {
       $img.off('error abort');
       deferred.resolve($img);
-    }).one('error abort', function () {
+    }).one('error abort', function() {
       $img.off('load').detach();
       deferred.reject($img);
     }).css({
@@ -3219,7 +3219,7 @@ function History_createClass(e, r, t) { return r && History_defineProperties(e.p
 function History_toPropertyKey(t) { var i = History_toPrimitive(t, "string"); return "symbol" == History_typeof(i) ? i : i + ""; }
 function History_toPrimitive(t, r) { if ("object" != History_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != History_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var History = /*#__PURE__*/function () {
+var History = /*#__PURE__*/function() {
   function History(context) {
     History_classCallCheck(this, History);
     this.stack = [];
@@ -3379,7 +3379,7 @@ function Style_toPrimitive(t, r) { if ("object" != Style_typeof(t) || !t) return
 
 
 
-var Style = /*#__PURE__*/function () {
+var Style = /*#__PURE__*/function() {
   function Style() {
     Style_classCallCheck(this, Style);
   }
@@ -3552,7 +3552,7 @@ function Bullet_toPrimitive(t, r) { if ("object" != Bullet_typeof(t) || !t) retu
 
 
 
-var Bullet = /*#__PURE__*/function () {
+var Bullet = /*#__PURE__*/function() {
   function Bullet() {
     Bullet_classCallCheck(this, Bullet);
   }
@@ -3858,7 +3858,7 @@ function Typing_toPrimitive(t, r) { if ("object" != Typing_typeof(t) || !t) retu
  * Typing
  *
  */
-var Typing = /*#__PURE__*/function () {
+var Typing = /*#__PURE__*/function() {
   function Typing(context) {
     Typing_classCallCheck(this, Typing);
     // a Bullet instance to toggle lists off
@@ -4197,7 +4197,7 @@ var TableResultAction = function TableResultAction(startPoint, where, action, do
   /**
    * Recover array os what to do in table.
    */
-  this.getActionList = function () {
+  this.getActionList = function() {
     var fixedRow = where === TableResultAction.where.Row ? _startPoint.rowPos : -1;
     var fixedCol = where === TableResultAction.where.Column ? _startPoint.colPos : -1;
     var actualPosition = 0;
@@ -4268,7 +4268,7 @@ TableResultAction.resultAction = {
  * Table
  *
  */
-var Table = /*#__PURE__*/function () {
+var Table = /*#__PURE__*/function() {
   function Table() {
     Table_classCallCheck(this, Table);
   }
@@ -4602,7 +4602,7 @@ var URL_SCHEME_PATTERN = /^([A-Za-z][A-Za-z0-9+-.]*\:|#|\/)/;
 /**
  * @class Editor
  */
-var Editor = /*#__PURE__*/function () {
+var Editor = /*#__PURE__*/function() {
   function Editor(context) {
     var _this = this;
     Editor_classCallCheck(this, Editor);
@@ -4659,25 +4659,25 @@ var Editor = /*#__PURE__*/function () {
     });
     for (var _idx = 1; _idx <= 6; _idx++) {
       this['formatH' + _idx] = function (idx) {
-        return function () {
+        return function() {
           _this.formatBlock('H' + idx);
         };
       }(_idx);
       this.context.memo('help.formatH' + _idx, this.lang.help['formatH' + _idx]);
     }
-    this.insertParagraph = this.wrapCommand(function () {
+    this.insertParagraph = this.wrapCommand(function() {
       _this.typing.insertParagraph(_this.editable);
     });
-    this.insertOrderedList = this.wrapCommand(function () {
+    this.insertOrderedList = this.wrapCommand(function() {
       _this.bullet.insertOrderedList(_this.editable);
     });
-    this.insertUnorderedList = this.wrapCommand(function () {
+    this.insertUnorderedList = this.wrapCommand(function() {
       _this.bullet.insertUnorderedList(_this.editable);
     });
-    this.indent = this.wrapCommand(function () {
+    this.indent = this.wrapCommand(function() {
       _this.bullet.indent(_this.editable);
     });
-    this.outdent = this.wrapCommand(function () {
+    this.outdent = this.wrapCommand(function() {
       _this.bullet.outdent(_this.editable);
     });
 
@@ -4738,7 +4738,7 @@ var Editor = /*#__PURE__*/function () {
     /**
      * insert horizontal rule
      */
-    this.insertHorizontalRule = this.wrapCommand(function () {
+    this.insertHorizontalRule = this.wrapCommand(function() {
       var hrNode = _this.getLastRange().insertNode(dom.create('HR'));
       if (hrNode.nextSibling) {
         _this.setLastRange(range.create(hrNode.nextSibling, 0).normalize().select());
@@ -4856,7 +4856,7 @@ var Editor = /*#__PURE__*/function () {
     /**
      * remove media object and Figure Elements if media object is img with Figure.
      */
-    this.removeMedia = this.wrapCommand(function () {
+    this.removeMedia = this.wrapCommand(function() {
       var $target = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(_this.restoreTarget()).parent();
       if ($target.closest('figure').length) {
         $target.closest('figure').remove();
@@ -4952,7 +4952,7 @@ var Editor = /*#__PURE__*/function () {
         _this2.context.triggerEvent('paste', event);
       }).on('copy', function (event) {
         _this2.context.triggerEvent('copy', event);
-      }).on('input', function () {
+      }).on('input', function() {
         // To limit composition characters (e.g. Korean)
         if (_this2.isLimited(0) && _this2.snapshot) {
           _this2.history.applySnapshot(_this2.snapshot);
@@ -4966,7 +4966,7 @@ var Editor = /*#__PURE__*/function () {
 
       // init content before set event
       this.$editable.html(dom.html(this.$note) || dom.emptyPara);
-      this.$editable.on(env.inputEventName, func.debounce(function () {
+      this.$editable.on(env.inputEventName, func.debounce(function() {
         _this2.context.triggerEvent('change', _this2.$editable.html(), _this2.$editable);
       }, 10));
       this.$editable.on('focusin', function (event) {
@@ -5317,7 +5317,7 @@ var Editor = /*#__PURE__*/function () {
   }, {
     key: "wrapCommand",
     value: function wrapCommand(fn) {
-      return function () {
+      return function() {
         this.beforeCommand();
         fn.apply(this, arguments);
         this.afterCommand();
@@ -5387,7 +5387,7 @@ var Editor = /*#__PURE__*/function () {
         } else {
           readFileAsDataURL(file).then(function (dataURL) {
             return _this4.insertImage(dataURL, filename);
-          }).fail(function () {
+          }).fail(function() {
             _this4.context.triggerEvent('image.upload.error');
           });
         }
@@ -5480,7 +5480,7 @@ var Editor = /*#__PURE__*/function () {
       } else {
         var noteStatusOutput = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().now();
         this.$editor.find('.note-status-output').html('<div id="note-status-output-' + noteStatusOutput + '" class="alert alert-info">' + this.lang.output.noSelection + '</div>');
-        setTimeout(function () {
+        setTimeout(function() {
           external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('#note-status-output-' + noteStatusOutput).remove();
         }, 5000);
       }
@@ -5672,7 +5672,7 @@ function Clipboard_defineProperties(e, r) { for (var t = 0; t < r.length; t++) {
 function Clipboard_createClass(e, r, t) { return r && Clipboard_defineProperties(e.prototype, r), t && Clipboard_defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function Clipboard_toPropertyKey(t) { var i = Clipboard_toPrimitive(t, "string"); return "symbol" == Clipboard_typeof(i) ? i : i + ""; }
 function Clipboard_toPrimitive(t, r) { if ("object" != Clipboard_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Clipboard_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var Clipboard = /*#__PURE__*/function () {
+var Clipboard = /*#__PURE__*/function() {
   function Clipboard(context) {
     Clipboard_classCallCheck(this, Clipboard);
     this.context = context;
@@ -5721,7 +5721,7 @@ var Clipboard = /*#__PURE__*/function () {
       }
 
       // Call editor.afterCommand after proceeding default event handler
-      setTimeout(function () {
+      setTimeout(function() {
         _this.context.invoke('editor.afterCommand');
       }, 10);
     }
@@ -5736,7 +5736,7 @@ function Dropzone_createClass(e, r, t) { return r && Dropzone_defineProperties(e
 function Dropzone_toPropertyKey(t) { var i = Dropzone_toPrimitive(t, "string"); return "symbol" == Dropzone_typeof(i) ? i : i + ""; }
 function Dropzone_toPrimitive(t, r) { if ("object" != Dropzone_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Dropzone_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var Dropzone = /*#__PURE__*/function () {
+var Dropzone = /*#__PURE__*/function() {
   function Dropzone(context) {
     Dropzone_classCallCheck(this, Dropzone);
     this.context = context;
@@ -5797,7 +5797,7 @@ var Dropzone = /*#__PURE__*/function () {
           _this.$editor.removeClass('dragover');
         }
       };
-      this.documentEventHandlers.onDrop = function () {
+      this.documentEventHandlers.onDrop = function() {
         collection = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()();
         _this.$editor.removeClass('dragover');
       };
@@ -5807,10 +5807,10 @@ var Dropzone = /*#__PURE__*/function () {
       this.$eventListener.on('dragenter', this.documentEventHandlers.onDragenter).on('dragleave', this.documentEventHandlers.onDragleave).on('drop', this.documentEventHandlers.onDrop);
 
       // change dropzone's message on hover.
-      this.$dropzone.on('dragenter', function () {
+      this.$dropzone.on('dragenter', function() {
         _this.$dropzone.addClass('hover');
         $dropzoneMessage.text(_this.lang.image.dropImage);
-      }).on('dragleave', function () {
+      }).on('dragleave', function() {
         _this.$dropzone.removeClass('hover');
         $dropzoneMessage.text(_this.lang.image.dragImageHere);
       });
@@ -5870,7 +5870,7 @@ function Codeview_toPrimitive(t, r) { if ("object" != Codeview_typeof(t) || !t) 
 /**
  * @class Codeview
  */
-var CodeView = /*#__PURE__*/function () {
+var CodeView = /*#__PURE__*/function() {
   function CodeView(context) {
     Codeview_classCallCheck(this, CodeView);
     this.context = context;
@@ -6007,7 +6007,7 @@ var CodeView = /*#__PURE__*/function () {
         cmEditor.on('blur', function (event) {
           _this2.context.triggerEvent('blur.codeview', cmEditor.getValue(), event);
         });
-        cmEditor.on('change', function () {
+        cmEditor.on('change', function() {
           _this2.context.triggerEvent('change.codeview', cmEditor.getValue(), cmEditor);
         });
 
@@ -6018,7 +6018,7 @@ var CodeView = /*#__PURE__*/function () {
         this.$codable.on('blur', function (event) {
           _this2.context.triggerEvent('blur.codeview', _this2.$codable.val(), event);
         });
-        this.$codable.on('input', function () {
+        this.$codable.on('input', function() {
           _this2.context.triggerEvent('change.codeview', _this2.$codable.val(), _this2.$codable);
         });
       }
@@ -6068,7 +6068,7 @@ function Statusbar_toPropertyKey(t) { var i = Statusbar_toPrimitive(t, "string")
 function Statusbar_toPrimitive(t, r) { if ("object" != Statusbar_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Statusbar_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 var EDITABLE_PADDING = 24;
-var Statusbar = /*#__PURE__*/function () {
+var Statusbar = /*#__PURE__*/function() {
   function Statusbar(context) {
     Statusbar_classCallCheck(this, Statusbar);
     this.$document = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(document);
@@ -6101,7 +6101,7 @@ var Statusbar = /*#__PURE__*/function () {
           _this.$editable.height(height);
           _this.$codable.height(heightCode);
         };
-        _this.$document.on('mousemove touchmove', onStatusbarMove).one('mouseup touchend', function () {
+        _this.$document.on('mousemove touchmove', onStatusbarMove).one('mouseup touchend', function() {
           _this.$document.off('mousemove touchmove', onStatusbarMove);
         });
       });
@@ -6123,7 +6123,7 @@ function Fullscreen_createClass(e, r, t) { return r && Fullscreen_defineProperti
 function Fullscreen_toPropertyKey(t) { var i = Fullscreen_toPrimitive(t, "string"); return "symbol" == Fullscreen_typeof(i) ? i : i + ""; }
 function Fullscreen_toPrimitive(t, r) { if ("object" != Fullscreen_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Fullscreen_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var Fullscreen = /*#__PURE__*/function () {
+var Fullscreen = /*#__PURE__*/function() {
   function Fullscreen(context) {
     var _this = this;
     Fullscreen_classCallCheck(this, Fullscreen);
@@ -6135,7 +6135,7 @@ var Fullscreen = /*#__PURE__*/function () {
     this.$window = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(window);
     this.$scrollbar = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('html, body');
     this.scrollbarClassName = 'note-fullscreen-body';
-    this.onResize = function () {
+    this.onResize = function() {
       _this.resizeTo({
         h: _this.$window.height() - _this.$toolbar.outerHeight()
       });
@@ -6196,7 +6196,7 @@ function Handle_toPropertyKey(t) { var i = Handle_toPrimitive(t, "string"); retu
 function Handle_toPrimitive(t, r) { if ("object" != Handle_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Handle_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
-var Handle = /*#__PURE__*/function () {
+var Handle = /*#__PURE__*/function() {
   function Handle(context) {
     var _this = this;
     Handle_classCallCheck(this, Handle);
@@ -6322,7 +6322,7 @@ function AutoLink_toPrimitive(t, r) { if ("object" != AutoLink_typeof(t) || !t) 
 
 var defaultScheme = 'http://';
 var linkPattern = /^([A-Za-z][A-Za-z0-9+-.]*\:[\/]{2}|tel:|mailto:[A-Z0-9._%+-]+@|xmpp:[A-Z0-9._%+-]+@)?(www\.)?(.+)$/i;
-var AutoLink = /*#__PURE__*/function () {
+var AutoLink = /*#__PURE__*/function() {
   function AutoLink(context) {
     var _this = this;
     AutoLink_classCallCheck(this, AutoLink);
@@ -6401,7 +6401,7 @@ function AutoSync_toPrimitive(t, r) { if ("object" != AutoSync_typeof(t) || !t) 
 /**
  * textarea auto sync.
  */
-var AutoSync = /*#__PURE__*/function () {
+var AutoSync = /*#__PURE__*/function() {
   function AutoSync(context) {
     var _this = this;
     AutoSync_classCallCheck(this, AutoSync);
@@ -6430,7 +6430,7 @@ function AutoReplace_toPrimitive(t, r) { if ("object" != AutoReplace_typeof(t) |
 
 
 
-var AutoReplace = /*#__PURE__*/function () {
+var AutoReplace = /*#__PURE__*/function() {
   function AutoReplace(context) {
     var _this = this;
     AutoReplace_classCallCheck(this, AutoReplace);
@@ -6522,7 +6522,7 @@ function Placeholder_createClass(e, r, t) { return r && Placeholder_defineProper
 function Placeholder_toPropertyKey(t) { var i = Placeholder_toPrimitive(t, "string"); return "symbol" == Placeholder_typeof(i) ? i : i + ""; }
 function Placeholder_toPrimitive(t, r) { if ("object" != Placeholder_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Placeholder_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var Placeholder = /*#__PURE__*/function () {
+var Placeholder = /*#__PURE__*/function() {
   function Placeholder(context) {
     var _this = this;
     Placeholder_classCallCheck(this, Placeholder);
@@ -6552,7 +6552,7 @@ var Placeholder = /*#__PURE__*/function () {
     value: function initialize() {
       var _this2 = this;
       this.$placeholder = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<div class="note-placeholder"></div>');
-      this.$placeholder.on('click', function () {
+      this.$placeholder.on('click', function() {
         _this2.context.invoke('focus');
       }).html(this.options.placeholder).prependTo(this.$editingArea);
       this.update();
@@ -6582,7 +6582,7 @@ function Buttons_toPrimitive(t, r) { if ("object" != Buttons_typeof(t) || !t) re
 
 
 
-var Buttons = /*#__PURE__*/function () {
+var Buttons = /*#__PURE__*/function() {
   function Buttons(context) {
     Buttons_classCallCheck(this, Buttons);
     this.ui = (external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.ui;
@@ -6717,7 +6717,7 @@ var Buttons = /*#__PURE__*/function () {
               }).render());
             });
             $dropdown.find('input[type=color]').each(function (idx, item) {
-              external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item).on("change", function () {
+              external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item).on("change", function() {
                 var $chip = $dropdown.find('#' + external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this).data('event')).find('.note-color-btn').first();
                 var color = this.value.toUpperCase();
                 $chip.css('background-color', color).attr('aria-label', color).attr('data-value', color).attr('data-original-title', color);
@@ -6761,7 +6761,7 @@ var Buttons = /*#__PURE__*/function () {
     key: "addToolbarButtons",
     value: function addToolbarButtons() {
       var _this2 = this;
-      this.context.memo('button.style', function () {
+      this.context.memo('button.style', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.magic), _this2.options),
@@ -6792,7 +6792,7 @@ var Buttons = /*#__PURE__*/function () {
       });
       var _loop = function _loop() {
         var item = _this2.options.styleTags[styleIdx];
-        _this2.context.memo('button.style.' + item, function () {
+        _this2.context.memo('button.style.' + item, function() {
           return _this2.button({
             className: 'note-btn-style-' + item,
             contents: '<div data-value="' + item + '">' + item.toUpperCase() + '</div>',
@@ -6804,7 +6804,7 @@ var Buttons = /*#__PURE__*/function () {
       for (var styleIdx = 0, styleLen = this.options.styleTags.length; styleIdx < styleLen; styleIdx++) {
         _loop();
       }
-      this.context.memo('button.bold', function () {
+      this.context.memo('button.bold', function() {
         return _this2.button({
           className: 'note-btn-bold',
           contents: _this2.ui.icon(_this2.options.icons.bold),
@@ -6812,7 +6812,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.bold')
         }).render();
       });
-      this.context.memo('button.italic', function () {
+      this.context.memo('button.italic', function() {
         return _this2.button({
           className: 'note-btn-italic',
           contents: _this2.ui.icon(_this2.options.icons.italic),
@@ -6820,7 +6820,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.italic')
         }).render();
       });
-      this.context.memo('button.underline', function () {
+      this.context.memo('button.underline', function() {
         return _this2.button({
           className: 'note-btn-underline',
           contents: _this2.ui.icon(_this2.options.icons.underline),
@@ -6828,14 +6828,14 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.underline')
         }).render();
       });
-      this.context.memo('button.clear', function () {
+      this.context.memo('button.clear', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.eraser),
           tooltip: _this2.lang.font.clear + _this2.representShortcut('removeFormat'),
           click: _this2.context.createInvokeHandler('editor.removeFormat')
         }).render();
       });
-      this.context.memo('button.strikethrough', function () {
+      this.context.memo('button.strikethrough', function() {
         return _this2.button({
           className: 'note-btn-strikethrough',
           contents: _this2.ui.icon(_this2.options.icons.strikethrough),
@@ -6843,7 +6843,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.strikethrough')
         }).render();
       });
-      this.context.memo('button.superscript', function () {
+      this.context.memo('button.superscript', function() {
         return _this2.button({
           className: 'note-btn-superscript',
           contents: _this2.ui.icon(_this2.options.icons.superscript),
@@ -6851,7 +6851,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.superscript')
         }).render();
       });
-      this.context.memo('button.subscript', function () {
+      this.context.memo('button.subscript', function() {
         return _this2.button({
           className: 'note-btn-subscript',
           contents: _this2.ui.icon(_this2.options.icons.subscript),
@@ -6859,7 +6859,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.subscript')
         }).render();
       });
-      this.context.memo('button.fontname', function () {
+      this.context.memo('button.fontname', function() {
         var styleInfo = _this2.context.invoke('editor.currentStyle');
         if (_this2.options.addDefaultFonts) {
           // Add 'default' fonts into the fontnames array if not exist
@@ -6890,7 +6890,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.fontName')
         })]).render();
       });
-      this.context.memo('button.fontsize', function () {
+      this.context.memo('button.fontsize', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsize"></span>', _this2.options),
@@ -6906,7 +6906,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.fontSize')
         })]).render();
       });
-      this.context.memo('button.fontsizeunit', function () {
+      this.context.memo('button.fontsizeunit', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsizeunit"></span>', _this2.options),
@@ -6922,23 +6922,23 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandlerAndUpdateState('editor.fontSizeUnit')
         })]).render();
       });
-      this.context.memo('button.color', function () {
+      this.context.memo('button.color', function() {
         return _this2.colorPalette('note-color-all', _this2.lang.color.recent, true, true);
       });
-      this.context.memo('button.forecolor', function () {
+      this.context.memo('button.forecolor', function() {
         return _this2.colorPalette('note-color-fore', _this2.lang.color.foreground, false, true);
       });
-      this.context.memo('button.backcolor', function () {
+      this.context.memo('button.backcolor', function() {
         return _this2.colorPalette('note-color-back', _this2.lang.color.background, true, false);
       });
-      this.context.memo('button.ul', function () {
+      this.context.memo('button.ul', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.unorderedlist),
           tooltip: _this2.lang.lists.unordered + _this2.representShortcut('insertUnorderedList'),
           click: _this2.context.createInvokeHandler('editor.insertUnorderedList')
         }).render();
       });
-      this.context.memo('button.ol', function () {
+      this.context.memo('button.ol', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.orderedlist),
           tooltip: _this2.lang.lists.ordered + _this2.representShortcut('insertOrderedList'),
@@ -6981,7 +6981,7 @@ var Buttons = /*#__PURE__*/function () {
       this.context.memo('button.justifyFull', func.invoke(justifyFull, 'render'));
       this.context.memo('button.outdent', func.invoke(outdent, 'render'));
       this.context.memo('button.indent', func.invoke(indent, 'render'));
-      this.context.memo('button.paragraph', function () {
+      this.context.memo('button.paragraph', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.alignLeft), _this2.options),
@@ -6997,7 +6997,7 @@ var Buttons = /*#__PURE__*/function () {
           children: [outdent, indent]
         })])]).render();
       });
-      this.context.memo('button.height', function () {
+      this.context.memo('button.height', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.textHeight), _this2.options),
@@ -7013,7 +7013,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandler('editor.lineHeight')
         })]).render();
       });
-      this.context.memo('button.table', function () {
+      this.context.memo('button.table', function() {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.table), _this2.options),
@@ -7035,35 +7035,35 @@ var Buttons = /*#__PURE__*/function () {
           }
         }).render();
       });
-      this.context.memo('button.link', function () {
+      this.context.memo('button.link', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.link),
           tooltip: _this2.lang.link.link + _this2.representShortcut('linkDialog.show'),
           click: _this2.context.createInvokeHandler('linkDialog.show')
         }).render();
       });
-      this.context.memo('button.picture', function () {
+      this.context.memo('button.picture', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.picture),
           tooltip: _this2.lang.image.image,
           click: _this2.context.createInvokeHandler('imageDialog.show')
         }).render();
       });
-      this.context.memo('button.video', function () {
+      this.context.memo('button.video', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.video),
           tooltip: _this2.lang.video.video,
           click: _this2.context.createInvokeHandler('videoDialog.show')
         }).render();
       });
-      this.context.memo('button.hr', function () {
+      this.context.memo('button.hr', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.minus),
           tooltip: _this2.lang.hr.insert + _this2.representShortcut('insertHorizontalRule'),
           click: _this2.context.createInvokeHandler('editor.insertHorizontalRule')
         }).render();
       });
-      this.context.memo('button.fullscreen', function () {
+      this.context.memo('button.fullscreen', function() {
         return _this2.button({
           className: 'btn-fullscreen note-codeview-keep',
           contents: _this2.ui.icon(_this2.options.icons.arrowsAlt),
@@ -7071,7 +7071,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandler('fullscreen.toggle')
         }).render();
       });
-      this.context.memo('button.codeview', function () {
+      this.context.memo('button.codeview', function() {
         return _this2.button({
           className: 'btn-codeview note-codeview-keep',
           contents: _this2.ui.icon(_this2.options.icons.code),
@@ -7079,21 +7079,21 @@ var Buttons = /*#__PURE__*/function () {
           click: _this2.context.createInvokeHandler('codeview.toggle')
         }).render();
       });
-      this.context.memo('button.redo', function () {
+      this.context.memo('button.redo', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.redo),
           tooltip: _this2.lang.history.redo + _this2.representShortcut('redo'),
           click: _this2.context.createInvokeHandler('editor.redo')
         }).render();
       });
-      this.context.memo('button.undo', function () {
+      this.context.memo('button.undo', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.undo),
           tooltip: _this2.lang.history.undo + _this2.representShortcut('undo'),
           click: _this2.context.createInvokeHandler('editor.undo')
         }).render();
       });
-      this.context.memo('button.help', function () {
+      this.context.memo('button.help', function() {
         return _this2.button({
           contents: _this2.ui.icon(_this2.options.icons.question),
           tooltip: _this2.lang.options.help,
@@ -7114,28 +7114,28 @@ var Buttons = /*#__PURE__*/function () {
     value: function addImagePopoverButtons() {
       var _this3 = this;
       // Image Size Buttons
-      this.context.memo('button.resizeFull', function () {
+      this.context.memo('button.resizeFull', function() {
         return _this3.button({
           contents: '<span class="note-fontsize-10">100%</span>',
           tooltip: _this3.lang.image.resizeFull,
           click: _this3.context.createInvokeHandler('editor.resize', '1')
         }).render();
       });
-      this.context.memo('button.resizeHalf', function () {
+      this.context.memo('button.resizeHalf', function() {
         return _this3.button({
           contents: '<span class="note-fontsize-10">50%</span>',
           tooltip: _this3.lang.image.resizeHalf,
           click: _this3.context.createInvokeHandler('editor.resize', '0.5')
         }).render();
       });
-      this.context.memo('button.resizeQuarter', function () {
+      this.context.memo('button.resizeQuarter', function() {
         return _this3.button({
           contents: '<span class="note-fontsize-10">25%</span>',
           tooltip: _this3.lang.image.resizeQuarter,
           click: _this3.context.createInvokeHandler('editor.resize', '0.25')
         }).render();
       });
-      this.context.memo('button.resizeNone', function () {
+      this.context.memo('button.resizeNone', function() {
         return _this3.button({
           contents: _this3.ui.icon(_this3.options.icons.rollback),
           tooltip: _this3.lang.image.resizeNone,
@@ -7144,21 +7144,21 @@ var Buttons = /*#__PURE__*/function () {
       });
 
       // Float Buttons
-      this.context.memo('button.floatLeft', function () {
+      this.context.memo('button.floatLeft', function() {
         return _this3.button({
           contents: _this3.ui.icon(_this3.options.icons.floatLeft),
           tooltip: _this3.lang.image.floatLeft,
           click: _this3.context.createInvokeHandler('editor.floatMe', 'left')
         }).render();
       });
-      this.context.memo('button.floatRight', function () {
+      this.context.memo('button.floatRight', function() {
         return _this3.button({
           contents: _this3.ui.icon(_this3.options.icons.floatRight),
           tooltip: _this3.lang.image.floatRight,
           click: _this3.context.createInvokeHandler('editor.floatMe', 'right')
         }).render();
       });
-      this.context.memo('button.floatNone', function () {
+      this.context.memo('button.floatNone', function() {
         return _this3.button({
           contents: _this3.ui.icon(_this3.options.icons.rollback),
           tooltip: _this3.lang.image.floatNone,
@@ -7167,7 +7167,7 @@ var Buttons = /*#__PURE__*/function () {
       });
 
       // Remove Buttons
-      this.context.memo('button.removeMedia', function () {
+      this.context.memo('button.removeMedia', function() {
         return _this3.button({
           contents: _this3.ui.icon(_this3.options.icons.trash),
           tooltip: _this3.lang.image.remove,
@@ -7179,14 +7179,14 @@ var Buttons = /*#__PURE__*/function () {
     key: "addLinkPopoverButtons",
     value: function addLinkPopoverButtons() {
       var _this4 = this;
-      this.context.memo('button.linkDialogShow', function () {
+      this.context.memo('button.linkDialogShow', function() {
         return _this4.button({
           contents: _this4.ui.icon(_this4.options.icons.link),
           tooltip: _this4.lang.link.edit,
           click: _this4.context.createInvokeHandler('linkDialog.show')
         }).render();
       });
-      this.context.memo('button.unlink', function () {
+      this.context.memo('button.unlink', function() {
         return _this4.button({
           contents: _this4.ui.icon(_this4.options.icons.unlink),
           tooltip: _this4.lang.link.unlink,
@@ -7205,7 +7205,7 @@ var Buttons = /*#__PURE__*/function () {
     key: "addTablePopoverButtons",
     value: function addTablePopoverButtons() {
       var _this5 = this;
-      this.context.memo('button.addRowUp', function () {
+      this.context.memo('button.addRowUp', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.rowAbove),
@@ -7213,7 +7213,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.addRow', 'top')
         }).render();
       });
-      this.context.memo('button.addRowDown', function () {
+      this.context.memo('button.addRowDown', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.rowBelow),
@@ -7221,7 +7221,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.addRow', 'bottom')
         }).render();
       });
-      this.context.memo('button.addColLeft', function () {
+      this.context.memo('button.addColLeft', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.colBefore),
@@ -7229,7 +7229,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.addCol', 'left')
         }).render();
       });
-      this.context.memo('button.addColRight', function () {
+      this.context.memo('button.addColRight', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.colAfter),
@@ -7237,7 +7237,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.addCol', 'right')
         }).render();
       });
-      this.context.memo('button.deleteRow', function () {
+      this.context.memo('button.deleteRow', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.rowRemove),
@@ -7245,7 +7245,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.deleteRow')
         }).render();
       });
-      this.context.memo('button.deleteCol', function () {
+      this.context.memo('button.deleteCol', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.colRemove),
@@ -7253,7 +7253,7 @@ var Buttons = /*#__PURE__*/function () {
           click: _this5.context.createInvokeHandler('editor.deleteCol')
         }).render();
       });
-      this.context.memo('button.deleteTable', function () {
+      this.context.memo('button.deleteTable', function() {
         return _this5.button({
           className: 'btn-md',
           contents: _this5.ui.icon(_this5.options.icons.trash),
@@ -7414,7 +7414,7 @@ function Toolbar_createClass(e, r, t) { return r && Toolbar_defineProperties(e.p
 function Toolbar_toPropertyKey(t) { var i = Toolbar_toPrimitive(t, "string"); return "symbol" == Toolbar_typeof(i) ? i : i + ""; }
 function Toolbar_toPrimitive(t, r) { if ("object" != Toolbar_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != Toolbar_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var Toolbar = /*#__PURE__*/function () {
+var Toolbar = /*#__PURE__*/function() {
   function Toolbar(context) {
     Toolbar_classCallCheck(this, Toolbar);
     this.context = context;
@@ -7449,7 +7449,7 @@ var Toolbar = /*#__PURE__*/function () {
         this.$toolbar.appendTo(this.options.toolbarContainer);
       }
       this.changeContainer(false);
-      this.$note.on('summernote.keyup summernote.mouseup summernote.change', function () {
+      this.$note.on('summernote.keyup summernote.mouseup summernote.change', function() {
         _this.context.invoke('buttons.updateCurrentStyle');
       });
       this.context.invoke('buttons.updateCurrentStyle');
@@ -7575,7 +7575,7 @@ function LinkDialog_toPrimitive(t, r) { if ("object" != LinkDialog_typeof(t) || 
 var LinkDialog_MAILTO_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 var LinkDialog_TEL_PATTERN = /^(\+?\d{1,3}[\s-]?)?(\d{1,4})[\s-]?(\d{1,4})[\s-]?(\d{1,4})$/;
 var LinkDialog_URL_SCHEME_PATTERN = /^([A-Za-z][A-Za-z0-9+-.]*\:|#|\/)/;
-var LinkDialog = /*#__PURE__*/function () {
+var LinkDialog = /*#__PURE__*/function() {
   function LinkDialog(context) {
     LinkDialog_classCallCheck(this, LinkDialog);
     this.context = context;
@@ -7666,14 +7666,14 @@ var LinkDialog = /*#__PURE__*/function () {
         var $linkUrl = _this2.$dialog.find('.note-link-url');
         var $linkBtn = _this2.$dialog.find('.note-link-btn');
         var $openInNewWindow = _this2.$dialog.find('.sn-checkbox-open-in-new-window input[type=checkbox]');
-        _this2.ui.onDialogShown(_this2.$dialog, function () {
+        _this2.ui.onDialogShown(_this2.$dialog, function() {
           _this2.context.triggerEvent('dialog.shown');
 
           // If no url was given and given text is valid URL then copy that into URL Field
           if (!linkInfo.url && func.isValidUrl(linkInfo.text)) {
             linkInfo.url = _this2.checkLinkUrl(linkInfo.text);
           }
-          $linkText.on('input paste propertychange', function () {
+          $linkText.on('input paste propertychange', function() {
             // If linktext was modified by input events,
             // cloning text from linkUrl will be stopped.
             var text = $linkText.val();
@@ -7683,7 +7683,7 @@ var LinkDialog = /*#__PURE__*/function () {
             linkInfo.text = text;
             _this2.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
           }).val(linkInfo.text);
-          $linkUrl.on('input paste propertychange', function () {
+          $linkUrl.on('input paste propertychange', function() {
             // Display same text on `Text to display` as default
             // when linktext has no text
             if (!linkInfo.text) {
@@ -7711,7 +7711,7 @@ var LinkDialog = /*#__PURE__*/function () {
             _this2.ui.hideDialog(_this2.$dialog);
           });
         });
-        _this2.ui.onDialogHidden(_this2.$dialog, function () {
+        _this2.ui.onDialogHidden(_this2.$dialog, function() {
           // detach events
           $linkText.off();
           $linkUrl.off();
@@ -7736,7 +7736,7 @@ var LinkDialog = /*#__PURE__*/function () {
       this.showLinkDialog(linkInfo).then(function (linkInfo) {
         _this3.context.invoke('editor.restoreRange');
         _this3.context.invoke('editor.createLink', linkInfo);
-      }).fail(function () {
+      }).fail(function() {
         _this3.context.invoke('editor.restoreRange');
       });
     }
@@ -7753,7 +7753,7 @@ function LinkPopover_toPrimitive(t, r) { if ("object" != LinkPopover_typeof(t) |
 
 
 
-var LinkPopover = /*#__PURE__*/function () {
+var LinkPopover = /*#__PURE__*/function() {
   function LinkPopover(context) {
     var _this = this;
     LinkPopover_classCallCheck(this, LinkPopover);
@@ -7848,7 +7848,7 @@ function ImageDialog_toPrimitive(t, r) { if ("object" != ImageDialog_typeof(t) |
 
 
 
-var ImageDialog = /*#__PURE__*/function () {
+var ImageDialog = /*#__PURE__*/function() {
   function ImageDialog(context) {
     ImageDialog_classCallCheck(this, ImageDialog);
     this.context = context;
@@ -7915,7 +7915,7 @@ var ImageDialog = /*#__PURE__*/function () {
           // array of files
           _this.context.invoke('editor.insertImagesOrCallback', data);
         }
-      }).fail(function () {
+      }).fail(function() {
         _this.context.invoke('editor.restoreRange');
       });
     }
@@ -7934,14 +7934,14 @@ var ImageDialog = /*#__PURE__*/function () {
         var $imageInput = _this2.$dialog.find('.note-image-input');
         var $imageUrl = _this2.$dialog.find('.note-image-url');
         var $imageBtn = _this2.$dialog.find('.note-image-btn');
-        _this2.ui.onDialogShown(_this2.$dialog, function () {
+        _this2.ui.onDialogShown(_this2.$dialog, function() {
           _this2.context.triggerEvent('dialog.shown');
 
           // Cloning imageInput to clear element.
           $imageInput.replaceWith($imageInput.clone().on('change', function (event) {
             deferred.resolve(event.target.files || event.target.value);
           }).val(''));
-          $imageUrl.on('input paste propertychange', function () {
+          $imageUrl.on('input paste propertychange', function() {
             _this2.ui.toggleBtn($imageBtn, $imageUrl.val());
           }).val('');
           if (!env.isSupportTouch) {
@@ -7953,7 +7953,7 @@ var ImageDialog = /*#__PURE__*/function () {
           });
           _this2.bindEnterKey($imageUrl, $imageBtn);
         });
-        _this2.ui.onDialogHidden(_this2.$dialog, function () {
+        _this2.ui.onDialogHidden(_this2.$dialog, function() {
           $imageInput.off();
           $imageUrl.off();
           $imageBtn.off();
@@ -7983,7 +7983,7 @@ function ImagePopover_toPrimitive(t, r) { if ("object" != ImagePopover_typeof(t)
  *  mouse events that show/hide popover will be handled by Handle.js.
  *  Handle.js will receive the events and invoke 'imagePopover.update'.
  */
-var ImagePopover = /*#__PURE__*/function () {
+var ImagePopover = /*#__PURE__*/function() {
   function ImagePopover(context) {
     var _this = this;
     ImagePopover_classCallCheck(this, ImagePopover);
@@ -8071,7 +8071,7 @@ function TablePopover_toPrimitive(t, r) { if ("object" != TablePopover_typeof(t)
 
 
 
-var TablePopover = /*#__PURE__*/function () {
+var TablePopover = /*#__PURE__*/function() {
   function TablePopover(context) {
     var _this = this;
     TablePopover_classCallCheck(this, TablePopover);
@@ -8166,7 +8166,7 @@ function VideoDialog_toPrimitive(t, r) { if ("object" != VideoDialog_typeof(t) |
 
 
 
-var VideoDialog = /*#__PURE__*/function () {
+var VideoDialog = /*#__PURE__*/function() {
   function VideoDialog(context) {
     VideoDialog_classCallCheck(this, VideoDialog);
     this.context = context;
@@ -8309,7 +8309,7 @@ var VideoDialog = /*#__PURE__*/function () {
           // insert video node
           _this.context.invoke('editor.insertNode', $node);
         }
-      }).fail(function () {
+      }).fail(function() {
         _this.context.invoke('editor.restoreRange');
       });
     }
@@ -8328,9 +8328,9 @@ var VideoDialog = /*#__PURE__*/function () {
       return external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().Deferred(function (deferred) {
         var $videoUrl = _this2.$dialog.find('.note-video-url');
         var $videoBtn = _this2.$dialog.find('.note-video-btn');
-        _this2.ui.onDialogShown(_this2.$dialog, function () {
+        _this2.ui.onDialogShown(_this2.$dialog, function() {
           _this2.context.triggerEvent('dialog.shown');
-          $videoUrl.on('input paste propertychange', function () {
+          $videoUrl.on('input paste propertychange', function() {
             _this2.ui.toggleBtn($videoBtn, $videoUrl.val());
           });
           if (!env.isSupportTouch) {
@@ -8342,7 +8342,7 @@ var VideoDialog = /*#__PURE__*/function () {
           });
           _this2.bindEnterKey($videoUrl, $videoBtn);
         });
-        _this2.ui.onDialogHidden(_this2.$dialog, function () {
+        _this2.ui.onDialogHidden(_this2.$dialog, function() {
           $videoUrl.off();
           $videoBtn.off();
           if (deferred.state() === 'pending') {
@@ -8364,7 +8364,7 @@ function HelpDialog_toPropertyKey(t) { var i = HelpDialog_toPrimitive(t, "string
 function HelpDialog_toPrimitive(t, r) { if ("object" != HelpDialog_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != HelpDialog_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
-var HelpDialog = /*#__PURE__*/function () {
+var HelpDialog = /*#__PURE__*/function() {
   function HelpDialog(context) {
     HelpDialog_classCallCheck(this, HelpDialog);
     this.context = context;
@@ -8424,7 +8424,7 @@ var HelpDialog = /*#__PURE__*/function () {
     value: function showHelpDialog() {
       var _this2 = this;
       return external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().Deferred(function (deferred) {
-        _this2.ui.onDialogShown(_this2.$dialog, function () {
+        _this2.ui.onDialogShown(_this2.$dialog, function() {
           _this2.context.triggerEvent('dialog.shown');
           deferred.resolve();
         });
@@ -8436,7 +8436,7 @@ var HelpDialog = /*#__PURE__*/function () {
     value: function show() {
       var _this3 = this;
       this.context.invoke('editor.saveRange');
-      this.showHelpDialog().then(function () {
+      this.showHelpDialog().then(function() {
         _this3.context.invoke('editor.restoreRange');
       });
     }
@@ -8455,7 +8455,7 @@ function AirPopover_toPrimitive(t, r) { if ("object" != AirPopover_typeof(t) || 
 
 var AIRMODE_POPOVER_X_OFFSET = -5;
 var AIRMODE_POPOVER_Y_OFFSET = 5;
-var AirPopover = /*#__PURE__*/function () {
+var AirPopover = /*#__PURE__*/function() {
   function AirPopover(context) {
     var _this = this;
     AirPopover_classCallCheck(this, AirPopover);
@@ -8521,11 +8521,11 @@ var AirPopover = /*#__PURE__*/function () {
       this.context.invoke('buttons.build', $content, this.options.popover.air);
 
       // disable hiding this popover preemptively by 'summernote.blur' event.
-      this.$popover.on('mousedown', function () {
+      this.$popover.on('mousedown', function() {
         _this2.hidable = false;
       });
       // (re-)enable hiding after 'summernote.blur' has been handled (aka. ignored).
-      this.$popover.on('mouseup', function () {
+      this.$popover.on('mouseup', function() {
         _this2.hidable = true;
       });
     }
@@ -8588,7 +8588,7 @@ function HintPopover_toPrimitive(t, r) { if ("object" != HintPopover_typeof(t) |
 
 
 var POPOVER_DIST = 5;
-var HintPopover = /*#__PURE__*/function () {
+var HintPopover = /*#__PURE__*/function() {
   function HintPopover(context) {
     var _this = this;
     HintPopover_classCallCheck(this, HintPopover);
@@ -9147,7 +9147,7 @@ function renderer_createClass(e, r, t) { return r && renderer_defineProperties(e
 function renderer_toPropertyKey(t) { var i = renderer_toPrimitive(t, "string"); return "symbol" == renderer_typeof(i) ? i : i + ""; }
 function renderer_toPrimitive(t, r) { if ("object" != renderer_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != renderer_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var Renderer = /*#__PURE__*/function () {
+var Renderer = /*#__PURE__*/function() {
   function Renderer(markup, children, options, callback) {
     renderer_classCallCheck(this, Renderer);
     this.markup = markup;
@@ -9194,7 +9194,7 @@ var Renderer = /*#__PURE__*/function () {
 }();
 /* harmony default export */ const renderer = ({
   create: function create(markup, callback) {
-    return function () {
+    return function() {
       var options = renderer_typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
       var children = Array.isArray(arguments[0]) ? arguments[0] : [];
       if (options && options.children) {
@@ -9212,7 +9212,7 @@ function TooltipUI_createClass(e, r, t) { return r && TooltipUI_defineProperties
 function TooltipUI_toPropertyKey(t) { var i = TooltipUI_toPrimitive(t, "string"); return "symbol" == TooltipUI_typeof(i) ? i : i + ""; }
 function TooltipUI_toPrimitive(t, r) { if ("object" != TooltipUI_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != TooltipUI_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var TooltipUI = /*#__PURE__*/function () {
+var TooltipUI = /*#__PURE__*/function() {
   function TooltipUI($node, options) {
     TooltipUI_classCallCheck(this, TooltipUI);
     this.$node = $node;
@@ -9289,7 +9289,7 @@ var TooltipUI = /*#__PURE__*/function () {
     value: function hide() {
       var _this = this;
       this.$tooltip.removeClass('in');
-      setTimeout(function () {
+      setTimeout(function() {
         _this.$tooltip.remove();
       }, 200);
     }
@@ -9313,7 +9313,7 @@ function DropdownUI_createClass(e, r, t) { return r && DropdownUI_defineProperti
 function DropdownUI_toPropertyKey(t) { var i = DropdownUI_toPrimitive(t, "string"); return "symbol" == DropdownUI_typeof(i) ? i : i + ""; }
 function DropdownUI_toPrimitive(t, r) { if ("object" != DropdownUI_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != DropdownUI_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var DropdownUI = /*#__PURE__*/function () {
+var DropdownUI = /*#__PURE__*/function() {
   function DropdownUI($node, options) {
     DropdownUI_classCallCheck(this, DropdownUI);
     this.$button = $node;
@@ -9392,7 +9392,7 @@ function ModalUI_createClass(e, r, t) { return r && ModalUI_defineProperties(e.p
 function ModalUI_toPropertyKey(t) { var i = ModalUI_toPrimitive(t, "string"); return "symbol" == ModalUI_typeof(i) ? i : i + ""; }
 function ModalUI_toPrimitive(t, r) { if ("object" != ModalUI_typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != ModalUI_typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-var ModalUI = /*#__PURE__*/function () {
+var ModalUI = /*#__PURE__*/function() {
   function ModalUI($node /*, options */) {
     ModalUI_classCallCheck(this, ModalUI);
     this.$modal = $node;
@@ -9650,7 +9650,7 @@ var palette = renderer.create('<div class="note-color-palette"></div>', function
     contents.push('<div class="note-color-row">' + buttons.join('') + '</div>');
   }
   $node.html(contents.join(''));
-  $node.find('.note-color-btn').each(function () {
+  $node.find('.note-color-btn').each(function() {
     external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this).data('_lite_tooltip', new js_TooltipUI(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this), {
       container: options.container
     }));
@@ -9681,7 +9681,7 @@ var colorDropdownButton = function colorDropdownButton(opt, type) {
     }), dropdown({
       items: ['<div>', '<div class="note-btn-group btn-background-color">', '<div class="note-palette-title">' + opt.lang.color.background + '</div>', '<div>', '<button type="button" class="note-color-reset note-btn note-btn-block" data-event="backColor" data-value="transparent">', opt.lang.color.transparent, '</button>', '</div>', '<div class="note-holder" data-event="backColor"></div>', '<div class="btn-sm">', '<input type="color" id="html5bcp" class="note-btn btn-default" value="#21104A" style="width:100%;" data-value="cp">', '<button type="button" class="note-color-reset btn" data-event="backColor" data-value="cpbackColor">', opt.lang.color.cpSelect, '</button>', '</div>', '</div>', '<div class="note-btn-group btn-foreground-color">', '<div class="note-palette-title">' + opt.lang.color.foreground + '</div>', '<div>', '<button type="button" class="note-color-reset note-btn note-btn-block" data-event="removeFormat" data-value="foreColor">', opt.lang.color.resetToDefault, '</button>', '</div>', '<div class="note-holder" data-event="foreColor"></div>', '<div class="btn-sm">', '<input type="color" id="html5fcp" class="note-btn btn-default" value="#21104A" style="width:100%;" data-value="cp">', '<button type="button" class="note-color-reset btn" data-event="foreColor" data-value="cpforeColor">', opt.lang.color.cpSelect, '</button>', '</div>', '</div>', '</div>'].join(''),
       callback: function callback($dropdown) {
-        $dropdown.find('.note-holder').each(function () {
+        $dropdown.find('.note-holder').each(function() {
           var $holder = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this);
           $holder.append(palette({
             colors: opt.colors,

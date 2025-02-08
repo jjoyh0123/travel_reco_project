@@ -22,7 +22,7 @@
   let start_date = null;
   let end_date = null;
 
-  $(function () {
+  $(function() {
     $('#date_range').daterangepicker({
       locale: {
         format: 'YYYY-MM-DD',
@@ -38,16 +38,16 @@
       start_date = picker.startDate.format('YYYY-MM-DD');
       end_date = picker.endDate.format('YYYY-MM-DD');
       $(this).val(start_date + ' ~ ' + end_date);
-    }).on('cancel.daterangepicker', function () {
+    }).on('cancel.daterangepicker', function() {
       $(this).val('');
     });
 
-    $('#select_dates').on('click', function () {
+    $('#select_dates').on('click', function() {
       let date_range = $('#date_range').val();
       if (date_range) {
         sessionStorage.setItem('start_date', start_date);
         sessionStorage.setItem('end_date', end_date);
-        window.location.href = "Controller?type=planning&action=destination_select";
+        window.location.href = "${pageContext.request.contextPath}/Controller?type=planning&action=destination_select";
       } else {
         alert('여행 기간을 선택해주세요.');
       }

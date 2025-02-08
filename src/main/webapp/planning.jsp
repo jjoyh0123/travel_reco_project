@@ -304,7 +304,7 @@
 
   <!-- Left Panel -->
   <div id="left-panel">
-    <div id="logo">zenzenclub</div>
+    <div id="logo">Zenzenclub</div>
     <div id="date-container"></div> <!-- Dates will be added dynamically -->
     <div id="plan-save-buttons">
       <button class="action-button" onclick="savePlan()">저장</button>

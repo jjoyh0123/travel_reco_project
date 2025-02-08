@@ -75,7 +75,7 @@
 <script>
   let startDate = null;
   let endDate = null;
-  $(function () {
+  $(function() {
     $('#dateRange').daterangepicker({
       locale: {
         format: 'YYYY-MM-DD',
@@ -97,11 +97,11 @@
       sessionStorage.setItem('endDate', endDate);
     });
 
-    $('#dateRange').on('cancel.daterangepicker', function () {
+    $('#dateRange').on('cancel.daterangepicker', function() {
       $(this).val('');
     });
 
-    $('#selectDates').on('click', function () {
+    $('#selectDates').on('click', function() {
       const dateRange = $('#dateRange').val();
       if (dateRange) {
         window.location.href = "Controller?type=destinationPicker&start_date="+ startDate + "&end_date="+ endDate;
