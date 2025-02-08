@@ -87,28 +87,5 @@ public class PlanDAO {
       return cnt;
     }
   }
-  // public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
-  //   try (SqlSession ss = FactoryService.getFactory().openSession()) {
-  //     Map<String, Object> param = new HashMap<>();
-  //     param.put("plan_idx", planIdx);
-  //     param.put("date_idx", dateIdx);
-  //     param.put("visit_order", order);
-  //     param.put("content_id", place.getString("content_id"));
-  //     param.put("content_type_id", place.getInt("content_type_id"));
-  //     param.put("title", place.getString("title"));
-  //     param.put("thumbnail", place.getString("thumbnail"));
-  //     param.put("map_x", place.getDouble("map_x"));
-  //     param.put("map_y", place.getDouble("map_y"));
-  //     param.put("time", place.getString("time"));
-  //
-  //     int cnt = ss.insert("plan.insertPlace", param);
-  //     if (cnt > 0) {
-  //       ss.commit();
-  //       return true;
-  //     } else {
-  //       ss.rollback();
-  //       return false;
-  //     }
-  //   }
-  // }
+
 }

@@ -17,4 +17,28 @@
     INSERT INTO place_table (date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time)
     VALUES (#{date_idx}, #{visit_order}, #{content_id}, #{content_type_id}, #{title}, #{thumbnail}, #{map_x}, #{map_y}, #{time});
   </insert>
+
+<!--  공유페이지     -->
+  <!-- Get the plan from plan_table -->
+  <select id="getPlanById" parameterType="String" resultType="mybatis.vo.PlanVO">
+    SELECT idx, user_idx, area_code, title, start_date, end_date, status
+    FROM plan_table
+    WHERE idx = #{planId}
+  </select>
+
+  <!-- Get all dates for a plan -->
+  <select id="getDatesByPlanId" parameterType="String" resultType="mybatis.vo.DateVO">
+    SELECT idx, plan_idx, date, memo
+    FROM date_table
+    WHERE plan_idx = #{planId}
+    ORDER BY date
+  </select>
+
+  <!-- Get all places for a given date -->
+  <select id="getPlacesByDateId" parameterType="String" resultType="mybatis.vo.PlaceVO">
+    SELECT place_idx AS idx, date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time
+    FROM place_table
+    WHERE date_idx = #{dateId}
+    ORDER BY visit_order
+  </select>
 </mapper>
