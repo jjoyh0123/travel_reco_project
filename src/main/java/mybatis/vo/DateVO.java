@@ -1,8 +1,19 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class DateVO {
   private String idx, plan_idx, date, memo;
+  private List<PlaceVO> placeList;
 
+
+  public List<PlaceVO> getPlaceList() {
+    return placeList;
+  }
+
+  public void setPlaceList(List<PlaceVO> placeList) {
+    this.placeList = placeList;
+  }
   public String getIdx() {
     return idx;
   }
@@ -34,4 +45,6 @@ public class DateVO {
   public void setMemo(String memo) {
     this.memo = memo;
   }
+
+
 }

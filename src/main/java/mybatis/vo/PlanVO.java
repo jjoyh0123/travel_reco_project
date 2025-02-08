@@ -1,7 +1,19 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class PlanVO {
   private String idx, user_idx, area_code, title, start_date, end_date, status;
+  private List<DateVO> dateList; // added field
+
+  public List<DateVO> getDateList() {
+    return dateList;
+  }
+
+  public void setDateList(List<DateVO> dateList) {
+    this.dateList = dateList;
+  }
+
 
   public String getIdx() {
     return idx;
