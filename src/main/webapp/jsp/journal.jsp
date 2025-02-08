@@ -696,6 +696,7 @@
     });
   });
 
+  // rate 출력
   function updateStarRating(rating, title) {
     // 선택된 별점에 맞게 starpoint_bg의 너비를 조정
     const starBg = document.querySelector('.starpoint_box .starpoint_bg');
