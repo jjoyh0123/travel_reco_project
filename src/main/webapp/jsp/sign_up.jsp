@@ -195,7 +195,7 @@
     const password = this.value;
     const passwordMessage = document.getElementById("passwordMessage");
 
-    if (password.length > 4) {
+    if (password.length < 4) {
       passwordValid = true;
       passwordMessage.textContent = "";
     } else {

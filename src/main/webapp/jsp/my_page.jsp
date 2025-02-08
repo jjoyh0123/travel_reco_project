@@ -143,9 +143,7 @@
 <body>
 <jsp:include page="/jsp/header.jsp"/>
 
-
 <div class="container px-3">
-
   <!-- 닉네임 표시 -->
   <div class="header mb-3">
     <c:choose>
