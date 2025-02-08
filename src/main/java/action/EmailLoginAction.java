@@ -24,17 +24,22 @@ public class EmailLoginAction implements Action {
     UserVO user = UserDAO.loginCheck(email, password);
 
     if (user != null) {
-      // 로그인 성공 - 세션에 사용자 정보 저장
-      String emailLoginProfileImg = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+      if (user.getStatus() == 0) {
+        // 로그인 성공 - 세션에 사용자 정보 저장
+        String emailLoginProfileImg = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
-      HttpSession session = request.getSession();
-      session.setAttribute("nick", user.getNick());
-      session.setAttribute("profileImg", emailLoginProfileImg);
-      session.setAttribute("email", email);
-      session.setAttribute("user", user);
+        HttpSession session = request.getSession();
+        session.setAttribute("nick", user.getNick());
+        session.setAttribute("profileImg", emailLoginProfileImg);
+        session.setAttribute("email", email);
+        session.setAttribute("user", user);
 
-      return "jsp/index.jsp"; // 성공 시 메인 화면으로 이동
-
+        return "jsp/index.jsp"; // 성공 시 메인 화면으로 이동
+      } else {
+        // 탈퇴 회원 - 오류 메시지 설정
+        request.setAttribute("errorMessage", "사용 불가능한 아이디입니다.");
+        return "jsp/email_login.jsp"; // 로그인 화면으로 이동
+      }
     } else {
       // 로그인 실패 - 오류 메시지 설정
       request.setAttribute("error", "이메일 또는 비밀번호를 확인해주세요.");

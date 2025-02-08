@@ -85,6 +85,17 @@
 
 <body>
 
+<%
+  String errorMessage = (String) request.getAttribute("errorMessage");
+%>
+
+<script>
+  <% if (errorMessage != null) { %>
+  alert("<%= errorMessage %>");
+  <% } %>
+</script>
+
+
 <div class="login-container">
   <h1>이메일로 로그인</h1>
   <form action="${pageContext.request.contextPath}/Controller?type=email_login" method="post">
@@ -93,7 +104,10 @@
     <button type="submit">로그인</button>
   </form>
 
-
+  <!-- 오류 메시지 표시 -->
+  <c:if test="${not empty error && error != null}">
+    <p style="color: red; font-size: 14px;">${error}</p>
+  </c:if>
 
   <div class="links">
     <a href="${pageContext.request.contextPath}/Controller?type=login">로그인 화면가기</a>
