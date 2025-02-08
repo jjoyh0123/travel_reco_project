@@ -206,11 +206,16 @@
 <%
   String nicknameMsg = (String) request.getAttribute("nicknameMessage");
   String successMsg = (String) request.getAttribute("successMsg");
+  String msg = (String) request.getAttribute("msg");
 %>
   <script>
 
     <% if (successMsg != null) { %>
     alert("<%= successMsg %>");
+    <% } %>
+
+    <% if (msg != null) { %>
+    alert("<%= msg %>");
     <% } %>
 
     document.addEventListener("DOMContentLoaded", function () {
