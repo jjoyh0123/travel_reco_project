@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>이메일로 로그인</title>
@@ -79,11 +80,25 @@
           text-decoration: underline;
       }
   </style>
+  <jsp:include page="/jsp/header.jsp"/>
 </head>
+
 <body>
+
+<%
+  String errorMessage = (String) request.getAttribute("errorMessage");
+%>
+
+<script>
+  <% if (errorMessage != null) { %>
+  alert("<%= errorMessage %>");
+  <% } %>
+</script>
+
+
 <div class="login-container">
   <h1>이메일로 로그인</h1>
-  <form action="${pageContext.request.contextPath}/Controller?type=emailLogin" method="post">
+  <form action="${pageContext.request.contextPath}/Controller?type=email_login" method="post">
     <input type="email" name="email" placeholder="이메일 주소" required>
     <input type="password" name="pw" placeholder="비밀번호" required>
     <button type="submit">로그인</button>
@@ -94,10 +109,9 @@
     <p style="color: red; font-size: 14px;">${error}</p>
   </c:if>
 
-
   <div class="links">
-    <a href="${pageContext.request.contextPath}/jsp/login.jsp">로그인 화면가기</a>
-    <a href="${pageContext.request.contextPath}/jsp/signup.jsp">회원가입</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=login">로그인 화면가기</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=sign_up">회원가입</a>
   </div>
 </div>
 </body>

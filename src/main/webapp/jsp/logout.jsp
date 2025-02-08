@@ -6,5 +6,3 @@
   // 메인 페이지로 이동
   response.sendRedirect(request.getContextPath() + "/jsp/index.jsp");
 %>
-
-

@@ -70,7 +70,7 @@
 
 <div class="signup-container">
   <h1>이메일로 회원가입</h1>
-  <form action="${pageContext.request.contextPath}/Controller?type=signup" method="post">
+  <form action="${pageContext.request.contextPath}/Controller?type=sign_up" method="post">
     <div class="mb-3">
       <label for="email" class="form-label">이메일 주소</label>
       <div class="input-group">
@@ -195,7 +195,7 @@
     const password = this.value;
     const passwordMessage = document.getElementById("passwordMessage");
 
-    if (password.length >= 4) {
+    if (password.length < 4) {
       passwordValid = true;
       passwordMessage.textContent = "";
     } else {
@@ -219,4 +219,3 @@
 </script>
 </body>
 </html>
-

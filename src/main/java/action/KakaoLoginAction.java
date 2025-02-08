@@ -7,6 +7,6 @@ public class KakaoLoginAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     System.out.println("KakaoLoginAction");
-    return "jsp/kakaoLogin.jsp";
+    return "jsp/kakao_login.jsp";
   }
 }

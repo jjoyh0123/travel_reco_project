@@ -16,6 +16,13 @@ public class JournalDAO {
 
     return cnt;
   }
+  public static JournalVO[] getTotalJournal(){
+    SqlSession ss = FactoryService.get_factory().openSession();
+    JournalVO[] journal = ss.selectOne("journal.totalCount");
+    ss.close();
+
+    return journal;
+  }
 
   public static int get_total_count(String keyword) {
     SqlSession ss = FactoryService.get_factory().openSession();
@@ -159,4 +166,31 @@ public class JournalDAO {
 
     return ar;
   }
+
+  public static JournalVO[] getJournalReview(){
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    List<JournalVO> list = ss.selectList("journal.review");
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+    }
+    ss.close();
+    return journal;
+  }
+
+  public static JournalVO[] getTop3list() {
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    List<JournalVO> list = ss.selectList("journal.top3");
+
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+
+    }
+    ss.close();
+    return journal;
+  }
+
 }

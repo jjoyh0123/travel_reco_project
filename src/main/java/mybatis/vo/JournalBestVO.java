@@ -1,7 +1,15 @@
 package mybatis.vo;
 
 public class JournalBestVO extends TempVO {
-  private String idx, journal_idx, tier, act_date, deact_date, status;
+  private String idx, journal_idx, tier, act_date, deact_date, status, file_path;
+
+  public String getFile_path() {
+    return file_path;
+  }
+
+  public void setFile_path(String file_path) {
+    this.file_path = file_path;
+  }
 
   public String getIdx() {
     return idx;

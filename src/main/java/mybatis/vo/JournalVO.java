@@ -1,7 +1,12 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class JournalVO extends TempVO {
-  private String idx, plan_idx, title, subtitle, hit, status;
+  //private String title, subtitle, hit, nick, file_path;
+  private String idx, plan_idx, title, subtitle, hit, reg_date, status;
+  private String nick;
+  private List<ImageVO> list;
 
   public String getIdx() {
     return idx;
@@ -43,11 +48,35 @@ public class JournalVO extends TempVO {
     this.hit = hit;
   }
 
+  public String getReg_date() {
+    return reg_date;
+  }
+
+  public void setReg_date(String reg_date) {
+    this.reg_date = reg_date;
+  }
+
   public String getStatus() {
     return status;
   }
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public List<ImageVO> getList() {
+    return list;
+  }
+
+  public void setList(List<ImageVO> list) {
+    this.list = list;
+  }
+
+  public String getNick() {
+    return nick;
+  }
+
+  public void setNick(String nick) {
+    this.nick = nick;
   }
 }
