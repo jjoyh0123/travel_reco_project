@@ -170,6 +170,11 @@
     </div>
   </form>
 
+  <!-- 회원탈퇴 폼 (숨겨진 폼) -->
+  <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" style="display:none;">
+    <input type="hidden" id="passwordField" name="password">
+  </form>
+
   <!-- 회원탈퇴 버튼 -->
   <button type="button" class="btn btn-outline-danger mt-4" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
     회원탈퇴
@@ -197,11 +202,7 @@
       </div>
     </div>
   </div>
-
-  <!-- 회원탈퇴 폼 -->
-  <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" style="display:none;">
-    <input type="hidden" id="passwordField" name="password">
-  </form>
+</div>
 
   <script>
     let isNicknameValid = false;
@@ -262,18 +263,6 @@
       return true;
     }
 
-    // 회원탈퇴 폼 제출 함수
-    function submitDeleteForm() {
-      const password = document.getElementById("deletePassword").value;
-
-      if (!password) {
-        alert("비밀번호를 입력하세요.");
-        return;
-      }
-
-      document.getElementById("passwordField").value = password;
-      document.getElementById("deleteAccountForm").submit();
-    }
 
     // 프로필 수정 폼 유효성 검사
     document.getElementById("updateProfile").addEventListener("submit", function (event) {
@@ -290,7 +279,36 @@
     document.getElementById("nickname").addEventListener("input", validateNickname);
     document.getElementById("password").addEventListener("input", validatePassword);
     document.getElementById("passwordConfirm").addEventListener("input", validatePassword);
-  </script>
 
+
+
+    // 탈퇴 관련
+    // 서버에서 전달된 메시지를 확인하여 모달에 표시
+    const msg = '<%= request.getAttribute("msg") != null ? request.getAttribute("msg") : "" %>';
+
+    if (msg) {
+      // 모달 창 안에서 메세지 표기
+      const errorMessageElement = document.getElementById('passwordErrorMessage');
+      errorMessageElement.textContent = msg;
+      errorMessageElement.style.display = 'block';
+    }
+
+
+    // 회원탈퇴 폼 제출 함수
+    function submitDeleteForm() {
+      const password = document.getElementById("deletePassword").value;
+
+      if (!password) {
+        alert("비밀번호를 입력하세요.");
+        return;
+      }
+
+      document.getElementById("passwordField").value = password;
+      document.getElementById("deleteAccountForm").submit();
+
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
