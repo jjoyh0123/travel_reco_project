@@ -87,15 +87,21 @@ public class PlanDAO {
 
   // Retrieves a plan by its ID, and for that plan, also retrieves its associated dates and places.
   public static PlanVO getPlanById(String planId) {
+    System.out.println("in plan DAO getPlanById");
     try (SqlSession ss = FactoryService.get_factory().openSession()) {
       // Retrieve the main plan data.
+      System.out.printf("planId in DAO: %s\n", planId);
       PlanVO plan = ss.selectOne("plan.getPlanById", planId);
+
       if (plan != null) {
+        System.out.println("in if plan not null");
         // Retrieve all dates associated with the plan.
         List<DateVO> dateList = ss.selectList("plan.getDatesByPlanId", planId);
+        System.out.printf("dateList in DAO: %s\n", dateList.size());
         for (DateVO date : dateList) {
           // For each date, retrieve all associated places.
           List<PlaceVO> placeList = ss.selectList("plan.getPlacesByDateId", date.getIdx());
+          System.out.printf("placeList in DAO: %s\n", placeList.size());
           date.setPlaceList(placeList);  // Assumes DateVO has a setter for placeList.
         }
         plan.setDateList(dateList); // Assumes PlanVO has a setter for dateList.

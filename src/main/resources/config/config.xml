@@ -30,5 +30,6 @@
     <mapper resource="mapper/event_image.xml"/>
     <mapper resource="mapper/journal_review.xml"/>
     <mapper resource="mapper/like_journal.xml"/>
+    <mapper resource="mapper/plan.xml"/>
   </mappers>
 </configuration>
