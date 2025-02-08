@@ -393,8 +393,6 @@
 <%--        <h1 class="modal-title fs-5" id="exampleModalLabel">--%>
             <h2 class="modal_title">
               <div class="modal_day_bar">
-<%--                  ${list.place_idx}--%>
-<%--                  ${list.content_id}--%>
                   <div class="modal_day">Day ${list.date_idx}</div>
                   <div class="modal_vertical_line"></div>
                   <div class="modal_date">${list.date}</div>
@@ -405,16 +403,23 @@
       <div class="modal-body">
         <h3>${list.title}</h3>
 <%--별점 기능--%>
-        <div class="starpoint_wrap">
-          <div class="starpoint_box">
+<%--        <div class="starpoint_wrap">--%>
+<%--          <div class="starpoint_box">--%>
 <%--            <c:forEach var="i" begin="1" end="10" varStatus="index">--%>
-<%--              <label for="starpoint_${index.count}_${i}" class="label_star">--%>
+<%--              <label for="starpoint_${index.count}_${i}" class="label_star" title="${i * 0.5}">--%>
 <%--                <span class="blind">${i * 0.5}점</span>--%>
 <%--              </label>--%>
 <%--              <input type="radio" name="starpoint${index.count}" id="starpoint_${index.count}_${i}"--%>
-<%--                     class="star_radio" value="${i * 0.5}" ${list.rate == 0.5 ? 'checked' : ''}>--%>
+<%--                     class="star_radio" value="${i * 0.5}"--%>
+<%--&lt;%&ndash;                     onclick="updateStarRating(${i*0.5}, '${i*0.5}점')"&ndash;%&gt;--%>
+<%--              >--%>
 <%--            </c:forEach>--%>
 
+<%--            <span class="starpoint_bg"></span>--%>
+<%--          </div>--%>
+<%--        </div>--%>
+        <div class="starpoint_wrap">
+          <div class="starpoint_box">
             <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
             <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
             <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
@@ -425,38 +430,30 @@
             <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
             <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
             <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
-            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
+
+            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio" onclick="updateStarRating(0.5, '0.5점')">
+            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio" onclick="updateStarRating(1, '1점')">
+            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio" onclick="updateStarRating(1.5, '1.5점')">
+            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio" onclick="updateStarRating(2, '2점')">
+            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio" onclick="updateStarRating(2.5, '2.5점')">
+            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio" onclick="updateStarRating(3, '3점')">
+            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio" onclick="updateStarRating(3.5, '3.5점')">
+            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio" onclick="updateStarRating(4, '4점')">
+            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio" onclick="updateStarRating(4.5, '4.5점')">
+            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio" onclick="updateStarRating(5, '5점')">
             <span class="starpoint_bg"></span>
           </div>
         </div>
       <%--별점 기능 끝--%>
         <hr>
       <%--후기 입력--%>
-        <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"
-          id="textarea${index.count}" name="review"></textarea>
+        <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)" id="textarea"></textarea>
+
         <hr>
 
         <div class="add_image_area">
 <%--      사진 추가 버튼--%>
         <div class="add_image_button_area">
-<%--          <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">--%>
-
-
-<%--            <input type="file" name="file" multiple><br><br>--%>
-
-        <%--          plan_idx :  --%>
-        <%--          ${type}.val(journal)--%>
-        <%--          ${plan_idx}.val()--%>
-<%-- setImage_list(image_names[i])--%>
         </div>
 <%--  사진 추가 버튼 끝--%>
 <%--          캐러셀--%>
@@ -484,7 +481,7 @@
 <%--      캐러셀 끝--%>
       </div>
       <div class="modal-footer">
-
+<%--사진 추가 버튼--%>
         <form id="upload_form" enctype="multipart/form-data">
           <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
           <input type="hidden" name="type" placeholder="type: journal or review" value="journal"><br> <%-- value journal / review --%>
@@ -498,7 +495,8 @@
           <input type="button" value="Upload" onclick="upload_images()">
         </form>
         <div id="result"></div>
-        <button type="button" class="btn btn-primary" onclick="send_images()" data-bs-dismiss="modal">저장</button>
+<%--  사진 추가 버튼--%>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">저장</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
       </div>
     </div>
@@ -514,28 +512,14 @@
     <div id="journal_carousel">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-<%--          <div class="carousel-item active">--%>
-<%--            <img src="http://tong.visitkorea.or.kr/cms/resource/00/2626200_image3_1.jpg" class="main_carousel_image" alt="후기 사진1">--%>
-<%--          </div>--%>
-<%--          <div class="carousel-item">--%>
-<%--            <img src="/www/journal2.jpg" class="main_carousel_image" alt="후기 사진2">--%>
-<%--          </div>--%>
-<%--          <div class="carousel-item">--%>
-<%--            <img src="/www/journal3.jpg" class="main_carousel_image" alt="후기 사진3">--%>
-<%--          </div>--%>
               <c:forEach var="image_list" items="${imageVO}" varStatus="index">
                 <div class="carousel-item ${index.first ? 'active' : ''}">
                   <img src="${image_list.file_path}" alt="${image_list.file_path}" class="main_carousel_image">
                 </div>
               </c:forEach>
-          <div class="carousel-item">
-            <img id="main_preview" src="#" alt="미리보기 이미지" class="main_carousel_image">
-          </div>
-
+<%--          사진 추가 버튼--%>
           <div>
-              <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼"
-                   onclick="document.getElementById('image_input').click();">
-            <input type="file" id="image_input" style="display:none;" accept="image/*" onchange="previewImage(event)">
+              <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -582,7 +566,6 @@
         </ul>
       </nav>
 
-
       <div class="day_box">
       <%--  Day 바 --%>
       <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
@@ -594,15 +577,8 @@
 
           <hr>
 
-<%--        plan--%>
-<%--          date--%>
-<%--            place--%>
-
-
-
 <%--        장소의 리뷰가 없으면 버튼이 등록, 삭제
             리뷰가 있으면 수정, 삭제 --%>
-
 
         <c:forEach var="list" items="${list}" varStatus="index">
         <c:if test="${list.place_date_idx == dateVO.idx}">
@@ -650,7 +626,11 @@
               <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
             </button>
           </div>
-          <div>hi</div>
+<%--          작성한 후기 보여주는 div--%>
+          <div><span id="outputText"></span></div>
+<%--          <div id="selectedRating">선택된 별점: 0점</div>--%>
+          <div id="selectedRating"></div>
+
         </c:if>
         </c:forEach>
       </c:forEach>
@@ -671,60 +651,6 @@
 
     // 클릭한 버튼에 active 클래스 추가
     button.classList.add('active');
-  }
-
-  // review를 div에 표시하는 함수
-  function saveReview(index) {
-    let textarea = document.getElementById("textarea" + index);
-    let previewDiv = document.getElementById("reviewPreview" + index);
-
-    // textarea 내용을 div에 표시
-    previewDiv.innerText = textarea.value;
-
-    // 모달 닫기
-    let modal = new bootstrap.Modal(document.getElementById("exampleModal" + index));
-    modal.hide();
-
-
-    function send_images() {
-      // 세션에서 user_idx, place_idx 가져오기
-      const user_idx = "${sessionScope.user_idx}";  // 세션에서 user_idx 가져오기
-      const place_idx = "${sessionScope.place_idx}";  // 세션에서 place_idx 가져오기
-
-      // user_idx나 place_idx가 없다면 경고 후 종료
-      if (!user_idx || !place_idx) {
-        alert("로그인 또는 장소 정보가 없습니다.");
-        return;
-      }
-
-      // 업로드할 파일 선택
-      const files = $("#fileInput")[0].files;  // input에서 선택된 파일 가져오기
-      const form_data = new FormData();
-      form_data.append("user_idx", user_idx);  // user_idx 추가
-      form_data.append("place_idx", place_idx);  // place_idx 추가
-
-      // 선택된 파일을 FormData에 추가
-      for (let i = 0; i < files.length; i++) {
-        form_data.append("images", files[i]);  // 각 파일을 images 키로 추가
-      }
-
-      // AJAX 요청 보내기
-      $.ajax({
-        url: '/Controller?type=upload_image',  // 서버 URL
-        type: "POST",
-        data: form_data,
-        processData: false,  // FormData는 기본적으로 데이터 처리 방식을 처리함
-        contentType: false,  // Content-Type을 자동으로 처리하도록 설정
-        success: function(response) {
-          console.log("업로드된 파일 리스트:", response.image_list);
-          // 응답받은 image_list를 처리하는 부분 (필요 시 여기에 추가 작업 가능)
-        },
-        error: function(xhr, status, error) {
-          console.error("업로드 실패:", error);
-        }
-      });
-    }
-
   }
 
   function upload_images() {
@@ -758,9 +684,27 @@
     });
   }
 
+    // textarea 글 출력
+    document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("textarea[id^='textarea${index.count}']").forEach(textarea => {
+      const index = textarea.id.replace("textarea", ""); // ID에서 숫자 추출
+      const output = document.getElementById(`outputText${index.count}`);
 
+      textarea.addEventListener("input", function () {
+        output.textContent = textarea.value;
+      });
+    });
+  });
 
+  function updateStarRating(rating, title) {
+    // 선택된 별점에 맞게 starpoint_bg의 너비를 조정
+    const starBg = document.querySelector('.starpoint_box .starpoint_bg');
+    const percentage = (rating / 5) * 100; // 5점 만점 기준으로 비율 계산
+    starBg.style.width = percentage + '%';
 
+    // 선택된 별점의 title 값을 출력
+    document.getElementById("selectedRating${index.count}").innerText = title;
+  }
 </script>
 <jsp:include page="/jsp/footer.jsp"/>
 </body>
