@@ -113,4 +113,18 @@ public class JournalDAO {
     return journal;
   }
 
+  public static JournalVO[] getTop3list() {
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.getFactory().openSession();
+    List<JournalVO> list = ss.selectList("journal.top3");
+
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+
+    }
+    ss.close();
+    return journal;
+  }
+
 }
