@@ -47,7 +47,7 @@ public class SignupAction implements Action {
       session.setAttribute("signupSuccess", true);
 
       // 메인 페이지로 리다이렉트
-      return "jsp/index.jsp";
+      return "jsp/sign_up.jsp";
 
     } else {
       // 로그인 실패 시 (정상적이라면 발생하지 않음)
