@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ViewPlanAction implements Action {
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     String planId = request.getParameter("planId");
     System.out.println(planId);
     if(planId == null || planId.trim().isEmpty()){
