@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="image">
+
+  <insert id="insert_image_path" parameterType="map">
+    INSERT INTO image_table(journal_idx, review_idx, type, upload_date, file_path)
+    VALUES(
+      <choose>
+        <when test="journal_idx != null">#{journal_idx}</when>
+        <otherwise>null</otherwise>
+      </choose>,
+      <choose>
+        <when test="review_idx != null">#{review_idx}</when>
+        <otherwise>null</otherwise>
+      </choose>,
+      #{type}, NOW(), #{file_path}
+    )
+  </insert>
+
+  <update id="update_event_image_path" parameterType="map">
+    UPDATE event_image_table
+    SET file_path = #{uploaded_file_path}, upload_date = NOW()
+    WHERE idx = #{idx}
+  </update>
+</mapper>

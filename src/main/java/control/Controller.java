@@ -36,6 +36,9 @@ public class Controller extends HttpServlet {
 
     ServletContext application = this.getServletContext();
 
+    String publicIP = "3.39.251.247";
+    application.setAttribute("publicIP", publicIP);
+
     String realPath = application.getRealPath(props_path);
 
     Properties props = new Properties();
@@ -97,3 +100,5 @@ public class Controller extends HttpServlet {
     doGet(request, response);
   }
 }
+
+

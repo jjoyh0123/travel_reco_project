@@ -32,6 +32,7 @@
       .header-left-section h3 {
           margin-left: 10px;
           color: #ff7f50;
+          font-weight: bold;
       }
 
       .header-right-section {
@@ -50,8 +51,30 @@
       }
 
       .profile {
-          background-image: none; /*프로필 사진*/
-          padding: 0;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          border: 1px;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .profile_icon{
+          .profile_icon {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              overflow: hidden;
+              box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+          }
+      }
+
+      .profile-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* 이미지를 원형 안에 맞게 채우기 */
       }
 
       .btn.btn-outline-secondary{
@@ -94,30 +117,34 @@
 <body>
 <header>
   <div class="header-left-section">
-    <a href="index.jsp"><img src="./www/logo.png" alt="로고"></a>&nbsp;&nbsp;
+    <a href="${pageContext.request.contextPath}/Controller"><img src="${pageContext.request.contextPath}/www/logo.png" alt="로고"></a>&nbsp;&nbsp;
     <h3>Zenzen Club</h3><%--이미지로 변경 필요--%>
   </div>
   <div class="header-right-section">
-    <button class="btn btn-outline-secondary">고객지원</button>
+    <button class="btn btn-outline-secondary" onclick="location.href='Controller?type=customer_service'">고객지원</button>
     <c:choose>
-      <c:when test="${not empty sessionScope.userId}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
+      <c:when test="${not empty sessionScope.profileImg}"><%-- 유저가 로그인 했는지 검증하는 부분 --%>
+
+        <!-- 로그인 상태 -->
         <div class="dropdown">
           <button class="btn rounded-circle p-2 profile" type="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="border: none;">
-            <img src="./www/profile.svg" alt="프로필" class="profile_icon">
+            <div class="profile_icon">
+              <img src="${sessionScope.profileImg}" alt="프로필" class="profile_icon">
+            </div>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">마이페이지</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=my_page">마이페이지</a></li>
             <li><a class="dropdown-item" href="#">1:1문의</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=logout">로그아웃</a></li>
           </ul>
         </div>
       </c:when>
       <c:otherwise>
-        <button class="btn btn-outline-secondary login-btn">로그인</button>
+        <a href="${pageContext.request.contextPath}/Controller?type=login"><button class="btn btn-outline-secondary login-btn">로그인</button></a>
       </c:otherwise>
     </c:choose>
   </div>
