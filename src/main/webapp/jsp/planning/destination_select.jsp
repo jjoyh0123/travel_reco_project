@@ -11,22 +11,23 @@
 <div class="destination-picker-container">
   <h2>어디로 여행을 떠나시나요?</h2>
   <div class="destination-grid">
-    <div class="destination" data-area-code="1" data-area-name="경기">경기</div>
-    <div class="destination" data-area-code="2" data-area-name="강원">강원</div>
-    <div class="destination" data-area-code="3" data-area-name="충북">충북</div>
-    <div class="destination" data-area-code="4" data-area-name="충남">충남</div>
-    <div class="destination" data-area-code="5" data-area-name="전북">전북</div>
-    <div class="destination" data-area-code="6" data-area-name="전남">전남</div>
-    <div class="destination" data-area-code="7" data-area-name="경북">경북</div>
-    <div class="destination" data-area-code="8" data-area-name="경남">경남</div>
-    <div class="destination" data-area-code="9" data-area-name="서울">서울</div>
-    <div class="destination" data-area-code="10" data-area-name="인천">인천</div>
-    <div class="destination" data-area-code="11" data-area-name="대전">대전</div>
-    <div class="destination" data-area-code="12" data-area-name="대구">대구</div>
-    <div class="destination" data-area-code="13" data-area-name="울산">울산</div>
-    <div class="destination" data-area-code="14" data-area-name="부산">부산</div>
-    <div class="destination" data-area-code="15" data-area-name="광주">광주</div>
-    <div class="destination" data-area-code="16" data-area-name="제주">제주</div>
+    <div class="destination" data-area-code="1" data-area-name="서울">서울</div>
+    <div class="destination" data-area-code="2" data-area-name="인천">인천</div>
+    <div class="destination" data-area-code="3" data-area-name="대전">대전</div>
+    <div class="destination" data-area-code="4" data-area-name="대구">대구</div>
+    <div class="destination" data-area-code="5" data-area-name="광주">광주</div>
+    <div class="destination" data-area-code="6" data-area-name="부산">부산</div>
+    <div class="destination" data-area-code="7" data-area-name="울산">울산</div>
+    <div class="destination" data-area-code="8" data-area-name="세종">세종</div>
+    <div class="destination" data-area-code="31" data-area-name="경기">경기</div>
+    <div class="destination" data-area-code="32" data-area-name="강원">강원</div>
+    <div class="destination" data-area-code="33" data-area-name="충북">충북</div>
+    <div class="destination" data-area-code="34" data-area-name="충남">충남</div>
+    <div class="destination" data-area-code="35" data-area-name="경북">경북</div>
+    <div class="destination" data-area-code="36" data-area-name="경남">경남</div>
+    <div class="destination" data-area-code="37" data-area-name="전북">전북</div>
+    <div class="destination" data-area-code="38" data-area-name="전남">전남</div>
+    <div class="destination" data-area-code="39" data-area-name="제주">제주</div>
   </div>
 </div>
 

@@ -123,10 +123,7 @@ public class PlanningAction implements Action {
       e.printStackTrace();
     }
 
-    System.out.printf("json_object: %s\n", json_object);
-    json_response = new Gson().toJson(json_object);
-    System.out.printf("json_response: %s\n", json_response);
-    request.setAttribute("json_response", json_response);
+    request.setAttribute("json_response", json_object);
     return "jsp/planning/res_json.jsp";
   }
 }

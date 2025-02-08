@@ -91,9 +91,7 @@
     fetch(fetch_path)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         if(data.status === 'success'){
-          console.log(data.data);
           displayPlaces(data.data);
         }
       })
