@@ -816,7 +816,7 @@
                 <tr>
                   <td>
                     <c:if test="${not empty item.file_path}">
-                      <img src="http://${applicationScope.publicIP}:4000/${item.file_path}"
+                      <img src="${applicationScope.publicIP}:4000/${item.file_path}"
                            alt="이벤트 배너 ${status.index + 1}" style="max-height: 150px;">
                     </c:if>
                     <c:if test="${empty item.file_path}">
@@ -1172,7 +1172,7 @@
     }
 
     let data = {
-      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
+      url: '${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
       type: 'POST',
       data: formData,
       processData: false,
