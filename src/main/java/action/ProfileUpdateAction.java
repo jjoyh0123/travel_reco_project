@@ -46,7 +46,7 @@ public class ProfileUpdateAction implements Action {
     }
 
     // MyBatis SqlSession 생성
-    SqlSession sqlSession = FactoryService.getFactory().openSession();
+    SqlSession sqlSession = FactoryService.get_factory().openSession();
     try {
       // 3. 닉네임 중복 검사
       int nickCheck = sqlSession.selectOne("sign_up.checkNick", newNick);

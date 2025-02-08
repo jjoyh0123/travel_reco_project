@@ -111,13 +111,14 @@ public class Temp4Action implements Action {
         String content_id = item.getChildText("contentid");
         String content_type_id = item.getChildText("contenttypeid");
         String title = item.getChildText("title");
-        String thumbnail = item.getChildText("firstimage2");
+        String thumbnail = item.getChildText("firstimage");
+        String thumbnail2 = item.getChildText("firstimage2");
         String map_x = item.getChildText("mapx");
         String map_y = item.getChildText("mapy");
         String addr1 = item.getChildText("addr1");
         String tel = item.getChildText("tel");
 
-        ar[i++] = new ApidataVO(content_id, content_type_id, title, thumbnail, map_x, map_y, addr1, tel);
+        ar[i++] = new ApidataVO(content_id, content_type_id, title, thumbnail, thumbnail2, map_x, map_y, addr1, tel);
       }
 
       request.setAttribute("ar", ar);

@@ -100,7 +100,7 @@ public class UserDAO {
 
 
   public static boolean deactivateUser(int userId) {
-    try (SqlSession sqlSession = FactoryService.getFactory().openSession()) {
+    try (SqlSession sqlSession = FactoryService.get_factory().openSession()) {
       int result = sqlSession.update("user.deactivateUser", userId);
       if (result > 0) {
         sqlSession.commit();

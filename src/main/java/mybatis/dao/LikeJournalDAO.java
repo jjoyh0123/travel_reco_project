@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 public class LikeJournalDAO {
 
   public static int heartCheck(String journalidx) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     int newStatus = 0;  // 기본값 0
 
     try {

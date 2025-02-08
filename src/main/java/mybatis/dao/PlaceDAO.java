@@ -12,7 +12,7 @@ public class PlaceDAO {
     SqlSession ss = null;
 
     try {
-      ss = FactoryService.getFactory().openSession();
+      ss = FactoryService.get_factory().openSession();
 
       List<PlaceVO> list = ss.selectList("place.getPlace");
 
@@ -36,7 +36,7 @@ public class PlaceDAO {
   public static DateVO[] getDate(){
     DateVO[] ar = null;
 
-      SqlSession ss = FactoryService.getFactory().openSession();
+      SqlSession ss = FactoryService.get_factory().openSession();
 
       List<DateVO> list = ss.selectList("place.getDate");
       if(list != null && !list.isEmpty()){
@@ -51,7 +51,7 @@ public class PlaceDAO {
   public static PlanVO[] getPlan(){
     PlanVO[] ar = null;
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<PlanVO> list = ss.selectList("place.getPlan");
     if(list != null && !list.isEmpty()){
@@ -66,7 +66,7 @@ public class PlaceDAO {
   public static ReviewVO[] getReview(){
     ReviewVO[] ar = null;
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<ReviewVO> list = ss.selectList("place.getReview");
     if(list != null && !list.isEmpty()){
@@ -79,7 +79,7 @@ public class PlaceDAO {
   }
 
   public static List<JournalDTO> getPlan_idx(int plan_idx) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     List<JournalDTO> list = ss.selectList("place.getPlan_Idx", plan_idx);
     ss.close();
     return list;
@@ -88,7 +88,7 @@ public class PlaceDAO {
   public static ImageVO[] get_Images(){
     ImageVO[] ar = null;
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     List<ImageVO> list = ss.selectList("place.getImages");
     if(list != null && !list.isEmpty()){
       ar = new ImageVO[list.size()];

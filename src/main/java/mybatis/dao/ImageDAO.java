@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class ImageDAO {
   public static void insert_image_path(ImageVO imageVO) {
     HashMap<String, String> map = new HashMap<>();
-    if (imageVO.getJournal_idx() != null) map.put("journal_idx", imageVO.getJournal_idx());
-    if (imageVO.getReview_idx() != null) map.put("review_idx", imageVO.getReview_idx());
+    if (imageVO.getPlan_idx() != null) map.put("journal_idx", imageVO.getPlan_idx());
+    if (imageVO.getPlace_idx() != null) map.put("review_idx", imageVO.getPlace_idx());
     map.put("type", imageVO.getType());
     map.put("file_path", imageVO.getFile_path());
 

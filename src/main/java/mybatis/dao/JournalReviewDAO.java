@@ -9,7 +9,7 @@ import java.util.List;
 public class JournalReviewDAO {
   public static JournalVO[] getReview(){
     JournalVO[] journal = null;
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     List<JournalVO> list = ss.selectList("journalReview.review");
     if (list != null && !list.isEmpty()) {
       journal = new JournalVO[list.size()];
