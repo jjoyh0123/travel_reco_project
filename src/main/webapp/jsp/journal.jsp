@@ -11,7 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
           crossorigin="anonymous"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <title>후기 작성</title>
@@ -403,21 +402,6 @@
       <div class="modal-body">
         <h3>${list.title}</h3>
 <%--별점 기능--%>
-<%--        <div class="starpoint_wrap">--%>
-<%--          <div class="starpoint_box">--%>
-<%--            <c:forEach var="i" begin="1" end="10" varStatus="index">--%>
-<%--              <label for="starpoint_${index.count}_${i}" class="label_star" title="${i * 0.5}">--%>
-<%--                <span class="blind">${i * 0.5}점</span>--%>
-<%--              </label>--%>
-<%--              <input type="radio" name="starpoint${index.count}" id="starpoint_${index.count}_${i}"--%>
-<%--                     class="star_radio" value="${i * 0.5}"--%>
-<%--&lt;%&ndash;                     onclick="updateStarRating(${i*0.5}, '${i*0.5}점')"&ndash;%&gt;--%>
-<%--              >--%>
-<%--            </c:forEach>--%>
-
-<%--            <span class="starpoint_bg"></span>--%>
-<%--          </div>--%>
-<%--        </div>--%>
         <div class="starpoint_wrap">
           <div class="starpoint_box">
             <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
@@ -642,6 +626,7 @@
 </article>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+<%--day 이동 버튼--%>
   function changeColor(button) {
     // 모든 버튼에서 active 클래스를 제거
     var buttons = document.querySelectorAll('.day_button');
