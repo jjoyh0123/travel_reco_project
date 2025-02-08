@@ -70,6 +70,8 @@
       .gif_content img {
           max-width: 100%;
           height: auto;
+      }
+
       .gif_content01, .gif_content02 {
           /*max-width: 100%;
           height: auto;*/
@@ -133,7 +135,6 @@
           height: 24px;
       }
 
-
   </style>
   <title>ZenzenClub 메인페이지</title>
   <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
@@ -150,7 +151,8 @@
     <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
   </article>
   <div class="gif_content01">
-    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073"
+         alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 
   </div>
 

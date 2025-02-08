@@ -8,6 +8,7 @@ import mybatis.vo.TouristSpotVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,22 +17,27 @@ import java.util.ArrayList;
 public class GetTouristSpotsAction implements Action {
 
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     String apiUrl = "http://apis.data.go.kr/B551011/KorService1/areaBasedList1?"
         + "serviceKey=v%2BHAli1W1AWCpXPRa5gf1hhL1rbEK%2BRGlCdQXZ4ShmnPl2YYNj0%2F7eTcZy9pAQzxFifJ647n5MXrQ%2Bf2ygvNmA%3D%3D"
         + "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=MyApp&_type=json&areaCode=1&arrange=A&listYN=Y";
 
-    URL url = new URL(apiUrl);
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    conn.setRequestMethod("GET");
+    StringBuilder responseText = null;
+    try {
+      URL url = new URL(apiUrl);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
 
-    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-    StringBuffer responseText = new StringBuffer();
-    String line="";
-    while ((line = br.readLine()) != null) {
-      responseText.append(line);
+      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+      responseText = new StringBuilder();
+      String line="";
+      while ((line = br.readLine()) != null) {
+        responseText.append(line);
+      }
+      br.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    br.close();
 
     JSONObject jsonResponse = new JSONObject(responseText.toString());
     JSONArray items = jsonResponse.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");

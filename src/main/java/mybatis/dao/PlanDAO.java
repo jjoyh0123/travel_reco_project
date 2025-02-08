@@ -21,7 +21,7 @@ public class PlanDAO {
       return -1; // Area does not exist
     }
 
-    try (SqlSession ss = FactoryService.getFactory().openSession()) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
       int cnt = ss.insert("plan.insertPlan", plan);
 
       System.out.println("Inserting plan with user_idx: " + plan.getUser_idx() + " and area_code: " + plan.getArea_code());
@@ -40,7 +40,7 @@ public class PlanDAO {
 
   // Insert into date_table
   public static int insertDate(int planIdx, String date) {
-    try (SqlSession ss = FactoryService.getFactory().openSession()) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
       Map<String, Object> param = new HashMap<>();
       param.put("plan_idx", planIdx);
       param.put("date", date);
@@ -65,7 +65,7 @@ public class PlanDAO {
 
   // Insert into place_table
   public static int insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
-    try (SqlSession ss = FactoryService.getFactory().openSession()) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
       Map<String, Object> param = new HashMap<>();
       param.put("plan_idx", planIdx);
       param.put("date_idx", dateIdx);
@@ -88,7 +88,7 @@ public class PlanDAO {
     }
   }
   // public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
-  //   try (SqlSession ss = FactoryService.getFactory().openSession()) {
+  //   try (SqlSession ss = FactoryService.get_factory().openSession()) {
   //     Map<String, Object> param = new HashMap<>();
   //     param.put("plan_idx", planIdx);
   //     param.put("date_idx", dateIdx);
