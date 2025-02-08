@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
 
     ServletContext application = this.getServletContext();
 
-    String publicIP = "43.201.37.240";
+    String publicIP = "http://43.201.37.240";
     application.setAttribute("publicIP", publicIP);
 
     String realPath = application.getRealPath(props_path);
@@ -79,7 +79,6 @@ public class Controller extends HttpServlet {
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
     String type = request.getParameter("type");
-    System.out.println("Requested type: " + type);
 
     if (type == null) {
       type = "index";
@@ -87,12 +86,7 @@ public class Controller extends HttpServlet {
 
     Action action = actionMap.get(type);
 
-    String viewpath = null;
-    try {
-      viewpath = action.execute(request, response);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    String viewpath = action.execute(request, response);
     if (viewpath == null) {
       response.sendRedirect("Controller?type=index");
     } else {

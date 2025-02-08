@@ -60,8 +60,17 @@ public class PlanVO {
     this.end_date = end_date;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+
   public String getDate_idx() {
     return date_idx;
   }
-  public void setDate_idx(String date_idx) {}
+  public void setDate_idx(String date_idx) {
+    this.date_idx = date_idx
+  }
 }

@@ -70,6 +70,18 @@
       .gif_content img {
           max-width: 100%;
           height: auto;
+      .gif_content01, .gif_content02 {
+          /*max-width: 100%;
+          height: auto;*/
+          overflow: hidden; /* 초과된 이미지 숨기기 */
+          position: relative;
+      }
+
+      .gif_content01 img, .gif_content02 img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* 이미지가 컨테이너 크기에 맞게 조정됨 */
+          border-radius: inherit; /* 컨테이너의 둥근 모서리를 유지 */
       }
 
       .content p {
@@ -104,6 +116,24 @@
           color: #000000;
       }
 
+      .fullscreen_icon {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          padding: 0px;
+      }
+
+      .fullscreen_icon img {
+          width: 24px;
+          height: 24px;
+      }
+
+
   </style>
   <title>ZenzenClub 메인페이지</title>
   <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
@@ -117,23 +147,34 @@
       and manage your bookings seamlessly — all in one place.
     </h5>
     <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
-    <button type="button" class="plan_btn plan_btn02" onclick="location.href=`Controller?type=planning&action=date_select`">계획
-      세우기
-    </button>
-    <h3>for all your travel planning</br>
-      needs</h3>
-    <h5>Create detailed itineraries, explore user-shared</br>
-      guides, and manage your bookings seamlessly —</br>
-      all in one place.</h5>
+    <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
   </article>
   <div class="gif_content01">
-    <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+
   </div>
 
 </div>
 <div class="gif_content02">
-  <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+  <img src="https://help.miricanvas.com/hc/article_attachments/32865605595801" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 </div>
 <jsp:include page="/jsp/footer.jsp"/>
+
+<script>
+  function openFullscreen() {
+    const gifContainer = document.querySelector('.gif_content01');
+
+    if (gifContainer.requestFullscreen) {
+      gifContainer.requestFullscreen();
+    } else if (gifContainer.mozRequestFullScreen) { // Firefox
+      gifContainer.mozRequestFullScreen();
+    } else if (gifContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+      gifContainer.webkitRequestFullscreen();
+    } else if (gifContainer.msRequestFullscreen) { // IE/Edge
+      gifContainer.msRequestFullscreen();
+    }
+  }
+
+</script>
 </body>
 </html>

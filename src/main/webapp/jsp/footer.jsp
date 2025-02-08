@@ -37,6 +37,19 @@
           margin: 0 auto;
           width: 80%;
       }
+
+      #hidden_place {
+          width: 100%;
+          height: 10px;
+      }
+
+      #hidden_button {
+          width: 100%;
+          height: 100%;
+          border: none;
+          background-color: #f8f9fa;
+      }
+
   </style>
 </head>
 <body>
@@ -50,6 +63,9 @@
     <br/>
     <br/>
     <p>Copyright &copy; Zenzen Club All Rights Reserved.</p>
+  </div>
+  <div id="hidden_place">
+    <button type="button" id="hidden_button" onclick="window.location.href = 'Controller?type=admin'"></button>
   </div>
 </footer>
 </body>

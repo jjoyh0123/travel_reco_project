@@ -55,8 +55,9 @@
 
 | Key | Column           | Korean         | Data type    | Etc               |
 |:---:|:-----------------|:---------------|:-------------|:------------------|
-| PK  | date_idx         | 여행계획-날짜 고유 식별자 | bigint       |                   |
-| PK  | visit_order      | 여행 순서          | tinyint      | 최대 20             |
+| PK  | place_idx         | 여행계획-날짜 고유 식별자 | bigint  |   AI              |
+| FK  | date_idx         | 여행계획-날짜 고유 식별자 | bigint    |                   |
+|     | visit_order      | 여행 순서          | tinyint      | 최대 20             |
 |     | content_id       | 장소 고유값         | varchar(20)  |                   |
 |     | content_type_id  | 장소 구분          | tinyint      | 숙박/식당/관광지 등       |
 |     | title            | 장소 이름          | varchar(50)  |                   |
@@ -132,6 +133,7 @@
 | PK  | idx         | 고유 식별자     | bigint       | AI                         |
 | FK  | journal_idx | 후기 식별자     | bigint       | journal_table 기본키, null 가능 |
 | FK  | review_idx  | 리뷰 식별자     | bigint       | review_table 기본키, null 가능  |
+| FK | place_idx | 계획-장소 식별자 | bigint       | place_table 기본키            |
 |     | type        | 종류         | varchar(10)  | journal / review           |
 |     | upload_date | 이미지 업로드 일자 | datetime     |                            |
 |     | file_path   | 파일 경로      | varchar(255) |                            |

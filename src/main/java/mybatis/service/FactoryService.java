@@ -19,7 +19,7 @@ public class FactoryService {
     }
   }
 
-  public static SqlSessionFactory getFactory() {
+  public static SqlSessionFactory get_factory() {
     return factory;
   }
 }

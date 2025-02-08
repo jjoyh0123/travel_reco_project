@@ -9,11 +9,28 @@
     SELECT COUNT(*) FROM badge_table;
   </select>
 
+  <select id="searchCount" resultType="int" parameterType="String">
+    SELECT COUNT(*) FROM badge_table WHERE
+    type LIKE CONCAT('%', #{keyword}, '%')
+  </select>
+
   <select id="list" resultType="mybatis.vo.BadgeVO" parameterType="Map">
     SELECT * FROM (
     SELECT @RN := @RN + 1 AS rnum, a.*
     FROM (
     SELECT * FROM badge_table
+    ORDER BY idx
+    ) a, (SELECT @RN := 0) b
+    ) c
+    WHERE c.rnum BETWEEN #{begin} AND #{end}
+  </select>
+
+  <select id="searchList" resultType="mybatis.vo.BadgeVO" parameterType="Map">
+    SELECT * FROM (
+    SELECT @RN := @RN + 1 AS rnum, a.*
+    FROM (
+    SELECT * FROM badge_table WHERE
+    type LIKE CONCAT('%', #{keyword}, '%')
     ORDER BY idx
     ) a, (SELECT @RN := 0) b
     ) c
