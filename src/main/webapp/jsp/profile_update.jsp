@@ -203,8 +203,23 @@
     </div>
   </div>
 </div>
-
+<%
+  String nicknameMsg = (String) request.getAttribute("nicknameMessage");
+%>
   <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // 닉네임 중복 메시지 표시
+      const nicknameMessage = "<%= nicknameMsg != null ? nicknameMsg : "" %>";
+
+      if (nicknameMessage) {
+        const nicknameMessageElement = document.getElementById("nickname-message");
+        nicknameMessageElement.textContent = nicknameMessage;
+        nicknameMessageElement.style.display = "block";
+        nicknameMessageElement.style.color = "red";
+      }
+    });
+
     let isNicknameValid = false;
     let isPasswordValid = false;
 
