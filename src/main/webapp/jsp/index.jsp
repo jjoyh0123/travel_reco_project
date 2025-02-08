@@ -19,14 +19,14 @@
           min-height: 100vh;
       }
 
-      .main_container{
+      .main_container {
           display: flex;
           align-items: flex-start;
-          gap:20px;
+          gap: 20px;
           margin-top: 50px;
       }
 
-      .content{
+      .content {
           margin-top: 100px;
           text-align: center;
           align-self: flex-start;
@@ -40,7 +40,7 @@
       }
 
 
-      .gif_content01{
+      .gif_content01 {
           width: 550px;
           height: 400px;
           background-color: #ffff;
@@ -54,7 +54,7 @@
 
       }
 
-      .gif_content02{
+      .gif_content02 {
           width: 1100px;
           height: 400px;
           background-color: #ffff;
@@ -67,7 +67,7 @@
       }
 
 
-      .gif_content img{
+      .gif_content img {
           max-width: 100%;
           height: auto;
       }
@@ -78,7 +78,7 @@
           font-weight: bold;
       }
 
-      .content h5{
+      .content h5 {
           color: darkgray;
           text-align: center;
           margin-bottom: 20px;
@@ -111,26 +111,21 @@
 <body>
 <jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
-<article class="content">
-  <h3>for all your travel planning needs</h3>
-  <h5>Create detailed itineraries, explore user-shared guides, <br/>
-    and manage your bookings seamlessly — all in one place.
+  <article class="content">
+    <h3>for all your travel planning needs</h3>
+    <h5>Create detailed itineraries, explore user-shared guides, <br/>
+      and manage your bookings seamlessly — all in one place.
     </h5>
-  <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
-  <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
-  <h3>for all your travel planning</br>
-    needs</h3>
-  <h5>Create detailed itineraries, explore user-shared</br>
-    guides, and manage your bookings seamlessly —</br>
-    all in one place.</h5>
-  <button type="button" class="plan_btn01">계획 추천받기</button>
-  <div class="start-button">
-    <form action="Controller" method="get">
-      <button type="submit" class="plan_btn02">계획 세우기</button>
-      <input type="hidden" name="type" value="datePicker">
-    </form>
-  </div>
-</article>
+    <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
+    <button type="button" class="plan_btn plan_btn02" onclick="location.href=`Controller?type=planning&action=date_select`">계획
+      세우기
+    </button>
+    <h3>for all your travel planning</br>
+      needs</h3>
+    <h5>Create detailed itineraries, explore user-shared</br>
+      guides, and manage your bookings seamlessly —</br>
+      all in one place.</h5>
+  </article>
   <div class="gif_content01">
     <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
   </div>
