@@ -165,19 +165,19 @@
   <%--  FAQ 아코디언 --%>
 
   <div class="accordion" id="accordionPanelsStayOpenExample">
-    <c:forEach var="faqVO" items="${faqVO}" varStatus="index">
+    <c:forEach var="FAQVO" items="${FAQVO}" varStatus="index">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-heading-${index.index}">
           <button class="accordion-button" type="button" data-bs-toggle="collapse"
                   data-bs-target="#panelsStayOpen-collapse-${index.index}" aria-expanded="-${index.index == 0 ? 'true' : 'false'}"
                   aria-controls="panelsStayOpen-collapse-${index.index}">
-              ${faqVO.title}
+              ${FAQVO.title}
           </button>
         </h2>
         <div id="panelsStayOpen-collapse-${index.index}" class="accordion-collapse collapse ${index.index == 0 ? 'show' : ''}"
              aria-labelledby="panelsStayOpen-heading-${index.index}">
           <div class="accordion-body">
-              ${faqVO.content}
+              ${FAQVO.content}
           </div>
         </div>
       </div>

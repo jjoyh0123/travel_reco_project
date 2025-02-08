@@ -1,7 +1,7 @@
 package action;
 
 import mybatis.dao.CustomerServiceDAO;
-import mybatis.vo.FaqVO;
+import mybatis.vo.FAQVO;
 import mybatis.vo.NoticeVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ public class CustomerServiceAction implements Action{
     NoticeVO[] noticeVO = CustomerServiceDAO.getNotice();
     request.setAttribute("noticeVO", noticeVO);
 
-    FaqVO[] faqVO = CustomerServiceDAO.getFaq();
-    request.setAttribute("faqVO", faqVO);
+    FAQVO[] FAQVO = CustomerServiceDAO.getFaq();
+    request.setAttribute("FAQVO", FAQVO);
 
-     // System.out.println(faqVO);
+     // System.out.println(FAQVO);
 
     return "/jsp/customer_service.jsp";
   }
