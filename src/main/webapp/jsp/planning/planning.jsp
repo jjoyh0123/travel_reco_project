@@ -34,9 +34,11 @@
     <div id="destination-header">서울</div>
     <div id="destination-date-range">2025-01-14 ~ 2025-01-20</div>
     <div class="categories">
-      <div class="category">🍴 음식</div>
-      <div class="category">☕ 카페</div>
-      <div class="category">❤️ 하트</div>
+      <div class="category">전체</div>
+      <div class="category">🌉관광</div>
+      <div class="category">🍴음식</div>
+      <div class="category">🏡숙박</div>
+      <div class="category">❤️저장</div>
     </div>
     <div id="search-bar">
       <input type="text" placeholder="장소를 입력해주세요.">
@@ -71,6 +73,7 @@
   // Store previous date selection
   let previousDate = null;
   let selectedDate = null;
+  let content_type_id = null;
 
   document.addEventListener("DOMContentLoaded", function () {
     fetch_tourist_spots();
@@ -87,11 +90,11 @@
   // 1) Fetch your list of tourist spots
   function fetch_tourist_spots(page) {
     let fetch_path = '/Controller?type=planning&action=get_tour_spot&area_code=' + AREA_CODE
-    if(page) fetch_path += '&page=' + page;
+    if (page) fetch_path += '&page=' + page;
     fetch(fetch_path)
       .then(response => response.json())
       .then(data => {
-        if(data.status === 'success'){
+        if (data.status === 'success') {
           displayPlaces(data.data);
         }
       })
@@ -398,19 +401,20 @@
     });
 
     // Ensure the dates object is correctly populated
-    // console.log("Plan data to be sent:", planData);
-
     // Send planData to the server
-    fetch("/Controller?type=save_plan", {
+    fetch("/Controller?type=planning&action=save_plan", {
       method: "POST",
       body: JSON.stringify(planData)
     })
       .then(response => response.json())
       .then(data => {
         console.log("fetch recieve data", data)
-        if (data.success) {
+        if (data.status) {
           console.log("result success!");
+          alert("계획 등록 성공!");
+          location.href = "/Controller?type=index";
         } else {
+          alert("계획 등록 실패 ㅠ");
           console.log("result fail!");
         }
       })

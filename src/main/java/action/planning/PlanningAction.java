@@ -2,6 +2,8 @@ package action.planning;
 
 import action.Action;
 import com.google.gson.Gson;
+import mybatis.dao.PlanDAO;
+import mybatis.vo.PlanVO;
 import mybatis.vo.planning.TouristSpotVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,7 +22,7 @@ public class PlanningAction implements Action {
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     String action = request.getParameter("action");
 
-    if (!action.equals("date_select") && !action.equals("destination_select") && !action.equals("confirm") && !action.equals("planning") && !action.equals("get_tour_spot")) {
+    if (!action.equals("date_select") && !action.equals("destination_select") && !action.equals("confirm") && !action.equals("planning") && !action.equals("get_tour_spot") && !action.equals("save_plan")) {
       return "/error.jsp";
     } else {
       switch (action) {
@@ -34,6 +36,8 @@ public class PlanningAction implements Action {
           return "jsp/planning/planning.jsp";
         case "get_tour_spot":
           return get_tour_spot(request);
+        case "save_plan":
+          return save_plan(request);
         default:
           return "/jsp/error.jsp";
       }
@@ -123,6 +127,77 @@ public class PlanningAction implements Action {
       e.printStackTrace();
     }
 
+    request.setAttribute("json_response", json_object);
+    return "jsp/planning/res_json.jsp";
+  }
+
+  private String save_plan(HttpServletRequest request) {
+    JSONObject json_object = new JSONObject();
+    StringBuilder sb = new StringBuilder();
+    String line;
+
+    try {
+      BufferedReader reader = request.getReader();
+      while ((line = reader.readLine()) != null) {
+        sb.append(line);
+      }
+
+    } catch (IOException e) {
+      e.printStackTrace();
+      json_object.put("status", false);
+      request.setAttribute("json_response", json_object);
+      return "jsp/planning/res_json.jsp";
+    }
+
+    JSONObject requestData = new JSONObject(sb.toString());
+    System.out.printf("Full requestData: %s\n", requestData);
+
+    PlanVO plan = new PlanVO();
+    plan.setUser_idx(requestData.getString("user_idx"));
+    plan.setArea_code(requestData.getString("area_code"));
+    plan.setTitle(requestData.getString("title"));
+    plan.setStart_date(requestData.getString("start_date"));
+    plan.setEnd_date(requestData.getString("end_date"));
+    plan.setStatus("0"); // Default active
+
+    int planIdx = PlanDAO.insertPlan(plan);
+    if (planIdx == -1) {
+      System.out.println("Failed to save plan.");
+      json_object.put("status", false);
+      request.setAttribute("json_response", json_object);
+      return "jsp/planning/res_json.jsp";
+    }
+    System.out.printf("Insert plan successfully, planIdx = %d\n", planIdx);
+
+    JSONObject dates = requestData.getJSONObject("dates");
+    System.out.printf("Full dates: %s\n", dates);
+    for (String dateKey : dates.keySet()) {
+      System.out.printf("in dates for, dateKey: %s\n", dateKey);
+      int dateIdx = PlanDAO.insertDate(planIdx, dateKey);
+      System.out.println("Inserting date, plan_idx: " + planIdx + " at " + dateKey + " with dateIdx: " + dateIdx);
+      if (dateIdx == -1) {
+        System.out.printf("Failed to save date, at %s.\n", dateKey);
+        json_object.put("status", false);
+        request.setAttribute("json_response", json_object);
+        return "jsp/planning/res_json.jsp";
+      }
+
+      JSONArray places = dates.getJSONArray(dateKey);
+      System.out.printf("places length: %d, places: %s\n", places.length(), places);
+      for(int i = 0; i < places.length(); i++) {
+        JSONObject place = places.getJSONObject(i);
+        System.out.printf("in places for, plan_id: %s, dateIdx: %s\n Full place: %s\n", planIdx, dateIdx, place);
+        int success_insert_place = PlanDAO.insertPlace(planIdx, dateIdx, i + 1, place);
+        if(success_insert_place == 0) {
+          System.out.printf("Failed to insert place, plan_idx: %s, dateKey: %s, date_idx: %s, place title: %s\n", planIdx, dateKey, dateIdx, place.getString("title"));
+          json_object.put("status", false);
+          request.setAttribute("json_response", json_object);
+          return "jsp/planning/res_json.jsp";
+        }
+      }
+    }
+
+    json_object.put("status", true);
     request.setAttribute("json_response", json_object);
     return "jsp/planning/res_json.jsp";
   }
