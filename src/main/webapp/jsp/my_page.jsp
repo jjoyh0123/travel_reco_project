@@ -10,17 +10,21 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-
-
       body {
-
-          font-family: Arial, sans-serif;
-          background-color: #f9f9f9;
-          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0;
           min-height: 100vh;
       }
+      .content{
+          width: 900px;
+          min-height: 600px;
+          flex-grow: 1;
+          margin-bottom: 20px;
+      }
 
-      .header {
+      .profile_header {
           background-color: #ff7f50;
           color: white;
           padding: 15px 20px;
@@ -142,10 +146,11 @@
 </head>
 <body>
 <jsp:include page="/jsp/header.jsp"/>
+<article class="content">
 
 <div class="container px-3">
   <!-- 닉네임 표시 -->
-  <div class="header mb-3">
+  <div class="profile_header mb-3">
     <c:choose>
       <c:when test="${not empty sessionScope.nick}">
         <div>${sessionScope.nick} 님!</div>
@@ -239,5 +244,6 @@
     }
   });
 </script>
+</article>
 </body>
 </html>
