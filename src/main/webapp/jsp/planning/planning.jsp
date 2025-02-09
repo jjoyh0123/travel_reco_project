@@ -110,6 +110,8 @@
     document.getElementById("clear-button").addEventListener("click", function () {
       current_plan = [];
       render_selected_places(current_plan);
+
+      updateMapForDate(selectedDate)
     });
 
     initializeMap(); // 추가된 초기화 코드
@@ -394,7 +396,7 @@
 
   // Active method
   function change_content_type_id(event) {
-    const CATEGORY = event.target.closest('.category'); // 클릭된 요소의 부모 요소 중 가장 가까운 .category div를 찾음
+    const CATEGORY = event.target.closest('.category'); // 클릭된 요소의 부모 요소 중 가장 가까운 .category div 를 찾음
     if (CATEGORY) {
       current_content_type_id = CATEGORY.dataset.category;
       // console.log(CATEGORY_NAME, typeof CATEGORY_NAME);

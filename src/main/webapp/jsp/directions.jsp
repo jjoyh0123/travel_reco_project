@@ -29,10 +29,15 @@
       }
 
       #left_side {
+          background-color: #fefefe;
           width: 20%;
           height: 100%;
           padding-top: 20px;
           padding-left: 20px;
+      }
+
+      #left_side div .place {
+          background-color: white;
       }
 
       #right_side {
