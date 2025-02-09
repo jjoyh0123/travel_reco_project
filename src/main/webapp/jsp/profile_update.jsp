@@ -9,18 +9,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <style>
-      .container {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 20px;
-          width: 90%;
-          max-width: 1000px;
-          padding: 0;
-          border-radius: 15px;
-          margin: 100px auto 50px auto;
+      body {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0;
+          background-color: #F5F5F7;
       }
 
-      .header {
+      .profile_header {
           background-color: #ff7f50;
           color: white;
           padding: 20px;
@@ -30,6 +27,27 @@
           font-size: 22px;
           font-weight: bold;
           border-radius: 10px;
+      }
+
+      .content {
+          width: 900px;
+          min-height: 600px;
+          flex-grow: 1;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .container {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 20px;
+          width: 90%;
+          max-width: 1000px;
+          padding: 0;
+          border-radius: 15px;
+          margin: 100px auto 50px auto;
       }
 
       .profile-form {
@@ -119,95 +137,96 @@
 </head>
 
 <body>
-<header>
-  <jsp:include page="/jsp/header.jsp"/>
-</header>
+<jsp:include page="/jsp/header.jsp"/>
+<article class="content">
 
-<div class="container">
-  <!-- 닉네임 표시 조건 추가 -->
-  <div class="header">
-    <c:choose>
-      <!-- 세션에 닉네임이 있을 경우 닉네임 출력 -->
-      <c:when test="${not empty sessionScope.nick}">
-        <div class="nickname-area">
-          <div id="nicknameDisplay">
-            <span id="nicknameText">${sessionScope.nick} 님!</span>
+  <div class="container">
+    <!-- 닉네임 표시 조건 추가 -->
+    <div class="profile_header">
+      <c:choose>
+        <!-- 세션에 닉네임이 있을 경우 닉네임 출력 -->
+        <c:when test="${not empty sessionScope.nick}">
+          <div class="nickname-area">
+            <div id="nicknameDisplay">
+              <span id="nicknameText">${sessionScope.nick} 님!</span>
+            </div>
           </div>
+        </c:when>
+      </c:choose>
+    </div>
+
+    <div class="profile-form">
+      <h1 class="text-center mb-4">프로필 설정</h1>
+
+      <!-- 프로필 수정 폼에 ID 추가 -->
+      <form id="updateProfile" action="${pageContext.request.contextPath}/Controller?type=profile_update" method="post">
+        <div class="form-group">
+          <label for="email">이메일 주소</label>
+          <input type="text" id="email" name="email" value="${sessionScope.email}" disabled>
         </div>
-      </c:when>
-    </c:choose>
-  </div>
-</div>
-
-<div class="profile-form">
-    <h1 class="text-center mb-4">프로필 설정</h1>
-
-  <!-- 프로필 수정 폼에 ID 추가 -->
-  <form id="updateProfile" action="${pageContext.request.contextPath}/Controller?type=profile_update" method="post">
-    <div class="form-group">
-      <label for="email">이메일 주소</label>
-      <input type="text" id="email" name="email" value="${sessionScope.email}" disabled>
-    </div>
-    <div class="form-group">
-      <label for="nickname">닉네임</label>
-      <input type="text" id="nickname" name="nickname" value="${sessionScope.nick}" required>
-      <div id="nickname-message" class="error-message text-danger mt-1" style="display:none;"></div>
-    </div>
-    <div class="form-group">
-      <label for="password">패스워드 변경</label>
-      <input type="password" id="password" name="password" value="${sessionScope.password}">
-    </div>
-    <div class="form-group">
-      <label for="passwordConfirm">패스워드 변경 확인</label>
-      <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}">
-      <div id="password-message" class="error-message text-danger mt-1" style="display:none;"></div>
-    </div>
-
-    <!-- 버튼 그룹 -->
-    <div class="button-group mt-4">
-      <button type="button" class="btn btn-secondary" onclick="window.history.back();">취소</button>
-      <button type="submit" class="save_btn" id="saveButton" disabled>저장</button>
-    </div>
-  </form>
-
-  <!-- 회원탈퇴 폼 (숨겨진 폼) -->
-  <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" style="display:none;">
-    <input type="hidden" id="passwordField" name="password">
-  </form>
-
-  <!-- 회원탈퇴 버튼 -->
-  <button type="button" class="btn btn-outline-danger mt-4" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
-    회원탈퇴
-  </button>
-
-  <!-- 회원탈퇴 확인 모달 -->
-  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">회원탈퇴 확인</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="form-group">
+          <label for="nickname">닉네임</label>
+          <input type="text" id="nickname" name="nickname" value="${sessionScope.nick}" required>
+          <div id="nickname-message" class="error-message text-danger mt-1" style="display:none;"></div>
         </div>
-        <div class="modal-body">
-          <p>정말로 회원탈퇴를 진행하시겠습니까?</p>
-          <div class="form-group">
-            <label for="deletePassword">비밀번호 입력</label>
-            <input type="password" id="deletePassword" class="form-control" placeholder="비밀번호를 입력하세요" required>
+        <div class="form-group">
+          <label for="password">패스워드 변경</label>
+          <input type="password" id="password" name="password" value="${sessionScope.password}">
+        </div>
+        <div class="form-group">
+          <label for="passwordConfirm">패스워드 변경 확인</label>
+          <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}">
+          <div id="password-message" class="error-message text-danger mt-1" style="display:none;"></div>
+        </div>
+
+        <!-- 버튼 그룹 -->
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-secondary" onclick="window.history.back();">취소</button>
+          <button type="submit" class="save_btn" id="saveButton" disabled>저장</button>
+        </div>
+      </form>
+
+      <!-- 회원탈퇴 폼 (숨겨진 폼) -->
+      <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post"
+            style="display:none;">
+        <input type="hidden" id="passwordField" name="password">
+      </form>
+
+      <!-- 회원탈퇴 버튼 -->
+      <button type="button" class="btn btn-outline-danger mt-4" data-bs-toggle="modal"
+              data-bs-target="#deleteConfirmModal">
+        회원탈퇴
+      </button>
+
+      <!-- 회원탈퇴 확인 모달 -->
+      <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">회원탈퇴 확인</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>정말로 회원탈퇴를 진행하시겠습니까?</p>
+              <div class="form-group">
+                <label for="deletePassword">비밀번호 입력</label>
+                <input type="password" id="deletePassword" class="form-control" placeholder="비밀번호를 입력하세요" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-danger" onclick="submitDeleteForm();">탈퇴하기</button>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-          <button type="button" class="btn btn-danger" onclick="submitDeleteForm();">탈퇴하기</button>
         </div>
       </div>
     </div>
   </div>
-</div>
-<%
-  String nicknameMsg = (String) request.getAttribute("nicknameMessage");
-  String successMsg = (String) request.getAttribute("successMsg");
-  String msg = (String) request.getAttribute("msg");
-%>
+  <%
+    String nicknameMsg = (String) request.getAttribute("nicknameMessage");
+    String successMsg = (String) request.getAttribute("successMsg");
+    String msg = (String) request.getAttribute("msg");
+  %>
   <script>
 
     <% if (successMsg != null) { %>
@@ -328,9 +347,8 @@
       document.getElementById("passwordField").value = password;
       document.getElementById("deleteAccountForm").submit();
     }
-
-
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</article>
 </body>
 </html>
