@@ -187,10 +187,28 @@
               <img src="" alt="여행지사진">
             </div>
             <div class="trip_info col-7">
-              <strong>여행 이름: ${trip.nick}</strong><br>
-              이메일: ${trip.email}<br>
-              여행 기간: 2.26 - 2.28<br>
-              지역: 부산
+              <h4><strong>${trip.title}</strong></h4><br>
+              여행 기간: ${trip.start_date} - ${trip.end_date}<br>
+              지역:
+              <c:choose>
+                <c:when test="${trip.area_code == '1'}">경기</c:when>
+                <c:when test="${trip.area_code == '2'}">강원</c:when>
+                <c:when test="${trip.area_code == '3'}">충북</c:when>
+                <c:when test="${trip.area_code == '4'}">충남</c:when>
+                <c:when test="${trip.area_code == '5'}">전북</c:when>
+                <c:when test="${trip.area_code == '6'}">전남</c:when>
+                <c:when test="${trip.area_code == '7'}">경북</c:when>
+                <c:when test="${trip.area_code == '8'}">경남</c:when>
+                <c:when test="${trip.area_code == '9'}">서울</c:when>
+                <c:when test="${trip.area_code == '10'}">인천</c:when>
+                <c:when test="${trip.area_code == '11'}">대전</c:when>
+                <c:when test="${trip.area_code == '12'}">대구</c:when>
+                <c:when test="${trip.area_code == '13'}">울산</c:when>
+                <c:when test="${trip.area_code == '14'}">부산</c:when>
+                <c:when test="${trip.area_code == '15'}">광주</c:when>
+                <c:when test="${trip.area_code == '16'}">제주</c:when>
+                <c:otherwise>알 수 없음</c:otherwise>
+              </c:choose>
             </div>
             <div class="menu col-2 text-end">
               <button class="btn btn-light" onclick="toggleMenu(this)">• • •</button>

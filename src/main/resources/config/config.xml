@@ -33,5 +33,6 @@
     <mapper resource="mapper/journal_review.xml"/>
     <mapper resource="mapper/like_journal.xml"/>
     <mapper resource="mapper/plan.xml"/>
+    <mapper resource="mapper/my_page.xml"/>
   </mappers>
 </configuration>
