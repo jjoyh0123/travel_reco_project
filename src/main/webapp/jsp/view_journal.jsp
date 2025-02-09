@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <title>후기 보기</title>
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
   <style>
       /*    별점 기능*/
       .starpoint_wrap{
@@ -108,6 +109,7 @@
           flex-grow: 1;
           margin-bottom: 20px;
       }
+
       .journal_box{
           background-color: white;
           border-radius: 40px;
@@ -378,105 +380,24 @@
           transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
       }
 
+      .custom-marker {
+          background-color: white;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .map_div {
+          width: 100%;
+          height: 400px;
+          /*border: 1px solid red;*/
+      }
   </style>
 </head>
 <body>
-
-<!-- 모달 -->
-<c:forEach var="list" items="${list}" varStatus="index">
-  <div class="modal fade" id="exampleModal${index.count}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <%--모달 제목--%>
-          <h2 class="modal_title">
-            <div class="modal_day_bar">
-              <div class="modal_day">Day ${list.date_idx}</div>
-              <div class="modal_vertical_line"></div>
-              <div class="modal_date">${list.date}</div>
-            </div>
-          </h2>
-        </div>
-        <div class="modal-body">
-          <h3>${list.title}</h3>
-            <%--별점 기능--%>
-          <div class="starpoint_wrap">
-            <div class="starpoint_box">
-              <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
-              <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
-              <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
-              <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
-              <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
-              <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
-              <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
-              <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
-              <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
-              <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-
-              <input type="radio" name="starpoint" id="starpoint_1" class="star_radio" onclick="updateStarRating(0.5, '0.5점')">
-              <input type="radio" name="starpoint" id="starpoint_2" class="star_radio" onclick="updateStarRating(1, '1점')">
-              <input type="radio" name="starpoint" id="starpoint_3" class="star_radio" onclick="updateStarRating(1.5, '1.5점')">
-              <input type="radio" name="starpoint" id="starpoint_4" class="star_radio" onclick="updateStarRating(2, '2점')">
-              <input type="radio" name="starpoint" id="starpoint_5" class="star_radio" onclick="updateStarRating(2.5, '2.5점')">
-              <input type="radio" name="starpoint" id="starpoint_6" class="star_radio" onclick="updateStarRating(3, '3점')">
-              <input type="radio" name="starpoint" id="starpoint_7" class="star_radio" onclick="updateStarRating(3.5, '3.5점')">
-              <input type="radio" name="starpoint" id="starpoint_8" class="star_radio" onclick="updateStarRating(4, '4점')">
-              <input type="radio" name="starpoint" id="starpoint_9" class="star_radio" onclick="updateStarRating(4.5, '4.5점')">
-              <input type="radio" name="starpoint" id="starpoint_10" class="star_radio" onclick="updateStarRating(5, '5점')">
-              <span class="starpoint_bg"></span>
-            </div>
-          </div>
-            <%--별점 기능 끝--%>
-          <hr>
-            <%--후기 입력--%>
-<%--            <c:if test="${list.place_idx == reviewVO.place_idx}">--%>
-          <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)" id="textarea"></textarea>
-          <c:if test="${reviewVO}"
-          <p>${reviewVO.review}</p>
-<%--              ${reviewVO.review}--%>
-<%--            </c:if>--%>
-
-          <hr>
-
-          <div class="add_image_area">
-              <%--      사진 추가 버튼--%>
-            <div class="add_image_button_area">
-            </div>
-              <%--  사진 추가 버튼 끝--%>
-              <%--          캐러셀--%>
-            <div class="modal_carousel_area">
-              <div id="modal_carousel" class="carousel slide">
-                <div class="carousel-inner" id="carouselInner">
-                    <%-- 초기 미리보기 이미지 --%>
-                  <c:forEach var="image_list" items="${imageVO}" varStatus="index">
-                    <div class="carousel-item ${index.first ? 'active' : ''}">
-                      <img src="${image_list.file_path}" alt="후기 사진을 등록해주세요" class="modal_image">
-                    </div>
-                  </c:forEach>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#modal_carousel" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#modal_carousel" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-            </div>
-          </div>
-            <%--      캐러셀 끝--%>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">저장</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</c:forEach>
-
-
 <jsp:include page="/jsp/header.jsp"/>
 <article class="content">
   <%--  이미지 케러셀--%>
@@ -512,17 +433,13 @@
     </div>
   </div>
 
-<%--    지도 추가할 영역--%>
-    <div id="map_div${status.index}" class="map_div"></div>
-<%--    지도 추가할 영역 끝--%>
-
   <div class="journal_box">
     <div class="journal_day">
       <nav id="navbar-example2" class="navbar">
         <ul class="nav nav-pills">
           <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading${index.count}">
+              <a class="nav-link" href="#scrollspyHeading${index.index}">
                 <div class="day_button" onclick="changeColor(this)">
                   <p class="day">day ${index.count}</p>
                   <br>
@@ -540,16 +457,16 @@
 
       <div class="day_box">
         <%--  Day 바 --%>
-        <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
-          <div class="day_bar" id="scrollspyHeading${index.index}">
-            Day ${index.count}
+        <c:forEach var="dateVO" items="${dateVO}" varStatus="status">
+          <div class="day_bar" id="scrollspyHeading${status.index}">
+            Day ${status.count}
             <div class="vertical_line"></div>
               ${dateVO.date}
           </div>
 
           <hr>
 
-          <c:forEach var="list" items="${list}" varStatus="index">
+          <c:forEach var="list" items="${list}" varStatus="status2">
             <c:if test="${list.date_idx == dateVO.idx}">
               <div class="journal_place">
                 <div  class="circle_container">
@@ -557,7 +474,7 @@
                   <div class="long_vertical_line"></div>
                 </div>
                 <div class="place_div">
-                  <div class="place_name" id="day${index.count}_place${index.count}" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}" style="cursor: pointer">
+                  <div class="place_name" id="day${status2.count}_place${status2.count}" data-bs-toggle="modal" data-bs-target="#exampleModal${status2.count}" style="cursor: pointer">
                       ${list.title}
                   </div>
                   <p class="place_info">
@@ -601,7 +518,19 @@
               <div id="selectedRating"></div>
             </c:if>
           </c:forEach>
+          <div id="map_div${status.index}" class="map_div"></div>
+          <div id="waypointsData${status.index}" style="display:none;">
+            {
+            <c:forEach var="temp" items="${list}" varStatus="tempStatus">
+              "${temp.title}": {
+              "lng": ${temp.map_x},
+              "lat": ${temp.map_y}
+              }<c:if test="${!tempStatus.last}">,</c:if>
+            </c:forEach>
+            }
+          </div>
         </c:forEach>
+
       </div>
     </div>
   </div>
@@ -654,6 +583,12 @@
 
   // textarea 글 출력
   document.addEventListener("DOMContentLoaded", function() {
+    let waypointsElements = document.querySelectorAll("[id^='waypointsData']");
+
+    waypointsElements.forEach((element, index) => {
+      initializeMap('map_div' + index, element.id, colors);
+    });
+
     document.querySelectorAll("textarea[id^='textarea${index.count}']").forEach(textarea => {
       const index = textarea.id.replace("textarea", ""); // ID에서 숫자 추출
       const output = document.getElementById(`outputText${index.count}`);
@@ -674,6 +609,133 @@
     // 선택된 별점의 title 값을 출력
     document.getElementById("selectedRating${index.count}").innerText = title;
   }
+
+  // function initializeMap(mapDivId, waypointsDataId, colors) {
+  //   let map = new Tmapv2.Map(mapDivId, {
+  //     center: new Tmapv2.LatLng(37, 127),
+  //     // width: "750px",
+  //     // height: "750px",
+  //     zoom: 17,
+  //     httpsMode: true
+  //   });
+  //
+  //   let markerArr = [];
+  //   let lineArr = [];
+  //   let currentWaypoints = [];
+  //
+  //   // JSON 형식의 좌표 데이터를 읽어오기
+  //   let waypointsData = JSON.parse(document.getElementById(waypointsDataId).innerText);
+  //
+  //   // waypointsData 의 키를 배열로 만듦
+  //   let waypointKeys = Object.keys(waypointsData);
+  //
+  //   // 시작점과 종료점을 waypointsData 의 첫 번째 및 마지막 항목으로 설정
+  //   let start = waypointsData[waypointKeys[0]];
+  //   let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
+  //
+  //   // 마커를 추가하는 함수
+  //   function addMarker(lat, lng, content) {
+  //     let marker = new Tmapv2.Marker({
+  //       position: new Tmapv2.LatLng(lat, lng),
+  //       iconHTML: content,  // 커스텀 HTML 요소
+  //       map: map
+  //     });
+  //     markerArr.push(marker); // 마커 배열에 추가
+  //     return marker;
+  //   }
+  //
+  //   // 마커 추가
+  //   addMarker(start.lat, start.lng, '<div class="custom-marker">S</div>');
+  //   addMarker(end.lat, end.lng, '<div class="custom-marker">E</div>');
+  //
+  //   // 경로를 그리는 함수
+  //   function drawRoute(start, end, waypoints, colors) {
+  //     let points = [start, ...waypoints, end];
+  //     let positionBounds = new Tmapv2.LatLngBounds();
+  //
+  //     // 각 구간별 경로를 호출 및 그리기
+  //     for (let i = 0; i < points.length - 1; i++) {
+  //       let startX = points[i].lng;
+  //       let startY = points[i].lat;
+  //       let endX = points[i + 1].lng;
+  //       let endY = points[i + 1].lat;
+  //
+  //       let requestData = {
+  //         version: 1,
+  //         startX: startX,
+  //         startY: startY,
+  //         endX: endX,
+  //         endY: endY,
+  //         reqCoordType: "WGS84GEO",
+  //         resCoordType: "WGS84GEO",
+  //         searchOption: 0
+  //       };
+  //
+  //       console.log(requestData);
+  //
+  //       $.ajax({
+  //         type: "POST",
+  //         url: "https://apis.openapi.sk.com/tmap/routes?version=1",
+  //         headers: {
+  //           "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
+  //           "Content-Type": "application/json"
+  //         },
+  //         data: JSON.stringify(requestData),
+  //         async: false, // 동기 요청
+  //         success: function (response) {
+  //           let resultData = response.features;
+  //           let path = [];
+  //
+  //           resultData.forEach(data => {
+  //             if (data.geometry.type === "LineString") {
+  //               let coordinates = data.geometry.coordinates;
+  //               coordinates.forEach(coord => {
+  //                 let latlng = new Tmapv2.LatLng(coord[1], coord[0]);
+  //                 positionBounds.extend(latlng);
+  //                 path.push(latlng);
+  //               });
+  //             }
+  //           });
+  //
+  //           let polyline = new Tmapv2.Polyline({
+  //             path: path,
+  //             strokeColor: colors[i % colors.length], // 구간별 색상 설정
+  //             strokeWeight: 6,
+  //             map: map
+  //           });
+  //           lineArr.push(polyline);
+  //         },
+  //         error: function (request, status, error) {
+  //           console.error("경로 검색 중 오류가 발생했습니다:", error);
+  //         }
+  //       });
+  //     }
+  //
+  //     map.panToBounds(positionBounds);
+  //     map.zoomOut();
+  //
+  //   }
+  //
+  //   // 순서대로 경유지 설정 (첫 번째와 마지막 항목 제외)
+  //   for (let i = 1; i < waypointKeys.length - 1; i++) {
+  //     let waypoint = waypointsData[waypointKeys[i]];
+  //     currentWaypoints.push(waypoint);
+  //     addMarker(waypoint.lat, waypoint.lng, '<div class="custom-marker">' + (currentWaypoints.length) + '</div>');
+  //   }
+  //
+  //   // 경로 그리기 호출
+  //   drawRoute(start, end, currentWaypoints, colors);
+  // }
+
+  // 통일된 색상 배열
+  let colors = [
+    "#FF0000", "#FFA500", "#FFFF00", "#008000",
+    "#0000FF", "#4B0082", "#EE82EE", "#A52A2A",
+    "#FFD700", "#ADFF2F", "#000080", "#8A2BE2",
+    "#FF69B4", "#FF6347", "#00FFFF", "#4682B4",
+    "#DC143C", "#FF8C00", "#ADFF2F", "#6A5ACD"
+  ];
+
 </script>
 <jsp:include page="/jsp/footer.jsp"/>
 </body>
