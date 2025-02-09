@@ -45,4 +45,9 @@
     WHERE date_idx = #{dateId}
     ORDER BY visit_order
   </select>
+
+  <select id="get_favorite_place" parameterType="String" resultType="mybatis.vo.planning.TouristSpotVO">
+    SELECT * FROM place_like_table
+    WHERE user_idx = #{user_idx} ORDER BY idx DESC
+  </select>
 </mapper>

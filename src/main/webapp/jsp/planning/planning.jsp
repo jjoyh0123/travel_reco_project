@@ -33,12 +33,12 @@
   <div id="middle-left-panel">
     <div id="destination-header">서울</div>
     <div id="destination-date-range">2025-01-14 ~ 2025-01-20</div>
-    <div class="categories">
-      <div class="category">전체</div>
-      <div class="category">🌉관광</div>
-      <div class="category">🍴음식</div>
-      <div class="category">🏡숙박</div>
-      <div class="category">❤️저장</div>
+    <div class="categories" onclick="change_content_type_id(event)">
+      <div class="category" data-category="all">전체</div>
+      <div class="category" data-category="12">🌉관광</div>
+      <div class="category" data-category="39">🍴음식</div>
+      <div class="category" data-category="32">🏡숙박</div>
+<%--      <div class="category" data-category="fav">❤️저장</div>--%>
     </div>
     <div id="search-bar">
       <input type="text" placeholder="장소를 입력해주세요.">
@@ -73,12 +73,20 @@
   // Store previous date selection
   let previousDate = null;
   let selectedDate = null;
-  let content_type_id = null;
+  let content_type_id = '';
+  let current_content_type_id = 'all';
+  let page = '1';
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Init method 1
     fetch_tourist_spots();
+    // Init method 2
     apply_drag_n_drop();
+    // Init method 3
     initialize_dates();
+
+
+
 
     // 6) Clear the entire plan
     document.getElementById("clear-button").addEventListener("click", function () {
@@ -87,35 +95,45 @@
     });
   });
 
+
+
+
+  // Init method 1
   // 1) Fetch your list of tourist spots
-  function fetch_tourist_spots(page) {
-    let fetch_path = '/Controller?type=planning&action=get_tour_spot&area_code=' + AREA_CODE
-    if (page) fetch_path += '&page=' + page;
-    fetch(fetch_path)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          displayPlaces(data.data);
-        }
-      })
-      .catch(error => console.error('Error fetching data:', error));
+  function fetch_tourist_spots() {
+    if(content_type_id !== current_content_type_id) {
+      let fetch_path = '/Controller?type=planning&action=get_tour_spot&area_code=' + AREA_CODE
+      fetch_path += '&page=' + page;
+      fetch_path += '&content_type_id=' + current_content_type_id;
+      fetch(fetch_path)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            displayPlaces(data.data);
+          }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
   }
 
   // 2) Display them in the "destination-list" (left panel)
   function displayPlaces(places) {
     const destinationList = document.getElementById("destination-list");
-    destinationList.innerHTML = "";
+    if(content_type_id !== current_content_type_id) {
+      content_type_id = current_content_type_id;
+      destinationList.innerHTML = "";
+    }
 
     places.forEach(function (place) {
-      const imgSrc = place.image ? place.image : "https://dummyimage.com/50";
+      const imgSrc = place.thumbnail ? place.thumbnail : "https://dummyimage.com/50";
       const shortAddress = place.address;
 
       const listItem = document.createElement("div");
       listItem.classList.add("destination");
-      listItem.dataset.lat = place.mapy;
-      listItem.dataset.lon = place.mapx;
-      listItem.dataset.category = place.category;
-      listItem.dataset.contentid = place.contentid;
+      listItem.dataset.lat = place.map_y;
+      listItem.dataset.lon = place.map_x;
+      listItem.dataset.contentid = place.content_id;
+      listItem.dataset.content_type_id = place.content_type_id;
 
       // Build the inner HTML
       listItem.innerHTML =
@@ -176,7 +194,7 @@
     container.innerHTML = "";
 
     planArray.forEach((spot, index) => {
-      const imgSrc = spot.image || "https://dummyimage.com/50";
+      const imgSrc = spot.thumbnail || "https://dummyimage.com/50";
       const div = document.createElement("div");
       div.classList.add("selected-place");
       div.setAttribute("draggable", "true"); // for reordering
@@ -218,6 +236,8 @@
     render_selected_places(current_plan);
   }
 
+
+  // Init method 2
   // 5) Drag & Drop setup
   function apply_drag_n_drop() {
     const container = document.getElementById("selected-places");
@@ -283,6 +303,8 @@
     }
   }
 
+
+  // Init method 3
   // Function to generate date range from session storage
   function initialize_dates() {
     if (!START_DATE || !END_DATE) {
@@ -344,6 +366,19 @@
     updateSelectedPlaces(selectedDate);
   }
 
+
+  // Active method
+  function change_content_type_id(event) {
+    const CATEGORY = event.target.closest('.category'); // 클릭된 요소의 부모 요소 중 가장 가까운 .category div를 찾음
+    if (CATEGORY) {
+      current_content_type_id = CATEGORY.dataset.category;
+      // console.log(CATEGORY_NAME, typeof CATEGORY_NAME);
+      if(content_type_id !== current_content_type_id) {
+        fetch_tourist_spots();
+      }
+    }
+  }
+  
   // 7) Save plan (you can send the updated current_plan to your server)
   function save_plan() {
     if (current_plan.length === 0) {
@@ -389,12 +424,12 @@
       const dateKey = place.date; // This will be set in addPlaceToPlan
       if (planData.dates[dateKey]) {
         planData.dates[dateKey].push({
-          content_id: place.contentid,
-          content_type_id: 1,
+          content_id: place.content_id,
+          content_type_id: place.content_type_id,
           title: place.title,
-          thumbnail: place.image,
-          map_x: place.mapx,
-          map_y: place.mapy,
+          thumbnail: place.thumbnail,
+          map_x: place.map_x,
+          map_y: place.map_y,
           time: place.time || "00:00"
         });
       }

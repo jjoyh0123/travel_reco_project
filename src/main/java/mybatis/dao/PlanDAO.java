@@ -4,11 +4,13 @@ import mybatis.service.FactoryService;
 import mybatis.vo.DateVO;
 import mybatis.vo.PlaceVO;
 import mybatis.vo.PlanVO;
+import mybatis.vo.planning.TouristSpotVO;
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,10 +201,20 @@ public class PlanDAO {
         placeJson.put("map_y", Double.parseDouble(origPlace.getMap_y()));
         placeJson.put("time", origPlace.getTime());
 
-        boolean success = insertPlace(newPlanId, newDateId, j + 1, placeJson);
-        if (!success) return -1;
+        int cnt = insertPlace(newPlanId, newDateId, j + 1, placeJson);
+        if (cnt == 0) return -1;
       }
     }
     return newPlanId;
+  }
+
+  public static List<TouristSpotVO> get_favorite_place(String user_idx) {
+    List<TouristSpotVO> list = new ArrayList<TouristSpotVO>();
+
+    SqlSession ss = FactoryService.get_factory().openSession();
+    list = ss.selectList("plan.get_favorite_place", user_idx);
+    ss.close();
+
+    return list;
   }
 }
