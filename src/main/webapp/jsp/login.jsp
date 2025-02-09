@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +103,7 @@
       #email_login {
           text-decoration: none;
           padding: 10px 20px;
-          background-color: #f9f9f9;
+          background-color: #F5F5F7;
           color: #1A1A1A;
           font-size: 16px;
           border-radius: 5px;
