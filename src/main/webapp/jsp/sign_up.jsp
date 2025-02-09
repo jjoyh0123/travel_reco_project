@@ -69,6 +69,11 @@
 
 
 <div class="signup-container">
+  <div id="signupStatus"
+       data-error-message="${errorMessage != null ? errorMessage : ''}"
+       data-signup-success="${signupSuccess != null ? signupSuccess : ''}">
+  </div>
+
   <h1>이메일로 회원가입</h1>
   <form action="${pageContext.request.contextPath}/Controller?type=sign_up" method="post">
     <div class="mb-3">
@@ -102,7 +107,7 @@
     <button type="submit" id="signupButton" class="btn btn-orange w-100" disabled>회원가입</button>
   </form>
   <div class="mt-3 text-center">
-    <a href="emailLogin.jsp" class="text-decoration-none">이메일 로그인 화면가기</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=email_login" class="text-decoration-none">이메일 로그인 화면가기</a>
   </div>
 </div>
 <script>
@@ -144,7 +149,7 @@
         }
         updateSignupButtonState();
       },
-      error: function () {
+      error: function() {
         alert("서버 오류가 발생했습니다.");
       }
     });
@@ -177,6 +182,7 @@
           nicknameChecked = true;
           nicknameMessage.textContent = "사용 가능한 닉네임입니다.";
           nicknameMessage.style.color = "blue";
+
         } else {
           nicknameChecked = false;
           nicknameMessage.textContent = "이미 사용 중인 닉네임입니다.";
@@ -184,18 +190,29 @@
         }
         updateSignupButtonState();
       },
-      error: function () {
+      error: function() {
         alert("서버 오류가 발생했습니다.");
       }
     });
   }
 
+
+  // 회원가입 버튼 활성화 상태 업데이트
+  function updateSignupButtonState() {
+    const signupButton = document.getElementById("signupButton");
+    if (emailChecked && nicknameChecked && passwordValid) {
+      signupButton.disabled = false;
+    } else {
+      signupButton.disabled = true;
+    }
+  }
+
   // 비밀번호 유효성 검사 (4자리 이상)
-  document.getElementById("password").addEventListener("input", function () {
+  document.getElementById("password").addEventListener("input", function() {
     const password = this.value;
     const passwordMessage = document.getElementById("passwordMessage");
 
-    if (password.length < 4) {
+    if (password.length >= 4) {
       passwordValid = true;
       passwordMessage.textContent = "";
     } else {
@@ -207,15 +224,26 @@
     updateSignupButtonState();
   });
 
-  // 회원가입 버튼 활성화 상태 업데이트
-  function updateSignupButtonState() {
-    const signupButton = document.getElementById("signupButton");
-    if (emailChecked && nicknameChecked && passwordValid) {
-      signupButton.disabled = false;
-    } else {
-      signupButton.disabled = true;
+  document.addEventListener("DOMContentLoaded", function () {
+    const statusElement = document.getElementById("signupStatus");
+
+    const errorMessage = statusElement.getAttribute("data-error-message");
+    const signupSuccess = statusElement.getAttribute("data-signup-success");
+
+    // 오류 메시지 출력
+    if (errorMessage) {
+      alert(errorMessage);
     }
-  }
+
+    // 회원가입 성공 메시지 출력 및 페이지 이동
+    if (signupSuccess === "true") {
+      alert("회원가입이 성공적으로 완료되었습니다!");
+      window.location.href = "jsp/index.jsp";  // 가입 후 메인 페이지로 이동
+    }
+  });
+
+
+
 </script>
 </body>
 </html>

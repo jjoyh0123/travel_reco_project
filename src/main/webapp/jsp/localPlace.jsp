@@ -41,7 +41,7 @@
           margin: 0;
       }
 
-      #board_banner{
+      #board_banner {
           background-color: coral;
           border: 1px solid coral;
           margin-bottom: 10px;
@@ -50,27 +50,32 @@
           border-radius: 5px;
           margin-left: 600px;
       }
-      #board_banner>a{
+
+      #board_banner > a {
           font-size: 25px;
           color: white;
           text-decoration: none;
       }
-      #board_search{
+
+      #board_search {
           width: 500px;
           margin-left: 700px;
       }
-      .search_type{
+
+      .search_type {
           text-align: center;
           background-color: white; /* 배경 색상 투명 */
           color: grey;
           font-weight: bold;
           margin-left: -3px;
       }
-      .search_type:hover{
+
+      .search_type:hover {
           background-color: grey; /* 배경 색상 투명 */
           color: white;
       }
-      .loc{
+
+      .loc {
           display: flex;
           width: auto;
           height: 600px;
@@ -80,7 +85,8 @@
           margin-right: 50px;
           margin-top: 20px;
       }
-      .loc_icon{
+
+      .loc_icon {
           display: flex; /* 플렉스 박스 사용 */
           justify-content: center; /* 가로 중앙 정렬 */
           align-items: flex-start; /* 세로 중앙 정렬 */
@@ -89,6 +95,7 @@
           border: 1px solid lightgray;
           border-radius: 8px;
       }
+
       .loc_icon > a {
           display: block; /* a 태그를 블록 레벨 요소로 변경하여 전체 div를 클릭 가능하게 만듦 */
           text-decoration: none; /* 링크 밑줄 제거 */
@@ -97,7 +104,7 @@
           color: black;
       }
 
-      .board_plan{
+      .board_plan {
           background: #f8f9fa;
           display: flex;
           margin-top: 5px;
@@ -106,10 +113,12 @@
           border-radius: 15px;
           flex-wrap: wrap; /* 아이템들이 자동으로 줄바꿈되도록 */
       }
-      .loc_row{
+
+      .loc_row {
           width: 450px;
           display: flex;
       }
+
       .board_item {
           display: flex;
           flex-direction: column;
@@ -120,6 +129,7 @@
           height: 165px;
           border-radius: 5px;
       }
+
       .board_img {
           border: 1px solid lightgray;
           width: 150px;
@@ -129,6 +139,7 @@
           margin-bottom: 10px;
           margin-right: 10px;
       }
+
       .board_title {
           display: flex;
           font-weight: bold;
@@ -137,16 +148,19 @@
           text-align: left;
           color: black;
       }
+
       .board_content {
           font-size: 15px;
           text-decoration: none; /* 링크 밑줄 제거 */
           color: black;
 
       }
-      .board_total_content{
+
+      .board_total_content {
           height: auto;
           width: auto;
       }
+
       .board_img {
           border: 1px solid lightgray;
           width: 140px;
@@ -156,48 +170,55 @@
           margin-bottom: 10px;
           margin-right: 10px;
       }
-      .board_img> img{
+
+      .board_img > img {
           object-fit: cover;
           width: 140px;
           height: 150px;
       }
-      .board_img> a{
+
+      .board_img > a {
           list-style: none;
           text-decoration: none;
           display: flex;
           width: 35px;
       }
-      .board_review{
+
+      .board_review {
           display: flex;
           margin-top: 5px;
       }
-      #body{
+
+      #body {
           display: flex;
           margin-left: 300px;
       }
-      .loc_name{
+
+      .loc_name {
           display: flex;
           text-decoration: none;
           color: grey;
       }
+
       .transparent-btn {
           display: flex;
           background-color: transparent; /* 배경을 투명하게 */
 
       }
 
-      .modal_name{
+      .modal_name {
           font-weight: bold;
           font-size: 25px;
           color: black;
       }
 
-      .modal_img{
+      .modal_img {
           border: 1px solid lightgray;
           width: 700px;
           height: 400px;
       }
-      .modal_overview{
+
+      .modal_overview {
           font-weight: bold;
           font-size: 25px;
           color: black;
@@ -216,6 +237,7 @@
           margin-left: 25px;
           margin-top: 5px;
       }
+
       #img_2, #img_3, #img_4, #img_5, #img_6, #img_7, #img_8, #img_9,
       #img_10, #img_11, #img_12, #img_13, #img_14, #img_15, #img_16,
       #img_17, #img_18 {
@@ -226,64 +248,124 @@
           margin-top: 5px;
           overflow: hidden;
       }
-      #img_2 { background-position: 0px -0px; }
-      #img_3 { background-position: 0px -100px; }
-      #img_4 { background-position: 0px -200px; }
-      #img_5 { background-position: 0px -300px; }
-      #img_6 { background-position: 0px -400px; }
-      #img_7 { background-position: 0px -500px; }
-      #img_8 { background-position: 0px -600px; }
-      #img_9 { background-position: 0px -700px; }
-      #img_10 { background-position: 0px -800px; }
-      #img_11 { background-position: 0px -900px; }
-      #img_12 { background-position: 0px -1000px; }
-      #img_13 { background-position: 0px -1100px; }
-      #img_14 { background-position: 0px -1200px; }
-      #img_15 { background-position: 0px -1300px; }
-      #img_16 { background-position: 0px -1400px; }
-      #img_17 { background-position: 0px -1500px; }
-      #img_18 { background-position: 0px -1600px; }
 
-      .span{
+      #img_2 {
+          background-position: 0 -0px;
+      }
+
+      #img_3 {
+          background-position: 0 -100px;
+      }
+
+      #img_4 {
+          background-position: 0 -200px;
+      }
+
+      #img_5 {
+          background-position: 0 -300px;
+      }
+
+      #img_6 {
+          background-position: 0 -400px;
+      }
+
+      #img_7 {
+          background-position: 0 -500px;
+      }
+
+      #img_8 {
+          background-position: 0 -600px;
+      }
+
+      #img_9 {
+          background-position: 0 -700px;
+      }
+
+      #img_10 {
+          background-position: 0 -800px;
+      }
+
+      #img_11 {
+          background-position: 0 -900px;
+      }
+
+      #img_12 {
+          background-position: 0 -1000px;
+      }
+
+      #img_13 {
+          background-position: 0 -1100px;
+      }
+
+      #img_14 {
+          background-position: 0 -1200px;
+      }
+
+      #img_15 {
+          background-position: 0 -1300px;
+      }
+
+      #img_16 {
+          background-position: 0 -1400px;
+      }
+
+      #img_17 {
+          background-position: 0 -1500px;
+      }
+
+      #img_18 {
+          background-position: 0 -1600px;
+      }
+
+      .span {
           margin-top: 15px;
           display: block;
           text-align: center; /* 글자가 가운데 정렬되도록 */
           width: 100%; /* span 요소가 loc_icon의 전체 너비를 차지하도록 */
       }
-      .modal_img2{
+
+      .modal_img2 {
           width: 100%;
           height: 100%;
       }
-      .modal_content{
+
+      .modal_content {
           font-weight: bold;
           font-size: 25px;
           color: black;
       }
-      .api_addr1{
+
+      .api_addr1 {
           text-align: left;
       }
-      .body2{
+
+      .body2 {
           height: 1000px;
       }
-      .option_button>a>span{
+
+      .option_button > a > span {
           border: 1px solid #555555;
           background: #bbbbbb;
           width: 60px;
       }
-      .option_button>a{
+
+      .option_button > a {
           text-decoration: none;
       }
-      #option_button{
+
+      #option_button {
           display: flex;
           margin-right: 6px;
           justify-content: flex-end;
       }
-      #map_div{
+
+      #map_div {
           margin-top: 20px;
           margin-bottom: 20px;
           border: 1px solid grey;
       }
-      #paging{
+
+      #paging {
           margin: auto auto 0;
       }
   </style>
@@ -299,8 +381,8 @@
   </thead>
   <div>
     <div>
-    <input type="search" id="board_search" placeholder="검색: 입력하세요.">
-    <button onclick="search()">🔍</button>
+      <input type="search" id="board_search" placeholder="검색: 입력하세요.">
+      <button onclick="search()">🔍</button>
     </div>
     <div id="option_button">
       <select class="option_button">
@@ -311,10 +393,10 @@
         <option class="search_type" data-contentTypeId="39">::음식::</option>
       </select>
     </div>
-    </p>
+    <br/>
   </div>
   <div id="body">
-    <div class="loc" >
+    <div class="loc">
       <div class="loc_row">
         <div class="loc_icon">
           <a href="#" class="area-icon" data-areacode=""> <!-- 서울 -->
@@ -335,7 +417,7 @@
           </a>
         </div>
       </div>
-      <div class="loc_row" >
+      <div class="loc_row">
         <div class="loc_icon">
           <a href="#" class="area-icon" data-areacode="3">
             <div id="img_4"></div>
@@ -416,7 +498,7 @@
               <span class="span">전북</span>
             </a>
           </div>
-      </div>
+        </div>
       </div>
       <div class="loc_row">
         <div class="loc_row">
@@ -438,49 +520,50 @@
               <span class="span">세종</span>
             </a>
           </div>
+        </div>
       </div>
-    </div>
-<!--모달 생김새~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+      <!--모달 생김새~~~~~~~~~~~~~~~~~~~~~~~ -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+           aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
                 <div>
                 </div>
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="modal_name">
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal_star">
+            <div class="modal-body">
+              <div class="modal_name">
+              </div>
+              <div class="modal_star">
+              </div>
+              <div class="modal_img">
+                <a href=""><img src="" class="modal_img2"></a>
+              </div>
+              <div id="map_div" style="width: 500px; height: 400px;">
+              </div>
+              <hr style="border: 3px solid #555555;">
+              <div class="modal_content">
+              </div>
+              <br>
+              <div class="modal_addr1">
+              </div>
+              <br>
+              <div class="modal_tel">
+              </div>
+              <div class="modal_overview">
+              </div>
+              <br>
             </div>
-            <div class="modal_img">
-              <a href=""><img src="" class="modal_img2"></a>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
             </div>
-            <div id="map_div" style="width: 500px; height: 400px;">
-            </div>
-            <hr style="border: 3px solid #555555;">
-            <div class="modal_content">
-            </div>
-            <br>
-            <div class="modal_addr1">
-            </div>
-            <br>
-            <div class="modal_tel">
-            </div>
-            <div class="modal_overview">
-            </div>
-            <br>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <div class="board_plan">
       <c:forEach var="api" items="${ar}">
@@ -500,21 +583,21 @@
                       data-mapy="mapy : ${api.mapy}"
 
                       data-content="기본정보">
-                  <p></p>
-                  <div class="board_img">
-                    <img src="${api.thumnail}">
-                  </div>
-                  <div>
+                <br/>
+                <div class="board_img">
+                  <img src="${api.thumnail}" alt="thumbnail">
+                </div>
+                <div>
                   <div class="api_title">
-                  <a href="" class="board_title">${api.title}</a>
+                    <a href="" class="board_title">${api.title}</a>
+                  </div>
+                  <p></p>
+                  <div class="api_addr1">
+                    <a href="" class="board_content">${api.addr1}</a>
+                  </div>
+                  <a href="" class="loc_name"></a>
                 </div>
-                <p></p>
-                <div class="api_addr1">
-                  <a href="" class="board_content">${api.addr1}</a>
-                </div>
-                <a href="" class="loc_name"></a>
-              </div>
-            </button>
+              </button>
             </div>
           </div>
         </div>
@@ -572,6 +655,7 @@
     }
 
   }
+
   let title;
   let mapx;
   let mapy;
@@ -579,25 +663,25 @@
   document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("staticBackdrop");
     modal.addEventListener("show.bs.modal", function (event) {
-    const button = event.relatedTarget; // 모달을 연 버튼
-    const addr1 = button.getAttribute("data-addr1");
-    const img = button.getAttribute("data-img");
-    const content = button.getAttribute("data-content");
-    const tel = button.getAttribute("data-tel");
-    const contentid = button.getAttribute("data-contentid")
+      const button = event.relatedTarget; // 모달을 연 버튼
+      const addr1 = button.getAttribute("data-addr1");
+      const img = button.getAttribute("data-img");
+      const content = button.getAttribute("data-content");
+      const tel = button.getAttribute("data-tel");
+      const contentid = button.getAttribute("data-contentid")
 
-    title = button.getAttribute("data-title");
-    mapx = extractNumber(button.getAttribute("data-mapx"));
-    mapy = extractNumber(button.getAttribute("data-mapy"));
-    console.log(mapx);
-    console.log(mapy);
+      title = button.getAttribute("data-title");
+      mapx = extractNumber(button.getAttribute("data-mapx"));
+      mapy = extractNumber(button.getAttribute("data-mapy"));
+      console.log(mapx);
+      console.log(mapy);
 
-    // 모달 내부 요소 업데이트
-    document.querySelector(".modal_name").textContent = title;
-    document.querySelector(".modal_img img").src = img;
-    document.querySelector(".modal_content").textContent = content;
-    document.querySelector(".modal_addr1").textContent = addr1;
-    document.querySelector(".modal_tel").textContent = tel;
+      // 모달 내부 요소 업데이트
+      document.querySelector(".modal_name").textContent = title;
+      document.querySelector(".modal_img img").src = img;
+      document.querySelector(".modal_content").textContent = content;
+      document.querySelector(".modal_addr1").textContent = addr1;
+      document.querySelector(".modal_tel").textContent = tel;
 
       let apiUrl = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?" +
           "serviceKey=7O%2BS3FUEPYFub2Ap2u9bYHh%2BsjDTjijIZZEm8c08xQTLQQgv7IehSi5I%2FG1hMPE6x6%2B3A3IzhIztXbdrLMc90A%3D%3D" +
@@ -617,39 +701,43 @@
         }
       });
 
+    });
   });
-  });
-function sendArea() {
-console.log("클릭");
-}
-    document.addEventListener("DOMContentLoaded", function () {
-      const areaIcons = document.querySelectorAll('.area-icon');
 
-      console.log(areaIcons);  // 아이콘이 제대로 선택됐는지 확인
+  function sendArea() {
+    console.log("클릭");
+  }
 
-      areaIcons.forEach(icon => {
-        icon.addEventListener('click', function (e) {
-          e.preventDefault(); // 기본 동작 방지
+  document.addEventListener("DOMContentLoaded", function () {
+    const areaIcons = document.querySelectorAll('.area-icon');
 
-          const areaCode = icon.getAttribute('data-areacode');  // data-areacode 속성 값 가져오기
-          console.log(areaCode); // 해당 값이 제대로 나오는지 확인
+    console.log(areaIcons);  // 아이콘이 제대로 선택됐는지 확인
 
-          if (areaCode !== 123) {
-            // API 요청 URL에 areacode 파라미터 추가
-            const apiUrl = `/Controller?type=local&areacode=`+areaCode;
-            // 페이지를 해당 URL로 리다이렉트
-            window.location.href = apiUrl;
-          } else {
-            const apiUrl = `/Controller?type=local`;
-            // 페이지를 해당 URL로 리다이렉트
-            window.location.href = apiUrl;
-          }
-        });
+    areaIcons.forEach(icon => {
+      icon.addEventListener('click', function (e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        const areaCode = icon.getAttribute('data-areacode');  // data-areacode 속성 값 가져오기
+        console.log(areaCode); // 해당 값이 제대로 나오는지 확인
+
+        if (areaCode > 0) {
+          // API 요청 URL 에 areacode 파라미터 추가
+          const apiUrl = `/Controller?type=local&areacode=` + areaCode;
+          // 페이지를 해당 URL로 리다이렉트
+          window.location.href = apiUrl;
+        } else {
+          const apiUrl = `/Controller?type=local`;
+          // 페이지를 해당 URL로 리다이렉트
+          window.location.href = apiUrl;
+        }
       });
     });
-    function sendContentId() {
-      console.log("클릭");
-    }
+  });
+
+  function sendContentId() {
+    console.log("클릭");
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     const searchTypeSelect = document.querySelector(".option_button"); //select 태그에 있는 요소들 다 가져오기.
 
@@ -664,14 +752,14 @@ console.log("클릭");
 
         let apiUrl = `/Controller?type=local`;
 
-        if (areaCode !=="" && contentTypeId !=="") {
+        if (areaCode !== "" && contentTypeId !== "") {
           apiUrl += `&areacode=` + areaCode; // 기존 areacode 유지
         }
         apiUrl += `&contentTypeId=` + contentTypeId; // contentTypeId 추가
 
         console.log("새로운 URL:", apiUrl);
         window.location.href = apiUrl;
-      } else{
+      } else {
 
         let apiUrl = `/Controller?type=local`;
         window.location.href = apiUrl;

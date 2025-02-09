@@ -24,11 +24,14 @@
     <mapper resource="mapper/faq.xml"/>
     <mapper resource="mapper/support.xml"/>
     <mapper resource="mapper/journal_best.xml"/>
+    <mapper resource="mapper/plan.xml"/>
     <mapper resource="mapper/customer_service.xml"/>
     <mapper resource="mapper/place.xml"/>
     <mapper resource="mapper/image.xml"/>
+    <mapper resource="mapper/plan_mapper.xml"/>
     <mapper resource="mapper/event_image.xml"/>
     <mapper resource="mapper/journal_review.xml"/>
     <mapper resource="mapper/like_journal.xml"/>
+    <mapper resource="mapper/plan.xml"/>
   </mappers>
 </configuration>

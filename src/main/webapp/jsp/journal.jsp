@@ -675,7 +675,7 @@
       const index = textarea.id.replace("textarea", ""); // ID에서 숫자 추출
       const output = document.getElementById(`outputText${index.count}`);
 
-      textarea.addEventListener("input", function () {
+      textarea.addEventListener("input", function() {
         output.textContent = textarea.value;
       });
     });

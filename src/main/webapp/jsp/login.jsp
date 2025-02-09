@@ -115,7 +115,7 @@
 <jsp:include page="/jsp/header.jsp"/>
 
 <!-- 로고 및 제목 -->
-<p id="logo_name">zenzenclub</p>
+<p id="logo_name">Zenzenclub</p>
 
 <!-- 조건에 따라 소셜 버튼 또는 프로필 사진 출력 -->
 <div class="social-buttons">

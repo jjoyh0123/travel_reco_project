@@ -44,10 +44,11 @@ public class SignupAction implements Action {
       session.setAttribute("email", email);
       session.setAttribute("user", user);
       session.setAttribute("nick", user.getNick());
-      session.setAttribute("signupSuccess", true);
+      session.setAttribute("idx", user.getIdx());
+
 
       // 메인 페이지로 리다이렉트
-      return "jsp/index.jsp";
+      return "jsp/sign_up.jsp";
 
     } else {
       // 로그인 실패 시 (정상적이라면 발생하지 않음)
