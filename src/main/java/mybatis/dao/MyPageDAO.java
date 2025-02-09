@@ -29,6 +29,20 @@ public class MyPageDAO {
     return null;
   }
 
+  public static List<ReviewVO> getJournalByUser(int userId) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
+
+      List<ReviewVO> list = ss.selectList("myPage.getJournalByUser", userId);
+
+      if (list != null && !list.isEmpty()) {
+        return list;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public static List<ReviewVO> getReviewHistoryByUser(int userId) {
     try (SqlSession ss = FactoryService.get_factory().openSession()) {
 

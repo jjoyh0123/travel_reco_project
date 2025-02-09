@@ -229,6 +229,23 @@
         </c:forEach>
       </c:when>
 
+      <c:when test="${param.type == 'my_trip_review'}">
+        <h3 class="mb-3 text-center">여행 후기</h3>
+        <c:forEach var="review" items="${myReviews}">
+          <div class="trip_container">
+            <div class="trip_img col-3">
+              <img src="" alt="여행지사진">
+            </div>
+            <div class="trip_info col-7">
+              <h4><strong>${review.title}</strong></h4><br>
+              후기 요약: ${review.subtitle}<br>
+              등록일: ${review.reg_date}<br>
+              조회수: ${review.hit}<br>
+            </div>
+          </div>
+        </c:forEach>
+      </c:when>
+
       <c:when test="${param.type == 'my_review_history'}">
         <h3 class="mb-3 text-center">내가 쓴 리뷰</h3>
         <c:forEach var="review" items="${myReviewHistory}">

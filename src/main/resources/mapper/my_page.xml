@@ -14,6 +14,7 @@
   <select id="getJournalByUser" parameterType="int" resultType="mybatis.vo.JournalVO">
     SELECT *
     FROM journal_table
+    JOIN plan_table ON plan_table.idx = journal_table.plan_idx
     WHERE user_idx = #{userId}
   </select>
 

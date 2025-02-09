@@ -25,13 +25,8 @@ public class MyPageAction implements Action {
       List<PlanVO> myTrips = MyPageDAO.getPlanByUser(userId);
       request.setAttribute("myTrips", myTrips);
     } else if ("my_trip_review".equals(type)) {
-      List<UserVO> myReviews = new ArrayList<>();
-      UserVO review1 = new UserVO();
-      review1.setNick("후기1");
-      review1.setEmail("review1@example.com");
-      myReviews.add(review1);
+      List<ReviewVO> myReviews = MyPageDAO.getJournalByUser(userId);
       request.setAttribute("myReviews", myReviews);
-
     } else if ("my_review_history".equals(type)) {
       List<ReviewVO> myReviewHistory = MyPageDAO.getReviewHistoryByUser(userId);
       request.setAttribute("myReviewHistory", myReviewHistory);
