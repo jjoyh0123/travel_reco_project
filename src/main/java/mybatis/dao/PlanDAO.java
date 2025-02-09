@@ -90,7 +90,9 @@ public class PlanDAO {
       }
       return cnt;
     }
+
   }
+
   // public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
   //   try (SqlSession ss = FactoryService.get_factory().openSession()) {
   //     Map<String, Object> param = new HashMap<>();
@@ -199,8 +201,8 @@ public class PlanDAO {
         placeJson.put("map_y", Double.parseDouble(origPlace.getMap_y()));
         placeJson.put("time", origPlace.getTime());
 
-        boolean success = insertPlace(newPlanId, newDateId, j + 1, placeJson);
-        if (!success) return -1;
+        int success = insertPlace(newPlanId, newDateId, j + 1, placeJson);
+        if (success == 0) return -1;
       }
     }
     return newPlanId;

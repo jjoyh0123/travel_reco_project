@@ -6,6 +6,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>여행 일정 - ${plan.title}</title>
+  <script
+      src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
   <style>
       /* Use your existing CSS here – for brevity the same styles as before are used. */
       * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
@@ -22,7 +24,7 @@
       .day-btn { width: 100%; background: none; border: none; padding: 10px; font-size: 16px;
           cursor: pointer; border-radius: 5px; margin-bottom: 5px;
       }
-      /*.day-btn.active { background: #007BFF; color: white; }*/
+      .day-btn.active { background: #007BFF; color: white; }
       .main-content { flex-grow: 2; padding: 20px 40px; display: flex; flex-direction: column; }
       .trip-header { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
       .date { font-size: 23px; }
@@ -109,6 +111,9 @@
   </aside>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   // Simple JS to toggle between “전체일정” and a single day view
   document.addEventListener("DOMContentLoaded", function() {
@@ -152,6 +157,132 @@
       });
     }
   });
+
+  ////////
+  let map;
+  let markerArr = [];
+  let lineArr = [];
+
+  function initializeMap(waypointsDataId, colors) {
+    // 기존 마커와 라인 제거
+    markerArr.forEach(marker => marker.setMap(null));
+    lineArr.forEach(line => line.setMap(null));
+    markerArr = [];
+    lineArr = [];
+
+    if (!map) {
+      map = new Tmapv2.Map("map_div", {
+        center: new Tmapv2.LatLng(37.5, 127),
+        width: "750px",
+        height: "750px",
+        zoom: 12,
+        httpsMode: true
+      });
+    }
+
+    let waypointsData = JSON.parse(document.getElementById(waypointsDataId).innerText);
+    let waypointKeys = Object.keys(waypointsData);
+
+    if (waypointKeys.length === 0) return;
+
+    let start = waypointsData[waypointKeys[0]];
+    let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
+    let waypoints = waypointKeys.slice(1, -1).map(key => waypointsData[key]);
+
+    function addMarker(lat, lng, content) {
+      let marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(lat, lng),
+        iconHTML: '<div class="custom-marker">' + content + '</div>',
+        map: map
+      });
+      markerArr.push(marker);
+    }
+
+    addMarker(start.lat, start.lng, "S");
+    addMarker(end.lat, end.lng, "E");
+
+    waypoints.forEach((waypoint, index) => {
+      addMarker(waypoint.lat, waypoint.lng, index + 1);
+    });
+
+    function drawRoute(start, end, waypoints, colors) {
+      let points = [start, ...waypoints, end];
+      let positionBounds = new Tmapv2.LatLngBounds();
+
+      for (let i = 0; i < points.length - 1; i++) {
+        let startX = points[i].lng;
+        let startY = points[i].lat;
+        let endX = points[i + 1].lng;
+        let endY = points[i + 1].lat;
+
+        let requestData = {
+          version: 1,
+          startX: startX,
+          startY: startY,
+          endX: endX,
+          endY: endY,
+          reqCoordType: "WGS84GEO",
+          resCoordType: "WGS84GEO",
+          searchOption: 0
+        };
+
+        $.ajax({
+          type: "POST",
+          url: "https://apis.openapi.sk.com/tmap/routes?version=1",
+          headers: {
+            "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
+            "Content-Type": "application/json"
+          },
+          data: JSON.stringify(requestData),
+          async: false,
+          success: function (response) {
+            let resultData = response.features;
+            let path = [];
+
+            resultData.forEach(data => {
+              if (data.geometry.type === "LineString") {
+                let coordinates = data.geometry.coordinates;
+                coordinates.forEach(coord => {
+                  let latlng = new Tmapv2.LatLng(coord[1], coord[0]);
+                  positionBounds.extend(latlng);
+                  path.push(latlng);
+                });
+              }
+            });
+
+            let polyline = new Tmapv2.Polyline({
+              path: path,
+              strokeColor: colors[i % colors.length],
+              strokeWeight: 6,
+              map: map
+            });
+            lineArr.push(polyline);
+          },
+          error: function (request, status, error) {
+            console.error("경로 검색 중 오류 발생:", error);
+          }
+        });
+      }
+
+      map.panToBounds(positionBounds);
+      map.zoomOut();
+    }
+
+    drawRoute(start, end, waypoints, colors);
+  }
+
+  let colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF", "#4B0082", "#EE82EE"];
+
+  $(".route-btn").click(function () {
+    $(".route-btn").removeClass("active");
+    $(this).addClass("active");
+
+    let index = $(this).data("index");
+    initializeMap("waypointsData" + index, colors);
+  });
+
+  // 첫 번째 버튼 자동 클릭 (초기 경로 로드)
+  $(".route-btn").first().trigger("click");
 </script>
 </body>
 </html>
