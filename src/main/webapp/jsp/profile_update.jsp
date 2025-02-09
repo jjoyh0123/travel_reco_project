@@ -47,7 +47,7 @@
           max-width: 1000px;
           padding: 0;
           border-radius: 15px;
-          margin: 100px auto 50px auto;
+          margin: 30px auto 50px auto;
       }
 
       .profile-form {
@@ -59,6 +59,7 @@
           margin: 50px auto;
           padding: 20px;
           border-radius: 10px;
+          margin-top: 0;
 
       }
 
@@ -95,7 +96,7 @@
           height: 40px; /* 원하는 높이로 조정 */
           background: #ced4da;
           color: #fff;
-          border: 1px solid #6c757d;
+          border: none;
 
       }
 
@@ -132,6 +133,16 @@
       .save_btn:hover {
           background-color: #ff7f50;
       }
+
+      .btn-secondary {
+          border: none;
+      }
+
+      .btn-danger {
+          border: none;
+          background-color: #ced4da;
+      }
+
   </style>
 
 </head>
