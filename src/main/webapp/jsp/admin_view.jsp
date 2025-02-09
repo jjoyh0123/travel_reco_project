@@ -215,7 +215,7 @@
 <script src="../js/summernote-lite.js"></script>
 <script src="../js/lang/summernote-ko-KR.js"></script>
 <script>
-  $(function () {
+  $(function() {
     $("#content").summernote({
       lang: "ko-KR",
       width: '100%',

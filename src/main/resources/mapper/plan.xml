@@ -9,7 +9,7 @@
     VALUES (#{user_idx}, #{area_code}, #{title}, #{start_date}, #{end_date}, #{status});
   </insert>
 
-  <insert id="insertDate" useGeneratedKeys="true" keyProperty="idx" parameterType="mybatis.vo.DateVO" >
+  <insert id="insertDate" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
     INSERT INTO date_table (plan_idx, date, memo) VALUES (#{plan_idx}, #{date}, '');
   </insert>
 
