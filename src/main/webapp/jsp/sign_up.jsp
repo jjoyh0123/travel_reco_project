@@ -149,7 +149,7 @@
         }
         updateSignupButtonState();
       },
-      error: function () {
+      error: function() {
         alert("서버 오류가 발생했습니다.");
       }
     });
@@ -190,7 +190,7 @@
         }
         updateSignupButtonState();
       },
-      error: function () {
+      error: function() {
         alert("서버 오류가 발생했습니다.");
       }
     });
@@ -208,7 +208,7 @@
   }
 
   // 비밀번호 유효성 검사 (4자리 이상)
-  document.getElementById("password").addEventListener("input", function () {
+  document.getElementById("password").addEventListener("input", function() {
     const password = this.value;
     const passwordMessage = document.getElementById("passwordMessage");
 

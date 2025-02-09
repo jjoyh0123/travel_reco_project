@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="plan_mapper">
+  <insert id="insertPlan" useGeneratedKeys="true" keyProperty="idx">
+    INSERT INTO plan_table (user_idx, area_code, title, start_date, end_date, status)
+    VALUES (#{user_idx}, #{area_code}, #{title}, #{start_date}, #{end_date}, #{status});
+  </insert>
+
+  <insert id="insertDate" useGeneratedKeys="true" keyProperty="idx">
+    INSERT INTO date_table (plan_idx, date, memo) VALUES (#{plan_idx}, #{date}, '');
+  </insert>
+
+  <insert id="insertPlace">
+    INSERT INTO place_table (plan_idx, date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time)
+    VALUES (#{plan_idx}, #{date_idx}, #{visit_order}, #{content_id}, #{content_type_id}, #{title}, #{thumbnail}, #{map_x}, #{map_y}, #{time});
+  </insert>
+
+</mapper>
