@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>여행 플래너</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/planning/planning.css">
+  <script
+      src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
   <script>
     const START_DATE = sessionStorage.getItem('start_date');
     const END_DATE = sessionStorage.getItem('end_date');
@@ -15,6 +17,23 @@
       location.href = '${pageContext.request.contextPath}/Controller?type=index&action=error';
     }
   </script>
+  <style>
+      #map_div {
+          width: 100%;
+          height: 100%;
+      }
+
+      .custom-marker {
+          background-color: white;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+  </style>
 </head>
 <body>
 <div class="content-wrapper">
@@ -38,7 +57,7 @@
       <div class="category" data-category="12">🌉관광</div>
       <div class="category" data-category="39">🍴음식</div>
       <div class="category" data-category="32">🏡숙박</div>
-<%--      <div class="category" data-category="fav">❤️저장</div>--%>
+      <%--      <div class="category" data-category="fav">❤️저장</div>--%>
     </div>
     <div id="search-bar">
       <input type="text" placeholder="장소를 입력해주세요.">
@@ -60,12 +79,14 @@
 
   <%-- Right Panel --%>
   <div id="right-panel">
-    <div id="map">맵</div>
     <button id="floating-button">이용방법</button>
+    <div id="map_div">맵</div>
   </div>
 
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   // GLOBAL array to store the current plan (so we can reorder, limit to 10, etc.)
   let current_plan = [];
@@ -85,41 +106,37 @@
     // Init method 3
     initialize_dates();
 
-
-
-
     // 6) Clear the entire plan
     document.getElementById("clear-button").addEventListener("click", function () {
       current_plan = [];
       render_selected_places(current_plan);
     });
+
+    initializeMap(); // 추가된 초기화 코드
   });
-
-
-
 
   // Init method 1
   // 1) Fetch your list of tourist spots
   function fetch_tourist_spots() {
-    if(content_type_id !== current_content_type_id) {
+    if (content_type_id !== current_content_type_id) {
       let fetch_path = '/Controller?type=planning&action=get_tour_spot&area_code=' + AREA_CODE
       fetch_path += '&page=' + page;
       fetch_path += '&content_type_id=' + current_content_type_id;
       fetch(fetch_path)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            displayPlaces(data.data);
-          }
-        })
-        .catch(error => console.error('Error fetching data:', error));
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              displayPlaces(data.data);
+            }
+          })
+          .catch(error => console.error('Error fetching data:', error));
     }
   }
 
   // 2) Display them in the "destination-list" (left panel)
   function displayPlaces(places) {
     const destinationList = document.getElementById("destination-list");
-    if(content_type_id !== current_content_type_id) {
+    if (content_type_id !== current_content_type_id) {
       content_type_id = current_content_type_id;
       destinationList.innerHTML = "";
     }
@@ -137,14 +154,14 @@
 
       // Build the inner HTML
       listItem.innerHTML =
-        '<img src="' + imgSrc + '" alt="thumbnail">' +
-        '<div class="destination-info">' +
-        '<h4>' + place.title + '</h4>' +
-        '<p>' + shortAddress + '</p>' +
-        '<div class="ratings">⭐ <span>4.5</span></div>' +
-        '</div>' +
-        '<span class="heart">♥</span>' +
-        '<span class="add-button">+</span>';
+          '<img src="' + imgSrc + '" alt="thumbnail">' +
+          '<div class="destination-info">' +
+          '<h4>' + place.title + '</h4>' +
+          '<p>' + shortAddress + '</p>' +
+          '<div class="ratings">⭐ <span>4.5</span></div>' +
+          '</div>' +
+          '<span class="heart">♥</span>' +
+          '<span class="add-button">+</span>';
 
       destinationList.appendChild(listItem);
 
@@ -163,6 +180,7 @@
       alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
       return;
     }
+    console.log(current_plan);
 
     if (!selectedDate) {
       alert("날짜가 선택되지 않았습니다.");
@@ -172,6 +190,8 @@
     place.date = selectedDate;
     current_plan.push(place);
     updateSelectedPlaces(selectedDate);
+
+    updateMapForDate(selectedDate)
   }
 
   // Function to update selected places based on selectedDate
@@ -203,20 +223,21 @@
 
       // Build the item layout
       div.innerHTML =
-        '<div class="number">' + (index + 1) + '</div>' +
-        '<img src="' + imgSrc + '" alt="thumbnail">' +
-        '<div class="info">' +
-        '<h4>' + spot.title + '</h4>' +
-        '<p>' + spot.address + '</p>' +
-        '</div>' +
-        '<input type="time" class="time-picker" ' + (spot.time ? 'value="' + spot.time + '"' : 'value="00:00"') + '>' +
-        '<span class="delete">🗑</span>';
+          '<div class="number">' + (index + 1) + '</div>' +
+          '<img src="' + imgSrc + '" alt="thumbnail">' +
+          '<div class="info">' +
+          '<h4>' + spot.title + '</h4>' +
+          '<p>' + spot.address + '</p>' +
+          '</div>' +
+          '<input type="time" class="time-picker" ' + (spot.time ? 'value="' + spot.time + '"' : 'value="00:00"') + '>' +
+          '<span class="delete">🗑</span>';
 
       // Keep the time in sync with our array
       const timeInput = div.querySelector(".time-picker");
       timeInput.addEventListener("change", (e) => {
         // store the time in the spot object
         spot.time = e.target.value;
+        updateMapForDate(selectedDate); // 시간 변경 시 지도 업데이트
       });
 
       // Delete from plan
@@ -234,6 +255,7 @@
     // Then update local array
     current_plan.splice(indexToRemove, 1);
     render_selected_places(current_plan);
+    updateMapForDate(selectedDate); // 장소 제거 시 지도 업데이트
   }
 
 
@@ -282,6 +304,7 @@
         render_selected_places(current_plan);
         draggedEl = null;
       }
+      updateMapForDate(selectedDate); // 순서 변경 시 지도 업데이트
     });
 
     // figure out what element is just after the drag position
@@ -329,12 +352,14 @@
 
       dateElement.addEventListener("click", function () {
         selectDate(date, dateElement);
+        updateMapForDate(date); // 추가된 지도 업데이트
       });
 
       dateContainer.appendChild(dateElement);
     });
 
     updateSelectedPlaces(selectedDate);
+    updateMapForDate(selectedDate); // 추가
   }
 
   function generate_date_range(START_DATE, END_DATE) {
@@ -373,12 +398,12 @@
     if (CATEGORY) {
       current_content_type_id = CATEGORY.dataset.category;
       // console.log(CATEGORY_NAME, typeof CATEGORY_NAME);
-      if(content_type_id !== current_content_type_id) {
+      if (content_type_id !== current_content_type_id) {
         fetch_tourist_spots();
       }
     }
   }
-  
+
   // 7) Save plan (you can send the updated current_plan to your server)
   function save_plan() {
     if (current_plan.length === 0) {
@@ -441,19 +466,130 @@
       method: "POST",
       body: JSON.stringify(planData)
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log("fetch recieve data", data)
-        if (data.status) {
-          console.log("result success!");
-          alert("계획 등록 성공!");
-          location.href = "/Controller?type=index";
-        } else {
-          alert("계획 등록 실패 ㅠ");
-          console.log("result fail!");
+        .then(response => response.json())
+        .then(data => {
+          console.log("fetch recieve data", data)
+          if (data.status) {
+            console.log("result success!");
+            alert("계획 등록 성공!");
+            location.href = "/Controller?type=index";
+          } else {
+            alert("계획 등록 실패 ㅠ");
+            console.log("result fail!");
+          }
+        })
+        .catch(err => console.log("fetch recieve error", err))
+  }
+
+  //지도 api
+  // 기존 전역 변수 아래에 추가
+  let map;
+  let markerArr = [];
+  let lineArr = [];
+  let colors = [
+    "#FF0000", "#FFA500", "#FFFF00", "#008000",
+    "#0000FF", "#4B0082", "#EE82EE", "#A52A2A",
+    "#FFD700", "#ADFF2F", "#000080", "#8A2BE2",
+    "#FF69B4", "#FF6347", "#00FFFF", "#4682B4",
+    "#DC143C", "#FF8C00", "#ADFF2F", "#6A5ACD"
+  ];
+
+  function initializeMap() {
+    map = new Tmapv2.Map("map_div", {
+      center: new Tmapv2.LatLng(37.499322, 127.033211),
+      width: "100%",
+      height: "100%",
+      zoom: 16,
+      httpsMode: true
+    });
+  }
+
+  function updateMapForDate(selectedDate) {
+    // 기존 마커와 라인 제거
+    markerArr.forEach(marker => marker.setMap(null));
+    lineArr.forEach(line => line.setMap(null));
+    markerArr = [];
+    lineArr = [];
+
+    // 선택된 날짜의 장소 필터링
+    const placesForDate = current_plan.filter(place => place.date === selectedDate);
+    if (placesForDate.length === 0) return;
+
+    // 좌표 추출
+    const points = placesForDate.map(place => ({
+      lat: parseFloat(place.map_y),
+      lng: parseFloat(place.map_x),
+      title: place.title
+    }));
+
+    // 마커 추가
+    points.forEach((point, index) => {
+      const marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(point.lat, point.lng),
+        iconHTML: '<div class="custom-marker">' + (index + 1) + '</div>',
+        map: map
+      });
+      markerArr.push(marker);
+    });
+
+    // 경로 그리기
+    drawRoute(points);
+  }
+
+  function drawRoute(points) {
+    const positionBounds = new Tmapv2.LatLngBounds();
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const start = points[i];
+      const end = points[i + 1];
+
+      $.ajax({
+        type: "POST",
+        url: "https://apis.openapi.sk.com/tmap/routes?version=1",
+        headers: {
+          "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
+          "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+          startX: start.lng,
+          startY: start.lat,
+          endX: end.lng,
+          endY: end.lat,
+          reqCoordType: "WGS84GEO",
+          resCoordType: "WGS84GEO",
+          searchOption: 0
+        }),
+        async: false,
+        success: function (response) {
+          const resultData = response.features;
+          let path = [];
+
+          resultData.forEach(data => {
+            if (data.geometry.type === "LineString") {
+              data.geometry.coordinates.forEach(coord => {
+                const latlng = new Tmapv2.LatLng(coord[1], coord[0]);
+                positionBounds.extend(latlng);
+                path.push(latlng);
+              });
+            }
+          });
+
+          const polyline = new Tmapv2.Polyline({
+            path: path,
+            strokeColor: colors[i % colors.length],
+            strokeWeight: 6,
+            map: map
+          });
+          lineArr.push(polyline);
+        },
+        error: function (error) {
+          console.error("경로 검색 오류:", error);
         }
-      })
-      .catch(err => console.log("fetch recieve error", err))
+      });
+    }
+
+    map.panToBounds(positionBounds);
+    map.zoomOut();
   }
 
 </script>
