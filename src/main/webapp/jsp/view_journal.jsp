@@ -427,9 +427,11 @@
     <%--    이미지 케러셀 끝--%>
     <%--    간단한 후기 글 작성란--%>
     <div id="journal_article">
-      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)" value="${journalVO.title}">
+<%--      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)" value="${journalVO.title}">--%>
+      <a id="journal_title">${journalVO.title}</a>
       <hr>
-      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)">${fn:trim(journalVO.subtitle)}</textarea>
+<%--      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)">${fn:trim(journalVO.subtitle)}</textarea>--%>
+      <a>${fn:trim(journalVO.subtitle)}</a>
     </div>
   </div>
 
