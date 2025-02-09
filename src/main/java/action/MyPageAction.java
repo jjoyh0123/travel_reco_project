@@ -18,18 +18,22 @@ public class MyPageAction implements Action {
     String type = request.getParameter("type");
 
     UserVO user = (UserVO) request.getSession().getAttribute("user");
-    int userId = user.getIdx();
+    try {
+      int userId = user.getIdx();
 
-    // 데이터 생성 (예시 데이터)
-    if ("my_trip_plan".equals(type)) {
-      List<PlanVO> myTrips = MyPageDAO.getPlanByUser(userId);
-      request.setAttribute("myTrips", myTrips);
-    } else if ("my_trip_review".equals(type)) {
-      List<ReviewVO> myReviews = MyPageDAO.getJournalByUser(userId);
-      request.setAttribute("myReviews", myReviews);
-    } else if ("my_review_history".equals(type)) {
-      List<ReviewVO> myReviewHistory = MyPageDAO.getReviewHistoryByUser(userId);
-      request.setAttribute("myReviewHistory", myReviewHistory);
+      // 데이터 생성 (예시 데이터)
+      if ("my_trip_plan".equals(type)) {
+        List<PlanVO> myTrips = MyPageDAO.getPlanByUser(userId);
+        request.setAttribute("myTrips", myTrips);
+      } else if ("my_trip_review".equals(type)) {
+        List<ReviewVO> myReviews = MyPageDAO.getJournalByUser(userId);
+        request.setAttribute("myReviews", myReviews);
+      } else if ("my_review_history".equals(type)) {
+        List<ReviewVO> myReviewHistory = MyPageDAO.getReviewHistoryByUser(userId);
+        request.setAttribute("myReviewHistory", myReviewHistory);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return "jsp/my_page.jsp";
