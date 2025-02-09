@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
+
+
   public static int get_total_count() {
     SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("user.totalCount");
@@ -17,6 +19,7 @@ public class UserDAO {
     return cnt;
   }
 
+
   public static int get_search_count(String keyword) {
     SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("user.searchCount", keyword);
@@ -24,6 +27,7 @@ public class UserDAO {
 
     return cnt;
   }
+
 
   public static UserVO[] get_list(int begin, int end) {
     UserVO[] ar = null;
@@ -45,6 +49,7 @@ public class UserDAO {
 
     return ar;
   }
+
 
   public static UserVO[] get_search_list(int begin, int end, String keyword) {
     UserVO[] ar = null;
@@ -68,6 +73,7 @@ public class UserDAO {
     return ar;
   }
 
+
   public static boolean update_user(UserVO vo) {
     SqlSession ss = FactoryService.get_factory().openSession();
 
@@ -82,6 +88,7 @@ public class UserDAO {
 
     return cnt > 0; // 업데이트 성공 여부 반환
   }
+
 
   public static UserVO login_check(String email, String password) {
     SqlSession ss = FactoryService.get_factory().openSession();
@@ -111,6 +118,13 @@ public class UserDAO {
     } catch (Exception e) {
       e.printStackTrace();
       return false;
+    }
+  }
+
+
+  public static String getPassword(int userId) {
+    try (SqlSession sqlSession = FactoryService.get_factory().openSession()) {
+      return sqlSession.selectOne("user.getPassword", userId);
     }
   }
 

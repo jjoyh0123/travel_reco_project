@@ -155,19 +155,24 @@
     </div>
     <div class="form-group">
       <label for="password">패스워드 변경</label>
-      <input type="password" id="password" name="password" value="${sessionScope.password}" required>
+      <input type="password" id="password" name="password" value="${sessionScope.password}">
     </div>
     <div class="form-group">
       <label for="passwordConfirm">패스워드 변경 확인</label>
-      <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}" required>
+      <input type="password" id="passwordConfirm" name="password_check" value="${sessionScope.password}">
       <div id="password-message" class="error-message text-danger mt-1" style="display:none;"></div>
     </div>
 
     <!-- 버튼 그룹 -->
     <div class="button-group mt-4">
       <button type="button" class="btn btn-secondary" onclick="window.history.back();">취소</button>
-      <button type="submit" class="save_btn">저장</button>
+      <button type="submit" class="save_btn" id="saveButton" disabled>저장</button>
     </div>
+  </form>
+
+  <!-- 회원탈퇴 폼 (숨겨진 폼) -->
+  <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" style="display:none;">
+    <input type="hidden" id="passwordField" name="password">
   </form>
 
   <!-- 회원탈퇴 버튼 -->
@@ -197,70 +202,119 @@
       </div>
     </div>
   </div>
-
-  <!-- 회원탈퇴 폼 -->
-  <form id="deleteAccountForm" action="${pageContext.request.contextPath}/Controller?type=userDelete" method="post" style="display:none;">
-    <input type="hidden" id="passwordField" name="password">
-  </form>
-
+</div>
+<%
+  String nicknameMsg = (String) request.getAttribute("nicknameMessage");
+  String successMsg = (String) request.getAttribute("successMsg");
+  String msg = (String) request.getAttribute("msg");
+%>
   <script>
+
+    <% if (successMsg != null) { %>
+    alert("<%= successMsg %>");
+    <% } %>
+
+    <% if (msg != null) { %>
+    alert("<%= msg %>");
+    <% } %>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // 닉네임 중복 메시지 표시
+      const nicknameMessage = "<%= nicknameMsg != null ? nicknameMsg : "" %>";
+
+      if (nicknameMessage) {
+        const nicknameMessageElement = document.getElementById("nickname-message");
+        nicknameMessageElement.textContent = nicknameMessage;
+        nicknameMessageElement.style.display = "block";
+        nicknameMessageElement.style.color = "red";
+      }
+    });
+
     let isNicknameValid = false;
     let isPasswordValid = false;
 
-    // 닉네임 검증 함수
+    // 회원탈퇴 관련 메시지 상태 확인
+    const msg = '<%= request.getAttribute("msg") != null ? request.getAttribute("msg") : "" %>';
+    if (msg) {
+      const errorMessageElement = document.getElementById('passwordErrorMessage');
+      errorMessageElement.textContent = msg;
+      errorMessageElement.style.display = 'block';
+    }
+
+    // ********** 유효성 검사 및 저장 버튼 상태 업데이트 ********** //
+
+    // 저장 버튼 상태 업데이트
+    function updateSaveButtonState() {
+      const saveButton = document.getElementById("saveButton");
+      if (isNicknameValid || isPasswordValid) {
+        saveButton.disabled = false;
+      } else {
+        saveButton.disabled = true;
+      }
+    }
+
+    // 닉네임 유효성 검사
     function validateNickname() {
       const nickname = document.getElementById("nickname").value;
       const nicknameMessage = document.getElementById("nickname-message");
 
-      const nicknameRegex = /^[가-힣]+$/;
-
-      if (nickname.length < 3) {
-        nicknameMessage.textContent = "닉네임은 최소 3글자 이상이어야 합니다.";
+      if (nickname.length < 3 || !/^[가-힣]+$/.test(nickname)) {
+        nicknameMessage.textContent = "닉네임은 한글로 3글자 이상이어야 합니다.";
         nicknameMessage.style.display = "block";
-        nicknameMessage.style.color = "red";
         isNicknameValid = false;
-        return false;
+      } else {
+        nicknameMessage.style.display = "none";
+        isNicknameValid = true;
       }
 
-      if (!nicknameRegex.test(nickname)) {
-        nicknameMessage.textContent = "닉네임은 한글만 입력 가능합니다.";
-        nicknameMessage.style.display = "block";
-        nicknameMessage.style.color = "red";
-        isNicknameValid = false;
-        return false;
-      }
-
-      nicknameMessage.style.display = "none";
-      isNicknameValid = true;
-      return true;
+      updateSaveButtonState();
     }
 
-    // 비밀번호 검증 함수
+    // 비밀번호 유효성 검사
     function validatePassword() {
       const password = document.getElementById("password").value;
       const passwordConfirm = document.getElementById("passwordConfirm").value;
       const passwordMessage = document.getElementById("password-message");
 
-      if (password.length < 4) {
-        passwordMessage.textContent = "패스워드는 4자리 이상이어야 합니다.";
-        passwordMessage.style.display = "block";
-        passwordMessage.style.color = "red";
-        isPasswordValid = false;
-        return false;
+      // 비밀번호가 입력되지 않은 경우 (검사 없이 통과)
+      if (!password && !passwordConfirm) {
+        passwordMessage.style.display = "none";
+        isPasswordValid = true;  // 비밀번호 없이도 저장 가능하도록 설정
+        return true;
       }
 
-      if (password !== passwordConfirm) {
-        passwordMessage.textContent = "패스워드가 일치하지 않습니다.";
+      if (password.length < 4 || password !== passwordConfirm) {
+        passwordMessage.textContent = "패스워드는 4자리 이상이며, 일치해야 합니다.";
         passwordMessage.style.display = "block";
-        passwordMessage.style.color = "red";
         isPasswordValid = false;
-        return false;
+      } else {
+        passwordMessage.style.display = "none";
+        isPasswordValid = true;
       }
 
-      passwordMessage.style.display = "none";
-      isPasswordValid = true;
-      return true;
+      updateSaveButtonState();
     }
+
+    // 이벤트 리스너 등록
+    document.getElementById("nickname").addEventListener("input", validateNickname);
+    document.getElementById("password").addEventListener("input", validatePassword);
+    document.getElementById("passwordConfirm").addEventListener("input", validatePassword);
+
+    // 페이지 로딩 시 초기 상태 확인
+    updateSaveButtonState();
+
+    // ********** 프로필 폼 제출 유효성 검사 ********** //
+    document.getElementById("updateProfile").addEventListener("submit", function (event) {
+      validateNickname();
+      validatePassword();
+
+      if (!isNicknameValid || !isPasswordValid) {
+        event.preventDefault();
+        alert("입력 정보를 확인해주세요.");
+      }
+    });
+
+    // ********** 회원탈퇴 관련 기능 ********** //
 
     // 회원탈퇴 폼 제출 함수
     function submitDeleteForm() {
@@ -275,22 +329,8 @@
       document.getElementById("deleteAccountForm").submit();
     }
 
-    // 프로필 수정 폼 유효성 검사
-    document.getElementById("updateProfile").addEventListener("submit", function (event) {
-      validateNickname();
-      validatePassword();
 
-      if (!isNicknameValid || !isPasswordValid) {
-        event.preventDefault();
-        alert("입력 정보를 확인해주세요.");
-      }
-    });
-
-    // 실시간 검증 이벤트 등록
-    document.getElementById("nickname").addEventListener("input", validateNickname);
-    document.getElementById("password").addEventListener("input", validatePassword);
-    document.getElementById("passwordConfirm").addEventListener("input", validatePassword);
   </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

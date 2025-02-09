@@ -61,12 +61,12 @@
     WHERE idx = #{idx}
   </update>
 
-  <select id="checkPassword" parameterType="map" resultType="int">
-    SELECT COUNT(*)
-    FROM user_table
-    WHERE idx = #{idx} AND password = #{password}
+  <select id="checkPassword" parameterType="map" resultType="string">
+    SELECT pw FROM user_table WHERE idx = #{idx}
   </select>
 
-
+  <select id="getPassword" parameterType="int" resultType="string">
+    SELECT pw FROM user_table WHERE idx = #{idx}
+  </select>
 
 </mapper>

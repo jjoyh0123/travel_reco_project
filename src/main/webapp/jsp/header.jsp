@@ -136,7 +136,7 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=my_page">마이페이지</a></li>
-            <li><a class="dropdown-item" href="#">1:1문의</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/Controller?type=customer_support">1:1문의</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>

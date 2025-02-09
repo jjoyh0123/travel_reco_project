@@ -39,8 +39,10 @@ public class ProfileUpdateAction implements Action {
       return "jsp/profile_update.jsp";
     }
 
-    // 2. 패스워드 길이 검사
-    if (newPw == null || newPw.length() < 4) {
+    // 비밀번호가 입력되지 않으면 기존 비밀번호 유지
+    if (newPw == null || newPw.isEmpty()) {
+      newPw = currentUser.getPw(); // 기존 비밀번호 유지
+    } else if (newPw.length() < 4) {
       request.setAttribute("msg", "패스워드는 4자리 이상 입력해야 합니다.");
       return "jsp/profile_update.jsp";
     }
@@ -51,7 +53,7 @@ public class ProfileUpdateAction implements Action {
       // 3. 닉네임 중복 검사
       int nickCheck = sqlSession.selectOne("sign_up.checkNick", newNick);
       if (nickCheck > 0) {
-        request.setAttribute("msg", "이미 존재하는 닉네임입니다.");
+        request.setAttribute("nicknameMessage", "이미 존재하는 닉네임입니다.");
         return "jsp/profile_update.jsp";
       }
 
@@ -73,7 +75,8 @@ public class ProfileUpdateAction implements Action {
         session.setAttribute("user", currentUser);
 
         // 프로필 업데이트 성공 후 updateProfile 페이지로 리다이렉트 (성공 메시지 포함)
-        return "jsp/profile_update.jsp?msg=success";
+        request.setAttribute("successMsg", "프로필 변경이 완료되었습니다.");
+        return "jsp/profile_update.jsp";
       } else {
         // 업데이트 실패한 경우, 메시지를 request에 담아서 profileSetting 페이지로 이동
         request.setAttribute("msg", "프로필 업데이트에 실패했습니다.");

@@ -3,10 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>이메일로 로그인</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
       body {
           font-family: Arial, sans-serif;
@@ -16,6 +17,23 @@
           align-items: center;
           height: 100vh;
           margin: 0;
+          padding-top: 60px; /* 고정된 헤더로 인한 여백 */
+      }
+
+      header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 60px;
+          /*background-color: #ff7f50;*/
+          color: white;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
       }
 
       .login-container {
@@ -47,6 +65,7 @@
           border-radius: 4px;
           font-size: 14px;
           box-sizing: border-box;
+          color: black;
       }
 
       .login-container button {
@@ -80,22 +99,23 @@
           text-decoration: underline;
       }
   </style>
-  <jsp:include page="/jsp/header.jsp"/>
 </head>
 
 <body>
+<!-- 고정 헤더 추가 -->
+<jsp:include page="/jsp/header.jsp"/>
 
+<!-- 오류 메시지 스크립트 -->
 <%
   String errorMessage = (String) request.getAttribute("errorMessage");
 %>
-
 <script>
   <% if (errorMessage != null) { %>
   alert("<%= errorMessage %>");
   <% } %>
 </script>
 
-
+<!-- 로그인 컨테이너 -->
 <div class="login-container">
   <h1>이메일로 로그인</h1>
   <form action="${pageContext.request.contextPath}/Controller?type=email_login" method="post">
@@ -114,5 +134,7 @@
     <a href="${pageContext.request.contextPath}/Controller?type=sign_up">회원가입</a>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
