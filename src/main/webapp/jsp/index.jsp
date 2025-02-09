@@ -19,14 +19,14 @@
           min-height: 100vh;
       }
 
-      .main_container{
+      .main_container {
           display: flex;
           align-items: flex-start;
-          gap:20px;
+          gap: 20px;
           margin-top: 50px;
       }
 
-      .content{
+      .content {
           margin-top: 100px;
           text-align: center;
           align-self: flex-start;
@@ -40,7 +40,7 @@
       }
 
 
-      .gif_content01{
+      .gif_content01 {
           width: 550px;
           height: 400px;
           background-color: #ffff;
@@ -54,7 +54,7 @@
 
       }
 
-      .gif_content02{
+      .gif_content02 {
           width: 1100px;
           height: 400px;
           background-color: #ffff;
@@ -87,7 +87,7 @@
           font-weight: bold;
       }
 
-      .content h5{
+      .content h5 {
           color: darkgray;
           text-align: center;
           margin-bottom: 20px;
@@ -143,11 +143,13 @@
     <h5>Create detailed itineraries, explore user-shared guides, <br/>
       and manage your bookings seamlessly — all in one place.
     </h5>
-    <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
+    <button type="button" class="plan_btn plan_btn01" onclick="window.location.href='Controller?type=main'">계획 추천받기
+    </button>
     <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
   </article>
   <div class="gif_content01">
-    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073"
+         alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 
   </div>
 

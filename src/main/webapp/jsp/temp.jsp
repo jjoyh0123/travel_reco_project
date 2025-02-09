@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
@@ -122,7 +122,7 @@
           border-radius: 25px;
           margin-bottom: 30px;
           margin-top: 40px;
-          overflow: hidden; /* 부모 div를 벗어나는 부분 숨김 */
+          overflow: hidden; /* 부모 div 를 벗어나는 부분 숨김 */
           position: relative; /* 자식 요소 배치 */
 
           /* 자식 요소를 세로 정렬 */
@@ -130,6 +130,30 @@
           flex-wrap: wrap; /* 자동 줄바꿈 */
           align-items: center; /* 중앙 정렬 */
           justify-content: center; /* 가로 중앙 정렬 */
+      }
+
+      .image-indicators {
+          width: 100%;
+          height: 10px;
+          display: flex;
+          justify-content: center;
+          margin-top: 10px;
+      }
+
+      .indicator {
+          width: 10px;
+          height: 10px;
+          margin: 0 5px;
+          background-color: gray;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: transform 0.2s, background-color 0.2s;
+      }
+
+      /* 현재 활성화된 아이콘 스타일 */
+      .indicator.active {
+          transform: scale(1.5); /* 크기 확대 */
+          background-color: black; /* 활성화된 상태 */
       }
 
       .review_img > div {
@@ -333,52 +357,20 @@
           height: 300px;
       }
 
-      .image-slider-container {
-          position: relative;
-          width: 400px;
-          height: 350px;
-          overflow: hidden; /* 넘치는 이미지를 숨김 */
-      }
-
-      .image-slider {
-          display: flex;
-          transition: transform 0.5s ease-in-out;
-      }
-
       .image-slider img {
-          width: 100%;
-          height: 100%;
           object-fit: cover;
           flex-shrink: 0;
       }
 
-      .image-indicators {
-          position: absolute;
-          bottom: 10px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          gap: 8px;
+      .image_option {
+          height: 100%
       }
-
-      .indicator {
-          width: 10px;
-          height: 10px;
-          background-color: gray;
-          border-radius: 50%;
-          cursor: pointer;
-          transition: background-color 0.3s;
-      }
-
-      .indicator.active {
-          background-color: coral;
-      }
-
 
   </style>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<input type="hidden" id="user_idx" name="user_idx" value="${sessionScope.user_idx}">
 <article class="content">
   <table class="table">
     <div class="head">
@@ -394,31 +386,27 @@
               <div class="review_img">
                 <c:choose>
                   <c:when test="${not empty top3.list}">
-                    <c:forEach var="image" items="${top3.list}">
-                      <div data-image="${image.file_path}">&nbsp;</div>
+                    <c:forEach var="image" items="${top3.list}" varStatus="loop">
+                      <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}">&nbsp;</div>
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
                     <img src="" class="journal_file_path" alt="기본 이미지">
                   </c:otherwise>
                 </c:choose>
-                  <%--<c:choose>
-                    <c:when test="${not empty top3.list}">
-                      <c:forEach var="image" items="${top3.list}">
-                        <img src="${image.file_path}" class="journal_file_path" alt="여행 이미지">
-                      </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                      <img src="" class="journal_file_path" alt="기본 이미지">
-                    </c:otherwise>
-                  </c:choose>--%>
+              </div>
+              <div class="image-indicators">
+                <c:if test="${not empty top3.list}">
+                  <c:forEach var="image" items="${top3.list}" varStatus="loop">
+                    <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
+                  </c:forEach>
+                </c:if>
               </div>
               <div class="journal_lh">
                 <div class="like">
                   <button type="button" class="heart-icon" data-journalidx="${top3.idx}" onclick="toggleHeart(this)">
                     ❤️
                   </button>
-
                 </div>
                 <div class="hit">
                   <a href="">${top3.hit}</a>
@@ -433,6 +421,7 @@
           </div>
         </c:forEach>
       </div>
+
 
       <div class="event_banner">
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -468,40 +457,51 @@
       <div class="review">
         <c:forEach var="journal" items="${journal}">
           <div class="travel_review">
-            <div class="review_img">
-              <c:choose>
-                <c:when test="${not empty journal.list}">
-                  <c:forEach var="image" items="${journal.list}">
-                    <div data-image="${image.file_path}">&nbsp;</div>
+            <div class="review_item">
+              <div class="review_img">
+                <c:choose>
+                  <c:when test="${not empty journal.list}">
+                    <c:forEach var="image" items="${journal.list}" varStatus="loop">
+                      <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}">&nbsp;</div>
+                    </c:forEach>
+                  </c:when>
+                  <c:otherwise>
+                    <img src="" class="journal_file_path" alt="기본 이미지">
+                  </c:otherwise>
+                </c:choose>
+              </div>
+              <div class="image-indicators">
+                <c:if test="${not empty journal.list}">
+                  <c:forEach var="image" items="${journal.list}" varStatus="loop">
+                    <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
                   </c:forEach>
-                </c:when>
-              </c:choose>
-            </div>
-            <div class="journal_lh">
-              <div class="like">
-                <button type="button" class="heart-icon" data-journalidx="${journal.idx}" onclick="toggleHeart(this)">
-                  ❤️
-                </button>
+                </c:if>
               </div>
-              <div class="hit">
-                <a href="">${journal.hit}</a>
+              <div class="journal_lh">
+                <div class="like">
+                  <button type="button" class="heart-icon" data-journalidx="${journal.idx}" onclick="toggleHeart(this)">
+                    ❤️
+                  </button>
+                </div>
+                <div class="hit">
+                  <a href="">${journal.hit}</a>
+                </div>
               </div>
-            </div>
-            <a href="" class="review_title">${journal.title}</a>
-            <div>
-              <a href="" class="review_content">${journal.subtitle}</a>
-              <a href="" class="nickname">${journal.nick}</a>
+              <a href="" class="review_title">${journal.title}</a>
+              <div>
+                <a href="" class="review_content">${journal.subtitle}</a>
+                <a href="" class="nickname">${journal.nick}</a>
+              </div>
             </div>
           </div>
         </c:forEach>
       </div>
-
     </div>
     <div id="hot_place">
       <a href="">hot place</a>
     </div>
     <div id="local_total_button">
-      <button type="button">지역전체보기</button>
+      <button type="button" onclick="window.location.href='Controller?type=local'">지역전체보기</button>
     </div>
     <div class="board_plan">
       <c:forEach var="api" items="${requestScope.ar}">
@@ -509,12 +509,12 @@
           <div class="board_item">
             <div class="board_total_content">
               <div class="board_img">
-                <img src="${api.firstimage2}">
+                <img src="${api.firstimage2}" alt="thumbnail">
               </div>
               <div>
                 <button type="button" class="btn transparent-btn" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
-                  <p></p>
+                  <br/>
                 </button>
                 <div class="api_title">
                   <a href="" class="board_title">${api.title}</a>
@@ -538,16 +538,28 @@
 <script>
 
   $(document).ready(function () {
+    // 공통적으로 첫 번째 이미지 설정
     $(".review_img").each(function () {
-      let firstImage = $(this).find("div[data-image]").first().data("image");
+      let firstImage = $(this).find(".image_option").first().data("image");
       if (firstImage) {
         $(this).css("background-image", 'url(' + firstImage + ')');
       }
     });
 
-    $(".review_img div").hover(function () {
-      let imageUrl = $(this).data("image");
-      $(this).closest(".review_img").css("background-image", 'url(' + imageUrl + ')');
+    // Hover 시 이미지 변경 및 indicator 업데이트
+    $(".image_option").hover(function () {
+      let newImageUrl = $(this).data("image");
+      let index = $(this).attr("data-index");
+
+      // 현재 속한 부모 컨테이너 찾기 (top3_review 또는 travel_review)
+      let $container = $(this).closest(".top3_review, .travel_review");
+
+      // 배경 이미지 변경
+      $container.find(".review_img").css("background-image", 'url(' + newImageUrl + ')');
+
+      // 모든 인디케이터에서 active 제거 후 현재 것만 추가
+      $container.find(".indicator").removeClass("active");
+      $container.find(".indicator[data-index='" + index + "']").addClass("active");
     });
   });
 
@@ -558,11 +570,14 @@
 
   function toggleHeart(button) {
     const journalidx = button.getAttribute('data-journalidx');  // 버튼에서 journalidx 값 가져오기
-
+    const user_idx = $('#user_idx').val();
     $.ajax({
       url: '/Controller?type=like',
       type: 'POST',
-      data: {journalidx: journalidx},
+      data: {
+        journalidx: journalidx,
+        user_idx: user_idx
+      },
       success: function (response) {
         console.log("AJAX Response:", response);  // 응답 디버깅
 
@@ -584,54 +599,6 @@
       }
     });
   }
-
-  $(document).ready(function () {
-    // 인디케이터 클릭 이벤트 핸들러
-    $(".indicator").on("click", function () {
-      let newIndex = $(this).data("index"); // 클릭한 인디케이터의 인덱스
-      showImage(newIndex); // 해당 이미지로 갱신하는 함수 호출
-
-      // 클릭된 점에 해당하는 이미지를 DB에서 가져오기 위한 AJAX 요청
-      const planIdx = $(this).closest(".review_item").data("planidx"); // plan_idx를 .review_item에서 가져오기
-      $.ajax({
-        url: '/Controller?type=image',
-        type: 'POST',
-        data: {
-          planIdx: planIdx, // plan_idx 보내기
-          imageIndex: newIndex // 이미지 인덱스 보내기
-        },
-        success: function (response) {
-          if (response.success) {
-            console.log("이미지 주소 가져오기 성공:", response.imageUrl);
-            // 이미지를 가져와서 표시하는 코드 (필요한 동작 추가)
-            updateImage(response.imageUrl); // 서버에서 받은 이미지를 갱신하는 함수
-          } else {
-            alert('이미지 가져오기 실패');
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error('AJAX 요청 오류:', status, error);
-          alert('서버 요청에 실패했습니다.');
-        }
-      });
-    });
-
-    // showImage 함수는 슬라이드 쇼 이미지를 갱신하는 기능을 해야 합니다.
-    function showImage(index) {
-      const images = $(".image-slider img"); // 모든 이미지들
-      images.removeClass('active'); // 모든 이미지에서 active 제거
-      images.eq(index).addClass('active'); // 해당 인덱스의 이미지를 active로 추가
-    }
-
-    // updateImage 함수는 서버에서 가져온 이미지를 실제로 화면에 표시하는 기능을 해야 합니다.
-    function updateImage(imageUrl) {
-      const imageContainer = $(".image-slider"); // 이미지 슬라이드 컨테이너
-      imageContainer.empty(); // 기존 이미지를 비우고
-      const imgTag = `<img src="${imageUrl}" alt="새로운 이미지">`; // 새로운 이미지 태그 생성
-      imageContainer.append(imgTag); // 슬라이드에 새 이미지 추가
-    }
-  });
-
 
 </script>
 </body>

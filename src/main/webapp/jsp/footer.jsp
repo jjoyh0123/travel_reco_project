@@ -50,27 +50,6 @@
           background-color: #f8f9fa;
       }
 
-      /* 모달 스타일 */
-      .modal {
-          display: none;
-          position: fixed;
-          z-index: 1;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-content {
-          background-color: white;
-          margin: 15% auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 300px;
-          text-align: center;
-      }
-
       .close {
           color: #aaa;
           float: right;
@@ -123,43 +102,38 @@
 
   <!-- 숨겨진 버튼 -->
   <div id="hidden_place">
-    <button type="button" id="hidden_button"></button>
+    <button type="button" id="hidden_button" data-bs-toggle="modal" data-bs-target="#passwordModal"></button>
   </div>
 </footer>
 
 <!-- 모달 -->
-<div id="passwordModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>비밀번호 입력</h2>
-    <input type="password" id="passwordInput" maxlength="6" placeholder="6자리 숫자 입력">
-    <button id="confirmButton">확인</button>
-    <p id="errorMsg">비밀번호가 틀렸습니다.</p>
+<div class="modal" id="passwordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">관리자 인증</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>비밀번호 입력</h2>
+        <input type="password" id="passwordInput" maxlength="6" placeholder="6자리 숫자 입력">
+        <button id="confirmButton">확인</button>
+        <p id="errorMsg">비밀번호가 틀렸습니다.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-  document.getElementById("hidden_button").addEventListener("click", function () {
-    document.getElementById("passwordModal").style.display = "block";
-  });
-
-  document.querySelector(".close").addEventListener("click", function () {
-    document.getElementById("passwordModal").style.display = "none";
-  });
-
   document.getElementById("confirmButton").addEventListener("click", function () {
     var inputVal = document.getElementById("passwordInput").value;
     if (inputVal === "123456") {
       window.location.href = "Controller?type=admin";
     } else {
       document.getElementById("errorMsg").style.display = "block";
-    }
-  });
-
-  // ESC 키로 모달 닫기
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-      document.getElementById("passwordModal").style.display = "none";
     }
   });
 </script>
