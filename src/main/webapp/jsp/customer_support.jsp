@@ -122,11 +122,16 @@
           color: #007bff; /* 파란색 */
           font-weight: bold;
 
+      }
+
 
   </style>
 </head>
-<body>
 <jsp:include page="/jsp/header.jsp"/>
+<body>
+
+
+
 <div class="inquiry-container">
   <h1>이메일 문의하기</h1>
   <p class="p1_title">저희 zenZen Club 서비스에 대한 불편한 점, 개선할 점 등을 메일로 보내주세요.</p>
@@ -134,6 +139,9 @@
   <form id="inquiryForm" action="${pageContext.request.contextPath}/Controller?type=inquiry_submit" method="post">
     <label for="email">이메일 *</label>
     <input type="email" id="email" name="email" placeholder="이메일 주소를 입력하세요" required>
+
+    <label for="title">제목 *</label>
+    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
 
     <label for="content">내용 *</label>
     <textarea id="content" name="content" placeholder="문의 내용을 입력하세요" maxlength="1000" required></textarea>
