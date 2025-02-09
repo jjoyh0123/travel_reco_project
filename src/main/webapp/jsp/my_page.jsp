@@ -73,7 +73,18 @@
           border-radius: 8px;
           margin: 10px auto 20px;
           max-width: 900px;
+          font-weight: bold;
       }
+
+      a {
+          text-decoration: none;
+      }
+
+      a .new_trip {
+          text-decoration: none;  /* 추가: a 안의 new_trip 클래스에 중복 적용 */
+          color: white;
+      }
+
 
       .trip_container {
           border: 1px solid #ddd;
@@ -166,7 +177,7 @@
     </c:choose>
   </div>
 
-  <!-- 네비게이션 -->
+  <!-- 상단 선택시 화면변경 -->
   <nav class="nav mb-3">
     <a href="${pageContext.request.contextPath}/Controller?type=my_trip_plan">나의 여행</a>
     <a href="${pageContext.request.contextPath}/Controller?type=my_trip_review">여행 후기</a>
@@ -174,7 +185,7 @@
   </nav>
 
   <!-- 새 여행 만들기 -->
-  <div class="new_trip">새 여행 만들기 +</div>
+  <a href="${pageContext.request.contextPath}/Controller?type=planning&action=date_select"><div class="new_trip">새 여행 만들기 +</div></a>
 
   <!-- 컨텐츠 출력 -->
   <div class="content-section">
