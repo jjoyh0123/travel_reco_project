@@ -11,6 +11,11 @@ public class ViewPlanAction implements Action {
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     String planId = request.getParameter("planId");
     System.out.println(planId);
+
+    request.getSession().setAttribute("user_idx", "3");
+    String sessionUserIdx = (String) request.getSession().getAttribute("user_idx");
+    System.out.println(sessionUserIdx);
+
     if(planId == null || planId.trim().isEmpty()){
       request.setAttribute("error", "Plan id is required.");
       return "error.jsp";
