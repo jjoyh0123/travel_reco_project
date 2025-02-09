@@ -2,6 +2,7 @@ package action;
 
 import mybatis.dao.MyPageDAO;
 import mybatis.vo.PlanVO;
+import mybatis.vo.ReviewVO;
 import mybatis.vo.UserVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,11 +33,7 @@ public class MyPageAction implements Action {
       request.setAttribute("myReviews", myReviews);
 
     } else if ("my_review_history".equals(type)) {
-      List<UserVO> myReviewHistory = new ArrayList<>();
-      UserVO reviewHistory1 = new UserVO();
-      reviewHistory1.setNick("리뷰 기록1");
-      reviewHistory1.setEmail("history1@example.com");
-      myReviewHistory.add(reviewHistory1);
+      List<ReviewVO> myReviewHistory = MyPageDAO.getReviewHistoryByUser(userId);
       request.setAttribute("myReviewHistory", myReviewHistory);
     }
 

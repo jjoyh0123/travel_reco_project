@@ -1,10 +1,7 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import mybatis.vo.DateVO;
-import mybatis.vo.NoticeVO;
-import mybatis.vo.PlaceVO;
-import mybatis.vo.PlanVO;
+import mybatis.vo.*;
 import mybatis.vo.planning.TouristSpotVO;
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
@@ -22,6 +19,20 @@ public class MyPageDAO {
     try (SqlSession ss = FactoryService.get_factory().openSession()) {
 
       List<PlanVO> list = ss.selectList("myPage.getPlanByUser", userId);
+
+      if (list != null && !list.isEmpty()) {
+        return list;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static List<ReviewVO> getReviewHistoryByUser(int userId) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
+
+      List<ReviewVO> list = ss.selectList("myPage.getReviewHistoryByUser", userId);
 
       if (list != null && !list.isEmpty()) {
         return list;
