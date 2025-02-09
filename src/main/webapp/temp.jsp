@@ -22,13 +22,40 @@
           height: 750px;
           margin-bottom: 20px;
       }
+
+      .btn-container {
+          margin-bottom: 10px;
+      }
+
+      .route-btn {
+          padding: 10px;
+          margin-right: 5px;
+          cursor: pointer;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+      }
+
+      .route-btn.active {
+          background-color: #0056b3;
+      }
   </style>
 </head>
 <body>
-<c:forEach var="list" items="${tempLists}" varStatus="status">
-  <div id="map_div${status.index}" class="map-div"></div>
 
-  <!-- 좌표 데이터를 JSON 형식으로 저장 -->
+<!-- 버튼 컨테이너 -->
+<div class="btn-container">
+  <c:forEach var="list" items="${tempLists}" varStatus="status">
+    <button class="route-btn" data-index="${status.index}">경로 ${status.index + 1}</button>
+  </c:forEach>
+</div>
+
+<!-- 지도 영역 -->
+<div id="map_div" class="map-div"></div>
+
+<!-- 좌표 데이터 저장 -->
+<c:forEach var="list" items="${tempLists}" varStatus="status">
   <div id="waypointsData${status.index}" style="display:none;">
     {
     <c:forEach var="temp" items="${list}" varStatus="tempStatus">
@@ -44,50 +71,56 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-  function initializeMap(mapDivId, waypointsDataId, colors) {
-    let map = new Tmapv2.Map(mapDivId, {
-      center: new Tmapv2.LatLng(37, 127),
-      width: "750px",
-      height: "750px",
-      zoom: 17,
-      httpsMode: true
-    });
+  let map;
+  let markerArr = [];
+  let lineArr = [];
 
-    let markerArr = [];
-    let lineArr = [];
-    let currentWaypoints = [];
+  function initializeMap(waypointsDataId, colors) {
+    // 기존 마커와 라인 제거
+    markerArr.forEach(marker => marker.setMap(null));
+    lineArr.forEach(line => line.setMap(null));
+    markerArr = [];
+    lineArr = [];
 
-    // JSON 형식의 좌표 데이터를 읽어오기
+    if (!map) {
+      map = new Tmapv2.Map("map_div", {
+        center: new Tmapv2.LatLng(37.5, 127),
+        width: "750px",
+        height: "750px",
+        zoom: 12,
+        httpsMode: true
+      });
+    }
+
     let waypointsData = JSON.parse(document.getElementById(waypointsDataId).innerText);
-
-    // waypointsData 의 키를 배열로 만듦
     let waypointKeys = Object.keys(waypointsData);
 
-    // 시작점과 종료점을 waypointsData 의 첫 번째 및 마지막 항목으로 설정
+    if (waypointKeys.length === 0) return;
+
     let start = waypointsData[waypointKeys[0]];
     let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
+    let waypoints = waypointKeys.slice(1, -1).map(key => waypointsData[key]);
 
-    // 마커를 추가하는 함수
     function addMarker(lat, lng, content) {
       let marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(lat, lng),
-        iconHTML: content,  // 커스텀 HTML 요소
+        iconHTML: '<div class="custom-marker">' + content + '</div>',
         map: map
       });
-      markerArr.push(marker); // 마커 배열에 추가
-      return marker;
+      markerArr.push(marker);
     }
 
-    // 마커 추가
-    addMarker(start.lat, start.lng, '<div class="custom-marker">S</div>');
-    addMarker(end.lat, end.lng, '<div class="custom-marker">E</div>');
+    addMarker(start.lat, start.lng, "S");
+    addMarker(end.lat, end.lng, "E");
 
-    // 경로를 그리는 함수
+    waypoints.forEach((waypoint, index) => {
+      addMarker(waypoint.lat, waypoint.lng, index + 1);
+    });
+
     function drawRoute(start, end, waypoints, colors) {
       let points = [start, ...waypoints, end];
       let positionBounds = new Tmapv2.LatLngBounds();
 
-      // 각 구간별 경로를 호출 및 그리기
       for (let i = 0; i < points.length - 1; i++) {
         let startX = points[i].lng;
         let startY = points[i].lat;
@@ -113,7 +146,7 @@
             "Content-Type": "application/json"
           },
           data: JSON.stringify(requestData),
-          async: false, // 동기 요청
+          async: false,
           success: function (response) {
             let resultData = response.features;
             let path = [];
@@ -131,47 +164,38 @@
 
             let polyline = new Tmapv2.Polyline({
               path: path,
-              strokeColor: colors[i % colors.length], // 구간별 색상 설정
+              strokeColor: colors[i % colors.length],
               strokeWeight: 6,
               map: map
             });
             lineArr.push(polyline);
           },
           error: function (request, status, error) {
-            console.error("경로 검색 중 오류가 발생했습니다:", error);
+            console.error("경로 검색 중 오류 발생:", error);
           }
         });
       }
 
       map.panToBounds(positionBounds);
       map.zoomOut();
-
     }
 
-    // 순서대로 경유지 설정 (첫 번째와 마지막 항목 제외)
-    for (let i = 1; i < waypointKeys.length - 1; i++) {
-      let waypoint = waypointsData[waypointKeys[i]];
-      currentWaypoints.push(waypoint);
-      addMarker(waypoint.lat, waypoint.lng, '<div class="custom-marker">' + (currentWaypoints.length) + '</div>');
-    }
-
-    // 경로 그리기 호출
-    drawRoute(start, end, currentWaypoints, colors);
+    drawRoute(start, end, waypoints, colors);
   }
 
-  // 통일된 색상 배열
-  let colors = [
-    "#FF0000", "#FFA500", "#FFFF00", "#008000",
-    "#0000FF", "#4B0082", "#EE82EE", "#A52A2A",
-    "#FFD700", "#ADFF2F", "#000080", "#8A2BE2",
-    "#FF69B4", "#FF6347", "#00FFFF", "#4682B4",
-    "#DC143C", "#FF8C00", "#ADFF2F", "#6A5ACD"
-  ];
+  let colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF", "#4B0082", "#EE82EE"];
 
-  // 모든 지도 초기화
-  <c:forEach var="list" items="${tempLists}" varStatus="status">
-  initializeMap("map_div${status.index}", "waypointsData${status.index}", colors);
-  </c:forEach>
+  $(".route-btn").click(function () {
+    $(".route-btn").removeClass("active");
+    $(this).addClass("active");
+
+    let index = $(this).data("index");
+    initializeMap("waypointsData" + index, colors);
+  });
+
+  // 첫 번째 버튼 자동 클릭 (초기 경로 로드)
+  $(".route-btn").first().trigger("click");
 </script>
+
 </body>
 </html>
