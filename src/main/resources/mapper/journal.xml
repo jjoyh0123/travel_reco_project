@@ -101,5 +101,71 @@
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
 
+  <resultMap id="journalVOResultMap" type="mybatis.vo.JournalVO">
+    <id property="idx" column="idx" />
+    <result property="plan_idx" column="plan_idx" />
+    <result property="title" column="title" />
+    <result property="subtitle" column="subtitle" />
+    <result property="hit" column="hit" />
+    <result property="reg_date" column="reg_date" />
+    <result property="status" column="status" />
+    <result property="nick" column="nick" />
+
+    <collection property="list" ofType="mybatis.vo.ImageVO" select="selectImagesByPlanIdx" column="plan_idx"/>
+  </resultMap>
+
+
+  <resultMap id="imageVOResultMap" type="mybatis.vo.ImageVO">
+    <id property="idx" column="idx" />
+    <result property="plan_idx" column="plan_idx" />
+    <result property="place_idx" column="place_idx" />
+    <result property="type" column="type" />
+    <result property="upload_date" column="upload_date" />
+    <result property="file_path" column="file_path" />
+  </resultMap>
+
+  <select id="selectImagesByPlanIdx" parameterType="String" resultMap="imageVOResultMap">
+    SELECT idx, plan_idx, place_idx, type, upload_date, file_path
+    FROM image_table
+    WHERE plan_idx = #{plan_idx}
+  </select>
+
+  <select id="review" resultMap="journalVOResultMap">
+    SELECT j.idx, j.plan_idx, j.title, j.subtitle, j.hit, j.reg_date, j.status,
+    u.nick AS nick
+    FROM journal_table j
+    JOIN plan_table p ON j.plan_idx = p.idx
+    JOIN user_table u ON p.user_idx = u.idx
+  </select>
+
+  <select id="top3" resultMap="journalVOResultMap">
+    SELECT j.idx, j.plan_idx, j.title, j.subtitle, j.hit, j.reg_date, j.status,
+    u.nick AS nick, b.tier
+    FROM journal_table j
+    JOIN plan_table p ON j.plan_idx = p.idx
+    JOIN user_table u ON p.user_idx = u.idx
+    JOIN journal_best_table b ON j.idx = b.journal_idx
+    WHERE b.status = 0 ORDER BY b.tier
+  </select>
+
+
+  <!--<select id="review" resultType="mybatis.vo.JournalVO">
+    SELECT
+    jt.idx,
+    jt.title,
+    jt.subtitle,
+    jt.hit,
+    jt.status,
+    ut.nick,
+    it.file_path
+    FROM journal_table jt
+    JOIN plan_table pt ON jt.plan_idx = pt.idx
+    JOIN user_table ut ON pt.user_idx = ut.idx
+    LEFT JOIN image_table it ON it.plan_idx = pt.idx
+    WHERE jt.status = '0'
+    ORDER BY jt.reg_date DESC
+
+  </select>-->
+
 
 </mapper>

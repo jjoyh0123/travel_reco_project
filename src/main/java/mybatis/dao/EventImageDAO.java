@@ -24,4 +24,15 @@ public class EventImageDAO {
     return ar;
   }
 
+  public static EventImageVO[] eventImage() {
+    EventImageVO[] image = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    List<EventImageVO> list = ss.selectList("event_image.get_img");
+    if (list != null && list.size() > 0) {
+      image = new EventImageVO[list.size()];
+      list.toArray(image);
+    }
+    ss.close();
+    return image;
+  }
 }

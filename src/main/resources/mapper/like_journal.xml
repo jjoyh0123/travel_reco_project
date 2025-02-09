@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="like_journal">
+
+  <!-- 좋아요 상태가 존재하는지 체크 -->
+  <select id="checkJournalExists" resultType="int">
+    SELECT COUNT(*)
+    FROM journal_like_table
+    WHERE journal_idx = #{journalidx}
+  </select>
+
+  <!-- 좋아요 상태 토글 -->
+  <update id="toggleJournalStatus">
+    UPDATE journal_like_table
+    SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END
+    WHERE journal_idx = #{journalidx}
+  </update>
+
+  <!-- 새로운 좋아요 추가 -->
+  <insert id="addJournalLike">
+    INSERT INTO journal_like_table (journal_idx, status)
+    VALUES (#{journalidx}, 1)
+  </insert>
+
+  <!-- 현재 좋아요 상태 조회 -->
+  <select id="getJournalStatus" resultType="int">
+    SELECT status
+    FROM journal_like_table
+    WHERE journal_idx = #{journalidx}
+  </select>
+
+</mapper>

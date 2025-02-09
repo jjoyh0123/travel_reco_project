@@ -1,7 +1,8 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import mybatis.vo.FaqVO;
+// import mybatis.vo.FAQVO;
+import mybatis.vo.FAQVO;
 import mybatis.vo.NoticeVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -33,14 +34,14 @@ public class CustomerServiceDAO {
     return ar;
   }
 
-  public static FaqVO[] getFaq() {
-    FaqVO[] ar = null;
+  public static FAQVO[] getFaq() {
+    FAQVO[] ar = null;
 
     SqlSession ss = FactoryService.get_factory().openSession();
 
-    List<FaqVO> list = ss.selectList("customer_service.getFaq");
+    List<FAQVO> list = ss.selectList("customer_service.getFaq");
     if (list != null && !list.isEmpty()) {
-      ar = new FaqVO[list.size()];
+      ar = new FAQVO[list.size()];
       list.toArray(ar);
     }
     ss.close();

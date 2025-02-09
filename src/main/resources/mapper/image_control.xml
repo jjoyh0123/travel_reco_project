@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="ImageMapper">
+
+  <!-- 이미지 정보를 가져오는 쿼리 -->
+  <select id="getImage" resultType="mybatis.vo.ImageVO">
+    SELECT idx, plan_idx, place_idx, type, upload_date, file_path
+    FROM image_table  <!-- 실제 이미지 정보가 저장된 테이블 이름으로 수정 -->
+    WHERE plan_idx = #{planIdx} AND idx = #{imageIndex}
+  </select>
+
+</mapper>

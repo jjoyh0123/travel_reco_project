@@ -9,6 +9,13 @@
     SELECT * FROM event_image_table
   </select>
 
+  <select id="get_img" resultType="mybatis.vo.EventImageVO">
+    SELECT *
+    FROM event_image_table
+    WHERE file_path IS NOT NULL
+  </select>
+
+
   <update id="update_event_image_path" parameterType="map">
     UPDATE event_image_table
     SET file_path = #{uploaded_file_path}, upload_date = NOW()

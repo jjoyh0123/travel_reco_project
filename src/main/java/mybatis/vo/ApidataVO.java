@@ -1,13 +1,14 @@
 package mybatis.vo;
 
 public class ApidataVO {
-  private String content_id, content_type_id, title, thumnail, mapx, mapy, addr1, tel;
+  private String content_id, content_type_id, title, thumnail,thumbnail2, mapx, mapy, addr1, tel;
 
-  public ApidataVO(String content_id, String content_type_id, String title, String thumnail, String mapx, String mapy, String addr1, String tel) {
+  public ApidataVO(String content_id, String content_type_id, String title, String thumnail,String thumbnail2, String mapx, String mapy, String addr1, String tel) {
     this.content_id = content_id;
     this.content_type_id = content_type_id;
     this.title = title;
     this.thumnail = thumnail;
+    this.thumbnail2 = thumbnail2;
     this.mapx = mapx;
     this.mapy = mapy;
     this.addr1 = addr1;
@@ -28,6 +29,14 @@ public class ApidataVO {
 
   public void setContent_type_id(String content_type_id) {
     this.content_type_id = content_type_id;
+  }
+
+  public String getThumbnail2() {
+    return thumbnail2;
+  }
+
+  public void setThumbnail2(String thumbnail2) {
+    this.thumbnail2 = thumbnail2;
   }
 
   public String getTitle() {
@@ -77,4 +86,5 @@ public class ApidataVO {
   public void setTel(String tel) {
     this.tel = tel;
   }
+
 }

@@ -40,11 +40,33 @@
   </update>
 
   <!-- 이메일과 비밀번호로 사용자 조회 -->
+  <!-- 로그인 중복확인 -->
   <select id="loginCheck" parameterType="map" resultType="mybatis.vo.UserVO">
     SELECT idx, email, pw, nick, status
     FROM user_table
     WHERE email = #{email}
     AND pw = #{pw}
+  </select>
+
+  <update id="updateUserProfile" parameterType="mybatis.vo.UserVO">
+    UPDATE user_table
+    SET nick = #{nick},
+    pw = #{pw}
+    WHERE idx = #{idx}
+  </update>
+
+  <update id="deactivateUser">
+    UPDATE user_table
+    SET status = 1
+    WHERE idx = #{idx}
+  </update>
+
+  <select id="checkPassword" parameterType="map" resultType="string">
+    SELECT pw FROM user_table WHERE idx = #{idx}
+  </select>
+
+  <select id="getPassword" parameterType="int" resultType="string">
+    SELECT pw FROM user_table WHERE idx = #{idx}
   </select>
 
 </mapper>

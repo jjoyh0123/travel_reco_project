@@ -3,24 +3,33 @@ package mybatis.vo;
 import java.util.List;
 
 public class PlaceVO {
-  private String date_idx, visit_order, content_id, content_type_id, title, thumnail, map_x, map_y, time;
+  private String idx, date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time;
   private String plan_idx;
   private String review;
   private String rate;
   private List<String> image_list;
 
-  public PlaceVO(String date_idx, String visit_order, String content_id, String content_type_id, String title,
-                 String thumnail, String map_x, String map_y, String time) {
-    super();
-    this.date_idx = date_idx;
-    this.visit_order = visit_order;
-    this.content_id = content_id;
-    this.content_type_id = content_type_id;
-    this.title = title;
-    this.thumnail = thumnail;
-    this.map_x = map_x;
-    this.map_y = map_y;
-    this.time = time;
+  public PlaceVO(String idx, String date_idx, String visit_order, String content_id, String content_type_id, String title,
+                 String thumbail, String map_x, String map_y, String time) {
+            super();
+            this.idx = idx;
+            this.date_idx = date_idx;
+            this.visit_order = visit_order;
+            this.content_id = content_id;
+            this.content_type_id = content_type_id;
+            this.title = title;
+            this.thumbnail = thumbnail;
+            this.map_x = map_x;
+            this.map_y = map_y;
+            this.time = time;
+  }
+
+  public String getp_Idx() {
+    return idx;
+  }
+
+  public void setp_Idx(String idx) {
+    this.idx = idx;
   }
 
   public String getDate_idx() {
@@ -63,12 +72,12 @@ public class PlaceVO {
     this.title = title;
   }
 
-  public String getThumnail() {
-    return thumnail;
+  public String getThumbnail() {
+    return thumbnail;
   }
 
-  public void setThumnail(String thumnail) {
-    this.thumnail = thumnail;
+  public void setThumbnail(String thumbnail) {
+    this.thumbnail = thumbnail;
   }
 
   public String getMap_x() {
@@ -101,5 +110,29 @@ public class PlaceVO {
 
   public void setPlan_idx(String plan_idx) {
     this.plan_idx = plan_idx;
+  }
+
+  public String getReview() {
+    return review;
+  }
+
+  public void setReview(String review) {
+    this.review = review;
+  }
+
+  public String getRate() {
+    return rate;
+  }
+
+  public void setRate(String rate) {
+    this.rate = rate;
+  }
+
+  public List<String> getImage_list() {
+    return image_list;
+  }
+
+  public void setImage_list(List<String> image_list) {
+    this.image_list = image_list;
   }
 }

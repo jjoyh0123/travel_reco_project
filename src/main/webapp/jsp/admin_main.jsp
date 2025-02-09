@@ -816,7 +816,7 @@
                 <tr>
                   <td>
                     <c:if test="${not empty item.file_path}">
-                      <img src="http://${applicationScope.publicIP}:4000/${item.file_path}"
+                      <img src="${applicationScope.publicIP}:4000/${item.file_path}"
                            alt="이벤트 배너 ${status.index + 1}" style="max-height: 150px;">
                     </c:if>
                     <c:if test="${empty item.file_path}">
@@ -1172,7 +1172,7 @@
     }
 
     let data = {
-      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
+      url: '${applicationScope.publicIP}:8080/Controller?type=upload_event_image',
       type: 'POST',
       data: formData,
       processData: false,
@@ -1194,7 +1194,7 @@
     $.ajax(data);
   }
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // 모달이 열릴 때 이벤트 리스너 추가
     $('#rankModal').on('show.bs.modal', function (event) {
       const button = $(event.relatedTarget); // 클릭된 버튼
@@ -1275,8 +1275,8 @@
     )
     ;
   });
-  $(document).ready(function () {
-    $('.date').each(function () {
+  $(document).ready(function() {
+    $('.date').each(function() {
       const dateString = $(this).text();
       const formattedDate = dateString.split(' ')[0]; // 공백을 기준으로 문자열을 잘라서 첫 번째 부분만 가져옴
       $(this).text(formattedDate);
