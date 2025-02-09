@@ -13,7 +13,7 @@
           crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <title>후기 작성</title>
+  <title>후기 보기</title>
   <style>
       /*    별점 기능*/
       .starpoint_wrap{
@@ -389,7 +389,6 @@
       <div class="modal-content">
         <div class="modal-header">
             <%--모달 제목--%>
-            <%--        <h1 class="modal-title fs-5" id="exampleModalLabel">--%>
           <h2 class="modal_title">
             <div class="modal_day_bar">
               <div class="modal_day">Day ${list.date_idx}</div>
@@ -397,7 +396,6 @@
               <div class="modal_date">${list.date}</div>
             </div>
           </h2>
-            <%--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
         </div>
         <div class="modal-body">
           <h3>${list.title}</h3>
@@ -431,7 +429,12 @@
             <%--별점 기능 끝--%>
           <hr>
             <%--후기 입력--%>
+<%--            <c:if test="${list.place_idx == reviewVO.place_idx}">--%>
           <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)" id="textarea"></textarea>
+          <c:if test="${reviewVO}"
+          <p>${reviewVO.review}</p>
+<%--              ${reviewVO.review}--%>
+<%--            </c:if>--%>
 
           <hr>
 
@@ -465,21 +468,6 @@
             <%--      캐러셀 끝--%>
         </div>
         <div class="modal-footer">
-            <%--사진 추가 버튼--%>
-          <form id="upload_form" enctype="multipart/form-data">
-            <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
-            <input type="hidden" name="type" placeholder="type: journal or review" value="journal"><br> <%-- value journal / review --%>
-            <input type="hidden" name="user_idx" placeholder="user_idx" value="1"><br>
-            <input type="hidden" name="plan_idx" placeholder="plan_idx, when type journal" value="2"><br>
-            <input type="hidden" name="place_idx" placeholder="place_idx when type review"><br>
-            <label for="fileInput">
-              <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
-            </label>
-            <input type="file" id="fileInput" name="file" multiple style="display: none;"><br><br>
-            <input type="button" value="Upload" onclick="upload_images()">
-          </form>
-          <div id="result"></div>
-            <%--  사진 추가 버튼--%>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">저장</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
         </div>
@@ -496,15 +484,14 @@
     <div id="journal_carousel">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-          <c:forEach var="image_list" items="${imageVO}" varStatus="index">
+          <c:forEach var="image" items="${imageList}" varStatus="index">
+            <c:if test="${image.plan_idx == plan_idx}">
             <div class="carousel-item ${index.first ? 'active' : ''}">
-              <img src="${image_list.file_path}" alt="${image_list.file_path}" class="main_carousel_image">
+              <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
             </div>
+            </c:if>
           </c:forEach>
           <%--          사진 추가 버튼--%>
-          <div>
-            <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
-          </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -519,22 +506,23 @@
     <%--    이미지 케러셀 끝--%>
     <%--    간단한 후기 글 작성란--%>
     <div id="journal_article">
-      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)">
+      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)" value="${journalVO.title}">
       <hr>
-      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)"></textarea>
+      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)">${fn:trim(journalVO.subtitle)}</textarea>
     </div>
-
   </div>
 
+<%--    지도 추가할 영역--%>
+    <div id="map_div${status.index}" class="map_div"></div>
+<%--    지도 추가할 영역 끝--%>
+
   <div class="journal_box">
-
     <div class="journal_day">
-
       <nav id="navbar-example2" class="navbar">
         <ul class="nav nav-pills">
           <c:forEach var="dateVO" items="${dateVO}" varStatus="index">
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading${index.index}">
+              <a class="nav-link" href="#scrollspyHeading${index.count}">
                 <div class="day_button" onclick="changeColor(this)">
                   <p class="day">day ${index.count}</p>
                   <br>
@@ -561,38 +549,35 @@
 
           <hr>
 
-          <%--        장소의 리뷰가 없으면 버튼이 등록, 삭제
-                      리뷰가 있으면 수정, 삭제 --%>
-
           <c:forEach var="list" items="${list}" varStatus="index">
-            <c:if test="${list.place_date_idx == dateVO.idx}">
+            <c:if test="${list.date_idx == dateVO.idx}">
               <div class="journal_place">
                 <div  class="circle_container">
                   <div class="circle">${list.visit_order}</div>
                   <div class="long_vertical_line"></div>
                 </div>
                 <div class="place_div">
-                  <div class="place_name" id="day${index.count}_place${index.count}">
+                  <div class="place_name" id="day${index.count}_place${index.count}" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}" style="cursor: pointer">
                       ${list.title}
                   </div>
                   <p class="place_info">
-                    <c:if test="${list.plan_area_code == 1}">서울</c:if>
-                    <c:if test="${list.plan_area_code == 2}">인천</c:if>
-                    <c:if test="${list.plan_area_code == 3}">대전</c:if>
-                    <c:if test="${list.plan_area_code == 4}">대구</c:if>
-                    <c:if test="${list.plan_area_code == 5}">광주</c:if>
-                    <c:if test="${list.plan_area_code == 6}">경남</c:if>
-                    <c:if test="${list.plan_area_code == 7}">울산</c:if>
-                    <c:if test="${list.plan_area_code == 31}">경기</c:if>
-                    <c:if test="${list.plan_area_code == 32}">강원</c:if>
-                    <c:if test="${list.plan_area_code == 33}">충북</c:if>
-                    <c:if test="${list.plan_area_code == 34}">충남</c:if>
-                    <c:if test="${list.plan_area_code == 35}">경북</c:if>
-                    <c:if test="${list.plan_area_code == 36}">경남</c:if>
-                    <c:if test="${list.plan_area_code == 37}">전북</c:if>
-                    <c:if test="${list.plan_area_code == 38}">전남</c:if>
-                    <c:if test="${list.plan_area_code == 39}">제주도</c:if>
-                    <c:if test="${list.plan_area_code == 8}">세종</c:if>
+                    <c:if test="${planVO.area_code == 1}">서울</c:if>
+                    <c:if test="${planVO.area_code == 2}">인천</c:if>
+                    <c:if test="${planVO.area_code == 3}">대전</c:if>
+                    <c:if test="${planVO.area_code == 4}">대구</c:if>
+                    <c:if test="${planVO.area_code == 5}">광주</c:if>
+                    <c:if test="${planVO.area_code == 6}">경남</c:if>
+                    <c:if test="${planVO.area_code == 7}">울산</c:if>
+                    <c:if test="${planVO.area_code == 31}">경기</c:if>
+                    <c:if test="${planVO.area_code == 32}">강원</c:if>
+                    <c:if test="${planVO.area_code == 33}">충북</c:if>
+                    <c:if test="${planVO.area_code == 34}">충남</c:if>
+                    <c:if test="${planVO.area_code == 35}">경북</c:if>
+                    <c:if test="${planVO.area_code == 36}">경남</c:if>
+                    <c:if test="${planVO.area_code == 37}">전북</c:if>
+                    <c:if test="${planVO.area_code == 38}">전남</c:if>
+                    <c:if test="${planVO.area_code == 39}">제주도</c:if>
+                    <c:if test="${planVO.area_code == 8}">세종</c:if>
                     *
                     <c:if test="${list.content_type_id == 32}">숙박</c:if>
                     <c:if test="${list.content_type_id == 38}">쇼핑</c:if>
@@ -604,21 +589,19 @@
                     <c:if test="${list.content_type_id == 12}">관광지</c:if>
                   </p>
                     <%-- review가 표시될 div --%>
-                  <div id="reviewPreview${index.count}" class="place_info"></div>
+<%--                  <div id="reviewPreview${index.count}" class="place_info"></div>--%>
                 </div>
-                <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">
-                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
-                </button>
+<%--                <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">--%>
+<%--                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
+<%--                </button>--%>
               </div>
               <%--          작성한 후기 보여주는 div--%>
               <div><span id="outputText"></span></div>
               <%--          <div id="selectedRating">선택된 별점: 0점</div>--%>
               <div id="selectedRating"></div>
-
             </c:if>
           </c:forEach>
         </c:forEach>
-
       </div>
     </div>
   </div>

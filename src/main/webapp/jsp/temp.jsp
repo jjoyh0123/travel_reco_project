@@ -487,7 +487,7 @@
                   <a href="">${journal.hit}</a>
                 </div>
               </div>
-              <a href="" class="review_title">${journal.title}</a>
+              <a href="Controller?type=view_journal&plan_idx=${journal.plan_idx}" class="review_title">${journal.title}</a>
               <div>
                 <a href="" class="review_content">${journal.subtitle}</a>
                 <a href="" class="nickname">${journal.nick}</a>

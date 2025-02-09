@@ -381,7 +381,8 @@
                 <a href="">${journal.hit}</a>
               </div>
               </div>
-              <a href="Controller?type=" class="review_title">${journal.title}</a>
+              <a href="" class="review_title">${journal.title}
+              ${journal.title}</a>
               <div>
                 <a href="" class="review_content">${journal.subtitle}</a>
                 <a href="" class="nickname">${journal.nick}</a>
