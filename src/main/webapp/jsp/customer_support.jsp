@@ -7,14 +7,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
       body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f9f9f9;
-          margin: 0;
-          padding: 0;
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
-          height: 100vh;
+          margin: 0;
+          background-color: #F5F5F7;
+      }
+      .content{
+          width: 900px;
+          min-height: 600px;
+          flex-grow: 1;
+          margin-bottom: 20px;
       }
 
       .inquiry-container {
@@ -127,10 +130,9 @@
 
   </style>
 </head>
-<jsp:include page="/jsp/header.jsp"/>
 <body>
-
-
+<jsp:include page="/jsp/header.jsp"/>
+<article class="content">
 
 <div class="inquiry-container">
   <h1>이메일 문의하기</h1>
@@ -183,5 +185,6 @@
     return true; // 폼이 정상적으로 제출되도록 반환
   }
 </script>
+</article>
 </body>
 </html>
