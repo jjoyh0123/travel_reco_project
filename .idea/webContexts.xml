@@ -11,19 +11,20 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Board.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Main2.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/journal.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/localPlace.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/my_page.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/my_review_history.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/profile_update.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/temp.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/updateProfile.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/main2.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/planning.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/temp.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/temp2.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/temp3.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/my_review_history.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/updateProfile.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/journal.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Board.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Main2.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/profile_update.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/localPlace.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/temp.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/main2.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>
   </component>
