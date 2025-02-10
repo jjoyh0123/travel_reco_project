@@ -268,7 +268,9 @@
                      alt="${areaNames[trip.area_code]}"/>
               </div>
               <div class="trip_info col-7">
-                <h4><strong>${trip.title}</strong></h4><br>
+                <h4><a style="text-decoration: none; color: black"
+                       href="${pageContext.request.contextPath}/Controller?type=viewPlan&planId=${trip.idx}">${trip.title}</a>
+                </h4><br>
                 여행 기간: ${trip.start_date} - ${trip.end_date}<br>
                 지역: ${areaNames[trip.area_code]}
               </div>
