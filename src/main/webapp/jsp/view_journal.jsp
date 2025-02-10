@@ -636,74 +636,78 @@
                   <%--                </button>--%>
               </div>
               <%--          후기 div--%>
-              <c:if test="${list.place_idx == reviewVO.place_idx}">
-                <div class="place_review">
+              <c:forEach var="rv" items="${reviewVO}">
 
-                  <div class="show_place_review">
-                    <div class="review">작성한 후기: ${reviewVO.review}</div>
-                      <%--          별점 div--%>
-                    <div class="rate">별점:
-                      <c:if test="${reviewVO.rate == 5}">
-                        <img src="/www/rate_5.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 4.5}">
-                        <img src="/www/rate_4.5.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 4}">
-                        <img src="/www/rate_4.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 3.5}">
-                        <img src="/www/rate_3.5.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 3}">
-                        <img src="/www/rate_3.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 2.5}">
-                        <img src="/www/rate_2.5.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 2}">
-                        <img src="/www/rate_2.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 1.5}">
-                        <img src="/www/rate_1.5.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 1}">
-                        <img src="/www/rate_1.png">
-                      </c:if>
-                      <c:if test="${reviewVO.rate == 0.5}">
-                        <img src="/www/rate_0.5.png">
-                      </c:if>
+                <c:if test="${list.place_idx == rv.place_idx}">
+                  <div class="place_review">
+
+                    <div class="show_place_review">
+                      <div class="review">작성한 후기: ${reviewVO.review}</div>
+                        <%--          별점 div--%>
+                      <div class="rate">별점:
+                        <c:if test="${reviewVO.rate == 5}">
+                          <img src="/www/rate_5.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 4.5}">
+                          <img src="/www/rate_4.5.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 4}">
+                          <img src="/www/rate_4.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 3.5}">
+                          <img src="/www/rate_3.5.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 3}">
+                          <img src="/www/rate_3.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 2.5}">
+                          <img src="/www/rate_2.5.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 2}">
+                          <img src="/www/rate_2.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 1.5}">
+                          <img src="/www/rate_1.5.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 1}">
+                          <img src="/www/rate_1.png">
+                        </c:if>
+                        <c:if test="${reviewVO.rate == 0.5}">
+                          <img src="/www/rate_0.5.png">
+                        </c:if>
+                      </div>
                     </div>
-                  </div>
-                  <div class="place_review_carousel">
-                    <div class="journal_box">
-                      <div id="journal_carousel" class="journal_carousel">
-                        <div id="carouselExample" class="carousel slide">
-                          <div class="carousel-inner">
-                            <c:forEach var="image" items="${imageList}" varStatus="index">
-                              <%--                          <c:if test="${image.plan_idx == plan_idx}">--%>
-                              <div class="carousel-item ${index.first ? 'active' : ''}">
-                                <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
-                              </div>
-                              <%--                          </c:if>--%>
-                            </c:forEach>
+                    <div class="place_review_carousel">
+                      <div class="journal_box">
+                        <div id="journal_carousel" class="journal_carousel">
+                          <div id="carouselExample" class="carousel slide">
+                            <div class="carousel-inner">
+                              <c:forEach var="image" items="${imageList}" varStatus="index">
+                                <%--                          <c:if test="${image.plan_idx == plan_idx}">--%>
+                                <div class="carousel-item ${index.first ? 'active' : ''}">
+                                  <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
+                                </div>
+                                <%--                          </c:if>--%>
+                              </c:forEach>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                    data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
                           </div>
-                          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                                  data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                          </button>
-                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                                  data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </c:if>
+                </c:if>
+
+              </c:forEach>
             </c:if>
           </c:forEach>
 
