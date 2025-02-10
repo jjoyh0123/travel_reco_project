@@ -717,7 +717,7 @@
     document.getElementById("selectedRating${index.count}").innerText = title;
   }
 
-  // function initializeMap(mapDivId, waypointsDataId, colors) {
+  function initializeMap(mapDivId, waypointsDataId, colors) {
     let map = new Tmapv2.Map(mapDivId, {
       center: new Tmapv2.LatLng(37, 127),
       // width: "750px",
