@@ -6,6 +6,10 @@
 
   // 세션에 프로필 이미지 저장
   session.setAttribute("profileImg", naverProfileImg);
+  // session.setAttribute("user", "");
+  session.setAttribute("idx", "3");
+  session.setAttribute("email", "nana@naver.com");
+  session.setAttribute("nick", "여나");
 
   // 메인 페이지로 이동
   response.sendRedirect("Controller");

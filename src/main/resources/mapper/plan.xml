@@ -13,9 +13,9 @@
     INSERT INTO date_table (plan_idx, date, memo) VALUES (#{plan_idx}, #{date}, '');
   </insert>
 
-  <insert id="insertPlace" parameterType="mybatis.vo.PlaceVO">
-    INSERT INTO place_table (date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time)
-    VALUES (#{date_idx}, #{visit_order}, #{content_id}, #{content_type_id}, #{title}, #{thumbnail}, #{map_x}, #{map_y}, #{time});
+  <insert id="insertPlace" parameterType="map">
+    INSERT INTO place_table (date_idx, visit_order, content_id, content_type_id, title, address, thumbnail, map_x, map_y, time)
+    VALUES (#{date_idx}, #{visit_order}, #{content_id}, #{content_type_id}, #{title}, #{address}, #{thumbnail}, #{map_x}, #{map_y}, #{time});
   </insert>
 
 <!--  윗부분 저장-->

@@ -454,6 +454,7 @@
           content_id: place.content_id,
           content_type_id: place.content_type_id,
           title: place.title,
+          address: place.address,
           thumbnail: place.thumbnail,
           map_x: place.map_x,
           map_y: place.map_y,
@@ -473,8 +474,10 @@
           console.log("fetch recieve data", data)
           if (data.status) {
             console.log("result success!");
+            console.log(data);
             alert("계획 등록 성공!");
-            location.href = "/Controller?type=index";
+            // location.href = "/Controller?type=index";
+            location.href = "/Controller?type=viewPlan&planId=" + data.plan_idx
           } else {
             alert("계획 등록 실패 ㅠ");
             console.log("result fail!");

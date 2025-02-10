@@ -152,7 +152,7 @@
 
 <script>
 
-  const isLoggedIn = <%= (session.getAttribute("user") != null) %>;
+  const isLoggedIn = <%= (session.getAttribute("idx") != null) %>;
 
   document.querySelector('.plan_btn02').addEventListener('click', function(event) {
     event.preventDefault();

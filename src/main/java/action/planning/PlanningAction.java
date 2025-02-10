@@ -216,6 +216,7 @@ public class PlanningAction implements Action {
 
     json_object.put("status", true);
     request.setAttribute("json_response", json_object);
+    json_object.put("plan_idx", String.valueOf(planIdx));
     return "/jsp/res_json.jsp";
   }
 }
