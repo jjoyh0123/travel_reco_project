@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 19.
-  Time: 오후 9:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -194,14 +187,15 @@
 
       .modal_img{
           border: 1px solid lightgray;
-          width: 700px;
-          height: 400px;
+          width: 1100px;
+          height: 750px;
+          margin-bottom: 100px;
       }
       .modal_overview{
+          width: 650px;
           font-weight: bold;
           font-size: 25px;
-          color: black;
-          border: 1px solid grey;
+          border: 1px solid #bbbbbb;
 
       }
 
@@ -299,8 +293,8 @@
   </thead>
   <div>
     <div>
-    <input type="search" id="board_search" placeholder="검색: 입력하세요.">
-    <button onclick="search()">🔍</button>
+      <input type="search" id="board_search" placeholder="검색: 입력하세요.">
+      <button onclick="search()">🔍</button>
     </div>
     <div id="option_button">
       <select class="option_button">
@@ -416,7 +410,7 @@
               <span class="span">전북</span>
             </a>
           </div>
-      </div>
+        </div>
       </div>
       <div class="loc_row">
         <div class="loc_row">
@@ -438,49 +432,50 @@
               <span class="span">세종</span>
             </a>
           </div>
+        </div>
       </div>
-    </div>
-<!--모달 생김새~~~~~~~~~~~~~~~~~~~~~~~ -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+      <!--모달 생김새~~~~~~~~~~~~~~~~~~~~~~~ -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
                 <div>
                 </div>
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="modal_name">
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal_star">
+            <div class="modal-body">
+              <div class="modal_name">
+              </div>
+              <div class="modal_star">
+              </div>
+              <div class="modal_img">
+                <a href=""><img src="" class="modal_img2"></a>
+              </div>
+              <hr style="border: 3px solid #555555;">
+              <div id="map_div" style="width: 500px; height: 400px;">
+              </div>
+              <hr style="border: 3px solid #555555;">
+              <div class="modal_content">
+              </div>
+              <br>
+              <div class="modal_addr1">
+              </div>
+              <br>
+              <div class="modal_tel">
+              </div>
+              <div class="modal_overview">
+              </div>
+              <br>
             </div>
-            <div class="modal_img">
-              <a href=""><img src="" class="modal_img2"></a>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
             </div>
-            <div id="map_div" style="width: 500px; height: 400px;">
-            </div>
-            <hr style="border: 3px solid #555555;">
-            <div class="modal_content">
-            </div>
-            <br>
-            <div class="modal_addr1">
-            </div>
-            <br>
-            <div class="modal_tel">
-            </div>
-            <div class="modal_overview">
-            </div>
-            <br>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <div class="board_plan">
       <c:forEach var="api" items="${ar}">
@@ -500,21 +495,21 @@
                       data-mapy="mapy : ${api.mapy}"
 
                       data-content="기본정보">
-                  <p></p>
-                  <div class="board_img">
-                    <img src="${api.thumnail}">
-                  </div>
-                  <div>
-                  <div class="api_title">
-                  <a href="" class="board_title">${api.title}</a>
-                </div>
                 <p></p>
-                <div class="api_addr1">
-                  <a href="" class="board_content">${api.addr1}</a>
+                <div class="board_img">
+                  <img src="${api.thumnail}">
                 </div>
-                <a href="" class="loc_name"></a>
-              </div>
-            </button>
+                <div>
+                  <div class="api_title">
+                    <a href="" class="board_title">${api.title}</a>
+                  </div>
+                  <p></p>
+                  <div class="api_addr1">
+                    <a href="" class="board_content">${api.addr1}</a>
+                  </div>
+                  <a href="" class="loc_name"></a>
+                </div>
+              </button>
             </div>
           </div>
         </div>
@@ -579,25 +574,25 @@
   document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("staticBackdrop");
     modal.addEventListener("show.bs.modal", function (event) {
-    const button = event.relatedTarget; // 모달을 연 버튼
-    const addr1 = button.getAttribute("data-addr1");
-    const img = button.getAttribute("data-img");
-    const content = button.getAttribute("data-content");
-    const tel = button.getAttribute("data-tel");
-    const contentid = button.getAttribute("data-contentid")
+      const button = event.relatedTarget; // 모달을 연 버튼
+      const addr1 = button.getAttribute("data-addr1");
+      const img = button.getAttribute("data-img");
+      const content = button.getAttribute("data-content");
+      const tel = button.getAttribute("data-tel");
+      const contentid = button.getAttribute("data-contentid")
 
-    title = button.getAttribute("data-title");
-    mapx = extractNumber(button.getAttribute("data-mapx"));
-    mapy = extractNumber(button.getAttribute("data-mapy"));
-    console.log(mapx);
-    console.log(mapy);
+      title = button.getAttribute("data-title");
+      mapx = extractNumber(button.getAttribute("data-mapx"));
+      mapy = extractNumber(button.getAttribute("data-mapy"));
+      console.log(mapx);
+      console.log(mapy);
 
-    // 모달 내부 요소 업데이트
-    document.querySelector(".modal_name").textContent = title;
-    document.querySelector(".modal_img img").src = img;
-    document.querySelector(".modal_content").textContent = content;
-    document.querySelector(".modal_addr1").textContent = addr1;
-    document.querySelector(".modal_tel").textContent = tel;
+      // 모달 내부 요소 업데이트
+      document.querySelector(".modal_name").textContent = title;
+      document.querySelector(".modal_img img").src = img;
+      document.querySelector(".modal_content").textContent = content;
+      document.querySelector(".modal_addr1").textContent = addr1;
+      document.querySelector(".modal_tel").textContent = tel;
 
       let apiUrl = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?" +
           "serviceKey=7O%2BS3FUEPYFub2Ap2u9bYHh%2BsjDTjijIZZEm8c08xQTLQQgv7IehSi5I%2FG1hMPE6x6%2B3A3IzhIztXbdrLMc90A%3D%3D" +
@@ -617,39 +612,39 @@
         }
       });
 
+    });
   });
-  });
-function sendArea() {
-console.log("클릭");
-}
-    document.addEventListener("DOMContentLoaded", function () {
-      const areaIcons = document.querySelectorAll('.area-icon');
+  function sendArea() {
+    console.log("클릭");
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    const areaIcons = document.querySelectorAll('.area-icon');
 
-      console.log(areaIcons);  // 아이콘이 제대로 선택됐는지 확인
+    console.log(areaIcons);  // 아이콘이 제대로 선택됐는지 확인
 
-      areaIcons.forEach(icon => {
-        icon.addEventListener('click', function (e) {
-          e.preventDefault(); // 기본 동작 방지
+    areaIcons.forEach(icon => {
+      icon.addEventListener('click', function (e) {
+        e.preventDefault(); // 기본 동작 방지
 
-          const areaCode = icon.getAttribute('data-areacode');  // data-areacode 속성 값 가져오기
-          console.log(areaCode); // 해당 값이 제대로 나오는지 확인
+        const areaCode = icon.getAttribute('data-areacode');  // data-areacode 속성 값 가져오기
+        console.log(areaCode); // 해당 값이 제대로 나오는지 확인
 
-          if (areaCode !== 123) {
-            // API 요청 URL에 areacode 파라미터 추가
-            const apiUrl = `/Controller?type=local&areacode=`+areaCode;
-            // 페이지를 해당 URL로 리다이렉트
-            window.location.href = apiUrl;
-          } else {
-            const apiUrl = `/Controller?type=local`;
-            // 페이지를 해당 URL로 리다이렉트
-            window.location.href = apiUrl;
-          }
-        });
+        if (areaCode !== 123) {
+          // API 요청 URL에 areacode 파라미터 추가
+          const apiUrl = `/Controller?type=local&areacode=`+areaCode;
+          // 페이지를 해당 URL로 리다이렉트
+          window.location.href = apiUrl;
+        } else {
+          const apiUrl = `/Controller?type=local`;
+          // 페이지를 해당 URL로 리다이렉트
+          window.location.href = apiUrl;
+        }
       });
     });
-    function sendContentId() {
-      console.log("클릭");
-    }
+  });
+  function sendContentId() {
+    console.log("클릭");
+  }
   document.addEventListener("DOMContentLoaded", function () {
     const searchTypeSelect = document.querySelector(".option_button"); //select 태그에 있는 요소들 다 가져오기.
 
