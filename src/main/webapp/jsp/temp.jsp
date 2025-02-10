@@ -375,7 +375,7 @@
   <table class="table">
     <div class="head">
       <div id="top_plan">
-        <a href="">Top 3Plan</a>
+        <a href="">Best 3Plan</a>
       </div>
     </div>
     <div class="tbody">
@@ -387,7 +387,9 @@
                 <c:choose>
                   <c:when test="${not empty top3.list}">
                     <c:forEach var="image" items="${top3.list}" varStatus="loop">
-                      <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}">&nbsp;</div>
+                      <c:if test="${loop.index < 5}"> <%-- 5개까지만 표시 --%>
+                        <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}"></div>
+                      </c:if>
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
@@ -398,7 +400,9 @@
               <div class="image-indicators">
                 <c:if test="${not empty top3.list}">
                   <c:forEach var="image" items="${top3.list}" varStatus="loop">
-                    <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
+                    <c:if test="${loop.index < 5}"> <%-- 인디케이터도 5개까지만 --%>
+                      <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
+                    </c:if>
                   </c:forEach>
                 </c:if>
               </div>
@@ -462,7 +466,9 @@
                 <c:choose>
                   <c:when test="${not empty journal.list}">
                     <c:forEach var="image" items="${journal.list}" varStatus="loop">
-                      <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}">&nbsp;</div>
+                      <c:if test="${loop.index < 5}"> <%-- 5개까지만 표시 --%>
+                        <div class="image_option" data-image="${image.file_path}" data-index="${loop.index}"></div>
+                      </c:if>
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
@@ -473,7 +479,9 @@
               <div class="image-indicators">
                 <c:if test="${not empty journal.list}">
                   <c:forEach var="image" items="${journal.list}" varStatus="loop">
-                    <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
+                    <c:if test="${loop.index < 5}"> <%-- 인디케이터도 5개까지만 --%>
+                      <div class="indicator ${loop.index == 0 ? 'active' : ''}" data-index="${loop.index}"></div>
+                    </c:if>
                   </c:forEach>
                 </c:if>
               </div>

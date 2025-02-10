@@ -456,6 +456,7 @@
               <hr style="border: 3px solid #555555;">
               <div id="map_div" style="width: 500px; height: 400px;">
               </div>
+              <button type="button" onclick="Directions()" class="btn btn-primary">길찾기</button>
               <hr style="border: 3px solid #555555;">
               <div class="modal_content">
               </div>
@@ -720,5 +721,12 @@
     return match ? match[0] : null;
   }
 
+  function Directions() {
+    // 1. URL 생성
+    const url = '/Controller?type=directions&title=' + title + '&mapx=' + mapx + '+&mapy=' + mapy;
+
+    // 2. 새 창에서 URL 열기
+    window.open(url, '_blank');
+  }
 </script>
 </html>
