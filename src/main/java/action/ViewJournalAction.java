@@ -13,6 +13,7 @@ public class ViewJournalAction implements Action {
     String plan_idx = request.getParameter("plan_idx");
     JournalVO journalVO = ViewJournalDAO.getJournal(plan_idx);
     List<ImageVO> imageList = ViewJournalDAO.get_Images(plan_idx);
+    System.out.println(imageList.size());
     DateVO[] dateVO = ViewJournalDAO.getDate(plan_idx);
     List<ViewJournalDTO> list = ViewJournalDAO.getPlace(plan_idx);
     PlanVO planVO = ViewJournalDAO.getPlan(plan_idx);

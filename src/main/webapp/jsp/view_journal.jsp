@@ -14,86 +14,101 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <title>후기 보기</title>
-  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
+  <script
+      src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8"></script>
   <style>
       /*    별점 기능*/
-      .starpoint_wrap{
-          display:inline-block;
+      .starpoint_wrap {
+          display: inline-block;
       }
-      .starpoint_box{
-          position:relative;
-          background:url('/www/sp_star.png') 0 0 no-repeat;
-          font-size:0;
+
+      .starpoint_box {
+          position: relative;
+          background: url('/www/sp_star.png') 0 0 no-repeat;
+          font-size: 0;
       }
-      .starpoint_box .starpoint_bg{
-          display:block;
-          position:absolute;
-          top:0;
-          left:0;
-          height:18px;
-          background:url('/www/sp_star.png') 0 -20px no-repeat;
-          pointer-events:none;
+
+      .starpoint_box .starpoint_bg {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 18px;
+          background: url('/www/sp_star.png') 0 -20px no-repeat;
+          pointer-events: none;
       }
-      .starpoint_box .label_star{
-          display:inline-block;
-          width:10px;
-          height:18px;
-          box-sizing:border-box;
+
+      .starpoint_box .label_star {
+          display: inline-block;
+          width: 10px;
+          height: 18px;
+          box-sizing: border-box;
       }
-      .starpoint_box .star_radio{
-          opacity:0;
-          width:0;
-          height:0;
-          position:absolute;
+
+      .starpoint_box .star_radio {
+          opacity: 0;
+          width: 0;
+          height: 0;
+          position: absolute;
       }
+
       .starpoint_box .star_radio:nth-of-type(1):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg {
           width: 8.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(2):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg {
           width: 18.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(3):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg {
           width: 28.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(4):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg {
           width: 38.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(5):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg {
           width: 48.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(6):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg {
           width: 58.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(7):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg {
           width: 68.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(8):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg {
           width: 78.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(9):hover ~ .starpoint_bg,
-      .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg{
+      .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg {
           width: 88.7%;
       }
+
       .starpoint_box .star_radio:nth-of-type(10):hover ~ .starpoint_bg,
       .starpoint_box .star_radio:nth-of-type(10):checked ~ .starpoint_bg {
           width: 98.7%;
       }
 
-      .blind{
-          position:absolute;
-          clip:rect(0 0 0 0);
-          margin:-1px;
-          width:1px;
+      .blind {
+          position: absolute;
+          clip: rect(0 0 0 0);
+          margin: -1px;
+          width: 1px;
           height: 1px;
-          overflow:hidden;
+          overflow: hidden;
       }
 
       body {
@@ -103,14 +118,15 @@
           margin: 0;
           background-color: #F5F5F7;
       }
-      .content{
+
+      .content {
           width: 1100px;
           min-height: 600px;
           flex-grow: 1;
           margin-bottom: 20px;
       }
 
-      .journal_box{
+      .journal_box {
           background-color: white;
           border-radius: 40px;
           /*border: 1px solid red;*/
@@ -118,6 +134,7 @@
           margin-bottom: 20px;
           padding-bottom: 20px;
       }
+
       #journal_carousel {
           /*background-color: #bbbbbb;*/
           width: 70%;
@@ -126,10 +143,12 @@
           border-radius: 20px;
           border: none;
       }
+
       #carouselExample {
           border: none
       }
-      .main_carousel_image{
+
+      .main_carousel_image {
           display: inline-block;
           border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
           max-width: 100%;
@@ -141,52 +160,61 @@
           /*box-shadow: 6px 6px 12px gray; !* 그림자 효과 추가 *!*/
 
       }
+
       .carousel-item {
           position: relative; /* 상대 위치 기준 */
       }
 
       #add_image_button2:hover {
           /*background-color: white;*/
-          transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
+          transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
           /*filter: brightness(1.2);  !* 밝기 조정 *!*/
       }
+
       .add_image_button {
           width: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
           height: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
           cursor: pointer; /* 클릭 가능한 커서로 변경 */
           transition: transform 0.3s ease;
-          z-index: 10;  /* 최상위 레이어로 설정 */
+          z-index: 10; /* 최상위 레이어로 설정 */
       }
-      #add_image_button2{
+
+      #add_image_button2 {
           position: absolute; /* 절대 위치 설정 */
           right: 20px; /* 오른쪽에서 20px 떨어진 위치 */
           bottom: 40px; /* 아래쪽에서 20px 떨어진 위치 */
       }
-      #journal_article{
+
+      #journal_article {
           width: 70%; /* 부모 요소에 맞춤 */
           height: 300px; /* 원하는 높이로 조정 */
           /*border: 1px solid black;*/
           margin: 20px auto;
       }
-      .journal_text{
+
+      .journal_text {
           width: 100%;
           border: none;
           /*height: 200px;*/
           /*margin-bottom: 20px;*/
       }
-      #journal_title{
+
+      #journal_title {
           font-size: 20px;
           /*font-weight: bold;*/
       }
-      textarea{
+
+      textarea {
           resize: none;
       }
-      .journal_day{
+
+      .journal_day {
           margin: 0 auto;
           /*border: 1px solid blue;*/
           width: 70%;
       }
-      .day_button{
+
+      .day_button {
           display: inline-block;
           text-align: center;
           border-radius: 40px;
@@ -198,20 +226,24 @@
           cursor: pointer;
           transition: background-color 0.3s, color 0.3s;
       }
-      .date{
+
+      .date {
           color: #bbbbbb;
           display: inline;
           font-weight: 700;
       }
-      .day{
+
+      .day {
           display: inline;
           font-weight: 900;
       }
-      .day, .date{
+
+      .day, .date {
           margin: 0;
           padding: 0;
       }
-      .day_bar{
+
+      .day_bar {
           font-weight: 900;
           margin: 20px auto;
           font-size: 20px;
@@ -220,21 +252,24 @@
           /*border: 1px solid #bbbbbb;*/
 
       }
-      .edit_button{
+
+      .edit_button {
           width: 30px;
           height: 30px;
           margin-left: auto; /* 오른쪽 정렬 */
           /*background-color: white;*/
       }
+
       .vertical_line {
-          width: 3px;               /* 세로 줄 두께 */
-          height: 15px;            /* 세로 줄 길이 */
-          background-color: #bbbbbb;   /* 세로 줄 색상 */
+          width: 3px; /* 세로 줄 두께 */
+          height: 15px; /* 세로 줄 길이 */
+          background-color: #bbbbbb; /* 세로 줄 색상 */
           display: inline;
           margin: auto 10px;
           align-items: center;
       }
-      .circle{
+
+      .circle {
           border-radius: 50%;
           border: 1px solid #555555;
           width: 25px;
@@ -247,51 +282,61 @@
           font-size: 14px;
           /*align-items: center;*/
       }
-      .journal_place{
+
+      .journal_place {
           display: flex;
           /*border: 1px solid red;*/
           margin: 30px auto;
       }
-      .place_name{
+
+      .place_name {
           font-weight: 800;
       }
-      .place_info{
+
+      .place_info {
           /*display: block;*/
           color: #bbbbbb;
           font-size: 12px;
       }
-      .place_div{
+
+      .place_div {
           margin-left: 10px;
       }
+
       .circle_container {
           display: flex;
-          flex-direction: column;  /* 요소들을 세로로 정렬 */
-          align-items: center;     /* 중앙 정렬 */
+          flex-direction: column; /* 요소들을 세로로 정렬 */
+          align-items: center; /* 중앙 정렬 */
       }
-      .long_vertical_line{
-          width: 2px;             /* 세로 줄 두께 */
-          height: 50px;           /* 세로 줄 길이 */
+
+      .long_vertical_line {
+          width: 2px; /* 세로 줄 두께 */
+          height: 50px; /* 세로 줄 길이 */
           background-color: #bbbbbb; /* 줄 색상 */
-          margin-top: 5px;        /* 원과의 간격 */
+          margin-top: 5px; /* 원과의 간격 */
       }
+
       .day_button.active {
           background-color: #007bff; /* 클릭 후 배경 색 */
           color: white; /* 클릭 후 텍스트 색 */
       }
-      .modal_button{
+
+      .modal_button {
           background-color: white;
           border: none;
           margin-left: auto;
           padding-top: 10px;
           align-self: start;
       }
-      .modal_button:hover{
+
+      .modal_button:hover {
           cursor: pointer; /* 클릭 가능한 커서로 변경 */
           transition: transform 0.3s ease;
-          transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
+          transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
           /*filter: brightness(1.2);  !* 밝기 조정 *!*/
       }
-      .modal_title{
+
+      .modal_title {
           background-color: black;
           color: white;
           width: 100%;
@@ -299,7 +344,8 @@
           margin: 0 auto;
           height: 40px;
       }
-      .modal_day_bar{
+
+      .modal_day_bar {
           line-height: 40px;
           font-weight: 900;
           font-size: 20px;
@@ -308,54 +354,65 @@
           align-items: center;
           justify-content: space-between;
       }
-      .modal_vertical_line{
-          width: 3px;               /* 세로 줄 두께 */
-          height: 30px;            /* 세로 줄 길이 */
-          background-color: white;   /* 세로 줄 색상 */
+
+      .modal_vertical_line {
+          width: 3px; /* 세로 줄 두께 */
+          height: 30px; /* 세로 줄 길이 */
+          background-color: white; /* 세로 줄 색상 */
           margin: 0 20px;
       }
-      .modal_day{
+
+      .modal_day {
           text-align: left;
           flex: 1;
           margin-left: 5px;
       }
-      .modal_date{
+
+      .modal_date {
           text-align: right;
           flex: 1;
           margin-right: 5px;
       }
-      .nav{
+
+      .nav {
           background-color: white;
           margin-top: 20px;
       }
-      .nav-item{
+
+      .nav-item {
           background-color: white;
       }
-      #navbar-example2{
+
+      #navbar-example2 {
           background-color: white;
       }
-      .nav-link{
+
+      .nav-link {
           padding: 5px;
       }
-      .modal_textarea{
+
+      .modal_textarea {
           border-radius: 10px;
           width: 100%;
       }
-      .modal-content{
+
+      .modal-content {
           width: 370px;
       }
-      h3{
+
+      h3 {
           font-weight: 700;
       }
 
-      .modal_image{
+      .modal_image {
           /*display: inline-block;*/
           border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
           width: 100%; /* 부모 요소에 맞춤 */
           height: 100%; /* 원하는 높이로 조정 */
           object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
       }
-      .modal_carousel_area{
+
+      .modal_carousel_area {
           width: 100%;
           height: 200px;
           margin-right: 0;
@@ -376,8 +433,9 @@
           margin-right: 10px;
           margin-bottom: 10px;
       }
+
       #add_image_button1:hover {
-          transform: scale(1.1);  /* 마우스 호버 시 약간 확대 */
+          transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
       }
 
       .custom-marker {
@@ -390,11 +448,13 @@
           align-items: center;
           justify-content: center;
       }
+
       .map_div {
           width: 100%;
           height: 400px;
           /*border: 1px solid red;*/
       }
+
       .place_review {
           display: flex;
           align-items: center; /* 세로 중앙 정렬 */
@@ -416,13 +476,15 @@
           width: 100%;
           justify-content: center; /* 중앙 정렬 */
       }
+
       .rate img {
           height: 1em; /* 글자 크기와 동일 */
           width: auto; /* 비율 유지 */
           vertical-align: middle; /* 글자와 정렬 */
       }
+
       .journal_carousel {
-          width: 700px;  /* 원하는 크기로 조정 */
+          width: 700px; /* 원하는 크기로 조정 */
           max-width: 100%; /* 반응형 유지 */
           height: 300px;
       }
@@ -450,9 +512,9 @@
         <div class="carousel-inner">
           <c:forEach var="image" items="${imageList}" varStatus="index">
             <c:if test="${image.plan_idx == plan_idx}">
-            <div class="carousel-item ${index.first ? 'active' : ''}">
-              <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
-            </div>
+              <div class="carousel-item ${index.first ? 'active' : ''}">
+                <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
+              </div>
             </c:if>
           </c:forEach>
         </div>
@@ -469,10 +531,10 @@
     <%--    이미지 케러셀 끝--%>
     <%--    간단한 후기 글 작성란--%>
     <div id="journal_article">
-<%--      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)" value="${journalVO.title}">--%>
+      <%--      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)" value="${journalVO.title}">--%>
       <a id="journal_title">${journalVO.title}</a>
       <hr>
-<%--      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)">${fn:trim(journalVO.subtitle)}</textarea>--%>
+      <%--      <textarea class="journal_text" id="journal_" rows="9" maxlength="250" placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)">${fn:trim(journalVO.subtitle)}</textarea>--%>
       <a>${fn:trim(journalVO.subtitle)}</a>
     </div>
   </div>
@@ -488,9 +550,9 @@
                   <p class="day">day ${index.count}</p>
                   <br>
                   <p class="date">
-                    <fmt:parseDate value="${dateVO.date}" pattern="yyyy-MM-dd" var="parsedDate" />
+                    <fmt:parseDate value="${dateVO.date}" pattern="yyyy-MM-dd" var="parsedDate"/>
                     <!-- 월/일/요일 형식으로 출력 -->
-                    <fmt:formatDate value="${parsedDate}" pattern="M.dd/EEE" />
+                    <fmt:formatDate value="${parsedDate}" pattern="M.dd/EEE"/>
                   </p>
                 </div>
               </a>
@@ -501,17 +563,23 @@
       <div class="day_box">
         <%--  Day 바 --%>
         <c:forEach var="dateVO" items="${dateVO}" varStatus="status">
-      <div id="map_div${status.index}" class="map_div"></div>
-      <div id="waypointsData${status.index}" style="display:none;">
-        {
-        <c:forEach var="temp" items="${list}" varStatus="tempStatus">
-          "${temp.title}": {
-          "lng": ${temp.map_x},
-          "lat": ${temp.map_y}
-          }<c:if test="${!tempStatus.last}">,</c:if>
-        </c:forEach>
-        }
-      </div>
+          <div id="map_div${status.index}" class="map_div"></div>
+
+          <div id="waypointsData${status.index}" style="display:none;">
+            {
+            <c:set var="first" value="true"/>
+            <c:forEach var="temp" items="${list}">
+              <c:if test="${temp.date_idx == dateVO.idx}">
+                <c:if test="${not first}">,</c:if>
+                "${temp.title}": {
+                "lng": ${temp.map_x},
+                "lat": ${temp.map_y}
+                }
+                <c:set var="first" value="false"/>
+              </c:if>
+            </c:forEach>
+            }
+          </div>
           <div class="day_bar" id="scrollspyHeading${status.index}">
             Day ${status.count}
             <div class="vertical_line"></div>
@@ -523,12 +591,13 @@
           <c:forEach var="list" items="${list}" varStatus="status2">
             <c:if test="${list.date_idx == dateVO.idx}">
               <div class="journal_place">
-                <div  class="circle_container">
+                <div class="circle_container">
                   <div class="circle">${list.visit_order}</div>
                   <div class="long_vertical_line"></div>
                 </div>
                 <div class="place_div">
-                  <div class="place_name" id="day${status2.count}_place${status2.count}" data-bs-toggle="modal" data-bs-target="#exampleModal${status2.count}" style="cursor: pointer">
+                  <div class="place_name" id="day${status2.count}_place${status2.count}" data-bs-toggle="modal"
+                       data-bs-target="#exampleModal${status2.count}" style="cursor: pointer">
                       ${list.title}
                   </div>
                   <p class="place_info">
@@ -560,78 +629,80 @@
                     <c:if test="${list.content_type_id == 12}">관광지</c:if>
                   </p>
                     <%-- review가 표시될 div --%>
-<%--                  <div id="reviewPreview${index.count}" class="place_info"></div>--%>
+                    <%--                  <div id="reviewPreview${index.count}" class="place_info"></div>--%>
                 </div>
-<%--                <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">--%>
-<%--                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
-<%--                </button>--%>
+                  <%--                <button type="button" class="modal_button" data-bs-toggle="modal" data-bs-target="#exampleModal${index.count}">--%>
+                  <%--                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
+                  <%--                </button>--%>
               </div>
               <%--          후기 div--%>
-        <c:if test="${list.place_idx == reviewVO.place_idx}">
-          <div class="place_review">
+              <c:if test="${list.place_idx == reviewVO.place_idx}">
+                <div class="place_review">
 
-          <div class="show_place_review">
-              <div class="review">작성한 후기: ${reviewVO.review}</div>
-              <%--          별점 div--%>
-            <div class="rate">별점:
-                <c:if test="${reviewVO.rate == 5}">
-                  <img src="/www/rate_5.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 4.5}">
-                  <img src="/www/rate_4.5.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 4}">
-                  <img src="/www/rate_4.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 3.5}">
-                  <img src="/www/rate_3.5.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 3}">
-                  <img src="/www/rate_3.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 2.5}">
-                  <img src="/www/rate_2.5.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 2}">
-                  <img src="/www/rate_2.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 1.5}">
-                  <img src="/www/rate_1.5.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 1}">
-                  <img src="/www/rate_1.png">
-                </c:if>
-                <c:if test="${reviewVO.rate == 0.5}">
-                  <img src="/www/rate_0.5.png">
-                </c:if>
-              </div>
-            </div>
-                <div class="place_review_carousel">
-                  <div class="journal_box">
-                    <div id="journal_carousel" class="journal_carousel">
-                      <div id="carouselExample" class="carousel slide">
-                        <div class="carousel-inner">
-                          <c:forEach var="image" items="${imageList}" varStatus="index">
-                            <%--                          <c:if test="${image.plan_idx == plan_idx}">--%>
-                            <div class="carousel-item ${index.first ? 'active' : ''}">
-                              <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
-                            </div>
-                            <%--                          </c:if>--%>
-                          </c:forEach>
+                  <div class="show_place_review">
+                    <div class="review">작성한 후기: ${reviewVO.review}</div>
+                      <%--          별점 div--%>
+                    <div class="rate">별점:
+                      <c:if test="${reviewVO.rate == 5}">
+                        <img src="/www/rate_5.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 4.5}">
+                        <img src="/www/rate_4.5.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 4}">
+                        <img src="/www/rate_4.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 3.5}">
+                        <img src="/www/rate_3.5.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 3}">
+                        <img src="/www/rate_3.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 2.5}">
+                        <img src="/www/rate_2.5.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 2}">
+                        <img src="/www/rate_2.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 1.5}">
+                        <img src="/www/rate_1.5.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 1}">
+                        <img src="/www/rate_1.png">
+                      </c:if>
+                      <c:if test="${reviewVO.rate == 0.5}">
+                        <img src="/www/rate_0.5.png">
+                      </c:if>
+                    </div>
+                  </div>
+                  <div class="place_review_carousel">
+                    <div class="journal_box">
+                      <div id="journal_carousel" class="journal_carousel">
+                        <div id="carouselExample" class="carousel slide">
+                          <div class="carousel-inner">
+                            <c:forEach var="image" items="${imageList}" varStatus="index">
+                              <%--                          <c:if test="${image.plan_idx == plan_idx}">--%>
+                              <div class="carousel-item ${index.first ? 'active' : ''}">
+                                <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
+                              </div>
+                              <%--                          </c:if>--%>
+                            </c:forEach>
+                          </div>
+                          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                  data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                  data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="visually-hidden">Next</span>
-                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </c:if>
             </c:if>
           </c:forEach>
@@ -646,6 +717,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   <%--day 이동 버튼--%>
+
   function changeColor(button) {
     // 모든 버튼에서 active 클래스를 제거
     var buttons = document.querySelectorAll('.day_button');
@@ -689,7 +761,7 @@
   }
 
   // textarea 글 출력
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     let waypointsElements = document.querySelectorAll("[id^='waypointsData']");
 
     waypointsElements.forEach((element, index) => {
