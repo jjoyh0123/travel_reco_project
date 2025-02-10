@@ -173,7 +173,7 @@
 | Key | Column   | Korean    | Data type     | Etc               |
 |:---:|:---------|:----------|:--------------|:------------------|
 | PK  | idx      | 고유 식별자    | bigint        | AI                |
-| FK  | user_idx | 유저 고유 식별자 |               |
+| FK  | user_idx | 유저 고유 식별자 |               |                   |
 |     | title    | 제목        | varchar(100)  |                   |
 |     | content  | 내용        | varchar(5000) |                   |
 |     | reg_date | 등록일       | datetime      |                   |

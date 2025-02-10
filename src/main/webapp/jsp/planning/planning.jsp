@@ -387,7 +387,7 @@
     }
 
     // Fetch session data
-    const user_idx = sessionStorage.getItem("user_idx") || "1";
+    const user_idx = sessionStorage.getItem("user_idx") ? sessionStorage.getItem("user_idx") : "1";
     const title = prompt("여행 계획 제목을 입력하세요:");
 
     if (!title) return;

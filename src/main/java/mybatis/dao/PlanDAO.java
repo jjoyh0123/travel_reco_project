@@ -55,7 +55,7 @@ public class PlanDAO {
       int cnt = ss.insert("plan.insertDate", param);
       if (cnt > 0) {
         ss.commit();
-        System.out.printf("Inserted date with param: %s, idx: %s", param, param.get("idx"));
+        System.out.printf("Inserted date at DAO with param: %s, idx: %s\n", param, param.get("idx"));
         date_idx = param.get("idx").toString();
       } else {
         ss.rollback();
@@ -79,6 +79,7 @@ public class PlanDAO {
       param.put("content_id", place.getString("content_id"));
       param.put("content_type_id", place.getInt("content_type_id"));
       param.put("title", place.getString("title"));
+      param.put("address", place.getString("address"));
       param.put("thumbnail", place.getString("thumbnail"));
       param.put("map_x", place.getDouble("map_x"));
       param.put("map_y", place.getDouble("map_y"));

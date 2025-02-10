@@ -1,0 +1,846 @@
+<%@ page import="mybatis.vo.PlaceVO" %>
+<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>후기 작성</title>
+  <style>
+    /*    별점 기능*/
+    .starpoint_wrap {
+      display: inline-block;
+    }
+
+    .starpoint_box {
+      position: relative;
+      background: url('/www/sp_star.png') 0 0 no-repeat;
+      font-size: 0;
+    }
+
+    .starpoint_box .starpoint_bg {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 18px;
+      background: url('/www/sp_star.png') 0 -20px no-repeat;
+      pointer-events: none;
+    }
+
+    .starpoint_box .label_star {
+      display: inline-block;
+      width: 10px;
+      height: 18px;
+      box-sizing: border-box;
+    }
+
+    .starpoint_box .star_radio {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(1):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg {
+      width: 8.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(2):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg {
+      width: 18.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(3):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg {
+      width: 28.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(4):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg {
+      width: 38.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(5):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg {
+      width: 48.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(6):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg {
+      width: 58.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(7):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg {
+      width: 68.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(8):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg {
+      width: 78.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(9):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg {
+      width: 88.7%;
+    }
+
+    .starpoint_box .star_radio:nth-of-type(10):hover ~ .starpoint_bg,
+    .starpoint_box .star_radio:nth-of-type(10):checked ~ .starpoint_bg {
+      width: 98.7%;
+    }
+
+    .blind {
+      position: absolute;
+      clip: rect(0 0 0 0);
+      margin: -1px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      background-color: #F5F5F7;
+    }
+
+    .content {
+      width: 1100px;
+      min-height: 600px;
+      flex-grow: 1;
+      margin-bottom: 20px;
+    }
+
+    .journal_box {
+      background-color: white;
+      border-radius: 40px;
+      /*border: 1px solid red;*/
+      width: 100%;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+
+    #journal_carousel {
+      /*background-color: #bbbbbb;*/
+      width: 70%;
+      /*height: 70%;*/
+      margin: 0 auto;
+      border-radius: 20px;
+      border: none;
+    }
+
+    #carouselExample {
+      border: none
+    }
+
+    .main_carousel_image {
+      display: inline-block;
+      border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
+      max-width: 100%;
+      max-height: 400px;
+      width: 100%; /* 부모 요소에 맞춤 */
+      height: 400px; /* 원하는 높이로 조정 */
+      object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
+      margin-top: 20px;
+      /*box-shadow: 6px 6px 12px gray; !* 그림자 효과 추가 *!*/
+
+    }
+
+    .carousel-item {
+      position: relative; /* 상대 위치 기준 */
+    }
+
+    #add_image_button2:hover {
+      /*background-color: white;*/
+      transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
+      /*filter: brightness(1.2);  !* 밝기 조정 *!*/
+    }
+
+    .add_image_button {
+      width: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
+      height: 50px; /* 버튼 크기 조정 (원하는 크기로 조절 가능) */
+      cursor: pointer; /* 클릭 가능한 커서로 변경 */
+      transition: transform 0.3s ease;
+      z-index: 10; /* 최상위 레이어로 설정 */
+    }
+
+    #add_image_button2 {
+      position: absolute; /* 절대 위치 설정 */
+      right: 20px; /* 오른쪽에서 20px 떨어진 위치 */
+      bottom: 40px; /* 아래쪽에서 20px 떨어진 위치 */
+    }
+
+    #journal_article {
+      width: 70%; /* 부모 요소에 맞춤 */
+      height: 300px; /* 원하는 높이로 조정 */
+      /*border: 1px solid black;*/
+      margin: 20px auto;
+    }
+
+    .journal_text {
+      width: 100%;
+      border: none;
+      /*height: 200px;*/
+      /*margin-bottom: 20px;*/
+    }
+
+    #journal_title {
+      font-size: 20px;
+      /*font-weight: bold;*/
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .journal_day {
+      margin: 0 auto;
+      /*border: 1px solid blue;*/
+      width: 70%;
+    }
+
+    .day_button {
+      display: inline-block;
+      text-align: center;
+      border-radius: 40px;
+      border: 1px solid #bbbbbb;
+      width: 90px;
+      margin: auto;
+      font-size: 14px;
+      padding: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .date {
+      color: #bbbbbb;
+      display: inline;
+      font-weight: 700;
+    }
+
+    .day {
+      display: inline;
+      font-weight: 900;
+    }
+
+    .day, .date {
+      margin: 0;
+      padding: 0;
+    }
+
+    .day_bar {
+      font-weight: 900;
+      margin: 20px auto;
+      font-size: 20px;
+      display: flex;
+      padding: 10px;
+      /*border: 1px solid #bbbbbb;*/
+
+    }
+
+    .edit_button {
+      width: 30px;
+      height: 30px;
+      margin-left: auto; /* 오른쪽 정렬 */
+      /*background-color: white;*/
+    }
+
+    .vertical_line {
+      width: 3px; /* 세로 줄 두께 */
+      height: 15px; /* 세로 줄 길이 */
+      background-color: #bbbbbb; /* 세로 줄 색상 */
+      display: inline;
+      margin: auto 10px;
+      align-items: center;
+    }
+
+    .circle {
+      border-radius: 50%;
+      border: 1px solid #555555;
+      width: 25px;
+      height: 25px;
+      /*line-height: 26px;*/
+      color: white;
+      background-color: #007bff;
+      font-weight: bold;
+      text-align: center;
+      font-size: 14px;
+      /*align-items: center;*/
+    }
+
+    .journal_place {
+      display: flex;
+      /*border: 1px solid red;*/
+      margin: 30px auto;
+    }
+
+    .place_name {
+      font-weight: 800;
+    }
+
+    .place_info {
+      /*display: block;*/
+      color: #bbbbbb;
+      font-size: 12px;
+    }
+
+    .place_div {
+      margin-left: 10px;
+    }
+
+    .circle_container {
+      display: flex;
+      flex-direction: column; /* 요소들을 세로로 정렬 */
+      align-items: center; /* 중앙 정렬 */
+    }
+
+    .long_vertical_line {
+      width: 2px; /* 세로 줄 두께 */
+      height: 50px; /* 세로 줄 길이 */
+      background-color: #bbbbbb; /* 줄 색상 */
+      margin-top: 5px; /* 원과의 간격 */
+    }
+
+    .day_button.active {
+      background-color: #007bff; /* 클릭 후 배경 색 */
+      color: white; /* 클릭 후 텍스트 색 */
+    }
+
+    .modal_button {
+      background-color: white;
+      border: none;
+      margin-left: auto;
+      padding-top: 10px;
+      align-self: start;
+    }
+
+    .modal_button:hover {
+      cursor: pointer; /* 클릭 가능한 커서로 변경 */
+      transition: transform 0.3s ease;
+      transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
+      /*filter: brightness(1.2);  !* 밝기 조정 *!*/
+    }
+
+    .modal_title {
+      background-color: black;
+      color: white;
+      width: 100%;
+      border-radius: 10px;
+      margin: 0 auto;
+      height: 40px;
+    }
+
+    .modal_day_bar {
+      line-height: 40px;
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      margin: 0 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal_vertical_line {
+      width: 3px; /* 세로 줄 두께 */
+      height: 30px; /* 세로 줄 길이 */
+      background-color: white; /* 세로 줄 색상 */
+      margin: 0 20px;
+    }
+
+    .modal_day {
+      text-align: left;
+      flex: 1;
+      margin-left: 5px;
+    }
+
+    .modal_date {
+      text-align: right;
+      flex: 1;
+      margin-right: 5px;
+    }
+
+    .nav {
+      background-color: white;
+      margin-top: 20px;
+    }
+
+    .nav-item {
+      background-color: white;
+    }
+
+    #navbar-example2 {
+      background-color: white;
+    }
+
+    .nav-link {
+      padding: 5px;
+    }
+
+    .modal_textarea {
+      border-radius: 10px;
+      width: 100%;
+    }
+
+    .modal-content {
+      width: 370px;
+    }
+
+    h3 {
+      font-weight: 700;
+    }
+
+    .modal_image {
+      /*display: inline-block;*/
+      border-radius: 20px; /* 이미지 테두리를 둥글게 설정 */
+      width: 100%; /* 부모 요소에 맞춤 */
+      height: 100%; /* 원하는 높이로 조정 */
+      object-fit: cover; /* 이미지 비율 유지 및 잘라내기 */
+    }
+
+    .modal_carousel_area {
+      width: 100%;
+      height: 200px;
+      margin-right: 0;
+      position: relative; /* 캐러셀의 부모 요소에 상대 위치 지정 */
+    }
+
+    .add_image_button_area {
+      position: absolute; /* 버튼을 절대 위치로 설정 */
+      bottom: 20px; /* 캐러셀 하단에서 20px 떨어지게 */
+      right: 20px; /* 캐러셀 오른쪽에서 20px 떨어지게 */
+      z-index: 10; /* 버튼이 다른 요소 위에 오도록 설정 */
+    }
+
+    #add_image_button1 {
+      width: 35px; /* 버튼 크기 조정 */
+      height: 35px; /* 버튼 크기 조정 */
+      cursor: pointer; /* 클릭할 수 있음을 시각적으로 표현 */
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    #add_image_button1:hover {
+      transform: scale(1.1); /* 마우스 호버 시 약간 확대 */
+    }
+
+  </style>
+</head>
+<body>
+<%-- 모달 --%>
+<c:forEach var="list" items="${list}" varStatus="index">
+  <div class="modal fade" id="exampleModal${index.count}" tabindex="-1" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <%-- 모달 제목 --%>
+            <%-- <h1 class="modal-title fs-5" id="exampleModalLabel"> --%>
+          <h2 class="modal_title">
+            <div class="modal_day_bar">
+              <div class="modal_day">Day ${list.date_idx}</div>
+              <div class="modal_vertical_line"></div>
+              <div class="modal_date">${list.date}</div>
+            </div>
+          </h2>
+            <%-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --%>
+        </div>
+        <div class="modal-body">
+          <h3>${list.title}</h3>
+            <%-- 별점 기능 --%>
+          <div class="starpoint_wrap">
+            <div class="starpoint_box">
+              <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
+              <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
+              <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
+              <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
+              <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
+              <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
+              <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
+              <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
+              <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
+              <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
+
+              <input type="radio" name="starpoint" id="starpoint_1" class="star_radio"
+                     onclick="updateStarRating(0.5, '0.5점')">
+              <input type="radio" name="starpoint" id="starpoint_2" class="star_radio"
+                     onclick="updateStarRating(1, '1점')">
+              <input type="radio" name="starpoint" id="starpoint_3" class="star_radio"
+                     onclick="updateStarRating(1.5, '1.5점')">
+              <input type="radio" name="starpoint" id="starpoint_4" class="star_radio"
+                     onclick="updateStarRating(2, '2점')">
+              <input type="radio" name="starpoint" id="starpoint_5" class="star_radio"
+                     onclick="updateStarRating(2.5, '2.5점')">
+              <input type="radio" name="starpoint" id="starpoint_6" class="star_radio"
+                     onclick="updateStarRating(3, '3점')">
+              <input type="radio" name="starpoint" id="starpoint_7" class="star_radio"
+                     onclick="updateStarRating(3.5, '3.5점')">
+              <input type="radio" name="starpoint" id="starpoint_8" class="star_radio"
+                     onclick="updateStarRating(4, '4점')">
+              <input type="radio" name="starpoint" id="starpoint_9" class="star_radio"
+                     onclick="updateStarRating(4.5, '4.5점')">
+              <input type="radio" name="starpoint" id="starpoint_10" class="star_radio"
+                     onclick="updateStarRating(5, '5점')">
+              <span class="starpoint_bg"></span>
+            </div>
+          </div>
+            <%--별점 기능 끝--%>
+          <hr>
+            <%--후기 입력--%>
+          <textarea class="modal_textarea" maxlength="250" rows="5" placeholder="간단한 후기 작성(250자)"
+                    id="textarea"></textarea>
+
+          <hr>
+
+          <div class="add_image_area">
+              <%--      사진 추가 버튼--%>
+            <div class="add_image_button_area">
+            </div>
+              <%--  사진 추가 버튼 끝--%>
+              <%--          캐러셀--%>
+            <div class="modal_carousel_area">
+              <div id="modal_carousel" class="carousel slide">
+                <div class="carousel-inner" id="carouselInner">
+                    <%-- 초기 미리보기 이미지 --%>
+                  <c:forEach var="image_list" items="${imageVO}" varStatus="index">
+                    <div class="carousel-item ${index.first ? 'active' : ''}">
+                      <img src="${image_list.file_path}" alt="후기 사진을 등록해주세요" class="modal_image">
+                    </div>
+                  </c:forEach>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#modal_carousel"
+                        data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#modal_carousel"
+                        data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+            <%--      캐러셀 끝--%>
+        </div>
+        <div class="modal-footer">
+            <%--사진 추가 버튼--%>
+          <form id="upload_form" enctype="multipart/form-data">
+            <input type="hidden" name="action" placeholder="action: upload" value="upload"><br>
+            <input type="hidden" name="type" placeholder="type: journal or review"
+                   value="journal"><br> <%-- value journal / review --%>
+            <input type="hidden" name="user_idx" placeholder="user_idx" value="1"><br>
+            <input type="hidden" name="plan_idx" placeholder="plan_idx, when type journal" value="2"><br>
+            <input type="hidden" name="place_idx" placeholder="place_idx when type review"><br>
+            <label for="fileInput">
+              <img src="/www/add_image_button.png" id="add_image_button1" class="add_image_button" alt="사진 추가 버튼">
+            </label>
+            <input type="file" id="fileInput" name="file" multiple style="display: none;"><br><br>
+            <input type="button" value="Upload" onclick="upload_images()">
+          </form>
+          <div id="result"></div>
+            <%--  사진 추가 버튼--%>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">저장</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</c:forEach>
+
+
+<jsp:include page="/jsp/header.jsp"/>
+<article class="content">
+  <%--  이미지 케러셀--%>
+  <div class="journal_box">
+    <div id="journal_carousel">
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <c:forEach var="image_list" items="${imageVO}" varStatus="index">
+            <div class="carousel-item ${index.first ? 'active' : ''}">
+              <img src="${image_list.file_path}" alt="${image_list.file_path}" class="main_carousel_image">
+            </div>
+          </c:forEach>
+          <%-- 사진 추가 버튼 --%>
+          <div>
+            <img src="/www/add_image_button.png" id="add_image_button2" class="add_image_button" alt="사진 추가 버튼">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <%-- 이미지 케러셀 끝 --%>
+    <%-- 간단한 후기 글 작성란 --%>
+    <div id="journal_article">
+      <input type="text" class="journal_text" id="journal_title" maxlength="25" placeholder="여행기 제목(필수 최대 25자)">
+      <hr>
+      <textarea class="journal_text" id="journal_subtitle" rows="9" maxlength="250"
+                placeholder="이번 여행은 어떤 여행이었나요? 여행에 대한 한 줄 요약 또는 여행 꿀팁을 남겨보세요.(최대 250자)"></textarea>
+    </div>
+  </div>
+
+  <div class="journal_box">
+
+    <div class="journal_day">
+      <nav id="navbar-example2" class="navbar">
+        <%-- 날짜 스크롤링 버튼, .navbar-example2 --%>
+        <ul class="nav nav-pills"></ul>
+      </nav>
+
+      <div class="day_box">
+        <%-- Day 바 --%>
+      </div>
+    </div>
+  </div>
+</article>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let plan_idx = ${param.plan_idx};
+  let journal_image_list = [];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    init();
+  });
+
+  function init() {
+    $.ajax({
+      url: '${pageContext.request.contextPath}/Controller?type=journal_registration&action=get_plan&plan_idx=' + plan_idx,
+      method: 'POST'
+    }).done(function (data) {
+      data.plan = JSON.parse(data.plan);
+      data.plan['image_list'] = [];
+
+      // 1. dateList가 존재하는지 확인
+      if (data.plan.dateList && data.plan.dateList.length > 0) {
+        data.plan.dateList.sort((a, b) => new Date(a.date) - new Date(b.date));
+        data.plan.dateList.forEach(item => item.places = []);
+        let dateList = data.plan.dateList;
+
+        // 1. 날짜별로 데이터 정리
+        const dateMap = new Map(); // 날짜를 key로, 해당 날짜의 장소 배열을 value로 갖는 Map
+
+        data.data.forEach(item => {
+          if (!dateMap.has(item.date)) {
+            dateMap.set(item.date, []);
+          }
+          dateMap.get(item.date).push(item);
+        });
+
+        // 2. data.plan.dateList 순회하며 places 채우기
+        data.plan.dateList.forEach(dateItem => {
+          const date = dateItem.date;
+          if (dateMap.has(date)) {
+            dateItem.places = dateMap.get(date);
+          }
+        });
+
+        // visit order 순서대로 정렬
+        data.plan.dateList.forEach(item => {
+          item.places.sort((a,b) => a.place_visit_order - b.place_visit_order);
+        });
+
+        console.log(data);
+
+        const dayBox = document.querySelector('.day_box'); // day_box 요소 선택
+        const nav = document.querySelector('.nav');
+
+        // 2. c:forEach 대신 JavaScript 반복문 사용
+        let day_box_html = ''; // 생성할 HTML 문자열 변수
+        let nav_item_html = '';
+
+        dateList.forEach((date_item, date_index) => {
+          nav_item_html += `
+            <li class="nav-item">
+              <a class="nav-link" href="#scrollspyHeading` + date_index + `">
+                <div class="day_button" onclick="changeColor(this)">
+                  <p class="day">day ` + date_index + `</p>
+                  <br>
+                  <p class="date">
+                    ` + formatDate(date_item.date) + `
+                  </p>
+                </div>
+              </a>
+            </li>`;
+
+          // 3. 각 DateVO 객체에 대한 HTML 생성
+          day_box_html += `
+            <div class="day_bar" id="scrollspyHeading` + (date_index + 1) + `">
+              Day ` + (date_index + 1) + `
+              <div class="vertical_line"></div>
+              ` + date_item.date + `
+            </div>
+            <hr>
+          `;
+          date_item.places.forEach((place, place_index) => {
+            day_box_html += `
+              <div class="journal_place">
+                <div class="circle_container">
+                  <div class="circle">` + place.place_visit_order + `</div>
+                  <div class="long_vertical_line"></div>
+                </div>
+                <div class="place_div">
+                  <div class="place_name" id="day` + date_index + `_place` + place_index +`">
+                      ` + place.place_title + `
+                  </div>
+                  <p class="place_info">
+                    ` + area_contype(data.plan.area_code, place.content_type_id) + `
+                  </p>
+                  <%-- review가 표시될 div --%>
+                  <div id="reviewPreview` + place_index + `" class="place_info"></div>
+                </div>
+                <button type="button" class="modal_button" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal` + place_index + `">
+                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">
+                </button>
+              </div>
+              <%-- 작성한 후기 보여주는 div --%>
+              <div><span id="outputText"></span></div>
+              <%-- <div id="selectedRating">선택된 별점: 0점</div> --%>
+              <div id="selectedRating"></div>
+            `;
+          });
+        });
+
+        // 4. day_box 아래에 생성된 HTML 추가
+        nav.innerHTML = nav_item_html;
+        dayBox.innerHTML = day_box_html; // day_box의 내용을 생성된 HTML로 교체
+      } else {
+        // dateList가 없거나 비어있는 경우 처리
+        const dayBox = document.querySelector('.day_box');
+        dayBox.innerHTML = "<p>No dates available.</p>"; // 또는 다른 메시지 표시
+      }
+    });
+  };
+
+  function area_contype(area_code, content_type_id) {
+    var area;
+    if(area_code === '1') area = '서울';
+    else if(area_code === '2') area = '인천';
+    else if(area_code === '3') area = '대전';
+    else if(area_code === '4') area = '대구';
+    else if(area_code === '5') area = '광주';
+    else if(area_code === '6') area = '경남';
+    else if(area_code === '7') area = '울산';
+    else if(area_code === '8') area = '세종';
+    else if(area_code === '31') area = '경기';
+    else if(area_code === '32') area = '강원';
+    else if(area_code === '33') area = '충북';
+    else if(area_code === '34') area = '충남';
+    else if(area_code === '35') area = '경북';
+    else if(area_code === '36') area = '경남';
+    else if(area_code === '37') area = '전북';
+    else if(area_code === '38') area = '전남';
+    else if(area_code === '39') area = '제주';
+    var content_type;
+    if(content_type_id === '12') content_type = '관광지';
+    if(content_type_id === '14') content_type = '문화시설';
+    if(content_type_id === '15') content_type = '축제/공연/행사';
+    if(content_type_id === '25') content_type = '여행코스';
+    if(content_type_id === '28') content_type = '레포츠';
+    if(content_type_id === '32') content_type = '음식';
+    if(content_type_id === '38') content_type = '쇼핑';
+    if(content_type_id === '39') content_type = '숙박';
+
+    return area + ` * ` + content_type;
+  }
+
+  function formatDate(dateString) {
+    const date = new Date(dateString); // 'yyyy-mm-dd' 문자열을 Date 객체로 변환
+
+    const options = {
+      month: 'numeric', // 월을 숫자로 표시 (1~12)
+      day: 'numeric',   // 일을 숫자로 표시 (1~31)
+      weekday: 'short'  // 요일을 약어로 표시 (예: Mon, Tue, Wed)
+    };
+
+    return date.toLocaleDateString('ko-KR', options); // 한국 로케일 (ko-KR)에 맞춰 포맷팅
+  }
+
+  <%-- day 이동 버튼--%>
+  function changeColor(button) {
+    // 모든 버튼에서 active 클래스를 제거
+    var buttons = document.querySelectorAll('.day_button');
+    buttons.forEach(function (btn) {
+      btn.classList.remove('active');
+    });
+
+    // 클릭한 버튼에 active 클래스 추가
+    button.classList.add('active');
+  }
+
+  function upload_images() {
+    var form = $('#upload_form')[0];
+    var form_data = new FormData(form);
+    const result_div = document.getElementById('result');
+
+    $.ajax({
+      url: 'http://${applicationScope.publicIP}:8080/Controller?type=upload_image',
+      type: 'POST',
+      data: form_data,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.status === 'success') {
+          // 결과 메시지 표시
+          result_div.innerHTML = '';
+          let image_names_html = '<ul>';
+          for (let i = 0; i < response.image_names.length; i++) {
+            image_names_html += '<li>' + 'http://${applicationScope.publicIP}' + response.image_names[i] + '</li>';
+          }
+          image_names_html += '</ul>';
+          result_div.innerHTML = `<p>${response.message}</p><p>업로드된 파일 목록:</p>` + image_names_html;
+        } else {
+          result_div.innerHTML = '<p>${response.status}</p><p>${response.message}</p>';
+        }
+      },
+      error: function (xhr, status, error) {
+        alert('Error: ' + error);
+      }
+    });
+  }
+
+  // textarea 글 출력
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("textarea[id^='textarea${index.count}']").forEach(textarea => {
+      const index = textarea.id.replace("textarea", ""); // ID에서 숫자 추출
+      const output = document.getElementById(`outputText${index.count}`);
+
+      textarea.addEventListener("input", function () {
+        output.textContent = textarea.value;
+      });
+    });
+  });
+
+  // rate 출력
+  function updateStarRating(rating, title) {
+    // 선택된 별점에 맞게 starpoint_bg의 너비를 조정
+    const starBg = document.querySelector('.starpoint_box .starpoint_bg');
+    const percentage = (rating / 5) * 100; // 5점 만점 기준으로 비율 계산
+    starBg.style.width = percentage + '%';
+
+    // 선택된 별점의 title 값을 출력
+    document.getElementById("selectedRating${index.count}").innerText = title;
+  }
+</script>
+<jsp:include page="/jsp/footer.jsp"/>
+</body>
+</html>

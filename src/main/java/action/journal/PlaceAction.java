@@ -1,0 +1,43 @@
+package action.journal;
+
+import action.Action;
+import mybatis.dao.PlaceDAO;
+import mybatis.vo.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+public class PlaceAction implements Action {
+  @Override
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
+    String viewPath = null;
+
+    PlaceVO[] placeVO = PlaceDAO.getPlace();
+    request.setAttribute("placeVO", placeVO);
+
+    DateVO[] dateVO = PlaceDAO.getDate();
+    request.setAttribute("dateVO", dateVO);
+
+    PlanVO[] planVO = PlaceDAO.getPlan();
+    request.setAttribute("planVO", planVO);
+
+    List<JournalDTO> list = PlaceDAO.getPlan_idx(1);
+    request.setAttribute("list", list);
+
+    ReviewVO[] reviewVO = PlaceDAO.getReview();
+    request.setAttribute("reviewVO", reviewVO);
+
+    ImageVO[] imageVO = PlaceDAO.get_Images();
+    request.setAttribute("imageVO", imageVO);
+
+    HttpSession ss = request.getSession();
+    String user_idx = (String) ss.getAttribute("user_idx");
+    String place_idx = (String) ss.getAttribute("place_idx");
+
+    return "/jsp/journal_registration.jsp";
+
+
+  }
+}
