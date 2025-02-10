@@ -9,31 +9,59 @@ import java.util.List;
 
 public class JournalDAO {
 
-  public static int getTotalCount() {
-    SqlSession ss = FactoryService.getFactory().openSession();
+  public static int get_total_count() {
+    SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("journal.totalCount");
     ss.close();
 
     return cnt;
   }
+  public static JournalVO[] getTotalJournal(){
+    SqlSession ss = FactoryService.get_factory().openSession();
+    JournalVO[] journal = ss.selectOne("journal.totalCount");
+    ss.close();
 
-  public static int getAreaCount(String area_code) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    return journal;
+  }
+
+  public static int get_total_count(String keyword) {
+    SqlSession ss = FactoryService.get_factory().openSession();
+    int cnt = ss.selectOne("journal.searchTotalCount", keyword);
+    ss.close();
+
+    return cnt;
+  }
+
+  public static int get_area_count(String area_code) {
+    SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("journal.areaCount", area_code);
     ss.close();
 
     return cnt;
   }
 
-  public static int getRangeCount(String range) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+  public static int get_search_count(String area_code, String keyword) {
+    SqlSession ss = FactoryService.get_factory().openSession();
+
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("area_code", area_code);
+    map.put("keyword", keyword);
+
+    int cnt = ss.selectOne("journal.searchCount", map);
+    ss.close();
+
+    return cnt;
+  }
+
+  public static int get_range_count(String range) {
+    SqlSession ss = FactoryService.get_factory().openSession();
     int cnt = ss.selectOne("journal.rangeCount", range);
     ss.close();
 
     return cnt;
   }
 
-  public static JournalVO[] getList(int begin, int end) {
+  public static JournalVO[] get_list(int begin, int end) {
     JournalVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
@@ -41,7 +69,7 @@ public class JournalDAO {
     map.put("begin", begin); // String.valueOf(begin);
     map.put("end", end);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<JournalVO> list = ss.selectList("journal.list", map);
 
@@ -54,7 +82,7 @@ public class JournalDAO {
     return ar;
   }
 
-  public static JournalVO[] getList(int begin, int end, String area_code) {
+  public static JournalVO[] get_list(int begin, int end, String area_code) {
     JournalVO[] ar = null;
 
     HashMap<String, Object> map = new HashMap<>();
@@ -63,7 +91,7 @@ public class JournalDAO {
     map.put("end", end);
     map.put("area_code", area_code);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     List<JournalVO> list = ss.selectList("journal.areaList", map);
 
@@ -76,14 +104,15 @@ public class JournalDAO {
     return ar;
   }
 
-  public static JournalVO[] getRangeList(int begin, int end, String range) {
+  public static JournalVO[] get_range_list(int begin, int end, String range, String sort) {
     JournalVO[] ar = null;
     HashMap<String, Object> map = new HashMap<>();
     map.put("begin", begin);
     map.put("end", end);
     map.put("range", range);
+    map.put("sort", sort);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
     List<JournalVO> list = ss.selectList("journal.rangeList", map);
     if (list != null && !list.isEmpty()) {
       ar = new JournalVO[list.size()];
@@ -92,4 +121,76 @@ public class JournalDAO {
     ss.close();
     return ar;
   }
+
+  public static JournalVO[] get_search_list(int begin, int end, String keyword) {
+    JournalVO[] ar = null;
+
+    HashMap<String, Object> map = new HashMap<>();
+
+    map.put("begin", begin); // String.valueOf(begin);
+    map.put("end", end);
+    map.put("keyword", keyword);
+
+    SqlSession ss = FactoryService.get_factory().openSession();
+
+    List<JournalVO> list = ss.selectList("journal.searchList", map);
+
+    if (list != null && !list.isEmpty()) {
+      ar = new JournalVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
+
+  public static JournalVO[] get_search_list(int begin, int end, String area_code, String keyword) {
+    JournalVO[] ar = null;
+
+    HashMap<String, Object> map = new HashMap<>();
+
+    map.put("begin", begin); // String.valueOf(begin);
+    map.put("end", end);
+    map.put("area_code", area_code);
+    map.put("keyword", keyword);
+
+    SqlSession ss = FactoryService.get_factory().openSession();
+
+    List<JournalVO> list = ss.selectList("journal.searchAreaList", map);
+
+    if (list != null && !list.isEmpty()) {
+      ar = new JournalVO[list.size()];
+      list.toArray(ar);
+    }
+    ss.close();
+
+    return ar;
+  }
+
+  public static JournalVO[] getJournalReview(){
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    List<JournalVO> list = ss.selectList("journal.review");
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+    }
+    ss.close();
+    return journal;
+  }
+
+  public static JournalVO[] getTop3list() {
+    JournalVO[] journal = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    List<JournalVO> list = ss.selectList("journal.top3");
+
+    if (list != null && !list.isEmpty()) {
+      journal = new JournalVO[list.size()];
+      list.toArray(journal);
+
+    }
+    ss.close();
+    return journal;
+  }
+
 }

@@ -19,4 +19,5 @@
     ) c
     WHERE c.rnum BETWEEN #{begin} AND #{end}
   </select>
+
 </mapper>

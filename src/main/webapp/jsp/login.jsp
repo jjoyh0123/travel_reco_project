@@ -1,35 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-  <title>로그인방법 선택</title>
+  <title>로그인</title>
   <style>
-      /* 네비게이션 바 스타일 */
-      .navbar {
-          width: 100%;
-          background-color: #F6F5F4;
-          position: relative;
-          height: 30px;
-          top: 0;
-          left: 0;
-          text-align: center;
-          margin-bottom: 200px;
-      }
-
-      #back_btn{
-          position: absolute;
-          left: 10px;
-          top: 0;
-      }
-
       .navbar a {
           color: #1A1A1A;
           text-decoration: none;
           font-size: 18px;
-
       }
 
       .navbar a:hover {
-
           border-radius: 4px;
       }
 
@@ -38,7 +20,6 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          height: auto;
           margin: 0;
           background-color: #f9f9f9;
       }
@@ -48,7 +29,6 @@
           text-align: center;
           color: #ff7f50;
           font-weight: bold;
-          background-color: #f9f9f9;
           margin-bottom: 30px;
       }
 
@@ -131,37 +111,45 @@
   </style>
 </head>
 <body>
-<!-- 네비게이션 바 추가 -->
-<div class="navbar">
-  <a href="${pageContext.request.contextPath}/jsp/index.jsp" id="back_btn">&lt;</a>
-  <a id="login_name">로그인</a>
-</div>
+<!-- 헤더 포함 -->
+<jsp:include page="/jsp/header.jsp"/>
 
+<!-- 로고 및 제목 -->
+<p id="logo_name">Zenzenclub</p>
 
-<p id="logo_name">zenzenclub</p>
-
+<!-- 조건에 따라 소셜 버튼 또는 프로필 사진 출력 -->
 <div class="social-buttons">
-  <button class="social-button kakao" aria-label="카카오 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=kakaoLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-kakao.svg" alt="카카오 로그인"  />
-    <span>카카오로 시작하기</span>
-  </button>
+  <c:if test="${empty sessionScope.profileImg}">
+    <!-- 비로그인 상태: 소셜 로그인 버튼들 출력 -->
+    <button class="social-button kakao" aria-label="카카오 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=kakao_login'">
+      <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-kakao.svg" alt="카카오 로그인" />
+      <span>카카오로 시작하기</span>
+    </button>
 
-  <button class="social-button naver" aria-label="네이버 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=naverLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-naver.svg" alt="네이버 로그인" />
-    <span>네이버로 시작하기</span>
-  </button>
+    <button class="social-button naver" aria-label="네이버 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=naver_login'">
+      <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-naver.svg" alt="네이버 로그인" />
+      <span>네이버로 시작하기</span>
+    </button>
 
-  <button class="social-button google" aria-label="구글 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=googleLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-google.svg" alt="구글 로그인" />
-    <span>Google로 시작하기</span>
-  </button>
+    <button class="social-button google" aria-label="구글 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=google_login'">
+      <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-google.svg" alt="구글 로그인" />
+      <span>Google로 시작하기</span>
+    </button>
 
-  <button class="social-button apple" aria-label="애플 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=appleLogin'">
-    <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-apple.svg" alt="애플 로그인" />
-    <span>Apple로 시작하기</span>
-  </button>
+    <button class="social-button apple" aria-label="애플 로그인" onclick="location.href='${pageContext.request.contextPath}/Controller?type=apple_login'">
+      <img src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-apple.svg" alt="애플 로그인" />
+      <span>Apple로 시작하기</span>
+    </button>
 
-  <a href="${pageContext.request.contextPath}/jsp/emailLogin.jsp" id="email_login">이메일로 시작하기 &gt;</a>
+    <a href="${pageContext.request.contextPath}/Controller?type=email_login" id="email_login">이메일로 시작하기 &gt;</a>
+  </c:if>
+
+  <c:if test="${not empty sessionScope.profileImg}">
+    <!-- 로그인 상태: 프로필 사진 출력 -->
+    <div class="profile" onclick="location.href='${pageContext.request.contextPath}/Controller?type=my_page'">
+      <img src="${sessionScope.profileImg}" alt="프로필 사진" />
+    </div>
+  </c:if>
 </div>
 </body>
 </html>

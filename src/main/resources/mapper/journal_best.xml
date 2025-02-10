@@ -5,10 +5,22 @@
 
 <mapper namespace="journal_best">
   <select id="list" resultType="mybatis.vo.JournalBestVO">
-    SELECT * FROM journal_best_table WHERE status = 0
+    SELECT * FROM journal_best_table WHERE status = 0 ORDER BY tier
   </select>
 
   <select id="exists" resultType="int" parameterType="String"> <!--등급 확인 있으면 1반환-->
     SELECT COUNT(*) FROM journal_best_table WHERE tier = #{tier} AND status = 0
   </select>
+
+  <update id="deact" parameterType="String">
+    UPDATE journal_best_table
+    SET status = 1, deact_date = NOW()
+    WHERE tier = #{tier} AND status = 0
+  </update>
+
+  <insert id="new" parameterType="mybatis.vo.JournalBestVO">
+    INSERT INTO journal_best_table(journal_idx, tier, act_date, status)
+    VALUES(#{journal_idx}, #{tier}, NOW(), 0)
+  </insert>
+
 </mapper>

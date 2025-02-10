@@ -36,7 +36,7 @@ public class Controller extends HttpServlet {
 
     ServletContext application = this.getServletContext();
 
-    String publicIP = "43.201.37.240";
+    String publicIP = "http://43.201.37.240";
     application.setAttribute("publicIP", publicIP);
 
     String realPath = application.getRealPath(props_path);
@@ -76,27 +76,22 @@ public class Controller extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // if(request.getSession().getAttribute("user_idx") == null) {
+    //   response.sendRedirect("Controller?type=index");
+    // }
+    // 먼저 로그인을 무조건 해야되는 페이지와 안해도 되는 페이지를 구분할 것.
+
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
     String type = request.getParameter("type");
-    System.out.println("Requested type: " + type);
-
-    if (type == null) {
-      type = "index";
-    }
 
     Action action = actionMap.get(type);
+    String view_path = action.execute(request, response);
 
-    String viewpath = null;
-    try {
-      viewpath = action.execute(request, response);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-    if (viewpath == null) {
+    if (type == null || type.equals("error")) {
       response.sendRedirect("Controller?type=index");
     } else {
-      RequestDispatcher dis = request.getRequestDispatcher(viewpath);
+      RequestDispatcher dis = request.getRequestDispatcher(view_path);
       dis.forward(request, response);
     }
   }

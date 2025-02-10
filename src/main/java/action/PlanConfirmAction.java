@@ -38,7 +38,7 @@ public class PlanConfirmAction implements Action {
     plan.setStatus("0"); // Default status: 0 (active)
 
     // Save to the database
-    // try (SqlSession ss = FactoryService.getFactory().openSession()) {
+    // try (SqlSession ss = FactoryService.get_factory().openSession()) {
     //   PlanDAO dao = new PlanDAO(ss);
     //   int cnt = dao.insertPlan(plan); // Insert plan into the database
     //   if (cnt > 0) {

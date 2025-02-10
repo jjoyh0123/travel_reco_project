@@ -6,7 +6,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>여행 일정 - ${plan.title}</title>
-  <link rel="stylesheet" href="styles.css">
   <style>
       /* Use your existing CSS here – for brevity the same styles as before are used. */
       * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
@@ -23,7 +22,7 @@
       .day-btn { width: 100%; background: none; border: none; padding: 10px; font-size: 16px;
           cursor: pointer; border-radius: 5px; margin-bottom: 5px;
       }
-      .day-btn.active { background: #007BFF; color: white; }
+      /*.day-btn.active { background: #007BFF; color: white; }*/
       .main-content { flex-grow: 2; padding: 20px 40px; display: flex; flex-direction: column; }
       .trip-header { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
       .date { font-size: 23px; }

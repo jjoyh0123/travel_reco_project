@@ -6,11 +6,12 @@ import mybatis.vo.TouristSpotVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddPlaceToPlanAction implements Action {
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");  // Ensure it's JSON
 
@@ -54,9 +55,13 @@ public class AddPlaceToPlanAction implements Action {
     String json = new Gson().toJson(plan);
 
     System.out.println("Sending JSON response: " + json); // Debugging log
-    response.getWriter().write(json);
-    response.getWriter().flush();  // Ensure response is sent immediately
-    response.getWriter().close();  // Close stream to prevent further processing
+    try {
+      response.getWriter().write(json);
+      response.getWriter().flush();  // Ensure response is sent immediately
+      response.getWriter().close();  // Close stream to prevent further processing
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return null;  // Ensure no JSP forwarding
   }
 }

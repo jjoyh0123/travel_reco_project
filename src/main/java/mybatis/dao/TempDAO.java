@@ -8,7 +8,7 @@ public class TempDAO {
     return 13;
   }
 
-  public static TempVO[] getList() {
+  public static TempVO[] get_list() {
     TempVO[] ar = null;
     ar = new TempVO[10];
 

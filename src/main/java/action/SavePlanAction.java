@@ -15,12 +15,16 @@ import java.util.Map;
 
 public class SavePlanAction implements Action {
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    BufferedReader reader = request.getReader();
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     StringBuilder sb = new StringBuilder();
     String line;
-    while ((line = reader.readLine()) != null) {
-      sb.append(line);
+    try {
+      BufferedReader reader = request.getReader();
+      while ((line = reader.readLine()) != null) {
+        sb.append(line);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
     JSONObject requestData = new JSONObject(sb.toString());

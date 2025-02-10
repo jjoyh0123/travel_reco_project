@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AppleLoginAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
-    return "jsp/appleLogin.jsp";
+    return "jsp/apple_login.jsp";
   }
 }

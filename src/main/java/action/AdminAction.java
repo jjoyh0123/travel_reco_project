@@ -1,6 +1,7 @@
 package action;
 
 import mybatis.dao.*;
+import mybatis.vo.JournalBestVO;
 import mybatis.vo.TempVO;
 import util.Paging;
 
@@ -17,6 +18,7 @@ public class AdminAction implements Action {
     }
     String tab2 = request.getParameter("tab2");
     String tab3 = request.getParameter("tab3");
+    String search = request.getParameter("search");
     // 페이징 처리를 위한 객체 생성
     Paging page = new Paging();
 
@@ -35,32 +37,57 @@ public class AdminAction implements Action {
 
     switch (tab) {
       case "user":
-        if (tab2 == null || tab2.equals("user"))
-          totalCount = UserDAO.getTotalCount();
-        else if (tab2.equals("badge"))
-          totalCount = BadgeDAO.getTotalCount();
+        if (search == null || search.isEmpty()) {
+          if (tab2 == null || tab2.equals("user"))
+            totalCount = UserDAO.get_total_count();
+          else if (tab2.equals("badge"))
+            totalCount = BadgeDAO.get_total_count();
+        } else {
+          if (tab2 == null || tab2.equals("user"))
+            totalCount = UserDAO.get_search_count(search);
+          else if (tab2.equals("badge"))
+            totalCount = BadgeDAO.get_search_count(search);
+        }
         break;
       case "post":
-        String area_code = "";
-        if (tab2 != null) {
-          area_code = tab2.replaceAll("\\D", "");
-        }
-        if (area_code.isEmpty()) {
-          totalCount = JournalDAO.getTotalCount();
+        if (search == null || search.isEmpty()) {
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            totalCount = JournalDAO.get_total_count();
+          } else {
+            totalCount = JournalDAO.get_area_count(area_code);
+          }
         } else {
-          totalCount = JournalDAO.getAreaCount(area_code);
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            totalCount = JournalDAO.get_total_count(search);
+          } else {
+            totalCount = JournalDAO.get_search_count(area_code, search);
+          }
         }
         break;
       case "notice":
-        totalCount = NoticeDAO.getTotalCount();
+        totalCount = NoticeDAO.get_total_count();
         break;
       case "support":
-        totalCount = SupportDAO.getTotalCount();
+        totalCount = SupportDAO.get_total_count();
         break;
       case "best_plan":
         if (tab3 == null)
           tab3 = "3";
-        totalCount = JournalDAO.getRangeCount(tab3);
+        totalCount = JournalDAO.get_range_count(tab3);
+        break;
+      case "faq":
+        totalCount = FAQDAO.get_total_count();
+        break;
+      case "event":
+        totalCount = 5;
         break;
     }
 
@@ -78,36 +105,64 @@ public class AdminAction implements Action {
     }
 
     TempVO[] ar = null;
-
+    JournalBestVO[] best = null;
     switch (tab) {
       case "user":
-        if (tab2 == null || tab2.equals("user"))
-          ar = UserDAO.getList(page.getBegin(), page.getEnd());
-        else if (tab2.equals("badge"))
-          ar = BadgeDAO.getList(page.getBegin(), page.getEnd());
+        if (search == null || search.isEmpty()) {
+          if (tab2 == null || tab2.equals("user"))
+            ar = UserDAO.get_list(page.getBegin(), page.getEnd());
+          else if (tab2.equals("badge"))
+            ar = BadgeDAO.get_list(page.getBegin(), page.getEnd());
+        } else {
+          if (tab2 == null || tab2.equals("user"))
+            ar = UserDAO.get_search_list(page.getBegin(), page.getEnd(), search);
+          else if (tab2.equals("badge"))
+            ar = BadgeDAO.get_search_list(page.getBegin(), page.getEnd(), search);
+        }
         break;
       case "post":
-        String area_code = "";
-        if (tab2 != null) {
-          area_code = tab2.replaceAll("\\D", "");
-        }
-        if (area_code.isEmpty()) {
-          ar = JournalDAO.getList(page.getBegin(), page.getEnd());
+        if (search == null || search.isEmpty()) {
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            ar = JournalDAO.get_list(page.getBegin(), page.getEnd());
+          } else {
+            ar = JournalDAO.get_list(page.getBegin(), page.getEnd(), area_code);
+          }
         } else {
-          ar = JournalDAO.getList(page.getBegin(), page.getEnd(), area_code);
+          String area_code = "";
+          if (tab2 != null) {
+            area_code = tab2.replaceAll("\\D", "");
+          }
+          if (area_code.isEmpty()) {
+            ar = JournalDAO.get_search_list(page.getBegin(), page.getEnd(), search);
+          } else {
+            ar = JournalDAO.get_search_list(page.getBegin(), page.getEnd(), area_code, search);
+          }
         }
         break;
       case "notice":
-        ar = NoticeDAO.getList(page.getBegin(), page.getEnd());
+        if (tab3 == null)
+          tab3 = "idx";
+        ar = NoticeDAO.get_list(page.getBegin(), page.getEnd(), tab3);
         break;
       case "support":
-        ar = SupportDAO.getList(page.getBegin(), page.getEnd());
+        ar = SupportDAO.get_list(page.getBegin(), page.getEnd());
         break;
       case "best_plan":
-        ar = JournalDAO.getList(page.getBegin(), page.getEnd(), tab3);
+        best = JournalBestDAO.get_list();
+        ar = JournalDAO.get_range_list(page.getBegin(), page.getEnd(), tab3, tab2);
+        break;
+      case "faq":
+        ar = FAQDAO.get_list(page.getBegin(), page.getEnd());
+        break;
+      case "event":
+        ar = EventImageDAO.get_list();
         break;
       default:
-        ar = TempDAO.getList();
+        ar = TempDAO.get_list();
         break;
     }
 
@@ -115,7 +170,8 @@ public class AdminAction implements Action {
     request.setAttribute("page", page);
     request.setAttribute("cPage", cPage);
     request.setAttribute("tab", tab);
+    request.setAttribute("best", best);
 
-    return "admin_main.jsp";
+    return "jsp/admin_main.jsp";
   }
 }

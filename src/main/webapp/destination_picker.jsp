@@ -61,11 +61,11 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const destinations = document.querySelectorAll(".destination");
 
     destinations.forEach((destination) => {
-      destination.addEventListener("click", function () {
+      destination.addEventListener("click", function() {
         const selectedCode = this.getAttribute("data-code");
         const selectedName = this.getAttribute("data-name");
 

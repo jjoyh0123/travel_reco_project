@@ -6,9 +6,11 @@ import mybatis.vo.PlanVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static mybatis.dao.PlanDAO.*;
+
 public class CopyPlanAction implements Action {
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     // Check that the user is logged in.
     String sessionUserIdx = (String) request.getSession().getAttribute("user_idx");
     if (sessionUserIdx == null) {

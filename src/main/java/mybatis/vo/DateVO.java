@@ -14,6 +14,21 @@ public class DateVO {
   public void setPlaceList(List<PlaceVO> placeList) {
     this.placeList = placeList;
   }
+  public String getIdx() {
+    return idx;
+  }
+
+  public void setIdx(String idx) {
+    this.idx = idx;
+  }
+
+  public String getPlan_idx() {
+    return plan_idx;
+  }
+
+  public void setPlan_idx(String plan_idx) {
+    this.plan_idx = plan_idx;
+  }
 
   public String getDate() {
     return date;
@@ -31,19 +46,5 @@ public class DateVO {
     this.memo = memo;
   }
 
-  public String getIdx() {
-    return idx;
-  }
 
-  public void setIdx(String idx) {
-    this.idx = idx;
-  }
-
-  public String getPlan_idx() {
-    return plan_idx;
-  }
-
-  public void setPlan_idx(String plan_idx) {
-    this.plan_idx = plan_idx;
-  }
 }

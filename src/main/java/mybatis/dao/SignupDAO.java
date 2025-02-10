@@ -7,10 +7,10 @@ import org.apache.ibatis.session.SqlSession;
 public class SignupDAO {
 
   public static boolean emailCheck(String email) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     try {
-      Integer count = ss.selectOne("signup.checkEmail", email);
+      Integer count = ss.selectOne("sign_up.checkEmail", email);
       return count != null && count > 0;
     } catch (Exception e) {
       e.printStackTrace();
@@ -22,10 +22,10 @@ public class SignupDAO {
 
 
   public static boolean nickCheck(String nickname) {
-    SqlSession ss = FactoryService.getFactory().openSession();
+    SqlSession ss = FactoryService.get_factory().openSession();
 
     try {
-      Integer count = ss.selectOne("signup.checkNick", nickname);
+      Integer count = ss.selectOne("sign_up.checkNick", nickname);
       return count != null && count > 0;
     } finally {
       ss.close(); // 세션 닫기
@@ -33,7 +33,7 @@ public class SignupDAO {
   }
 
   public static void signup(String email, String pw, String nick) {
-    SqlSession session = FactoryService.getFactory().openSession();
+    SqlSession session = FactoryService.get_factory().openSession();
     try {
       UserVO userVO = new UserVO();
       userVO.setEmail(email);
@@ -42,7 +42,7 @@ public class SignupDAO {
       userVO.setStatus(0);
 
       // 회원 정보를 DB에 저장
-      session.insert("signup.insertUser", userVO);
+      session.insert("sign_up.insertUser", userVO);
       session.commit();  // 트랜잭션 커밋
     } finally {
       session.close();

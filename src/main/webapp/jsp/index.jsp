@@ -9,100 +9,128 @@
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
   </script>
   <style>
-      body {
-          margin: 0;
-          padding: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          min-height: 100vh;
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main_container {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .content {
+      margin-top: 100px;
+      text-align: center;
+      align-self: flex-start;
+      padding-left: 50px;
+      font-weight: bold;
+
+    }
+
+    .content h3, .content h5 {
+      line-height: 1.5;
+    }
+
+    .gif_content01 {
+      width: 550px;
+      height: 400px;
+      background-color: #ffff;
+      border-radius: 30px;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 70px;
+
       }
 
-      .main_container{
-          display: flex;
-          align-items: flex-start;
-          gap:20px;
-          margin-top: 50px;
-      }
+    .gif_content02 {
+      width: 1100px;
+      height: 400px;
+      background-color: #ffff;
+      border-radius: 30px;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 50px;
+    }
 
-      .content{
-          margin-top: 100px;
-          text-align: center;
-          align-self: flex-start;
-          padding-left: 50px;
-          font-weight: bold;
+    .gif_content img {
+      max-width: 100%;
+      height: auto;
+    }
 
-      }
+    .gif_content01, .gif_content02 {
+      /*max-width: 100%;
+      height: auto;*/
+      overflow: hidden; /* 초과된 이미지 숨기기 */
+      position: relative;
+    }
 
-      .content h3, .content h5 {
-          line-height: 1.5;
-      }
+    .gif_content01 img, .gif_content02 img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 이미지가 컨테이너 크기에 맞게 조정됨 */
+      border-radius: inherit; /* 컨테이너의 둥근 모서리를 유지 */
+    }
 
+    .content p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-      .gif_content01{
-          width: 550px;
-          height: 400px;
-          background-color: #ffff;
-          border-radius: 30px;
-          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 20px;
-          margin-bottom: 70px;
+    .content h5 {
+      color: darkgray;
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-      }
+    .plan_btn {
+      font-size: 20px;
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+      border: none;
+    }
 
-      .gif_content02{
-          width: 1100px;
-          height: 400px;
-          background-color: #ffff;
-          border-radius: 30px;
-          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 50px;
-      }
+    .plan_btn01 {
+      background-color: #FF7F50;
+      color: #ffffff;
+    }
 
+    .plan_btn02 {
+      background-color: #ffffff;
+      color: #000000;
+    }
 
-      .gif_content img{
-          max-width: 100%;
-          height: auto;
-      }
+    .fullscreen_icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      padding: 0px;
+    }
 
-      .content p {
-          font-size: 1.2rem;
-          margin-bottom: 20px;
-          font-weight: bold;
-      }
-
-      .content h5{
-          color: darkgray;
-          text-align: center;
-          margin-bottom: 20px;
-      }
-
-      .plan_btn {
-          font-size: 20px;
-          border-radius: 30px;
-          padding: 20px;
-          margin: 20px;
-          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-          border: none;
-      }
-
-
-      .plan_btn01 {
-          background-color: #FF7F50;
-          color: #ffffff;
-      }
-
-      .plan_btn02 {
-          background-color: #ffffff;
-          color: #000000;
-      }
+    .fullscreen_icon img {
+      width: 24px;
+      height: 24px;
+    }
 
   </style>
   <title>ZenzenClub 메인페이지</title>
@@ -111,34 +139,43 @@
 <body>
 <jsp:include page="/jsp/header.jsp"/>
 <div class="main_container">
-<article class="content">
-  <h3>for all your travel planning needs</h3>
-  <h5>Create detailed itineraries, explore user-shared guides, <br/>
-    and manage your bookings seamlessly — all in one place.
+  <article class="content">
+    <h3>for all your travel planning needs</h3>
+    <h5>Create detailed itineraries, explore user-shared guides, <br/>
+      and manage your bookings seamlessly — all in one place.
     </h5>
-  <button type="button" class="plan_btn plan_btn01">계획 추천받기</button>
-  <button type="button" class="plan_btn plan_btn02">계획 세우기</button>
-  <h3>for all your travel planning</br>
-    needs</h3>
-  <h5>Create detailed itineraries, explore user-shared</br>
-    guides, and manage your bookings seamlessly —</br>
-    all in one place.</h5>
-  <button type="button" class="plan_btn01">계획 추천받기</button>
-  <div class="start-button">
-    <form action="Controller" method="get">
-      <button type="submit" class="plan_btn02">계획 세우기</button>
-      <input type="hidden" name="type" value="datePicker">
-    </form>
-  </div>
-</article>
+    <button type="button" class="plan_btn plan_btn01" onclick="window.location.href='Controller?type=main'">계획 추천받기
+    </button>
+    <button type="button" class="plan_btn plan_btn02"
+            onclick="location.href = `${pageContext.request.contextPath}/Controller?type=planning&action=date_select`">계획
+      세우기
+    </button>
+  </article>
   <div class="gif_content01">
-    <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+    <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073"
+         alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
   </div>
-
 </div>
 <div class="gif_content02">
-  <img src="" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+  <img src="https://help.miricanvas.com/hc/article_attachments/32865605595801" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
 </div>
 <jsp:include page="/jsp/footer.jsp"/>
+
+<script>
+  function openFullscreen() {
+    const gifContainer = document.querySelector('.gif_content01');
+
+    if (gifContainer.requestFullscreen) {
+      gifContainer.requestFullscreen();
+    } else if (gifContainer.mozRequestFullScreen) { // Firefox
+      gifContainer.mozRequestFullScreen();
+    } else if (gifContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+      gifContainer.webkitRequestFullscreen();
+    } else if (gifContainer.msRequestFullscreen) { // IE/Edge
+      gifContainer.msRequestFullscreen();
+    }
+  }
+
+</script>
 </body>
 </html>

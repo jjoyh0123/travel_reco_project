@@ -9,7 +9,7 @@
     ORDER BY idx desc
   </select>
 
-  <select id="getFaq" resultType="mybatis.vo.FaqVO">
+  <select id="getFaq" resultType="mybatis.vo.FAQVO">
     SELECT * FROM faq_table
     WHERE status = 0
     ORDER BY idx desc

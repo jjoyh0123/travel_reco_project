@@ -1,46 +1,34 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class PlaceVO {
   private String idx, date_idx, visit_order, content_id, content_type_id, title, thumbnail, map_x, map_y, time;
+  private String plan_idx;
+  private String review;
+  private String rate;
+  private List<String> image_list;
 
-
-  public String getContent_id() {
-    return content_id;
+  public PlaceVO(String idx, String date_idx, String visit_order, String content_id, String content_type_id, String title,
+                 String thumbail, String map_x, String map_y, String time) {
+            super();
+            this.idx = idx;
+            this.date_idx = date_idx;
+            this.visit_order = visit_order;
+            this.content_id = content_id;
+            this.content_type_id = content_type_id;
+            this.title = title;
+            this.thumbnail = thumbnail;
+            this.map_x = map_x;
+            this.map_y = map_y;
+            this.time = time;
   }
 
-  public void setContent_id(String content_id) {
-    this.content_id = content_id;
-  }
-
-  public String getThumbnail() {
-    return thumbnail;
-  }
-
-  public void setThumbnail(String thumbnail) {
-    this.thumbnail = thumbnail;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getTime() {
-    return time;
-  }
-
-  public void setTime(String time) {
-    this.time = time;
-  }
-
-  public String getIdx() {
+  public String getp_Idx() {
     return idx;
   }
 
-  public void setIdx(String idx) {
+  public void setp_Idx(String idx) {
     this.idx = idx;
   }
 
@@ -60,12 +48,36 @@ public class PlaceVO {
     this.visit_order = visit_order;
   }
 
+  public String getContent_id() {
+    return content_id;
+  }
+
+  public void setContent_id(String content_id) {
+    this.content_id = content_id;
+  }
+
   public String getContent_type_id() {
     return content_type_id;
   }
 
   public void setContent_type_id(String content_type_id) {
     this.content_type_id = content_type_id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getThumbnail() {
+    return thumbnail;
+  }
+
+  public void setThumbnail(String thumbnail) {
+    this.thumbnail = thumbnail;
   }
 
   public String getMap_x() {
@@ -82,5 +94,45 @@ public class PlaceVO {
 
   public void setMap_y(String map_y) {
     this.map_y = map_y;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public void setTime(String time) {
+    this.time = time;
+  }
+
+  public String getPlan_idx() {
+    return plan_idx;
+  }
+
+  public void setPlan_idx(String plan_idx) {
+    this.plan_idx = plan_idx;
+  }
+
+  public String getReview() {
+    return review;
+  }
+
+  public void setReview(String review) {
+    this.review = review;
+  }
+
+  public String getRate() {
+    return rate;
+  }
+
+  public void setRate(String rate) {
+    this.rate = rate;
+  }
+
+  public List<String> getImage_list() {
+    return image_list;
+  }
+
+  public void setImage_list(List<String> image_list) {
+    this.image_list = image_list;
   }
 }

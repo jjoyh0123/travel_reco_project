@@ -1,11 +1,8 @@
 package mybatis.vo;
 
 public class UserVO extends TempVO {
-  private int idx;
-  private String email;
-  private String nick;
-  private String pw;
-  private int status;
+  private String email, nick, pw;
+  private int idx, status;
 
   public int getIdx() {
     return idx;
