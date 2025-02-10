@@ -416,10 +416,10 @@
                   <a href="">${top3.hit}</a>
                 </div>
               </div>
-              <a href="" class="review_title">${top3.title}</a>
+              <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="review_title">${top3.title}</a>
               <div>
-                <a href="" class="review_content">${top3.subtitle}</a>
-                <a href="" class="nickname">${top3.nick}</a>
+                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="review_content">${top3.subtitle}</a>
+                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="nickname">${top3.nick}</a>
               </div>
             </div>
           </div>
