@@ -186,7 +186,8 @@ public class PlanningAction implements Action {
       System.out.printf("places length: %d, places: %s\n", places.length(), places);
       for(int i = 0; i < places.length(); i++) {
         JSONObject place = places.getJSONObject(i);
-        System.out.printf("in places for, plan_id: %s, dateIdx: %s\n Full place: %s\n", planIdx, dateIdx, place);
+        System.out.printf("in places for, plan_id: %s, dateIdx: %s\n" +
+            " Full place: %s\n", planIdx, dateIdx, place);
         int success_insert_place = PlanDAO.insertPlace(planIdx, dateIdx, i + 1, place);
         if(success_insert_place == 0) {
           System.out.printf("Failed to insert place, plan_idx: %s, dateKey: %s, date_idx: %s, place title: %s\n", planIdx, dateKey, dateIdx, place.getString("title"));
@@ -194,6 +195,7 @@ public class PlanningAction implements Action {
           request.setAttribute("json_response", json_object);
           return "jsp/planning/res_json.jsp";
         }
+        System.out.println("let's goo");
       }
     }
 
