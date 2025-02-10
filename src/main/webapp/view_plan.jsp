@@ -293,7 +293,9 @@
 <div class="container">
   <aside class="sidebar">
     <!-- Placeholder Logo -->
-    <div class="logo">zenzenclub</div>
+    <a style="text-decoration: none" href="${pageContext.request.contextPath}/Controller?type=index">
+      <div class="logo">zenzenclub</div>
+    </a>
 
     <button class="full-schedule" id="fullScheduleBtn">전체일정</button>
 
@@ -305,12 +307,12 @@
       </c:forEach>
     </nav>
 
-    <div class="sidebar-bottom">
-      <button class="share-btn" id="sharePlanBtn">공유하기</button>
-      <c:if test="${sessionScope.user_idx ne plan.user_idx}">
-        <button class="save-btn" id="copyPlanBtn">내 일정에 담기</button>
-      </c:if>
-    </div>
+<%--    <div class="sidebar-bottom">--%>
+<%--      <button class="share-btn" id="sharePlanBtn">공유하기</button>--%>
+<%--      <c:if test="${sessionScope.user_idx ne plan.user_idx}">--%>
+<%--        <button class="save-btn" id="copyPlanBtn">내 일정에 담기</button>--%>
+<%--      </c:if>--%>
+<%--    </div>--%>
   </aside>
 
   <main class="main-content" id="mainContent">

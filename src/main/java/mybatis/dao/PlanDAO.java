@@ -79,7 +79,7 @@ public class PlanDAO {
       param.put("content_id", place.getString("content_id"));
       param.put("content_type_id", place.getInt("content_type_id"));
       param.put("title", place.getString("title"));
-      param.put("address", place.getString("address"));
+      param.put("address", place.getString("address") != null ? place.getString("address") : null);
       param.put("thumbnail", place.getString("thumbnail"));
       param.put("map_x", place.getDouble("map_x"));
       param.put("map_y", place.getDouble("map_y"));
