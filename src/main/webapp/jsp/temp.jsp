@@ -375,7 +375,7 @@
   <table class="table">
     <div class="head">
       <div id="top_plan">
-        <a href="">Top 3Plan</a>
+        <a href="">Best 3Plan</a>
       </div>
     </div>
     <div class="tbody">

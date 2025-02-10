@@ -31,6 +31,7 @@
       #left_side {
           background-color: #fefefe;
           width: 20%;
+          min-width: 320px;
           height: 100%;
           padding-top: 20px;
           padding-left: 20px;
@@ -57,7 +58,7 @@
       }
 
       .place {
-          width: 200px;
+          width: 180px;
           text-align: right;
       }
   </style>
