@@ -52,19 +52,13 @@ public class ViewJournalDAO {
     return vo;
   }
 
-  public static ReviewVO[] getReview() {
-    ReviewVO[] ar = null;
-
+  public static ReviewVO getReview() {
     SqlSession ss = FactoryService.get_factory().openSession();
-    List<ReviewVO> list = ss.selectList("view_journal.getReview");
-    if (list != null && !list.isEmpty()) {
-      ar = new ReviewVO[list.size()];
-      list.toArray(ar);
+    ReviewVO vo = ss.selectOne("view_journal.getReview");
 
-    }
     ss.close();
 
-    return ar;
+    return vo;
   }
 }
 

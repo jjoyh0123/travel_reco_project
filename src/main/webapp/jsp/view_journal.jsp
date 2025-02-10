@@ -395,6 +395,49 @@
           height: 400px;
           /*border: 1px solid red;*/
       }
+      .place_review {
+          display: flex;
+          align-items: center; /* 세로 중앙 정렬 */
+          gap: 20px; /* 요소 간 간격 */
+      }
+
+      .show_place_review {
+          display: flex;
+          flex-direction: column; /* 세로 방향 정렬 */
+          align-items: flex-start; /* 왼쪽 정렬 (위쪽 정렬 포함) */
+          justify-content: flex-start; /* 위쪽 정렬 */
+          gap: 5px; /* 후기와 별점 사이 간격 */
+          margin-bottom: 250px;
+      }
+
+      .place_review_carousel {
+          flex: 1; /* 오른쪽 영역 차지 */
+          display: flex;
+          width: 100%;
+          justify-content: center; /* 중앙 정렬 */
+      }
+      .rate img {
+          height: 1em; /* 글자 크기와 동일 */
+          width: auto; /* 비율 유지 */
+          vertical-align: middle; /* 글자와 정렬 */
+      }
+      .journal_carousel {
+          width: 700px;  /* 원하는 크기로 조정 */
+          max-width: 100%; /* 반응형 유지 */
+          height: 300px;
+      }
+
+      .carousel-inner {
+          width: 100%;
+      }
+
+      .main_carousel_image {
+          width: 100%; /* 캐러셀 크기에 맞게 이미지 조정 */
+          height: auto; /* 비율 유지 */
+          object-fit: cover; /* 필요하면 추가 */
+      }
+
+
   </style>
 </head>
 <body>
@@ -412,7 +455,6 @@
             </div>
             </c:if>
           </c:forEach>
-          <%--          사진 추가 버튼--%>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -456,10 +498,20 @@
           </c:forEach>
         </ul>
       </nav>
-
       <div class="day_box">
         <%--  Day 바 --%>
         <c:forEach var="dateVO" items="${dateVO}" varStatus="status">
+      <div id="map_div${status.index}" class="map_div"></div>
+      <div id="waypointsData${status.index}" style="display:none;">
+        {
+        <c:forEach var="temp" items="${list}" varStatus="tempStatus">
+          "${temp.title}": {
+          "lng": ${temp.map_x},
+          "lat": ${temp.map_y}
+          }<c:if test="${!tempStatus.last}">,</c:if>
+        </c:forEach>
+        }
+      </div>
           <div class="day_bar" id="scrollspyHeading${status.index}">
             Day ${status.count}
             <div class="vertical_line"></div>
@@ -514,23 +566,76 @@
 <%--                  <img src="/www/edit_button.png" class="edit_button" alt="수정 버튼">--%>
 <%--                </button>--%>
               </div>
-              <%--          작성한 후기 보여주는 div--%>
-              <div><span id="outputText"></span></div>
-              <%--          <div id="selectedRating">선택된 별점: 0점</div>--%>
-              <div id="selectedRating"></div>
+              <%--          후기 div--%>
+        <c:if test="${list.place_idx == reviewVO.place_idx}">
+          <div class="place_review">
+
+          <div class="show_place_review">
+              <div class="review">작성한 후기: ${reviewVO.review}</div>
+              <%--          별점 div--%>
+            <div class="rate">별점:
+                <c:if test="${reviewVO.rate == 5}">
+                  <img src="/www/rate_5.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 4.5}">
+                  <img src="/www/rate_4.5.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 4}">
+                  <img src="/www/rate_4.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 3.5}">
+                  <img src="/www/rate_3.5.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 3}">
+                  <img src="/www/rate_3.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 2.5}">
+                  <img src="/www/rate_2.5.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 2}">
+                  <img src="/www/rate_2.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 1.5}">
+                  <img src="/www/rate_1.5.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 1}">
+                  <img src="/www/rate_1.png">
+                </c:if>
+                <c:if test="${reviewVO.rate == 0.5}">
+                  <img src="/www/rate_0.5.png">
+                </c:if>
+              </div>
+            </div>
+                <div class="place_review_carousel">
+                  <div class="journal_box">
+                    <div id="journal_carousel" class="journal_carousel">
+                      <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                          <c:forEach var="image" items="${imageList}" varStatus="index">
+                            <%--                          <c:if test="${image.plan_idx == plan_idx}">--%>
+                            <div class="carousel-item ${index.first ? 'active' : ''}">
+                              <img src="${image.file_path}" alt="${image.file_path}" class="main_carousel_image">
+                            </div>
+                            <%--                          </c:if>--%>
+                          </c:forEach>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </c:if>
             </c:if>
           </c:forEach>
-          <div id="map_div${status.index}" class="map_div"></div>
-          <div id="waypointsData${status.index}" style="display:none;">
-            {
-            <c:forEach var="temp" items="${list}" varStatus="tempStatus">
-              "${temp.title}": {
-              "lng": ${temp.map_x},
-              "lat": ${temp.map_y}
-              }<c:if test="${!tempStatus.last}">,</c:if>
-            </c:forEach>
-            }
-          </div>
+
         </c:forEach>
 
       </div>
@@ -613,121 +718,121 @@
   }
 
   // function initializeMap(mapDivId, waypointsDataId, colors) {
-  //   let map = new Tmapv2.Map(mapDivId, {
-  //     center: new Tmapv2.LatLng(37, 127),
-  //     // width: "750px",
-  //     // height: "750px",
-  //     zoom: 17,
-  //     httpsMode: true
-  //   });
-  //
-  //   let markerArr = [];
-  //   let lineArr = [];
-  //   let currentWaypoints = [];
-  //
-  //   // JSON 형식의 좌표 데이터를 읽어오기
-  //   let waypointsData = JSON.parse(document.getElementById(waypointsDataId).innerText);
-  //
-  //   // waypointsData 의 키를 배열로 만듦
-  //   let waypointKeys = Object.keys(waypointsData);
-  //
-  //   // 시작점과 종료점을 waypointsData 의 첫 번째 및 마지막 항목으로 설정
-  //   let start = waypointsData[waypointKeys[0]];
-  //   let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
-  //
-  //   // 마커를 추가하는 함수
-  //   function addMarker(lat, lng, content) {
-  //     let marker = new Tmapv2.Marker({
-  //       position: new Tmapv2.LatLng(lat, lng),
-  //       iconHTML: content,  // 커스텀 HTML 요소
-  //       map: map
-  //     });
-  //     markerArr.push(marker); // 마커 배열에 추가
-  //     return marker;
-  //   }
-  //
-  //   // 마커 추가
-  //   addMarker(start.lat, start.lng, '<div class="custom-marker">S</div>');
-  //   addMarker(end.lat, end.lng, '<div class="custom-marker">E</div>');
-  //
-  //   // 경로를 그리는 함수
-  //   function drawRoute(start, end, waypoints, colors) {
-  //     let points = [start, ...waypoints, end];
-  //     let positionBounds = new Tmapv2.LatLngBounds();
-  //
-  //     // 각 구간별 경로를 호출 및 그리기
-  //     for (let i = 0; i < points.length - 1; i++) {
-  //       let startX = points[i].lng;
-  //       let startY = points[i].lat;
-  //       let endX = points[i + 1].lng;
-  //       let endY = points[i + 1].lat;
-  //
-  //       let requestData = {
-  //         version: 1,
-  //         startX: startX,
-  //         startY: startY,
-  //         endX: endX,
-  //         endY: endY,
-  //         reqCoordType: "WGS84GEO",
-  //         resCoordType: "WGS84GEO",
-  //         searchOption: 0
-  //       };
-  //
-  //       console.log(requestData);
-  //
-  //       $.ajax({
-  //         type: "POST",
-  //         url: "https://apis.openapi.sk.com/tmap/routes?version=1",
-  //         headers: {
-  //           "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
-  //           "Content-Type": "application/json"
-  //         },
-  //         data: JSON.stringify(requestData),
-  //         async: false, // 동기 요청
-  //         success: function (response) {
-  //           let resultData = response.features;
-  //           let path = [];
-  //
-  //           resultData.forEach(data => {
-  //             if (data.geometry.type === "LineString") {
-  //               let coordinates = data.geometry.coordinates;
-  //               coordinates.forEach(coord => {
-  //                 let latlng = new Tmapv2.LatLng(coord[1], coord[0]);
-  //                 positionBounds.extend(latlng);
-  //                 path.push(latlng);
-  //               });
-  //             }
-  //           });
-  //
-  //           let polyline = new Tmapv2.Polyline({
-  //             path: path,
-  //             strokeColor: colors[i % colors.length], // 구간별 색상 설정
-  //             strokeWeight: 6,
-  //             map: map
-  //           });
-  //           lineArr.push(polyline);
-  //         },
-  //         error: function (request, status, error) {
-  //           console.error("경로 검색 중 오류가 발생했습니다:", error);
-  //         }
-  //       });
-  //     }
-  //
-  //     map.panToBounds(positionBounds);
-  //     map.zoomOut();
-  //
-  //   }
-  //
-  //   // 순서대로 경유지 설정 (첫 번째와 마지막 항목 제외)
-  //   for (let i = 1; i < waypointKeys.length - 1; i++) {
-  //     let waypoint = waypointsData[waypointKeys[i]];
-  //     currentWaypoints.push(waypoint);
-  //     addMarker(waypoint.lat, waypoint.lng, '<div class="custom-marker">' + (currentWaypoints.length) + '</div>');
-  //   }
-  //
-  //   // 경로 그리기 호출
-  //   drawRoute(start, end, currentWaypoints, colors);
-  // }
+    let map = new Tmapv2.Map(mapDivId, {
+      center: new Tmapv2.LatLng(37, 127),
+      // width: "750px",
+      // height: "750px",
+      zoom: 17,
+      httpsMode: true
+    });
+
+    let markerArr = [];
+    let lineArr = [];
+    let currentWaypoints = [];
+
+    // JSON 형식의 좌표 데이터를 읽어오기
+    let waypointsData = JSON.parse(document.getElementById(waypointsDataId).innerText);
+
+    // waypointsData 의 키를 배열로 만듦
+    let waypointKeys = Object.keys(waypointsData);
+
+    // 시작점과 종료점을 waypointsData 의 첫 번째 및 마지막 항목으로 설정
+    let start = waypointsData[waypointKeys[0]];
+    let end = waypointsData[waypointKeys[waypointKeys.length - 1]];
+
+    // 마커를 추가하는 함수
+    function addMarker(lat, lng, content) {
+      let marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(lat, lng),
+        iconHTML: content,  // 커스텀 HTML 요소
+        map: map
+      });
+      markerArr.push(marker); // 마커 배열에 추가
+      return marker;
+    }
+
+    // 마커 추가
+    addMarker(start.lat, start.lng, '<div class="custom-marker">S</div>');
+    addMarker(end.lat, end.lng, '<div class="custom-marker">E</div>');
+
+    // 경로를 그리는 함수
+    function drawRoute(start, end, waypoints, colors) {
+      let points = [start, ...waypoints, end];
+      let positionBounds = new Tmapv2.LatLngBounds();
+
+      // 각 구간별 경로를 호출 및 그리기
+      for (let i = 0; i < points.length - 1; i++) {
+        let startX = points[i].lng;
+        let startY = points[i].lat;
+        let endX = points[i + 1].lng;
+        let endY = points[i + 1].lat;
+
+        let requestData = {
+          version: 1,
+          startX: startX,
+          startY: startY,
+          endX: endX,
+          endY: endY,
+          reqCoordType: "WGS84GEO",
+          resCoordType: "WGS84GEO",
+          searchOption: 0
+        };
+
+        console.log(requestData);
+
+        $.ajax({
+          type: "POST",
+          url: "https://apis.openapi.sk.com/tmap/routes?version=1",
+          headers: {
+            "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
+            "Content-Type": "application/json"
+          },
+          data: JSON.stringify(requestData),
+          async: false, // 동기 요청
+          success: function (response) {
+            let resultData = response.features;
+            let path = [];
+
+            resultData.forEach(data => {
+              if (data.geometry.type === "LineString") {
+                let coordinates = data.geometry.coordinates;
+                coordinates.forEach(coord => {
+                  let latlng = new Tmapv2.LatLng(coord[1], coord[0]);
+                  positionBounds.extend(latlng);
+                  path.push(latlng);
+                });
+              }
+            });
+
+            let polyline = new Tmapv2.Polyline({
+              path: path,
+              strokeColor: colors[i % colors.length], // 구간별 색상 설정
+              strokeWeight: 6,
+              map: map
+            });
+            lineArr.push(polyline);
+          },
+          error: function (request, status, error) {
+            console.error("경로 검색 중 오류가 발생했습니다:", error);
+          }
+        });
+      }
+
+      map.panToBounds(positionBounds);
+      map.zoomOut();
+
+    }
+
+    // 순서대로 경유지 설정 (첫 번째와 마지막 항목 제외)
+    for (let i = 1; i < waypointKeys.length - 1; i++) {
+      let waypoint = waypointsData[waypointKeys[i]];
+      currentWaypoints.push(waypoint);
+      addMarker(waypoint.lat, waypoint.lng, '<div class="custom-marker">' + (currentWaypoints.length) + '</div>');
+    }
+
+    // 경로 그리기 호출
+    drawRoute(start, end, currentWaypoints, colors);
+  }
 
   // 통일된 색상 배열
   let colors = [
