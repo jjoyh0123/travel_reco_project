@@ -21,7 +21,7 @@
 
       /* --- Left Panel --- */
       #left-panel {
-          width: 12%;
+          width: 120px;
           background-color: #fff;
           border-right: 1px solid #ddd;
           display: flex;
@@ -42,6 +42,7 @@
           background-color: #f5f5f5;
           text-align: center;
           cursor: pointer;
+          font-size: 15px;
       }
       .date.active {
           background-color: #f56b2a;
@@ -54,14 +55,14 @@
 
       /* --- Middle-Left Panel (List of destinations) --- */
       #middle-left-panel {
-          width: 18%;
+          width: 350px;
           background-color: #f9f9f9;
           display: flex;
           flex-direction: column;
           padding: 15px;
       }
       #destination-header {
-          font-size: 18px;
+          font-size: 25px;
           font-weight: bold;
           margin-bottom: 5px;
       }
@@ -81,6 +82,7 @@
           gap: 5px;
           padding: 5px 10px;
           background-color: #f5f5f5;
+          color:  lightcoral;
           border-radius: 5px;
           cursor: pointer;
       }
@@ -100,14 +102,14 @@
       }
       #search-bar button {
           padding: 8px 15px;
-          background-color: #007bff;
+          background-color: #f56b2a;
           color: white;
           border: none;
           border-radius: 5px;
           cursor: pointer;
       }
       #search-bar button:hover {
-          background-color: #0056b3;
+          background-color: darkorange;
       }
       #destination-list {
           flex-grow: 1;
@@ -134,12 +136,12 @@
       }
       .destination-info h4 {
           margin: 0;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: bold;
       }
       .destination-info p {
           margin: 5px 0 0;
-          font-size: 12px;
+          font-size: 10px;
           color: #666;
       }
       .destination-info .ratings {
@@ -159,14 +161,14 @@
       }
       .add-button {
           font-size: 16px;
-          color: #007bff;
+          color: #f56b2a;
           cursor: pointer;
           margin-left: 10px;
       }
 
       /* --- Middle Panel (Selected places & reorder) --- */
       #middle-panel {
-          width: 18%;
+          width: 300px;
           background-color: #f9f9f9;
           display: flex;
           flex-direction: column;
@@ -181,14 +183,14 @@
           align-self: flex-end;
           margin-bottom: 15px;
           padding: 8px 12px;
-          background-color: #f44336;
+          background-color: darkorange;
           color: white;
           border: none;
           border-radius: 5px;
           cursor: pointer;
       }
       #clear-button:hover {
-          background-color: #d32f2f;
+          background-color: darkorange;
       }
       #selected-places {
           display: flex;
@@ -287,7 +289,7 @@
           flex: 1;
           margin: 0 5px;
           padding: 10px;
-          background-color: #007bff;
+          background-color: #f56b2a;
           color: white;
           border: none;
           border-radius: 5px;
@@ -295,7 +297,7 @@
           font-size: 16px;
       }
       .action-button:hover {
-          background-color: #0056b3;
+          background-color: darkorange;
       }
   </style>
 </head>
@@ -332,7 +334,7 @@
 
   <!-- Middle Panel (Selected Places) -->
   <div id="middle-panel">
-    <div id="time-summary">3 / 6시간 0분 / 24시간 0분</div>
+<%--    <div id="time-summary">3 / 6시간 0분 / 24시간 0분</div>--%>
     <button id="clear-button">장소 설정 초기화</button>
     <!-- Container for selected places -->
     <div id="selected-places"></div>
@@ -488,7 +490,7 @@
           '<div class="destination-info">' +
           '<h4>' + place.title + '</h4>' +
           '<p>' + shortAddress + '</p>' +
-          '<div class="ratings">⭐ <span>4.5</span></div>' +
+          // '<div class="ratings">⭐ <span>4.5</span></div>' +
           '</div>' +
           '<span class="heart">♥</span>' +
           '<span class="add-button">+</span>';
