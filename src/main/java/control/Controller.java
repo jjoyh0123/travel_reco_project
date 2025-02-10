@@ -84,11 +84,14 @@ public class Controller extends HttpServlet {
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
     String type = request.getParameter("type");
+    if (type == null || type.isEmpty()) {
+      type = "index";
+    }
 
     Action action = actionMap.get(type);
     String view_path = action.execute(request, response);
 
-    if (type == null || type.equals("error")) {
+    if (type.equals("error")) {
       response.sendRedirect("Controller?type=index");
     } else {
       RequestDispatcher dis = request.getRequestDispatcher(view_path);

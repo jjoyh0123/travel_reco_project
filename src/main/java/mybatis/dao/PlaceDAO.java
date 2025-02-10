@@ -4,6 +4,7 @@ import mybatis.service.FactoryService;
 import mybatis.vo.*;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceDAO {
@@ -97,6 +98,22 @@ public class PlaceDAO {
     ss.close();
 
     return ar;
+  }
+
+  public static PlanVO get_plan(String plan_idx) {
+    PlanVO pvo = null;
+    SqlSession ss = FactoryService.get_factory().openSession();
+    pvo = ss.selectOne("place.get_plan", plan_idx);
+    ss.close();
+    return pvo;
+  }
+
+  public static List<JournalPlaceVO> get_journal_places_list(String plan_idx) {
+    List<JournalPlaceVO> list = new ArrayList<JournalPlaceVO>();
+    SqlSession ss = FactoryService.get_factory().openSession();
+      list = ss.selectList("place.get_journal_places_list", plan_idx);
+    ss.close();
+    return list;
   }
 }
 

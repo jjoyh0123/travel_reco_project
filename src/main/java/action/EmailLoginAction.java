@@ -28,10 +28,11 @@ public class EmailLoginAction implements Action {
         String emailLoginProfileImg = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
         HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+        session.setAttribute("idx", user.getIdx());
+        session.setAttribute("email", email);
         session.setAttribute("nick", user.getNick());
         session.setAttribute("profileImg", emailLoginProfileImg);
-        session.setAttribute("email", email);
-        session.setAttribute("user", user);
 
         return "jsp/index.jsp"; // 성공 시 메인 화면으로 이동
       } else {

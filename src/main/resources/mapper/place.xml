@@ -86,4 +86,27 @@
     SELECT * FROM image_table
   </select>
 
+  <select id="get_plan" parameterType="String" resultMap="get_dates_list">
+    SELECT * FROM plan_table WHERE idx = #{plan_idx}
+  </select>
+
+  <resultMap id="get_dates_list" type="mybatis.vo.PlanVO">
+    <id property="idx" column="idx"/>
+    <result property="title" column="title"/>
+    <collection property="dateList" ofType="mybatis.vo.DateVO" select="get_dates_by_plan_idx" column="idx"/>
+  </resultMap>
+
+  <select id="get_dates_by_plan_idx" parameterType="String" resultType="mybatis.vo.DateVO">
+    SELECT date FROM date_table WHERE plan_idx = #{plan_idx}
+  </select>
+
+  <select id="get_journal_places_list" parameterType="String" resultType="mybatis.vo.JournalPlaceVO">
+    SELECT pln.idx AS plan_idx, pln.area_code AS plan_area_code, pln.title AS plan_title, pln.start_date AS plan_start_date, pln.end_date AS plan_end_date,
+      dat.idx AS date_idx, dat.plan_idx AS date_plan_idx, dat.date,
+      plc.idx AS place_idx, plc.visit_order AS place_visit_order, plc.content_id, plc.content_type_id, plc.title AS place_title, plc.address, plc.thumbnail, plc.map_x, plc.map_y
+    FROM plan_table pln
+    JOIN date_table dat ON pln.idx = dat.plan_idx
+    JOIN place_table plc ON dat.idx = plc.date_idx
+    WHERE pln.idx = #{plan_idx}
+  </select>
 </mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="view_journal">
+  <select id="getJournal" resultType="mybatis.vo.JournalVO">
+    SELECT * FROM journal_table
+    WHERE plan_idx = ${plan_idx}
+  </select>
+
+  <select id="getImages" resultType="mybatis.vo.ImageVO">
+    SELECT * FROM image_table
+  </select>
+
+  <select id="getDate" resultType="mybatis.vo.DateVO">
+    SELECT * FROM date_table
+    WHERE plan_idx = ${plan_idx}
+  </select>
+
+  <select id="getPlace" resultMap="ViewJournalDTOMap">
+    SELECT
+    d.plan_idx,
+    d.date,
+    d.memo,
+    p.idx AS place_idx,
+    p.date_idx,
+    p.visit_order,
+    p.content_id,
+    p.content_type_id,
+    p.title,
+    p.address,
+    p.thumbnail,
+    p.map_x,
+    p.map_y,
+    p.time
+    FROM date_table d
+    JOIN place_table p ON d.idx = p.date_idx
+    WHERE d.plan_idx = #{plan_idx}
+  </select>
+
+  <resultMap id="ViewJournalDTOMap" type="mybatis.vo.ViewJournalDTO">
+    <result property="plan_idx" column="plan_idx"/>
+    <result property="date" column="date"/>
+    <result property="memo" column="memo"/>
+    <result property="place_idx" column="place_idx"/>
+    <result property="date_idx" column="date_idx"/>
+    <result property="visit_order" column="visit_order"/>
+    <result property="content_id" column="content_id"/>
+    <result property="content_type_id" column="content_type_id"/>
+    <result property="title" column="title"/>
+    <result property="address" column="address"/>
+    <result property="thumbnail" column="thumbnail"/>
+    <result property="map_x" column="map_x"/>
+    <result property="map_y" column="map_y"/>
+    <result property="time" column="time"/>
+  </resultMap>
+
+  <select id="getPlan" resultType="mybatis.vo.PlanVO">
+    SELECT * FROM plan_table
+    WHERE idx = #{plan_idx}
+  </select>
+
+  <select id="getReview" resultType="mybatis.vo.ReviewVO">
+    SELECT * FROM review_table
+  </select>
+</mapper>

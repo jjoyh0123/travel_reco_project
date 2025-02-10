@@ -1,5 +1,6 @@
 package action;
 
+import control.Controller;
 import mybatis.dao.JournalDAO;
 import mybatis.dao.JournalReviewDAO;
 import mybatis.vo.JournalVO;

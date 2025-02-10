@@ -44,7 +44,7 @@ public class PlaceAction implements Action{
     String place_idx = (String) ss.getAttribute("place_idx");
 
     return "/jsp/journal.jsp";
-
+    // return "/jsp/view_journal.jsp";
 
   }
 }

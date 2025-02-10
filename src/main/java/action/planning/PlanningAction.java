@@ -4,6 +4,7 @@ import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.PlanDAO;
 import mybatis.vo.PlanVO;
+import mybatis.vo.UserVO;
 import mybatis.vo.planning.TouristSpotVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,12 @@ public class PlanningAction implements Action {
     } else {
       switch (action) {
         case "date_select":
+          UserVO user = (UserVO) request.getSession().getAttribute("user");
+          String profileImg = (String) request.getSession().getAttribute("profileImg");
+
+          if (user == null && profileImg == null) {
+            return "jsp/login.jsp";
+          }
           return "jsp/planning/date_select.jsp";
         case "destination_select":
           return "jsp/planning/destination_select.jsp";
@@ -138,7 +145,7 @@ public class PlanningAction implements Action {
     }
 
     request.setAttribute("json_response", json_object);
-    return "jsp/planning/res_json.jsp";
+    return "/jsp/res_json.jsp";
   }
 
   private String save_plan(HttpServletRequest request) {
@@ -156,7 +163,7 @@ public class PlanningAction implements Action {
       e.printStackTrace();
       json_object.put("status", false);
       request.setAttribute("json_response", json_object);
-      return "jsp/planning/res_json.jsp";
+      return "/jsp/res_json.jsp";
     }
 
     JSONObject requestData = new JSONObject(sb.toString());
@@ -175,7 +182,7 @@ public class PlanningAction implements Action {
       System.out.println("Failed to save plan.");
       json_object.put("status", false);
       request.setAttribute("json_response", json_object);
-      return "jsp/planning/res_json.jsp";
+      return "/jsp/res_json.jsp";
     }
     System.out.printf("Insert plan successfully, planIdx = %d\n", planIdx);
 
@@ -184,31 +191,31 @@ public class PlanningAction implements Action {
     for (String dateKey : dates.keySet()) {
       System.out.printf("in dates for, dateKey: %s\n", dateKey);
       int dateIdx = PlanDAO.insertDate(planIdx, dateKey);
-      System.out.println("Inserting date, plan_idx: " + planIdx + " at " + dateKey + " with dateIdx: " + dateIdx);
+      System.out.printf("Insert date successfully, plan_idx: %s, at %s with date_idx: %s\n", planIdx, dateKey, dateIdx);
       if (dateIdx == -1) {
         System.out.printf("Failed to save date, at %s.\n", dateKey);
         json_object.put("status", false);
         request.setAttribute("json_response", json_object);
-        return "jsp/planning/res_json.jsp";
+        return "/jsp/res_json.jsp";
       }
 
       JSONArray places = dates.getJSONArray(dateKey);
-      System.out.printf("places length: %d, places: %s\n", places.length(), places);
+      System.out.printf("Full places length: %d, %s\n", places.length(), places);
       for(int i = 0; i < places.length(); i++) {
         JSONObject place = places.getJSONObject(i);
-        System.out.printf("in places for, plan_id: %s, dateIdx: %s\n Full place: %s\n", planIdx, dateIdx, place);
+        System.out.printf("in places for, plan_id: %s, dateIdx: %s, Full place: %s\n", planIdx, dateIdx, place);
         int success_insert_place = PlanDAO.insertPlace(planIdx, dateIdx, i + 1, place);
         if(success_insert_place == 0) {
           System.out.printf("Failed to insert place, plan_idx: %s, dateKey: %s, date_idx: %s, place title: %s\n", planIdx, dateKey, dateIdx, place.getString("title"));
           json_object.put("status", false);
           request.setAttribute("json_response", json_object);
-          return "jsp/planning/res_json.jsp";
+          return "/jsp/res_json.jsp";
         }
       }
     }
 
     json_object.put("status", true);
     request.setAttribute("json_response", json_object);
-    return "jsp/planning/res_json.jsp";
+    return "/jsp/res_json.jsp";
   }
 }

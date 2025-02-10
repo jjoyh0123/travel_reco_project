@@ -504,40 +504,6 @@
     });
   }
 
-  // 3) Add to plan, with limit of 10
-
-  // function addPlaceToPlan(place) {
-  //   if (currentPlan.length >= 10) {
-  //     alert("이미 10개 장소가 선택되었습니다. 더 이상 추가할 수 없습니다.");
-  //     return;
-  //   }
-  //
-  //   // // Get the selected date (for simplicity, let's assume you have a variable that stores the selected date)
-  //   // const selectedDate = document.querySelector(".date.active").textContent; // Example of getting the active date
-  //   if (!selectedDate) {
-  //     alert("날짜가 선택되지 않았습니다.");
-  //     return;
-  //   }
-  //   place.date = selectedDate;
-  //
-  //
-  //   console.log(selectedDate);
-  //   if (!selectedDate) {
-  //     alert("날짜가 선택되지 않았습니다.");
-  //     return;
-  //   }
-  //
-  //   // Add the selected date to the place object
-  //   place.date = selectedDate; // Assign date to place
-  //
-  //   // Now continue to add the place to the plan as usual
-  //   currentPlan.push(place);
-  //
-  //   // (Re-render or update the plan as needed)
-  //   // renderSelectedPlaces(currentPlan);
-  //   updateSelectedPlaces(selectedDate);
-  //
-  // }
 
 
   // 4) Render selected places in the middle panel
