@@ -211,6 +211,7 @@
 
       .trip_info {
               padding-left: 30px;
+              margin-top: 30px;
       }
 
       .btn-light {
@@ -296,7 +297,7 @@
         <c:forEach var="review" items="${myReviews}">
           <div class="trip_container">
             <div class="trip_img col-3">
-              <img src="" alt="후기사진"/>
+                  <img src="${pageContext.request.contextPath}/www/default.jpg" alt="기본 이미지" />
             </div>
             <div class="trip_info col-7">
               <h4><strong>${review.title}</strong></h4><br>
@@ -316,7 +317,14 @@
         <c:forEach var="review" items="${myReviewHistory}">
           <div class="trip_container">
             <div class="trip_img col-3">
-              <img src="" alt="여행지사진">
+              <c:choose>
+                <c:when test="${not empty reviewImages[review.place_idx]}">
+                  <img src="${pageContext.request.contextPath}${reviewImages[review.place_idx]}" alt="리뷰 이미지" />
+                </c:when>
+                <c:otherwise>
+                  <img src="${pageContext.request.contextPath}/www/default.jpg" alt="기본 이미지" />
+                </c:otherwise>
+              </c:choose>
             </div>
             <div class="trip_info col-7">
               리뷰 내용: ${review.review}<br>
