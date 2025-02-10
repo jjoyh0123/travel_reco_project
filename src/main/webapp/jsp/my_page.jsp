@@ -70,7 +70,7 @@
       }
 
 
-      .content{
+      .content {
           width: 900px;
           min-height: 600px;
           flex-grow: 1;
@@ -135,7 +135,7 @@
       }
 
       a .new_trip {
-          text-decoration: none;  /* 추가: a 안의 new_trip 클래스에 중복 적용 */
+          text-decoration: none; /* 추가: a 안의 new_trip 클래스에 중복 적용 */
           color: white;
       }
 
@@ -210,12 +210,12 @@
 
 
       .trip_info {
-              padding-left: 30px;
-              margin-top: 30px;
+          padding-left: 30px;
+          margin-top: 30px;
       }
 
       .btn-light {
-        font-size: 10px;
+          font-size: 10px;
       }
 
 
@@ -225,10 +225,10 @@
 <jsp:include page="/jsp/header.jsp"/>
 <article class="content">
 
-<div class="container px-3">
-  <!-- 닉네임 표시 -->
-  <div class="profile_header mb-3">
-    <c:choose>
+  <div class="container px-3">
+    <!-- 닉네임 표시 -->
+    <div class="profile_header mb-3">
+      <c:choose>
       <c:when test="${not empty sessionScope.nick}">
         <div>${sessionScope.nick} 님!</div>
         <a href="${pageContext.request.contextPath}/Controller?type=profile_update" class="btn btn-light">
@@ -236,138 +236,145 @@
         </a>
       </c:when>
       <c:otherwise>
-        <div>Guest 님!</div>
+      <div>Guest 님!</div>
       <a href="${pageContext.request.contextPath}/Controller?type=profile_update" class="btn btn-light">
         <i class="bi bi-gear-fill"></i> 프로필 관리
-      </c:otherwise>
-    </c:choose>
+        </c:otherwise>
+        </c:choose>
+    </div>
+
+    <!-- 상단 선택시 화면변경 -->
+    <nav class="nav mb-3">
+      <a href="${pageContext.request.contextPath}/Controller?type=my_trip_plan">나의 여행</a>
+      <a href="${pageContext.request.contextPath}/Controller?type=my_trip_review">여행 후기</a>
+      <a href="${pageContext.request.contextPath}/Controller?type=my_review_history">내가 쓴 리뷰</a>
+    </nav>
+
+    <!-- 새 여행 만들기 -->
+    <a href="${pageContext.request.contextPath}/Controller?type=planning&action=date_select">
+      <div class="new_trip">새 여행 만들기 +</div>
+    </a>
+
+
+    <%-- 나의 여행 --%>
+    <div class="content-section">
+      <c:choose>
+        <c:when test="${param.type == 'my_trip_plan'}">
+          <h3 class="mb-3 text-center">나의 여행 목록</h3>
+          <c:forEach var="trip" items="${myTrips}">
+            <div class="trip_container">
+              <div class="trip_img col-3">
+                <img src="${pageContext.request.contextPath}${areaImages[trip.area_code]}"
+                     alt="${areaNames[trip.area_code]}"/>
+              </div>
+              <div class="trip_info col-7">
+                <h4><a style="text-decoration: none; color: black"
+                       href="${pageContext.request.contextPath}/Controller?type=viewPlan&planId=${trip.idx}">${trip.title}</a>
+                </h4><br>
+                여행 기간: ${trip.start_date} - ${trip.end_date}<br>
+                지역: ${areaNames[trip.area_code]}
+              </div>
+
+              <div class="menu col-2 text-end">
+                <button class="btn btn-light" onclick="toggleMenu(this)">• • •</button>
+                <div class="popup_menu">
+                  <ul>
+                    <li onclick="toggleShareMenu(this)">공유하기</li>
+                    <li>후기작성</li>
+                    <li class="delete" onclick="deleteContainer(this)">삭제</li>
+                  </ul>
+                </div>
+                <div class="share_menu">
+                  <strong>공유하기</strong>
+                  <div class="mb-2">카카오톡 공유 기능</div>
+                  <div>링크 복사하기</div>
+
+                </div>
+              </div>
+            </div>
+          </c:forEach>
+        </c:when>
+
+
+        <%-- 여행 후기 --%>
+        <c:when test="${param.type == 'my_trip_review'}">
+          <h3 class="mb-3 text-center">여행 후기</h3>
+          <c:forEach var="review" items="${myReviews}">
+            <div class="trip_container">
+              <div class="trip_img col-3">
+                <img style="height: 150px" src="${pageContext.request.contextPath}/www/seoul.jpeg" alt="기본 이미지"/>
+              </div>
+              <div class="trip_info col-7">
+                <h4><a style="text-decoration: none; color: black"
+                       href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${review.plan_idx}">${review.title}</a>
+                </h4><br>
+                후기 요약: ${review.subtitle}<br>
+                등록일: ${review.reg_date}<br>
+                조회수: ${review.hit}<br>
+
+              </div>
+            </div>
+          </c:forEach>
+        </c:when>
+
+
+        <%-- 내가 쓴 리뷰 --%>
+        <c:when test="${param.type == 'my_review_history'}">
+          <h3 class="mb-3 text-center">내가 쓴 리뷰</h3>
+          <c:forEach var="review" items="${myReviewHistory}">
+            <div class="trip_container">
+              <div class="trip_img col-3">
+                <c:choose>
+                  <c:when test="${not empty reviewImages[review.place_idx]}">
+                    <img src="${pageContext.request.contextPath}${reviewImages[review.place_idx]}" alt="리뷰 이미지"/>
+                  </c:when>
+                  <c:otherwise>
+                    <img src="${pageContext.request.contextPath}/www/default.jpg" alt="기본 이미지"/>
+                  </c:otherwise>
+                </c:choose>
+              </div>
+              <div class="trip_info col-7">
+                리뷰 내용: ${review.review}<br>
+                작성일: ${review.reg_date}<br>
+                별점: ${review.rate}<br>
+              </div>
+            </div>
+          </c:forEach>
+        </c:when>
+      </c:choose>
+    </div>
   </div>
 
-  <!-- 상단 선택시 화면변경 -->
-  <nav class="nav mb-3">
-    <a href="${pageContext.request.contextPath}/Controller?type=my_trip_plan">나의 여행</a>
-    <a href="${pageContext.request.contextPath}/Controller?type=my_trip_review">여행 후기</a>
-    <a href="${pageContext.request.contextPath}/Controller?type=my_review_history">내가 쓴 리뷰</a>
-  </nav>
-
-  <!-- 새 여행 만들기 -->
-  <a href="${pageContext.request.contextPath}/Controller?type=planning&action=date_select"><div class="new_trip">새 여행 만들기 +</div></a>
-
-
-  <%-- 나의 여행 --%>
-  <div class="content-section">
-    <c:choose>
-      <c:when test="${param.type == 'my_trip_plan'}">
-        <h3 class="mb-3 text-center">나의 여행 목록</h3>
-        <c:forEach var="trip" items="${myTrips}">
-          <div class="trip_container">
-            <div class="trip_img col-3">
-              <img src="${pageContext.request.contextPath}${areaImages[trip.area_code]}" alt="${areaNames[trip.area_code]}" />
-            </div>
-            <div class="trip_info col-7">
-              <h4><strong>${trip.title}</strong></h4><br>
-              여행 기간: ${trip.start_date} - ${trip.end_date}<br>
-              지역: ${areaNames[trip.area_code]}
-            </div>
-
-            <div class="menu col-2 text-end">
-              <button class="btn btn-light" onclick="toggleMenu(this)">• • •</button>
-              <div class="popup_menu">
-                <ul>
-                  <li onclick="toggleShareMenu(this)">공유하기</li>
-                  <li>후기작성</li>
-                  <li class="delete" onclick="deleteContainer(this)">삭제</li>
-                </ul>
-              </div>
-              <div class="share_menu">
-                <strong>공유하기</strong>
-                <div class="mb-2">카카오톡 공유 기능</div>
-                <div>링크 복사하기</div>
-
-              </div>
-            </div>
-          </div>
-        </c:forEach>
-      </c:when>
-
-
-      <%-- 여행 후기 --%>
-      <c:when test="${param.type == 'my_trip_review'}">
-        <h3 class="mb-3 text-center">여행 후기</h3>
-        <c:forEach var="review" items="${myReviews}">
-          <div class="trip_container">
-            <div class="trip_img col-3">
-                  <img src="${pageContext.request.contextPath}/www/default.jpg" alt="기본 이미지" />
-            </div>
-            <div class="trip_info col-7">
-              <h4><strong>${review.title}</strong></h4><br>
-              후기 요약: ${review.subtitle}<br>
-              등록일: ${review.reg_date}<br>
-              조회수: ${review.hit}<br>
-
-            </div>
-          </div>
-        </c:forEach>
-      </c:when>
-
-
-      <%-- 내가 쓴 리뷰 --%>
-      <c:when test="${param.type == 'my_review_history'}">
-        <h3 class="mb-3 text-center">내가 쓴 리뷰</h3>
-        <c:forEach var="review" items="${myReviewHistory}">
-          <div class="trip_container">
-            <div class="trip_img col-3">
-              <c:choose>
-                <c:when test="${not empty reviewImages[review.place_idx]}">
-                  <img src="${pageContext.request.contextPath}${reviewImages[review.place_idx]}" alt="리뷰 이미지" />
-                </c:when>
-                <c:otherwise>
-                  <img src="${pageContext.request.contextPath}/www/default.jpg" alt="기본 이미지" />
-                </c:otherwise>
-              </c:choose>
-            </div>
-            <div class="trip_info col-7">
-              리뷰 내용: ${review.review}<br>
-              작성일: ${review.reg_date}<br>
-              별점: ${review.rate}<br>
-            </div>
-          </div>
-        </c:forEach>
-      </c:when>
-    </c:choose>
-  </div>
-</div>
-
-<!-- 부트스트랩 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function toggleMenu(menuElement) {
-    const popupMenu = menuElement.nextElementSibling;
-    document.querySelectorAll(".popup_menu").forEach(menu => {
-      if (menu !== popupMenu) menu.style.display = "none";
-    });
-    popupMenu.style.display = popupMenu.style.display === "block" ? "none" : "block";
-  }
-
-  function toggleShareMenu(shareElement) {
-    const shareMenu = shareElement.closest(".menu").querySelector(".share_menu");
-    document.querySelectorAll(".share_menu").forEach(menu => {
-      if (menu !== shareMenu) menu.style.display = "none";
-    });
-    shareMenu.style.display = shareMenu.style.display === "block" ? "none" : "block";
-  }
-
-  function deleteContainer(deleteElement) {
-    const tripContainer = deleteElement.closest(".trip_container");
-    if (tripContainer) tripContainer.remove();
-  }
-
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".menu")) {
-      document.querySelectorAll(".popup_menu, .share_menu").forEach(menu => menu.style.display = "none");
+  <!-- 부트스트랩 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleMenu(menuElement) {
+      const popupMenu = menuElement.nextElementSibling;
+      document.querySelectorAll(".popup_menu").forEach(menu => {
+        if (menu !== popupMenu) menu.style.display = "none";
+      });
+      popupMenu.style.display = popupMenu.style.display === "block" ? "none" : "block";
     }
-  });
-</script>
+
+    function toggleShareMenu(shareElement) {
+      const shareMenu = shareElement.closest(".menu").querySelector(".share_menu");
+      document.querySelectorAll(".share_menu").forEach(menu => {
+        if (menu !== shareMenu) menu.style.display = "none";
+      });
+      shareMenu.style.display = shareMenu.style.display === "block" ? "none" : "block";
+    }
+
+    function deleteContainer(deleteElement) {
+      const tripContainer = deleteElement.closest(".trip_container");
+      if (tripContainer) tripContainer.remove();
+    }
+
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest(".menu")) {
+        document.querySelectorAll(".popup_menu, .share_menu").forEach(menu => menu.style.display = "none");
+      }
+    });
+  </script>
 </article>
 </body>
 </html>

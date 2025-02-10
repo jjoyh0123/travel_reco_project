@@ -51,7 +51,7 @@
   <%-- Middle-Left Panel (Destination List) --%>
   <div id="middle-left-panel">
     <div id="destination-header">서울</div>
-    <div id="destination-date-range">2025-01-14 ~ 2025-01-20</div>
+    <div id="destination-date-range"></div>
     <div class="categories" onclick="change_content_type_id(event)">
       <div class="category" data-category="all">전체</div>
       <div class="category" data-category="12">🌉관광</div>
@@ -64,14 +64,10 @@
       <button>검색</button>
     </div>
     <div id="destination-list"></div>
-    <div id="action-buttons">
-      <button class="action-button">숙소 선택</button>
-    </div>
   </div>
 
   <%-- Middle Panel (Selected Places) --%>
   <div id="middle-panel">
-    <div id="time-summary">3 / 6시간 0분 / 24시간 0분</div>
     <button id="clear-button">장소 설정 초기화</button>
     <%-- Container for selected places --%>
     <div id="selected-places"></div>
@@ -336,6 +332,7 @@
       console.error("Start date or end date missing from session storage.");
       return;
     }
+    document.getElementById("destination-date-range").innerHTML = START_DATE + " ~ " + END_DATE;
 
     const dateContainer = document.getElementById("date-container");
     dateContainer.innerHTML = "";
@@ -544,55 +541,61 @@
   function drawRoute(points) {
     const positionBounds = new Tmapv2.LatLngBounds();
 
-    for (let i = 0; i < points.length - 1; i++) {
-      const start = points[i];
-      const end = points[i + 1];
+    if (points.length === 1) {
+      // points 배열에 하나의 지점만 있을 때 해당 지점을 중심으로 지도 설정
+      const centerPoint = points[0];
+      map.setCenter(new Tmapv2.LatLng(centerPoint.lat, centerPoint.lng));
+      map.setZoom(15); // 적절한 줌 레벨 설정
+    } else {
+      for (let i = 0; i < points.length - 1; i++) {
+        const start = points[i];
+        const end = points[i + 1];
 
-      $.ajax({
-        type: "POST",
-        url: "https://apis.openapi.sk.com/tmap/routes?version=1",
-        headers: {
-          "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
-          "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-          startX: start.lng,
-          startY: start.lat,
-          endX: end.lng,
-          endY: end.lat,
-          reqCoordType: "WGS84GEO",
-          resCoordType: "WGS84GEO",
-          searchOption: 0
-        }),
-        async: false,
-        success: function (response) {
-          const resultData = response.features;
-          let path = [];
+        $.ajax({
+          type: "POST",
+          url: "https://apis.openapi.sk.com/tmap/routes?version=1",
+          headers: {
+            "appKey": "zMJiV7MhBT2LFF24HwQZXC808gWctsd9ydragwu8",
+            "Content-Type": "application/json"
+          },
+          data: JSON.stringify({
+            startX: start.lng,
+            startY: start.lat,
+            endX: end.lng,
+            endY: end.lat,
+            reqCoordType: "WGS84GEO",
+            resCoordType: "WGS84GEO",
+            searchOption: 0
+          }),
+          async: false,
+          success: function (response) {
+            const resultData = response.features;
+            let path = [];
 
-          resultData.forEach(data => {
-            if (data.geometry.type === "LineString") {
-              data.geometry.coordinates.forEach(coord => {
-                const latlng = new Tmapv2.LatLng(coord[1], coord[0]);
-                positionBounds.extend(latlng);
-                path.push(latlng);
-              });
-            }
-          });
+            resultData.forEach(data => {
+              if (data.geometry.type === "LineString") {
+                data.geometry.coordinates.forEach(coord => {
+                  const latlng = new Tmapv2.LatLng(coord[1], coord[0]);
+                  positionBounds.extend(latlng);
+                  path.push(latlng);
+                });
+              }
+            });
 
-          const polyline = new Tmapv2.Polyline({
-            path: path,
-            strokeColor: colors[i % colors.length],
-            strokeWeight: 6,
-            map: map
-          });
-          lineArr.push(polyline);
-        },
-        error: function (error) {
-          console.error("경로 검색 오류:", error);
-        }
-      });
+            const polyline = new Tmapv2.Polyline({
+              path: path,
+              strokeColor: colors[i % colors.length],
+              strokeWeight: 6,
+              map: map
+            });
+            lineArr.push(polyline);
+          },
+          error: function (error) {
+            console.error("경로 검색 오류:", error);
+          }
+        });
+      }
     }
-
     map.panToBounds(positionBounds);
     map.zoomOut();
   }

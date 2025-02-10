@@ -1,7 +1,23 @@
 package mybatis.vo;
 
 public class ReviewVO {
-  private String idx, user_idx, place_idx, content_id, rate, review, reg_date, status;
+  private String idx;
+  private String user_idx;
+  private String place_idx;
+  private String content_id;
+  private String rate;
+  private String review;
+  private String reg_date;
+  private String status;
+  private String plan_idx;
+
+  public String getPlan_idx() {
+    return plan_idx;
+  }
+
+  public void setPlan_idx(String plan_idx) {
+    this.plan_idx = plan_idx;
+  }
 
   public String getIdx() {
     return idx;

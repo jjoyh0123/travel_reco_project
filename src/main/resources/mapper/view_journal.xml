@@ -8,8 +8,8 @@
     WHERE plan_idx = ${plan_idx}
   </select>
 
-  <select id="getImages" resultType="mybatis.vo.ImageVO">
-    SELECT * FROM image_table
+  <select id="getImages" resultType="mybatis.vo.ImageVO" parameterType="String">
+    SELECT * FROM image_table WHERE plan_idx = #{plan_idx}
   </select>
 
   <select id="getDate" resultType="mybatis.vo.DateVO">

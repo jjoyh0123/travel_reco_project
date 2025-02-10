@@ -124,12 +124,11 @@
           margin-top: 40px;
           overflow: hidden; /* 부모 div 를 벗어나는 부분 숨김 */
           position: relative; /* 자식 요소 배치 */
-
           /* 자식 요소를 세로 정렬 */
           display: flex;
           flex-wrap: wrap; /* 자동 줄바꿈 */
           align-items: center; /* 중앙 정렬 */
-          justify-content: center; /* 가로 중앙 정렬 */
+          justify-content: center; /* 가로 중앙 정렬 */;
       }
 
       .image-indicators {
@@ -393,7 +392,8 @@
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
-                    <img src="" class="journal_file_path" alt="기본 이미지">
+                    <img src="${pageContext.request.contextPath}/www/seoul.jpeg" class="journal_file_path image_option"
+                         alt="기본 이미지">
                   </c:otherwise>
                 </c:choose>
               </div>
@@ -416,10 +416,13 @@
                   <a href="">${top3.hit}</a>
                 </div>
               </div>
-              <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="review_title">${top3.title}</a>
+              <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}"
+                 class="review_title">${top3.title}</a>
               <div>
-                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="review_content">${top3.subtitle}</a>
-                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}" class="nickname">${top3.nick}</a>
+                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}"
+                   class="review_content">${top3.subtitle}</a>
+                <a href="${pageContext.request.contextPath}/Controller?type=view_journal&plan_idx=${top3.plan_idx}"
+                   class="nickname">${top3.nick}</a>
               </div>
             </div>
           </div>
@@ -472,7 +475,7 @@
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
-                    <img src="" class="journal_file_path" alt="기본 이미지">
+                    <img src="${pageContext.request.contextPath}/www/sejong.jpg" class="journal_file_path" alt="기본 이미지">
                   </c:otherwise>
                 </c:choose>
               </div>
@@ -495,7 +498,8 @@
                   <a href="">${journal.hit}</a>
                 </div>
               </div>
-              <a href="Controller?type=view_journal&plan_idx=${journal.plan_idx}" class="review_title">${journal.title}</a>
+              <a href="Controller?type=view_journal&plan_idx=${journal.plan_idx}"
+                 class="review_title">${journal.title}</a>
               <div>
                 <a href="" class="review_content">${journal.subtitle}</a>
                 <a href="" class="nickname">${journal.nick}</a>
@@ -563,7 +567,12 @@
       let $container = $(this).closest(".top3_review, .travel_review");
 
       // 배경 이미지 변경
-      $container.find(".review_img").css("background-image", 'url(' + newImageUrl + ')');
+      $container.find(".review_img").css({
+        "background-image": 'url(' + newImageUrl + ')',
+        "background-size": "cover",  // 요소에 꽉 차게 설정
+        "background-position": "center",  // 중앙 정렬
+        "background-repeat": "no-repeat" // 반복 방지
+      });
 
       // 모든 인디케이터에서 active 제거 후 현재 것만 추가
       $container.find(".indicator").removeClass("active");
