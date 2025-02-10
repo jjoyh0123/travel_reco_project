@@ -12,7 +12,7 @@ public class ViewPlanAction implements Action {
     String planId = request.getParameter("planId");
     System.out.println(planId);
 
-    request.getSession().setAttribute("user_idx", "3");
+    request.getSession().setAttribute("user_idx", "4");
     String sessionUserIdx = (String) request.getSession().getAttribute("user_idx");
     System.out.println(sessionUserIdx);
 

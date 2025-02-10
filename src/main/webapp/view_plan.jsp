@@ -110,6 +110,23 @@
           flex-direction: column; /* Ensure vertical stacking */
           gap: 3px; /* Space between day buttons */
           /*width: 100%; !* Ensure full width *!*/
+          max-height: 300px; /* Adjust this value based on your layout */
+          overflow-y: auto; /* Enable vertical scrolling */
+          scrollbar-width: thin; /* For Firefox */
+          scrollbar-color: #FF7F50 #ffffff; /* Optional: Style scrollbar */
+      }
+      /* Optional: For WebKit-based browsers (Chrome, Edge, Safari) */
+      .days-nav::-webkit-scrollbar {
+          width: 6px; /* Thin scrollbar */
+      }
+
+      .days-nav::-webkit-scrollbar-thumb {
+          background-color: #FF7F50; /* Scrollbar color */
+          border-radius: 10px;
+      }
+
+      .days-nav::-webkit-scrollbar-track {
+          background: #ffffff; /* Track background */
       }
 
       .day-btn {
@@ -144,7 +161,7 @@
 
       .main-content {
           flex-grow: 2;
-          max-width: 400px;
+          max-width: 500px;
           padding: 20px 40px;
           display: flex;
           flex-direction: column;
@@ -159,7 +176,7 @@
       }
 
       .trip-header h1 {
-          font-size: 28px; /* Larger title */
+          font-size: 33px; /* Larger title */
           margin-bottom: 5px; /* Add spacing below */
       }
 
@@ -317,7 +334,28 @@
     <header class="trip-header">
       <h1>${plan.title}</h1>
       <span class="date" id="duration">${plan.start_date} - ${plan.end_date}</span>
-      <span class="destination-area">${plan.area_code}</span> <!-- Add this -->
+      <span class="destination-area">
+  <c:choose>
+    <c:when test="${plan.area_code == 1}">서울 여행계획</c:when>
+    <c:when test="${plan.area_code == 2}">인천 여행계획</c:when>
+    <c:when test="${plan.area_code == 3}">대전 여행계획</c:when>
+    <c:when test="${plan.area_code == 4}">대구 여행계획</c:when>
+    <c:when test="${plan.area_code == 5}">광주 여행계획</c:when>
+    <c:when test="${plan.area_code == 6}">경남 여행계획</c:when>
+    <c:when test="${plan.area_code == 7}">울산 여행계획</c:when>
+    <c:when test="${plan.area_code == 31}">경기 여행계획</c:when>
+    <c:when test="${plan.area_code == 32}">강원 여행계획</c:when>
+    <c:when test="${plan.area_code == 33}">충북 여행계획</c:when>
+    <c:when test="${plan.area_code == 34}">충남 여행계획</c:when>
+    <c:when test="${plan.area_code == 35}">경북 여행계획</c:when>
+    <c:when test="${plan.area_code == 36}">경남 여행계획</c:when>
+    <c:when test="${plan.area_code == 37}">전북 여행계획</c:when>
+    <c:when test="${plan.area_code == 38}">전남 여행계획</c:when>
+    <c:when test="${plan.area_code == 39}">제주도 여행계획</c:when>
+    <c:when test="${plan.area_code == 8}">세종 여행계획</c:when>
+    <c:otherwise>여행 계획</c:otherwise>
+  </c:choose>
+</span>
     </header>
     <section class="itinerary" id="itinerarySection">
       <c:forEach var="date" items="${plan.dateList}" varStatus="status">
@@ -407,8 +445,8 @@
     const copyPlanBtn = document.getElementById("copyPlanBtn");
     if (copyPlanBtn) {
       copyPlanBtn.addEventListener("click", function () {
-        // Pass along the current plan id (assumed stored as plan.idx)
         const planId = "${plan.idx}";
+        console.log(`${planId}`);
         window.location.href = "Controller?type=copyPlan&planId=" + planId;
       });
     }
