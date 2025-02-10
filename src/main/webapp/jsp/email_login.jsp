@@ -10,30 +10,20 @@
 
   <style>
       body {
-          font-family: Arial, sans-serif;
-          background-color: #f7f8fa;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0;
+          background-color: #F5F5F7;
+      }
+      .content{
+          width: 900px;
+          min-height: 600px;
+          flex-grow: 1;
+          margin-bottom: 20px;
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100vh;
-          margin: 0;
-          padding-top: 60px; /* 고정된 헤더로 인한 여백 */
-      }
-
-      header {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 60px;
-          /*background-color: #ff7f50;*/
-          color: white;
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 20px;
-          /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
       }
 
       .login-container {
@@ -102,8 +92,8 @@
 </head>
 
 <body>
-<!-- 고정 헤더 추가 -->
 <jsp:include page="/jsp/header.jsp"/>
+<article class="content">
 
 <!-- 오류 메시지 스크립트 -->
 <%
@@ -136,5 +126,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</article>
 </body>
 </html>

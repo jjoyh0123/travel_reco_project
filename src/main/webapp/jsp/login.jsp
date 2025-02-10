@@ -1,9 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
       .navbar a {
           color: #1A1A1A;
@@ -18,18 +21,18 @@
       body {
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
           margin: 0;
-          background-color: #f9f9f9;
+          background-color: #F5F5F7;
       }
-
-      #logo_name {
-          font-size: 30px;
-          text-align: center;
-          color: #ff7f50;
-          font-weight: bold;
-          margin-bottom: 30px;
+      .content{
+          width: 900px;
+          min-height: 600px;
+          flex-grow: 1;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
       }
 
       .social-buttons {
@@ -100,7 +103,7 @@
       #email_login {
           text-decoration: none;
           padding: 10px 20px;
-          background-color: #f9f9f9;
+          background-color: #F5F5F7;
           color: #1A1A1A;
           font-size: 16px;
           border-radius: 5px;
@@ -111,11 +114,8 @@
   </style>
 </head>
 <body>
-<!-- 헤더 포함 -->
 <jsp:include page="/jsp/header.jsp"/>
-
-<!-- 로고 및 제목 -->
-<p id="logo_name">Zenzenclub</p>
+<article class="content">
 
 <!-- 조건에 따라 소셜 버튼 또는 프로필 사진 출력 -->
 <div class="social-buttons">
@@ -151,5 +151,6 @@
     </div>
   </c:if>
 </div>
+</article>
 </body>
 </html>

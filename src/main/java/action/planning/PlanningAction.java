@@ -4,6 +4,7 @@ import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.PlanDAO;
 import mybatis.vo.PlanVO;
+import mybatis.vo.UserVO;
 import mybatis.vo.planning.TouristSpotVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,12 @@ public class PlanningAction implements Action {
     } else {
       switch (action) {
         case "date_select":
+          UserVO user = (UserVO) request.getSession().getAttribute("user");
+          String profileImg = (String) request.getSession().getAttribute("profileImg");
+
+          if (user == null && profileImg == null) {
+            return "jsp/login.jsp";
+          }
           return "jsp/planning/date_select.jsp";
         case "destination_select":
           return "jsp/planning/destination_select.jsp";

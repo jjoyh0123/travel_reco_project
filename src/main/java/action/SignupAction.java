@@ -40,11 +40,11 @@ public class SignupAction implements Action {
       String emailLoginProfileImg = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
       HttpSession session = request.getSession();
-      session.setAttribute("profileImg", emailLoginProfileImg);
-      session.setAttribute("email", email);
       session.setAttribute("user", user);
-      session.setAttribute("nick", user.getNick());
       session.setAttribute("idx", user.getIdx());
+      session.setAttribute("email", email);
+      session.setAttribute("nick", user.getNick());
+      session.setAttribute("profileImg", emailLoginProfileImg);
 
 
       // 메인 페이지로 리다이렉트

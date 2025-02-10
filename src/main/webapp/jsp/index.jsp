@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>ZenzenClub 메인페이지</title>
+  <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -115,17 +117,7 @@
       color: #000000;
     }
 
-    .fullscreen_icon {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      padding: 0px;
-    }
+
 
     .fullscreen_icon img {
       width: 24px;
@@ -133,8 +125,7 @@
     }
 
   </style>
-  <title>ZenzenClub 메인페이지</title>
-  <meta name="description" content="여행 계획, 사용자 가이드 탐색, 예약 관리 서비스 제공">
+
 </head>
 <body>
 <jsp:include page="/jsp/header.jsp"/>
@@ -146,35 +137,36 @@
     </h5>
     <button type="button" class="plan_btn plan_btn01" onclick="window.location.href='Controller?type=main'">계획 추천받기
     </button>
-    <button type="button" class="plan_btn plan_btn02"
-            onclick="location.href = `${pageContext.request.contextPath}/Controller?type=planning&action=date_select`">계획
-      세우기
+    <button type="button" class="plan_btn plan_btn02">계획 세우기
     </button>
   </article>
   <div class="gif_content01">
     <img src="https://help.miricanvas.com/hc/article_attachments/39390569170073"
-         alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+         alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF" loading="lazy">
   </div>
 </div>
 <div class="gif_content02">
-  <img src="https://help.miricanvas.com/hc/article_attachments/32865605595801" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF">
+  <img src="https://help.miricanvas.com/hc/article_attachments/32865605595801" alt="홈페이지 사용법 및 best planner 이벤트 소개 GIF" loading="lazy">
 </div>
 <jsp:include page="/jsp/footer.jsp"/>
 
 <script>
-  function openFullscreen() {
-    const gifContainer = document.querySelector('.gif_content01');
 
-    if (gifContainer.requestFullscreen) {
-      gifContainer.requestFullscreen();
-    } else if (gifContainer.mozRequestFullScreen) { // Firefox
-      gifContainer.mozRequestFullScreen();
-    } else if (gifContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-      gifContainer.webkitRequestFullscreen();
-    } else if (gifContainer.msRequestFullscreen) { // IE/Edge
-      gifContainer.msRequestFullscreen();
+  const isLoggedIn = <%= (session.getAttribute("user") != null) %>;
+
+  document.querySelector('.plan_btn02').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    if (!isLoggedIn) {
+      alert("로그인 후 이용 가능합니다.");
+      location.href = `${pageContext.request.contextPath}/Controller?type=login`;
+    } else {
+      location.href = `${pageContext.request.contextPath}/Controller?type=planning&action=date_select`;
     }
-  }
+  });
+
+
+
 
 </script>
 </body>

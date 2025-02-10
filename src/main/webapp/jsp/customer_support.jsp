@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,14 +7,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
       body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f9f9f9;
-          margin: 0;
-          padding: 0;
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
-          height: 100vh;
+          margin: 0;
+          background-color: #F5F5F7;
+      }
+      .content{
+          display: flex;
+          width: 800px;
+          min-height: 600px;
+          flex-grow: 1;
+          align-items: center;
+
       }
 
       .inquiry-container {
@@ -39,8 +44,12 @@
           margin-bottom: 20px;
       }
 
+
+
       .inquiry-container input[type="email"],
-      .inquiry-container textarea {
+      .inquiry-container input[type="text"],
+      .inquiry-container textarea,
+      .inquiry-container select {
           width: 100%;
           padding: 12px;
           border: 1px solid #ddd;
@@ -49,6 +58,8 @@
           box-sizing: border-box;
           margin-bottom: 15px;
       }
+
+
 
       .inquiry-container textarea {
           height: 150px;
@@ -102,7 +113,7 @@
 
       .checkbox-area input[type="checkbox"] {
           margin-right: 8px;
-          vertical-align: middle; /* 체크박스와 텍스트가 수직 정렬됨 */
+          vertical-align: middle;
 
       }
 
@@ -119,14 +130,18 @@
       }
 
       .required-text {
-          color: #007bff; /* 파란색 */
+          color: #007bff;
           font-weight: bold;
+
+      }
 
 
   </style>
 </head>
 <body>
 <jsp:include page="/jsp/header.jsp"/>
+<article class="content">
+
 <div class="inquiry-container">
   <h1>이메일 문의하기</h1>
   <p class="p1_title">저희 zenZen Club 서비스에 대한 불편한 점, 개선할 점 등을 메일로 보내주세요.</p>
@@ -134,6 +149,16 @@
   <form id="inquiryForm" action="${pageContext.request.contextPath}/Controller?type=inquiry_submit" method="post">
     <label for="email">이메일 *</label>
     <input type="email" id="email" name="email" placeholder="이메일 주소를 입력하세요" required>
+
+    <label for="title">제목 *</label>
+    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+
+    <label for="inquiryType">문의 유형 *</label>
+    <select id="inquiryType" name="inquiryType" class="form-input" required>
+      <option value="">문의 유형을 선택하세요</option>
+      <option value="service">서비스 관련 문의</option>
+      <option value="technical">기타 문의</option>
+    </select>
 
     <label for="content">내용 *</label>
     <textarea id="content" name="content" placeholder="문의 내용을 입력하세요" maxlength="1000" required></textarea>
@@ -160,20 +185,50 @@
   </form>
 </div>
 
-<script>
-  const agreeCheckbox = document.getElementById('agree');
-  const submitButton = document.getElementById('submitButton');
+  <script>
+    // DOM 요소 가져오기
+    const agreeCheckbox = document.getElementById('agree');
+    const submitButton = document.getElementById('submitButton');
+    const inquiryForm = document.getElementById('inquiryForm');
 
-  // 동의 체크박스 상태에 따라 버튼 활성화/비활성화
-  agreeCheckbox.addEventListener('change', function () {
-    submitButton.disabled = !agreeCheckbox.checked;
-  });
+    // 모든 입력 필드가 채워졌는지 확인하는 함수
+    function validateFormFields() {
+      const email = document.getElementById('email').value.trim();
+      const title = document.getElementById('title').value.trim();
+      const inquiryType = document.getElementById('inquiryType').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const isAgreeChecked = agreeCheckbox.checked;
 
-  // 폼 제출 이벤트 핸들러
-  function handleFormSubmit() {
-    alert("문의 접수가 완료되었습니다.");
-    return true; // 폼이 정상적으로 제출되도록 반환
-  }
-</script>
+      // 모든 필수 필드가 채워지고 동의 체크박스가 체크되면 버튼 활성화
+      submitButton.disabled = !(email && title && inquiryType && content && isAgreeChecked);
+    }
+
+    // 동의 체크박스 변경 이벤트 리스너 추가
+    agreeCheckbox.addEventListener('change', validateFormFields);
+
+    // 모든 입력 필드의 변경 이벤트 리스너 추가
+    document.querySelectorAll('#inquiryForm input, #inquiryForm textarea, #inquiryForm select').forEach(field => {
+      field.addEventListener('input', validateFormFields);
+    });
+
+    // 폼 제출 이벤트 핸들러
+    inquiryForm.addEventListener('submit', function (event) {
+      const email = document.getElementById('email').value.trim();
+      const title = document.getElementById('title').value.trim();
+      const inquiryType = document.getElementById('inquiryType').value.trim();
+      const content = document.getElementById('content').value.trim();
+
+      if (!email || !title || !inquiryType || !content) {
+        event.preventDefault(); // 제출 중단
+        alert("모든 필수 항목을 입력해주세요.");
+        return false;
+      }
+
+      alert("문의 접수가 완료되었습니다.");
+      return true; // 폼 정상 제출
+    });
+  </script>
+
+</article>
 </body>
 </html>
