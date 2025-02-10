@@ -94,30 +94,32 @@ public class PlanDAO {
       return cnt;
     }
   }
-  // public static boolean insertPlace(int planIdx, int dateIdx, int order, JSONObject place) {
-  //   try (SqlSession ss = FactoryService.get_factory().openSession()) {
-  //     Map<String, Object> param = new HashMap<>();
-  //     param.put("plan_idx", planIdx);
-  //     param.put("date_idx", dateIdx);
-  //     param.put("visit_order", order);
-  //     param.put("content_id", place.getString("content_id"));
-  //     param.put("content_type_id", place.getInt("content_type_id"));
-  //     param.put("title", place.getString("title"));
-  //     param.put("thumbnail", place.getString("thumbnail"));
-  //     param.put("map_x", place.getDouble("map_x"));
-  //     param.put("map_y", place.getDouble("map_y"));
-  //     param.put("time", place.getString("time"));
-  //
-  //     int cnt = ss.insert("plan.insertPlace", param);
-  //     if (cnt > 0) {
-  //       ss.commit();
-  //       return true;
-  //     } else {
-  //       ss.rollback();
-  //       return false;
-  //     }
-  //   }
-  // }
+
+
+  // Insert into place_table with String dateIdx (To avoid Integer → String type mismatch)
+  public static int insertPlace2(int planIdx, int dateIdx, int order, JSONObject place) {
+    try (SqlSession ss = FactoryService.get_factory().openSession()) {
+      Map<String, Object> param = new HashMap<>();
+      param.put("plan_idx", planIdx);
+      param.put("date_idx", String.valueOf(dateIdx)); // Convert dateIdx to String
+      param.put("visit_order", String.valueOf(order));
+      param.put("content_id", String.valueOf(place.getString("content_id")));
+      param.put("content_type_id", String.valueOf(place.getInt("content_type_id")));
+      param.put("title", String.valueOf(place.getString("title")));
+      param.put("thumbnail", String.valueOf(place.getString("thumbnail")));
+      param.put("map_x", String.valueOf(place.getDouble("map_x")));
+      param.put("map_y", String.valueOf(place.getDouble("map_y")));
+      param.put("time", String.valueOf(place.getString("time")));
+
+      int cnt = ss.insert("plan.insertPlace", param);
+      if (cnt > 0) {
+        ss.commit();
+      } else {
+        ss.rollback();
+      }
+      return cnt;
+    }
+  }
 
 
   // Retrieves a plan by its ID, and for that plan, also retrieves its associated dates and places.
@@ -204,6 +206,8 @@ public class PlanDAO {
 
         int cnt = insertPlace(newPlanId, newDateId, j + 1, placeJson);
         if (cnt == 0) return -1;
+        // int success = insertPlace2(newPlanId, newDateId, j + 1, placeJson);
+        // if (success == 0) return -1;
       }
     }
     return newPlanId;

@@ -12,7 +12,9 @@ public class CopyPlanAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
     // Check that the user is logged in.
+    request.getSession().setAttribute("user_idx", "3");
     String sessionUserIdx = (String) request.getSession().getAttribute("user_idx");
+    System.out.println(sessionUserIdx);
     if (sessionUserIdx == null) {
       // Redirect to login page if not logged in.
       return "/jsp/login.jsp";
